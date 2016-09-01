@@ -39,6 +39,7 @@
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
             this.ManualUsername = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Status = new System.Windows.Forms.DataGridViewImageColumn();
             this.CompanyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -149,31 +150,45 @@
             this.CompanyName,
             this.IpAddress,
             this.StatusInfo});
-            this.dataGridView1.Location = new System.Drawing.Point(821, 9);
+            this.dataGridView1.Location = new System.Drawing.Point(730, 9);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(431, 660);
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.Size = new System.Drawing.Size(522, 660);
             this.dataGridView1.TabIndex = 4;
+            // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::Cisco_Tool.Properties.Resources.warningIcon;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Width = 20;
             // 
             // Status
             // 
-            this.Status.HeaderText = "Status";
+            this.Status.HeaderText = "";
             this.Status.Name = "Status";
-            this.Status.Width = 20;
+            this.Status.ReadOnly = true;
+            this.Status.Width = 16;
             // 
             // CompanyName
             // 
             this.CompanyName.HeaderText = "Bedrijfsnaam";
             this.CompanyName.Name = "CompanyName";
+            this.CompanyName.ReadOnly = true;
             // 
             // IpAddress
             // 
             this.IpAddress.HeaderText = "IP adres router";
             this.IpAddress.Name = "IpAddress";
+            this.IpAddress.ReadOnly = true;
             // 
             // StatusInfo
             // 
             this.StatusInfo.HeaderText = "Status informatie";
             this.StatusInfo.Name = "StatusInfo";
+            this.StatusInfo.ReadOnly = true;
+            this.StatusInfo.Width = 300;
             // 
             // MainForm
             // 
@@ -207,6 +222,7 @@
         private System.Windows.Forms.TextBox ManualUsername;
         private System.Windows.Forms.Button ManualConnect;
         private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn Status;
         private System.Windows.Forms.DataGridViewTextBoxColumn CompanyName;
         private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
