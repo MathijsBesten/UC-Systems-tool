@@ -48,15 +48,10 @@ namespace Cisco_Tool.Functions.Netwerk
             Console.WriteLine("Sent; {0}",message);
             data = new byte[256];
             //sending data to server
-            for (int i = 0; i < 10; i++)
-            {
-                string responseData = string.Empty;
-                Int32 bytes = stream.Read(data, 0, data.Length);
-                responseData = Encoding.ASCII.GetString(data, 0, bytes);
-                Console.WriteLine("Received: {0}", responseData);
-            }
-
-
+            string responseData = string.Empty;
+            Int32 bytes = stream.Read(data, 0, data.Length);
+            responseData = Encoding.ASCII.GetString(data, 0, bytes);
+            Console.WriteLine("Received: {0}", responseData);
             return true;
         }
     }

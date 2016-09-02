@@ -31,6 +31,7 @@
             this.TitleLabel = new System.Windows.Forms.Label();
             this.ManualLoginTitle = new System.Windows.Forms.Label();
             this.ManualLoginGroupBox = new System.Windows.Forms.GroupBox();
+            this.AddRouterToRouterList = new System.Windows.Forms.Button();
             this.ManualConnect = new System.Windows.Forms.Button();
             this.ManualPasswordLabel = new System.Windows.Forms.Label();
             this.ManualPassword = new System.Windows.Forms.TextBox();
@@ -44,11 +45,10 @@
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.AddRouterToRouterList = new System.Windows.Forms.Button();
             this.SearchGroupBox = new System.Windows.Forms.GroupBox();
-            this.SearchLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SearchButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.SearchLabel = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
             this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -92,6 +92,15 @@
             this.ManualLoginGroupBox.TabIndex = 3;
             this.ManualLoginGroupBox.TabStop = false;
             this.ManualLoginGroupBox.Text = "ManualLoginGroupBox";
+            // 
+            // AddRouterToRouterList
+            // 
+            this.AddRouterToRouterList.Location = new System.Drawing.Point(6, 151);
+            this.AddRouterToRouterList.Name = "AddRouterToRouterList";
+            this.AddRouterToRouterList.Size = new System.Drawing.Size(195, 23);
+            this.AddRouterToRouterList.TabIndex = 10;
+            this.AddRouterToRouterList.Text = "Router toevoegen";
+            this.AddRouterToRouterList.UseVisualStyleBackColor = true;
             // 
             // ManualConnect
             // 
@@ -198,15 +207,6 @@
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             this.dataGridViewImageColumn1.Width = 20;
             // 
-            // AddRouterToRouterList
-            // 
-            this.AddRouterToRouterList.Location = new System.Drawing.Point(6, 151);
-            this.AddRouterToRouterList.Name = "AddRouterToRouterList";
-            this.AddRouterToRouterList.Size = new System.Drawing.Size(195, 23);
-            this.AddRouterToRouterList.TabIndex = 10;
-            this.AddRouterToRouterList.Text = "Router toevoegen";
-            this.AddRouterToRouterList.UseVisualStyleBackColor = true;
-            // 
             // SearchGroupBox
             // 
             this.SearchGroupBox.Controls.Add(this.SearchButton);
@@ -218,22 +218,6 @@
             this.SearchGroupBox.TabIndex = 5;
             this.SearchGroupBox.TabStop = false;
             // 
-            // SearchLabel
-            // 
-            this.SearchLabel.AutoSize = true;
-            this.SearchLabel.Location = new System.Drawing.Point(6, 15);
-            this.SearchLabel.Name = "SearchLabel";
-            this.SearchLabel.Size = new System.Drawing.Size(44, 13);
-            this.SearchLabel.TabIndex = 6;
-            this.SearchLabel.Text = "Zoeken";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(56, 13);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(398, 20);
-            this.textBox1.TabIndex = 7;
-            // 
             // SearchButton
             // 
             this.SearchButton.Location = new System.Drawing.Point(460, 10);
@@ -243,9 +227,25 @@
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = true;
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(56, 13);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(398, 20);
+            this.textBox1.TabIndex = 7;
+            // 
+            // SearchLabel
+            // 
+            this.SearchLabel.AutoSize = true;
+            this.SearchLabel.Location = new System.Drawing.Point(6, 15);
+            this.SearchLabel.Name = "SearchLabel";
+            this.SearchLabel.Size = new System.Drawing.Size(44, 13);
+            this.SearchLabel.TabIndex = 6;
+            this.SearchLabel.Text = "Zoeken";
+            // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(493, 275);
+            this.button2.Location = new System.Drawing.Point(496, 50);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(126, 43);
             this.button2.TabIndex = 6;
