@@ -30,7 +30,7 @@
         {
             this.TitleLabel = new System.Windows.Forms.Label();
             this.ManualLoginTitle = new System.Windows.Forms.Label();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ManualLoginGroupBox = new System.Windows.Forms.GroupBox();
             this.ManualConnect = new System.Windows.Forms.Button();
             this.ManualPasswordLabel = new System.Windows.Forms.Label();
             this.ManualPassword = new System.Windows.Forms.TextBox();
@@ -39,13 +39,20 @@
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
             this.ManualUsername = new System.Windows.Forms.TextBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Status = new System.Windows.Forms.DataGridViewImageColumn();
             this.CompanyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.groupBox1.SuspendLayout();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.AddRouterToRouterList = new System.Windows.Forms.Button();
+            this.SearchGroupBox = new System.Windows.Forms.GroupBox();
+            this.SearchLabel = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.SearchButton = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.SearchGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // TitleLabel
@@ -68,28 +75,29 @@
             this.ManualLoginTitle.TabIndex = 2;
             this.ManualLoginTitle.Text = "Handmatig verbinden met router";
             // 
-            // groupBox1
+            // ManualLoginGroupBox
             // 
-            this.groupBox1.Controls.Add(this.ManualConnect);
-            this.groupBox1.Controls.Add(this.ManualPasswordLabel);
-            this.groupBox1.Controls.Add(this.ManualPassword);
-            this.groupBox1.Controls.Add(this.ManualIPAddressLabel);
-            this.groupBox1.Controls.Add(this.ManualIPAddress);
-            this.groupBox1.Controls.Add(this.ManualUsernameLabel);
-            this.groupBox1.Controls.Add(this.ManualUsername);
-            this.groupBox1.Controls.Add(this.ManualLoginTitle);
-            this.groupBox1.Location = new System.Drawing.Point(17, 50);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(398, 192);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "ManualLoginGroupBox";
+            this.ManualLoginGroupBox.Controls.Add(this.AddRouterToRouterList);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualConnect);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualPasswordLabel);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualPassword);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualIPAddressLabel);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualIPAddress);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualUsernameLabel);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualUsername);
+            this.ManualLoginGroupBox.Controls.Add(this.ManualLoginTitle);
+            this.ManualLoginGroupBox.Location = new System.Drawing.Point(17, 50);
+            this.ManualLoginGroupBox.Name = "ManualLoginGroupBox";
+            this.ManualLoginGroupBox.Size = new System.Drawing.Size(398, 192);
+            this.ManualLoginGroupBox.TabIndex = 3;
+            this.ManualLoginGroupBox.TabStop = false;
+            this.ManualLoginGroupBox.Text = "ManualLoginGroupBox";
             // 
             // ManualConnect
             // 
-            this.ManualConnect.Location = new System.Drawing.Point(145, 151);
+            this.ManualConnect.Location = new System.Drawing.Point(207, 151);
             this.ManualConnect.Name = "ManualConnect";
-            this.ManualConnect.Size = new System.Drawing.Size(75, 23);
+            this.ManualConnect.Size = new System.Drawing.Size(185, 23);
             this.ManualConnect.TabIndex = 9;
             this.ManualConnect.Text = "Verbinden";
             this.ManualConnect.UseVisualStyleBackColor = true;
@@ -113,7 +121,7 @@
             // ManualIPAddressLabel
             // 
             this.ManualIPAddressLabel.AutoSize = true;
-            this.ManualIPAddressLabel.Location = new System.Drawing.Point(28, 84);
+            this.ManualIPAddressLabel.Location = new System.Drawing.Point(22, 84);
             this.ManualIPAddressLabel.Name = "ManualIPAddressLabel";
             this.ManualIPAddressLabel.Size = new System.Drawing.Size(46, 13);
             this.ManualIPAddressLabel.TabIndex = 6;
@@ -121,7 +129,7 @@
             // 
             // ManualIPAddress
             // 
-            this.ManualIPAddress.Location = new System.Drawing.Point(5, 103);
+            this.ManualIPAddress.Location = new System.Drawing.Point(15, 103);
             this.ManualIPAddress.Name = "ManualIPAddress";
             this.ManualIPAddress.Size = new System.Drawing.Size(100, 20);
             this.ManualIPAddress.TabIndex = 5;
@@ -129,7 +137,7 @@
             // ManualUsernameLabel
             // 
             this.ManualUsernameLabel.AutoSize = true;
-            this.ManualUsernameLabel.Location = new System.Drawing.Point(142, 84);
+            this.ManualUsernameLabel.Location = new System.Drawing.Point(152, 84);
             this.ManualUsernameLabel.Name = "ManualUsernameLabel";
             this.ManualUsernameLabel.Size = new System.Drawing.Size(84, 13);
             this.ManualUsernameLabel.TabIndex = 4;
@@ -137,7 +145,7 @@
             // 
             // ManualUsername
             // 
-            this.ManualUsername.Location = new System.Drawing.Point(138, 103);
+            this.ManualUsername.Location = new System.Drawing.Point(145, 103);
             this.ManualUsername.Name = "ManualUsername";
             this.ManualUsername.Size = new System.Drawing.Size(100, 20);
             this.ManualUsername.TabIndex = 3;
@@ -154,15 +162,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(522, 660);
+            this.dataGridView1.Size = new System.Drawing.Size(522, 615);
             this.dataGridView1.TabIndex = 4;
-            // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Image = global::Cisco_Tool.Properties.Resources.warningIcon;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.Width = 20;
             // 
             // Status
             // 
@@ -190,20 +191,86 @@
             this.StatusInfo.ReadOnly = true;
             this.StatusInfo.Width = 300;
             // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::Cisco_Tool.Properties.Resources.warningIcon;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Width = 20;
+            // 
+            // AddRouterToRouterList
+            // 
+            this.AddRouterToRouterList.Location = new System.Drawing.Point(6, 151);
+            this.AddRouterToRouterList.Name = "AddRouterToRouterList";
+            this.AddRouterToRouterList.Size = new System.Drawing.Size(195, 23);
+            this.AddRouterToRouterList.TabIndex = 10;
+            this.AddRouterToRouterList.Text = "Router toevoegen";
+            this.AddRouterToRouterList.UseVisualStyleBackColor = true;
+            // 
+            // SearchGroupBox
+            // 
+            this.SearchGroupBox.Controls.Add(this.SearchButton);
+            this.SearchGroupBox.Controls.Add(this.textBox1);
+            this.SearchGroupBox.Controls.Add(this.SearchLabel);
+            this.SearchGroupBox.Location = new System.Drawing.Point(730, 630);
+            this.SearchGroupBox.Name = "SearchGroupBox";
+            this.SearchGroupBox.Size = new System.Drawing.Size(522, 39);
+            this.SearchGroupBox.TabIndex = 5;
+            this.SearchGroupBox.TabStop = false;
+            // 
+            // SearchLabel
+            // 
+            this.SearchLabel.AutoSize = true;
+            this.SearchLabel.Location = new System.Drawing.Point(6, 15);
+            this.SearchLabel.Name = "SearchLabel";
+            this.SearchLabel.Size = new System.Drawing.Size(44, 13);
+            this.SearchLabel.TabIndex = 6;
+            this.SearchLabel.Text = "Zoeken";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(56, 13);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(398, 20);
+            this.textBox1.TabIndex = 7;
+            // 
+            // SearchButton
+            // 
+            this.SearchButton.Location = new System.Drawing.Point(460, 10);
+            this.SearchButton.Name = "SearchButton";
+            this.SearchButton.Size = new System.Drawing.Size(56, 23);
+            this.SearchButton.TabIndex = 8;
+            this.SearchButton.Text = "Search";
+            this.SearchButton.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(493, 275);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(126, 43);
+            this.button2.TabIndex = 6;
+            this.button2.Text = "GoToAdvancedTab";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.SearchGroupBox);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.ManualLoginGroupBox);
             this.Controls.Add(this.TitleLabel);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.ManualLoginGroupBox.ResumeLayout(false);
+            this.ManualLoginGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.SearchGroupBox.ResumeLayout(false);
+            this.SearchGroupBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -213,7 +280,7 @@
 
         private System.Windows.Forms.Label TitleLabel;
         private System.Windows.Forms.Label ManualLoginTitle;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox ManualLoginGroupBox;
         private System.Windows.Forms.Label ManualPasswordLabel;
         private System.Windows.Forms.TextBox ManualPassword;
         private System.Windows.Forms.Label ManualIPAddressLabel;
@@ -227,6 +294,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn CompanyName;
         private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatusInfo;
+        private System.Windows.Forms.Button AddRouterToRouterList;
+        private System.Windows.Forms.GroupBox SearchGroupBox;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label SearchLabel;
+        private System.Windows.Forms.Button SearchButton;
+        private System.Windows.Forms.Button button2;
     }
 }
 
