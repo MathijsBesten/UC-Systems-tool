@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using Cisco_Tool.Views;
+using MySql.Data.MySqlClient;
 
 namespace Cisco_Tool
 {
