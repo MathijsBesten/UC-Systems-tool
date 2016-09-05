@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql;
 
-namespace CiscoDatabaseProgram
+namespace CiscoDatabaseProgram.Values
 {
-    class Program
+    class PublicValues
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

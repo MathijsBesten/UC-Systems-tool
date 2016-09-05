@@ -9,7 +9,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 {
     class General
     {
-        public static MySqlConnection MySQLConnnection(string server,string database,string username,string password) // makes connection with a database
+        public static MySqlConnection MakeMySQLConnnection(string server,string database,string username,string password) // makes connection with a database
         {
             server = "localhost";
             database = "routers";
@@ -18,9 +18,20 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             string connectionString = "SERVER="+server+";DATABASE="+database+";UID:"+ username + ";PASSWORD:"+password+";";
             return new MySqlConnection(connectionString);    
         }
+        public static MySqlConnection MakeMySQLConnnection() // for testcases
+        {
+            var server = "localhost";
+            var database = "routers";
+            var username = "root";
+            var password = "usbw";
+            string connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID:" + username + ";PASSWORD:" + password + ";";
+            return new MySqlConnection(connectionString);
+        }
+
         public static void GetDatabaseInfo()
         {
-
+            MySqlConnection connection = MakeMySQLConnnection();
+            connection.
         }
 
     }

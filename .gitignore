@@ -243,3 +243,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/CiscoDatabaseProgram/Values/PrivateValues.cs
