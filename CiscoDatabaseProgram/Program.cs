@@ -13,7 +13,7 @@ namespace CiscoDatabaseProgram
     {
         static void Main(string[] args)
         {
-            Functions.MySQL.Data.getDataFromDatabase();
+            Functions.MySQL.Data.getDataFromMainDatabase();
             Console.ReadLine();
         }
     }
