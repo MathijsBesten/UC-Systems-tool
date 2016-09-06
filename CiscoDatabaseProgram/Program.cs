@@ -5,12 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql;
 
+using CiscoDatabaseProgram.Functions;
+
 namespace CiscoDatabaseProgram
 {
     class Program
     {
         static void Main(string[] args)
         {
+            Functions.MySQL.Data.getDataFromDatabase();
+            Console.ReadLine();
         }
     }
 }

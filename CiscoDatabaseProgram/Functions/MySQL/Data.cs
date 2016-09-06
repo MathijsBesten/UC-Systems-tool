@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CiscoDatabaseProgram.Functions.MySQL;
 using CiscoDatabaseProgram.Values;
 using MySql.Data.MySqlClient;
+using System.Diagnostics;
 
 namespace CiscoDatabaseProgram.Functions.MySQL
 {
@@ -14,11 +15,13 @@ namespace CiscoDatabaseProgram.Functions.MySQL
     {
         public static void getDataFromDatabase()
         {
+            var connection = MySQL.General.MakeMySQLConnnection(PrivateValues.NIETAANZITTENserver, PrivateValues.NIETAANZITTENserverDB, PrivateValues.NIETAANZITTENserverUsername, PrivateValues.NIETAANZITTENserverPassword);
             try
             {
-                var connection = MySQL.General.MakeMySQLConnnection(PrivateValues.NIETAANZITTENserver, PrivateValues.NIETAANZITTENserverDB, PrivateValues.NIETAANZITTENserverUsername, PrivateValues.NIETAANZITTENserverPassword);
                 connection.Open();
+                Debug.WriteLine("connected to server");
             }
+
             catch (MySqlException ex )
             {
                 switch (ex.Number)
@@ -34,6 +37,17 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                         break;
                 }
             }
+
+            string query = "SELECT * FROM host";
+            List<string>[] list = new List<string>[41];
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+            int count = 1;
+            while (dataReader.Read())
+            {
+                list[count].Add(dataReader[count] + "");
+            }
+            Console.ReadLine();
         }
     }
 }

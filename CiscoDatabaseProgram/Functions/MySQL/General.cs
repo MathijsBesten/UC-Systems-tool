@@ -11,7 +11,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
     {
         public static MySqlConnection MakeMySQLConnnection(string server,string database,string username,string password) // makes connection with a database
         {
-            string connectionString = "SERVER="+server+";DATABASE="+database+";UID:"+ username + ";PASSWORD:"+password+";";
+            string connectionString = "SERVER=" + server + ";" + "DATABASE=" +database + ";" + "UID=" + username + ";" + "PASSWORD=" + password + ";";
             return new MySqlConnection(connectionString);    
         }
         public static MySqlConnection MakeMySQLConnnection() // for testcases
