@@ -64,15 +64,14 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 bool four = reader.IsDBNull(4);
 
                 //values from database are assign to Router router
-                Router.host_id = reader.GetInt32(0);
-                if (one == false) { Router.host_name = reader.GetString(1); }
-                if (two == false) { Router.host_alias = reader.GetString(2); }
-                if (three == false) { Router.host_address = reader.GetString(3); }
-                if (four == false) { Router.host_activate = reader.GetString(4); }
+                Router.routerId = reader.GetInt32(0);
+                if (one == false) { Router.routerName = reader.GetString(1); }
+                if (two == false) { Router.routerAlias = reader.GetString(2); }
+                if (three == false) { Router.routerAddress = reader.GetString(3); }
+                if (four == false) { Router.routerActivate = reader.GetString(4); }
 
-                // Router is added to the Routers list
-                routers.Add(Router);
-                Console.WriteLine(Router.host_address);
+                routers.Add(Router);         // Router is added to the Routers list
+                Console.WriteLine(Router.routerAddress);
             }
             connection.Close(); // closed connection to database
             return routers; // returns the freshly made Routers list
