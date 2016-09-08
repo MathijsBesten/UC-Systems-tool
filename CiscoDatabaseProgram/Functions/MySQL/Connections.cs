@@ -13,7 +13,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
     {
         public static MySqlConnection MainDB()
         {
-            MySqlConnection connection = Functions.MySQL.General.MakeMySQLConnnection( // Make connection with Database
+            MySqlConnection connection = Functions.MySQL.General.MySQLConnnection( // Make connection with Database
                 PrivateValues.NIETAANZITTENserver, // ip
                 PrivateValues.NIETAANZITTENserverDB, // database
                 PrivateValues.NIETAANZITTENserverUsername, // username

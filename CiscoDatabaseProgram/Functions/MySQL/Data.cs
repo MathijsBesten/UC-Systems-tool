@@ -9,6 +9,7 @@ using CiscoDatabaseProgram.Values;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Data.SqlClient;
+using System.Collections;
 
 namespace CiscoDatabaseProgram.Functions.MySQL
 {
@@ -65,7 +66,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 if (three == false) { Router.routerAddress = reader.GetString(3); } // IP address
                 if (four == false) { Router.routerActivate = reader.GetString(4); } // active
                 // serialnumber wil be null and is only available in OwnDB
-                Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
+                Router.routerMainDB = reader.GetInt32(0); // mainDatabase ID
 
 
                 routers.Add(Router);         // Router is added to the Routers list
@@ -168,7 +169,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 string insertCommand =
                     "INSERT INTO dbo.router " +
                     "(router_mainID, router_name, router_friendlyname, router_active, router_serialnumber, router_ipaddress" + " )" +
-                    "VALUES (" + "\'" + item.routerId + "\' , \'" + item.routerName + "\',\'" + item.routerAlias + "\',\'" + item.routerActivate + "\',\'" + item.routerSerialnumber + "\',\'" + item.routerAddress + "\');";
+                    "VALUES (" + "\'" + item.routerMainDB + "\' , \'" + item.routerName + "\',\'" + item.routerAlias + "\',\'" + item.routerActivate + "\',\'" + item.routerSerialnumber + "\',\'" + item.routerAddress + "\');";
                 command.CommandText = insertCommand;
                 command.ExecuteNonQuery();
             }
@@ -177,7 +178,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
         }
         public static bool updateItemOwnServer(List<router> routerList)
         {
-            SqlConnection connection = Connections.OwnDB();
+            SqlConnection connection = Connections.OwnDB(); // open connection with database
             try
             {
                 connection.Open(); // opening connection
@@ -207,8 +208,8 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 int mainID = item.routerId;
                 string query = "UPDATE dbo.router " +
                     "SET router_name = '{0}', router_friendlyname = '{1}', router_ipaddress = '{2}', router_serialnumber = '{3}', router_active = '{4}' , router_mainID = '{5}'" +
-                    "WHERE ID = '{6}'";
-                query = string.Format(query, item.routerName, item.routerAlias, item.routerAddress, item.routerSerialnumber, item.routerActivate, item.routerId, item.routerId);
+                    "WHERE router_mainID = '{6}'";
+                query = string.Format(query, item.routerName, item.routerAlias, item.routerAddress, item.routerSerialnumber, item.routerActivate, item.routerMainDB, item.routerMainDB);
                 command.CommandText = query;
                 command.ExecuteNonQuery();
             }
@@ -218,8 +219,62 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 
         public static void getNewByCompare(List<router> mainDBList, List<router> ownDBList)
         {
-            var newItems = ownDBList.Except(mainDBList).ToList();
+            // function will make a mainID list, a OwnID list with there id's from the database
+            // the newID's list will fill up because it will take MainID Minus (-) the id's from OwnID
+            // foreach new ID there will be a query to get the router from the main database
+            // all the routers will be stored in a "router list"
+            // the routerlist with all the new routers will be send to the "Own server" 
+
+            List<int> mainIDList = new List<int>(); // initialize list for all id's in MainDatabase
+            List<int> OwnIDList = new List<int>(); // initialize list for all id's in OwnDatabase
+            var newIDs = new List<int>();
+
+            string result;
+
+            #region foreachloops
+            foreach (var router in mainDBList) //  gets a list of all id's in MainDB
+            {
+                mainIDList.Add(router.routerMainDB);
+            }
+            foreach (var router in ownDBList) // gets list of all id's in OwnDB
+            {
+                OwnIDList.Add(router.routerMainDB); 
+            }
+            mainIDList = mainIDList.OrderBy(p => p).ToList();
+            OwnIDList = OwnIDList.OrderBy(p => p).ToList();
+            int count = 0;
+            foreach (var ID in mainIDList)
+            {
+                if (!OwnIDList.Contains(ID))
+                {
+                    newIDs.Add(ID);
+                }
+            }
+
+
+            #endregion
+
+            // mainIDList // MainIDList now contains all the id's that are new to OwnDatabase
+
+            if (newIDs.Count != 0)
+            {
+                List<router> newRouters = new List<router>();
+                foreach (int ID in newIDs) //getting the new routers will take a few seconds
+                {
+                    string query = PrivateValues.get1Query + ID; // makes query string with ID - Only 1 result back
+                    var data = getDataFromMySQL(General.MySQLConnnection(), query); // gets router data from main database
+                    data[0].routerId = 0; // ID is emptied for the new database
+                    newRouters.Add(data[0]); // index 0, function will not return more than one result
+                }
+                var pushNewRoutersToOwnServer = writeNewToOwnServer(newRouters); // insert new routers to OwnDatabase
+                result = newIDs.Count + " nieuwe routers toegevoegd aan eigen database!";
+            }
+            else
+            {
+                result = "Geen nieuwe routers gevonden";
+            }
             Console.WriteLine();
+            Console.WriteLine(result);
         }
     }
 }

@@ -22,8 +22,6 @@ namespace CiscoDatabaseProgram
             SqlConnection connectionToOwnDB = Connections.OwnDB();
             List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery);
             Data.getNewByCompare(mainDatabaseData, OwnDatabaseData);
-            bool update = Data.updateItemOwnServer(mainDatabaseData);
-            bool write = Data.writeNewToOwnServer(mainDatabaseData);
 
 
             Console.ReadLine();
