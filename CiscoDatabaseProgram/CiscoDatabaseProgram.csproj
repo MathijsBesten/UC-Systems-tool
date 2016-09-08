@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions\MySQL\Connections.cs" />
     <Compile Include="Functions\MySQL\General.cs" />
     <Compile Include="Functions\MySQL\Data.cs" />
     <Compile Include="Program.cs" />

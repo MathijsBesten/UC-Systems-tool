@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 
 namespace CiscoDatabaseProgram.Functions.MySQL
 {
@@ -11,17 +12,19 @@ namespace CiscoDatabaseProgram.Functions.MySQL
     {
         public static MySqlConnection MakeMySQLConnnection(string server,string database,string username,string password) // makes connection with a database
         {
-            string connectionString = "SERVER=" + server + ";" + "DATABASE=" +database + ";" + "UID=" + username + ";" + "PASSWORD=" + password + ";";
+            string connectionString = "SERVER=" + server + ";" +"DATABASE=" +database + ";" + "UID=" + username + ";" + "PASSWORD=" + password + ";";
             return new MySqlConnection(connectionString);    
         }
-        public static MySqlConnection MakeMySQLConnnection() // for testcases
+        public static SqlConnection  MicrosoftSQLConnection(string server, string database, string username, string password)
         {
-            var server = "localhost";
-            var database = "routers";
-            var username = "root";
-            var password = "usbw";
-            string connectionString = "SERVER=" + server + ";DATABASE=" + database + ";UID:" + username + ";PASSWORD:" + password + ";";
-            return new MySqlConnection(connectionString);
+            string connectionString = "SERVER=" + server + ";" +
+                "UID=" + username + ";" +
+                "PASSWORD=" + password + ";" +
+                "Persist Security Info=True;" +
+                "DATABASE=" + database + ";" +
+                "connection timeout=10";
+
+            return new SqlConnection(connectionString);
         }
     }
 }
