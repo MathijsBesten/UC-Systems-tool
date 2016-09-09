@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CiscoDatabaseProgram.Functions.MySQL;
-using CiscoDatabaseProgram.Values;
+﻿using CiscoDatabaseProgram.Values;
 using MySql.Data.MySqlClient;
-using System.Diagnostics;
+using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Collections;
+using System.Diagnostics;
+using System.Linq;
 
 namespace CiscoDatabaseProgram.Functions.MySQL
 {
@@ -329,10 +324,10 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     Console.WriteLine();
                     Console.WriteLine("Database is bijgewerkt");
-                    Console.WriteLine("Aantal veranderingen: " +  countChanges);
+                    Console.WriteLine("Aantal veranderingen: " + countChanges);
                 }
             }
-            else if(mainDBList.Count > ownDBList.Count) // if there are new items in Main database
+            else if (mainDBList.Count > ownDBList.Count) // if there are new items in the Main database
             {
                 Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
@@ -341,9 +336,10 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 compareAndSendNewList(mainDBList, ownDBList);
             }
             else // will never be triggerd, otherwise there is a problem with the code
+            {
                 Console.WriteLine("Database heeft teveel items, verwijder de data uit table \' dbo.router\' de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
-                Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar!");
-            }
-        } //gets changed data from main server and push it to Owndata
-    }
+                Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar: " + "CompareAndSendNewList | Too many items");
+            } 
+        }
+    } //gets changed data from main server and push it to Owndata
 }
