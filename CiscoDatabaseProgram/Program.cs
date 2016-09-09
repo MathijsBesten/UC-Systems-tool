@@ -9,7 +9,9 @@ using CiscoDatabaseProgram.Functions;
 using MySql.Data.MySqlClient;
 using CiscoDatabaseProgram.Values;
 using CiscoDatabaseProgram.Functions.MySQL;
+using CiscoDatabaseProgram.Functions.Logging;
 using System.Data.SqlClient;
+using CiscoDatabaseProgram.Functions.Main;
 
 namespace CiscoDatabaseProgram
 {
@@ -17,14 +19,9 @@ namespace CiscoDatabaseProgram
     {
         static void Main(string[] args)
         {
-            MySqlConnection connectionToMainDB = Connections.MainDB(); // connection to main database
-            List<router> mainDatabaseData =  Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
-            SqlConnection connectionToOwnDB = Connections.OwnDB();
-            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery);
-            Data.compareAndSendNewList(mainDatabaseData, OwnDatabaseData);
+            Functions.Main.Main.MainFunction();
 
 
-            Console.ReadLine();
         }
     }
 }

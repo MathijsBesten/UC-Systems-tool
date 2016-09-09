@@ -20,7 +20,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             try // tries to connect to database
             {
                 connection.Open(); // opening connection
-                Debug.WriteLine("connected to server"); 
+                Console.WriteLine("Verbonden met hoofdserver"); 
             }
 
             catch (MySqlException ex ) // cannot connect to server/database
@@ -52,7 +52,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             {
                 router Router = new router(); // initialize new router element ** Used for storing every row **
 
-
                 //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
                 bool one = reader.IsDBNull(1);
                 bool two = reader.IsDBNull(2);
@@ -68,10 +67,10 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 // serialnumber wil be null and is only available in OwnDB
                 Router.routerMainDB = reader.GetInt32(0); // mainDatabase ID
 
-
                 routers.Add(Router);         // Router is added to the Routers list
             }
             connection.Close(); // closed connection to database
+            Console.WriteLine("Verbingen correct afgesloten");
             return routers; // returns the freshly made Routers list
         } // for MySQL servers
         public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) // For Microsoft SQL servers
@@ -79,7 +78,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             try // tries to connect to database
             {
                 connection.Open(); // opening connection
-                Debug.WriteLine("connected to server");
+                Console.WriteLine("Verbonden met Cisco Tool database");
             }
 
             catch (MySqlException ex) // cannot connect to server/database
@@ -111,7 +110,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             {
                 router Router = new router(); // initialize new router element ** Used for storing every row **
 
-
                 //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
                 bool one = reader.IsDBNull(1);
                 bool two = reader.IsDBNull(2);
@@ -128,10 +126,10 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 if (four == false) { Router.routerActivate = reader.GetString(4); } // active
                 // Serialnumber is only used in OwnDB, no need for storing it in this list
                 Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
-
                 routers.Add(Router);         // Router is added to the Routers list
             }
             connection.Close(); // closed connection to database
+            Console.WriteLine("Verbinding correct afgesloten");
             return routers; // returns the freshly made Routers list
         }
 
@@ -279,6 +277,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
         {
             if (mainDBList.Count == ownDBList.Count) // checks if the list are containing the correct amount of items
             {
+                Console.WriteLine("Databases vergelijken...");
                 mainDBList = mainDBList.OrderBy(id => id.routerMainDB).ToList();
                 ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList();
                 List<router> newOwnDBList = new List<router>();
@@ -333,7 +332,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     Console.WriteLine("Aantal veranderingen: " +  countChanges);
                 }
             }
-            else if(mainDBList.Count > ownDBList.Count)
+            else if(mainDBList.Count > ownDBList.Count) // if there are new items in Main database
             {
                 Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
@@ -341,8 +340,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.OwnServerServerQuery);
                 compareAndSendNewList(mainDBList, ownDBList);
             }
-            else
-            {
+            else // will never be triggerd, otherwise there is a problem with the code
                 Console.WriteLine("Database heeft teveel items, verwijder de data uit table \' dbo.router\' de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
                 Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar!");
             }
