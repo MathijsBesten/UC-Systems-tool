@@ -21,7 +21,7 @@ namespace CiscoDatabaseProgram
             List<router> mainDatabaseData =  Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
             SqlConnection connectionToOwnDB = Connections.OwnDB();
             List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery);
-            Data.getNewByCompare(mainDatabaseData, OwnDatabaseData);
+            Data.compareAndSendNewList(mainDatabaseData, OwnDatabaseData);
 
 
             Console.ReadLine();

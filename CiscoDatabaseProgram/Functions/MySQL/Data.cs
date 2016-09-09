@@ -70,7 +70,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 
 
                 routers.Add(Router);         // Router is added to the Routers list
-                Console.WriteLine(Router.routerAddress);
             }
             connection.Close(); // closed connection to database
             return routers; // returns the freshly made Routers list
@@ -131,7 +130,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
 
                 routers.Add(Router);         // Router is added to the Routers list
-                Console.WriteLine(Router.routerAddress);
             }
             connection.Close(); // closed connection to database
             return routers; // returns the freshly made Routers list
@@ -176,7 +174,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             connection.Close();
             return true;
         }
-        public static bool updateItemOwnServer(List<router> routerList)
+        public static bool updateItemOwnServer(List<router> routerList) // update new routerlist to Owndatabase
         {
             SqlConnection connection = Connections.OwnDB(); // open connection with database
             try
@@ -275,6 +273,78 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             }
             Console.WriteLine();
             Console.WriteLine(result);
+        } // run this function before the compare function
+
+        public static void compareAndSendNewList (List<router> mainDBList, List<router> ownDBList)
+        {
+            if (mainDBList.Count == ownDBList.Count)
+            {
+                mainDBList = mainDBList.OrderBy(id => id.routerMainDB).ToList();
+                ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList();
+                List<router> newOwnDBList = new List<router>();
+                int countChanges = 0;
+                for (int count = 0; count < mainDBList.Count; count++)
+                {
+                    router newRouter = new router();
+                    newRouter.routerId = ownDBList[count].routerId;
+                    newRouter.routerName = mainDBList[count].routerName;
+                    if (mainDBList[count].routerName != ownDBList[count].routerName)
+                    {
+                        Console.WriteLine("Naam - ID: " + mainDBList[count].routerMainDB + " naam was: " + ownDBList[count].routerName + " is nu: " + mainDBList[count].routerName);
+                        countChanges++;
+                    }
+                    newRouter.routerAlias = mainDBList[count].routerAlias;
+                    if (mainDBList[count].routerAlias != ownDBList[count].routerAlias)
+                    {
+                        Console.WriteLine("Alias - ID: " + mainDBList[count].routerMainDB + " alias was: " + ownDBList[count].routerAlias + " is nu: " + mainDBList[count].routerAlias);
+                        countChanges++;
+                    }
+                    newRouter.routerAddress = mainDBList[count].routerAddress;
+                    if (mainDBList[count].routerAddress != ownDBList[count].routerAddress)
+                    {
+                        Console.WriteLine("IP adres - ID: " + mainDBList[count].routerMainDB + " IP adres was: " + ownDBList[count].routerAddress + " is nu: " + mainDBList[count].routerAddress);
+                        countChanges++;
+                    }
+                    newRouter.routerActivate = mainDBList[count].routerActivate;
+                    if (mainDBList[count].routerActivate != ownDBList[count].routerActivate)
+                    {
+                        Console.WriteLine("Active - ID: " + mainDBList[count].routerMainDB + " active status was: " + ownDBList[count].routerActivate + " is nu: " + mainDBList[count].routerActivate);
+                        countChanges++;
+                    }
+                    newRouter.routerSerialnumber = ownDBList[count].routerSerialnumber;
+                    newRouter.routerMainDB = ownDBList[count].routerMainDB;
+                    if (mainDBList[count].routerMainDB != ownDBList[count].routerMainDB)
+                    {
+                        Console.WriteLine("ID - ID: " + mainDBList[count].routerMainDB + " Main database ID was: " + ownDBList[count].routerMainDB + " is nu: " + mainDBList[count].routerMainDB);
+                        countChanges++;
+                    }
+                    newOwnDBList.Add(newRouter);
+                }
+                var updateItems = updateItemOwnServer(newOwnDBList);
+                if (countChanges == 0)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Geen veranderingen tussen databases");
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Database is bijgewerkt");
+                    Console.WriteLine("Aantal veranderingen: " +  countChanges);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
+                getNewByCompare(mainDBList, ownDBList);
+                compareAndSendNewList(mainDBList, ownDBList);
+            }
+        } //gets changed data from main server and push it to Owndata
+
+        public static void removeDupes()
+        {
+
         }
+
     }
 }
