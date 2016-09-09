@@ -1,4 +1,5 @@
-﻿using CiscoDatabaseProgram.Functions.MySQL;
+﻿using CiscoDatabaseProgram.Functions.Main;
+using CiscoDatabaseProgram.Functions.MySQL;
 using CiscoDatabaseProgram.Values;
 using MySql.Data.MySqlClient;
 using System;
@@ -7,6 +8,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace CiscoDatabaseProgram.Functions.Main
 {
@@ -23,22 +25,23 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("Deze applicatie er ter ondersteuing van de Cisco Tool");
             Console.WriteLine();
 
-
-            MySqlConnection connectionToMainDB = Connections.MainDB(); // connection to main database
-            List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
-            SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
-            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery); // returns list of items from OwnServer
-            Data.compareAndSendNewList(mainDatabaseData, OwnDatabaseData); // this will check for changes, if database are not the same it will try to fix itself
-
-
+            Timers.executeTimer(1);
 
 
             Console.ReadLine();
 
 
-
-
-
+        }
+        public static void MainCode(Object source, EventArgs e)
+        {
+            Console.WriteLine();
+            Console.WriteLine(DateTime.Now);
+            Console.WriteLine();
+            MySqlConnection connectionToMainDB = Connections.MainDB(); // connection to main database
+            List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
+            SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
+            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery); // returns list of items from OwnServer
+            Data.compareAndSendNewList(mainDatabaseData, OwnDatabaseData); // this will check for changes, if database are not the same it will try to fix itself
         }
     }
 }

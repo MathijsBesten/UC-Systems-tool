@@ -338,7 +338,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             else // will never be triggerd, otherwise there is a problem with the code
             {
                 Console.WriteLine("Database heeft teveel items, verwijder de data uit table \' dbo.router\' de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
-                Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar: " + "CompareAndSendNewList | Too many items");
+                Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar: " + "compare_and_send_newlist | TOO MANY ITEMS ");
             } 
         }
     } //gets changed data from main server and push it to Owndata
