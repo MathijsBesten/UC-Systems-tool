@@ -277,7 +277,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 
         public static void compareAndSendNewList (List<router> mainDBList, List<router> ownDBList)
         {
-            if (mainDBList.Count == ownDBList.Count)
+            if (mainDBList.Count == ownDBList.Count) // checks if the list are containing the correct amount of items
             {
                 mainDBList = mainDBList.OrderBy(id => id.routerMainDB).ToList();
                 ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList();
@@ -333,18 +333,19 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     Console.WriteLine("Aantal veranderingen: " +  countChanges);
                 }
             }
-            else
+            else if(mainDBList.Count > ownDBList.Count)
             {
+                Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
                 getNewByCompare(mainDBList, ownDBList);
+                ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.OwnServerServerQuery);
                 compareAndSendNewList(mainDBList, ownDBList);
             }
+            else
+            {
+                Console.WriteLine("Database heeft teveel items, verwijder de data uit table \' dbo.router\' de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
+                Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar!");
+            }
         } //gets changed data from main server and push it to Owndata
-
-        public static void removeDupes()
-        {
-
-        }
-
     }
 }
