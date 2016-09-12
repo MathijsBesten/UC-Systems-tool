@@ -11,10 +11,11 @@ namespace CiscoDatabaseProgram.Functions.Logging
 {
     class Logs
     {
-        public static void writeToLogfile(string[] totalStrings)
+        public static void writeToLogfile(List<string> listAllStrings)
         {
+
             StreamWriter sw = new StreamWriter("Files/Logfile.txt", true);
-            foreach (var textString in totalStrings)
+            foreach (var textString in listAllStrings)
             {
                 string text = textString + Environment.NewLine;
                 sw.Write(text);

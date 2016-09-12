@@ -11,11 +11,13 @@ namespace CiscoDatabaseProgram.Functions.MySQL
     class Data
     {
         public static List<router> getDataFromMySQL(MySqlConnection connection, string query)
-        { 
+        {
+            List<string> log = new List<string>(); // initialize list for logging
             try // tries to connect to database
             {
                 connection.Open(); // opening connection
-                Console.WriteLine("Verbonden met hoofdserver"); 
+                Console.WriteLine("Verbonden met hoofdserver");
+                log.Add("Connected to Main Database");
             }
 
             catch (MySqlException ex ) // cannot connect to server/database
@@ -23,13 +25,17 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 switch (ex.Number)
                 {
                     case 0: // unable to connect to server
-                        Console.WriteLine("kan niet verbinden met server");
+                        Console.WriteLine("kan niet verbinden met database");
+                        log.Add("Could not connect to Main Database - Unable to connect");
                         break;
                     case 1045: // username or password is wrong
                         Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
+                        log.Add("Could not connect to Main Database - Wrong username or password");
                         break;
                     default: // this will step into action if its not one of the above
+                        Console.WriteLine("kan niet verbinden met database");
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
+                        log.Add("Could not connect to Main Database - Error code: " + ex.Number);
                         break;
                     //  function will stop on this point
                 }
@@ -46,34 +52,49 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             while (reader.Read())
             {
                 router Router = new router(); // initialize new router element ** Used for storing every row **
+                try
+                {
+                    //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
+                    bool one = reader.IsDBNull(1);
+                    bool two = reader.IsDBNull(2);
+                    bool three = reader.IsDBNull(3);
+                    bool four = reader.IsDBNull(4);
 
-                //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
-                bool one = reader.IsDBNull(1);
-                bool two = reader.IsDBNull(2);
-                bool three = reader.IsDBNull(3);
-                bool four = reader.IsDBNull(4);
+                    //values from database are assign to Router router
+                    Router.routerId = reader.GetInt32(0); //ID 
+                    if (one == false) { Router.routerName = reader.GetString(1); } // name
+                    if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
+                    if (three == false) { Router.routerAddress = reader.GetString(3); } // IP address
+                    if (four == false) { Router.routerActivate = reader.GetString(4); } // active
+                                                                                        // serialnumber wil be null and is only available in OwnDB
+                    Router.routerMainDB = reader.GetInt32(0); // mainDatabase ID
+                    routers.Add(Router);         // Router is added to the Routers list
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Probleem bij het lezen van één waarde uit de Main Database - Error Message: " + ex.Message);
+                    Console.WriteLine("Locatie probleem: " + ex.Source);
+                    log.Add("Error while reading one value from Main Database - Error Message : " + ex.Message);
+                    log.Add("Error Location: " + ex.Source);
+                    throw ex;
+                }
 
-                //values from database are assign to Router router
-                Router.routerId = reader.GetInt32(0); //ID 
-                if (one == false) { Router.routerName = reader.GetString(1); } // name
-                if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
-                if (three == false) { Router.routerAddress = reader.GetString(3); } // IP address
-                if (four == false) { Router.routerActivate = reader.GetString(4); } // active
-                // serialnumber wil be null and is only available in OwnDB
-                Router.routerMainDB = reader.GetInt32(0); // mainDatabase ID
 
-                routers.Add(Router);         // Router is added to the Routers list
             }
             connection.Close(); // closed connection to database
-            Console.WriteLine("Verbingen correct afgesloten");
+            Console.WriteLine("verbinding correct afgesloten");
+            log.Add("Connection to Main Database correctly closed");
+            Logging.Logs.writeToLogfile(log); // write all output to local logfile
             return routers; // returns the freshly made Routers list
         } // for MySQL servers
         public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) // For Microsoft SQL servers
         {
+            List<string> log = new List<string>(); // initialize list for logging
             try // tries to connect to database
             {
                 connection.Open(); // opening connection
                 Console.WriteLine("Verbonden met Cisco Tool database");
+                log.Add("Connected to Cisco Tool Database");
             }
 
             catch (MySqlException ex) // cannot connect to server/database
@@ -81,13 +102,17 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 switch (ex.Number)
                 {
                     case 0: // unable to connect to server
-                        Console.WriteLine("kan niet verbinden met server");
+                        Console.WriteLine("kan niet verbinden met database");
+                        log.Add("Could not connect to Cisco Tool Database - Unable to connect");
                         break;
                     case 1045: // username or password is wrong
                         Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
+                        log.Add("Could not connect to Cisco Tool Database - Wrong username or password");
                         break;
                     default: // this will step into action if its not one of the above
+                        Console.WriteLine("kan niet verbinden met database");
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
+                        log.Add("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
                         break;
                         //  function will stop on this point
                 }
@@ -104,27 +129,41 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             while (reader.Read())
             {
                 router Router = new router(); // initialize new router element ** Used for storing every row **
+                try
+                {
+                    //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
+                    bool one = reader.IsDBNull(1);
+                    bool two = reader.IsDBNull(2);
+                    bool three = reader.IsDBNull(3);
+                    Type threeString = reader.GetFieldType(3);
+                    if (threeString != typeof(string)) { three = true; }
+                    bool four = reader.IsDBNull(4);
 
-                //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
-                bool one = reader.IsDBNull(1);
-                bool two = reader.IsDBNull(2);
-                bool three = reader.IsDBNull(3);
-                Type threeString = reader.GetFieldType(3);
-                if (threeString != typeof(string)) { three = true; }
-                bool four = reader.IsDBNull(4);
+                    //values from database are assign to Router router
+                    Router.routerId = reader.GetInt32(0); // ID
+                    if (one == false) { Router.routerName = reader.GetString(1); } // Name
+                    if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
+                    if (three == false) { Router.routerAddress = reader.GetString(3); } // ip address
+                    if (four == false) { Router.routerActivate = reader.GetString(4); } // active
+                                                                                        // Serialnumber is only used in OwnDB, no need for storing it in this list
+                    Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
+                    routers.Add(Router);         // Router is added to the Routers list
+                }
+                catch (Exception ex) // will execute when there is a problem with a value from the database
+                {
+                    Console.WriteLine("Probleem bij het lezen van één waarde uit de Main Database - Error Message: " + ex.Message);
+                    Console.WriteLine("Locatie probleem: " + ex.Source);
+                    log.Add("Error while reading one value from Main Database - Error Message : " + ex.Message);
+                    log.Add("Error Location: " + ex.Source);
+                    throw ex;
+                    throw;
+                }
 
-                //values from database are assign to Router router
-                Router.routerId = reader.GetInt32(0); // ID
-                if (one == false) { Router.routerName = reader.GetString(1); } // Name
-                if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
-                if (three == false) { Router.routerAddress = reader.GetString(3); } // ip address
-                if (four == false) { Router.routerActivate = reader.GetString(4); } // active
-                // Serialnumber is only used in OwnDB, no need for storing it in this list
-                Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
-                routers.Add(Router);         // Router is added to the Routers list
             }
             connection.Close(); // closed connection to database
             Console.WriteLine("Verbinding correct afgesloten");
+            log.Add("Connection to Main Database correctly closed");
+            Logging.Logs.writeToLogfile(log); // write all output to local logfile            
             return routers; // returns the freshly made Routers list
         }
 
@@ -270,76 +309,115 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 
         public static void compareAndSendNewList (List<router> mainDBList, List<router> ownDBList)
         {
+            List<string> log = new List<string>(); // list for logFile
             if (mainDBList.Count == ownDBList.Count) // checks if the list are containing the correct amount of items
             {
                 Console.WriteLine("Databases vergelijken...");
-                mainDBList = mainDBList.OrderBy(id => id.routerMainDB).ToList();
-                ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList();
-                List<router> newOwnDBList = new List<router>();
-                int countChanges = 0;
-                for (int count = 0; count < mainDBList.Count; count++)
+                log.Add("Comparing Databases...");
+                mainDBList = mainDBList.OrderBy(id => id.routerMainDB).ToList(); //order list for comparison 
+                ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList(); // order list for comparison
+                List<router> newOwnDBList = new List<router>(); // new list for new items
+                int countChanges = 0; // will count the final changes
+                for (int count = 0; count < mainDBList.Count; count++) // algorithm for choosing the new information
                 {
-                    router newRouter = new router();
-                    newRouter.routerId = ownDBList[count].routerId;
+                    router newRouter = new router(); // foreach router in the routerlist there will be a new router
+                    newRouter.routerId = ownDBList[count].routerId; // by default the program will use the ownDB ID's because thats the target Database
                     newRouter.routerName = mainDBList[count].routerName;
-                    if (mainDBList[count].routerName != ownDBList[count].routerName)
+                    if (mainDBList[count].routerName != ownDBList[count].routerName) // if statements are only for information to the user
                     {
-                        Console.WriteLine("Naam - ID: " + mainDBList[count].routerMainDB + " naam was: " + ownDBList[count].routerName + " is nu: " + mainDBList[count].routerName);
-                        countChanges++;
+                        string newName = "Naam - ID: " + mainDBList[count].routerMainDB + " naam was: " + ownDBList[count].routerName + " is nu: " + mainDBList[count].routerName; // Combines all the info
+                        Console.WriteLine(newName); // echo's the difference to the user
+                        log.Add(newName); // adds it to the logList
+                        countChanges++; // counts the changes
                     }
-                    newRouter.routerAlias = mainDBList[count].routerAlias;
-                    if (mainDBList[count].routerAlias != ownDBList[count].routerAlias)
+                    newRouter.routerAlias = mainDBList[count].routerAlias; // Alias could change in the mainDB
+                    if (mainDBList[count].routerAlias != ownDBList[count].routerAlias) // if statements are only for information
                     {
-                        Console.WriteLine("Alias - ID: " + mainDBList[count].routerMainDB + " alias was: " + ownDBList[count].routerAlias + " is nu: " + mainDBList[count].routerAlias);
-                        countChanges++;
+                        string newAlias = "Alias - ID: " + mainDBList[count].routerMainDB + " alias was: " + ownDBList[count].routerAlias + " is nu: " + mainDBList[count].routerAlias; // information string
+                        Console.WriteLine(newAlias); // echo's the difference to the user
+                        log.Add(newAlias);// adds it to the logList
+                        countChanges++; // counts the changes
                     }
-                    newRouter.routerAddress = mainDBList[count].routerAddress;
-                    if (mainDBList[count].routerAddress != ownDBList[count].routerAddress)
+                    newRouter.routerAddress = mainDBList[count].routerAddress; // address could change in the MainDB
+                    if (mainDBList[count].routerAddress != ownDBList[count].routerAddress) // if statements are only for information
                     {
-                        Console.WriteLine("IP adres - ID: " + mainDBList[count].routerMainDB + " IP adres was: " + ownDBList[count].routerAddress + " is nu: " + mainDBList[count].routerAddress);
-                        countChanges++;
+                        string newAddress = "IP adres - ID: " + mainDBList[count].routerMainDB + " IP adres was: " + ownDBList[count].routerAddress + " is nu: " + mainDBList[count].routerAddress; // information string
+                        Console.WriteLine(newAddress); // echo's the difference to the user
+                        log.Add(newAddress); // adds it to the logList
+                        countChanges++; // counts the changes
                     }
-                    newRouter.routerActivate = mainDBList[count].routerActivate;
-                    if (mainDBList[count].routerActivate != ownDBList[count].routerActivate)
+                    newRouter.routerActivate = mainDBList[count].routerActivate; // for new information
+                    if (mainDBList[count].routerActivate != ownDBList[count].routerActivate) // if statements are only for information
                     {
-                        Console.WriteLine("Active - ID: " + mainDBList[count].routerMainDB + " active status was: " + ownDBList[count].routerActivate + " is nu: " + mainDBList[count].routerActivate);
-                        countChanges++;
+                        string newActive = "Active - ID: " + mainDBList[count].routerMainDB + " active status was: " + ownDBList[count].routerActivate + " is nu: " + mainDBList[count].routerActivate; // information string
+                        Console.WriteLine(newActive); // echo's the difference to the user
+                        log.Add(newActive); // adds it to the logList
+                        countChanges++; // counts the changes
                     }
-                    newRouter.routerSerialnumber = ownDBList[count].routerSerialnumber;
-                    newRouter.routerMainDB = ownDBList[count].routerMainDB;
-                    if (mainDBList[count].routerMainDB != ownDBList[count].routerMainDB)
+                    newRouter.routerSerialnumber = ownDBList[count].routerSerialnumber; // serialnumber is only known in the OwnDB and is not available in the main DB
+                    newRouter.routerMainDB = ownDBList[count].routerMainDB; // mainDB and ownDB could be entered here
+                    if (mainDBList[count].routerMainDB != ownDBList[count].routerMainDB) // if statements are only for information
                     {
-                        Console.WriteLine("ID - ID: " + mainDBList[count].routerMainDB + " Main database ID was: " + ownDBList[count].routerMainDB + " is nu: " + mainDBList[count].routerMainDB);
-                        countChanges++;
+                        string newMainDB = "ID - ID: " + mainDBList[count].routerMainDB + " Main database ID was: " + ownDBList[count].routerMainDB + " is nu: " + mainDBList[count].routerMainDB; // information string
+                        Console.WriteLine(newMainDB); // echo's the difference to the user
+                        log.Add(newMainDB); // adds it to the logList
+                        countChanges++; // counts the changes
                     }
-                    newOwnDBList.Add(newRouter);
+                    newOwnDBList.Add(newRouter); // add all items to the list
                 }
-                var updateItems = updateItemOwnServer(newOwnDBList);
-                if (countChanges == 0)
+                if (countChanges == 0) // if there are no changed there will be no push to the Cisco tool database
                 {
                     Console.WriteLine();
                     Console.WriteLine("Geen veranderingen tussen databases");
+                    log.Add("No difference between databases");
                 }
                 else
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Database is bijgewerkt");
-                    Console.WriteLine("Aantal veranderingen: " + countChanges);
+                    try // tries to update the new data to the Cisco tool database
+                    {
+                        log.Add("Trying to update new Data...");
+                        var updateItems = updateItemOwnServer(newOwnDBList);
+                        if (updateItems == true)
+                        {
+                            log.Add("Data succesfully updated");
+                            log.Add("Total values changed: " + countChanges);
+                        }
+                        Console.WriteLine();
+                        Console.WriteLine("Database is bijgewerkt");
+                        Console.WriteLine("Aantal veranderingen: " + countChanges);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error bij het updaten van de nieuwe gegevens");
+                        Console.WriteLine("Error message: " + ex.Message);
+                        log.Add("Error - error while updating new data");
+                        log.Add("Error code: " + ex.Message);
+                        log.Add("location error: " + ex.Source);
+                        throw;
+                    }
                 }
             }
             else if (mainDBList.Count > ownDBList.Count) // if there are new items in the Main database
             {
                 Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
-                getNewByCompare(mainDBList, ownDBList);
-                ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.OwnServerServerQuery);
+                log.Add("Databases are not equal, update function will be executed");
+                log.Add("Starting update Function...");
+                getNewByCompare(mainDBList, ownDBList); // gets new entries from the mainDB
+                ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.OwnServerServerQuery); // gets the checked and updated own Database
+                Logging.Logs.writeToLogfile(log); // write log before starting the function again
                 compareAndSendNewList(mainDBList, ownDBList);
             }
             else // will never be triggerd, otherwise there is a problem with the code
             {
-                Console.WriteLine("Database heeft teveel items, verwijder de data uit table \' dbo.router\' de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
+                Console.WriteLine("GEEN DATA VERWIJDEREN UIT OFFICELE DATABASE");
+                Console.WriteLine(" !!! NIET DE OFFICLE DATABASE !!! Database heeft teveel items, verwijder de data uit table ' dbo.router' !!! NIET DE OFFICLE DATABASE !!! de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
+                Console.WriteLine("NIET DE DATA UIT DE OFFICELE DATABASE VERWIJDEREN");
                 Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar: " + "compare_and_send_newlist | TOO MANY ITEMS ");
-            } 
+                log.Add(@"OwnDatabase is too big - Please remove all data from table 'dbo.router' NOT THE OFFICIAL DATABASE!! ");
+                log.Add("!!! NOT THE OFFICIAL DATABASE !!!");
+            }
+            Logging.Logs.writeToLogfile(log);
         }
     } //gets changed data from main server and push it to Owndata
 }

@@ -9,13 +9,12 @@ namespace CiscoDatabaseProgram.Functions.Main
 {
     class Timers
     {
-        public static void executeTimer (int minutes)
+        public static void executeTimer (int seconds)
         {
             Timer timer = new Timer();
             timer.Elapsed += new ElapsedEventHandler(Main.MainCode);
-            timer.Interval = minutes * 60000; // from milliseconds to minutes
+            timer.Interval = seconds * 1000; // from milliseconds to minutes
             timer.Enabled = true;
-
         }
     }
 }
