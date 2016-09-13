@@ -29,7 +29,7 @@ namespace CiscoDatabaseProgram.Functions.Logging
             Timers.timer.Enabled = false; // stops the timer to prevent the function from running
 
             Console.ReadKey(); // waits for the user to notice the error
-            //Environment.Exit(ErrorCodes.errorExitID);
+            Environment.Exit(ErrorCodes.errorExitID);
 
         }
         public static void exitBySQL(string originalErrorMessage) // Own SQL database
@@ -66,7 +66,7 @@ namespace CiscoDatabaseProgram.Functions.Logging
             Console.ReadKey(); // waits for the user to notice the error
             Console.WriteLine("bezig met afsluiten...");
             Thread.Sleep(1000);
-            //Environment.Exit(ErrorCodes.errorExitID);
+            Environment.Exit(ErrorCodes.errorExitID);
         }
     }
 }
