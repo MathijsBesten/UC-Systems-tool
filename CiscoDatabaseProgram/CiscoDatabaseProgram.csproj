@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Functions\Logging\ErrorCodes.cs" />
+    <Compile Include="Functions\Logging\ExitCode.cs" />
     <Compile Include="Functions\Logging\Logs.cs" />
     <Compile Include="Functions\Main\Main.cs" />
     <Compile Include="Functions\Main\Timers.cs" />

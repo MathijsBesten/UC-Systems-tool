@@ -13,14 +13,22 @@ namespace CiscoDatabaseProgram.Functions.Logging
     {
         public static void writeToLogfile(List<string> listAllStrings)
         {
-
-            StreamWriter sw = new StreamWriter("Files/Logfile.txt", true);
-            foreach (var textString in listAllStrings)
+            try
             {
-                string text = textString + Environment.NewLine;
-                sw.Write(text);
+                StreamWriter sw = new StreamWriter("Files/Logfile.txt", true);
+                foreach (var textString in listAllStrings)
+                {
+                    string text = textString + Environment.NewLine;
+                    sw.Write(text);
+                }
+                sw.Close();
             }
-            sw.Close();
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error - Kan logboek niet wegschrijven");
+                Console.WriteLine("Error message: " + ex.Message);
+                throw;
+            }
         }
     }
 }

@@ -17,7 +17,8 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 PrivateValues.NIETAANZITTENserver, // ip
                 PrivateValues.NIETAANZITTENserverDB, // database
                 PrivateValues.NIETAANZITTENserverUsername, // username
-                PrivateValues.NIETAANZITTENserverPassword);  // password
+                PrivateValues.NIETAANZITTENserverPassword
+                );  // password
             return connection;
         }
         public static SqlConnection OwnDB()
