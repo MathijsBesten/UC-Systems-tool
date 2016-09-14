@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CiscoDatabaseProgram.Functions.Logging
 {
-    class ExitCode
+    class Exit
     {
         public static void exitByMySQL(string originalErrorMessage) // main MySQL database
         {

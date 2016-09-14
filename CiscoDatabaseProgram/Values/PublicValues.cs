@@ -19,13 +19,16 @@ namespace CiscoDatabaseProgram.Values
         //    public static string serverTable = "testTable";
         //    public static string getDataQuery = "select * from testTable ";
 
-        //    public static string server = "192.168.1.1";
+        //    public static string server = "192.168.1.254";
         //    public static int serverPort = 3306; 
-        //    public static string serverUsername = "mathijs";
-        //    public static string serverPassword = "mathijs";
+        //    public static string serverUsername = "administator";
+        //    public static string serverPassword = "administator";
         //    public static string serverDatabase = "realTable";
         //    public static string serverDataQuery = "select * from realTable";
         //
+        //    public static string router = "192.168.1.254"
+        //    public static string routerUsername = "root"
+        //    public static string routerPassword = "root"
 
         //public class item
         //{
@@ -36,7 +39,6 @@ namespace CiscoDatabaseProgram.Values
         //    public string Active { get; set; }
         //    public string UniqueIdentifier { get; set; }
         //    public int testServerID { get; set; }
-
         //}
     }
 }

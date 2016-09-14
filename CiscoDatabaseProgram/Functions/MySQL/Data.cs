@@ -43,7 +43,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     //  function will stop on this point
                 }
                 Logging.Logs.writeToLogfile(log);
-                ExitCode.exitByMySQL(ex.Message);
+                Exit.exitByMySQL(ex.Message);
                 return null;
             }
 
@@ -125,7 +125,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 }
                 Logging.Logs.writeToLogfile(log);
                 log.Clear();
-                ExitCode.exitBySQL(ex.Message);
+                Exit.exitBySQL(ex.Message);
                 return null;
             }
 
@@ -166,7 +166,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     log.Add("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
                     log.Add("Error Location: " + ex.Source);
                     Logging.Logs.writeToLogfile(log);
-                    Logging.ExitCode.defaultExit();
+                    Logging.Exit.defaultExit();
                     throw ex;
                 }
 
@@ -211,7 +211,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 }
                 Logging.Logs.writeToLogfile(log);
                 log.Clear();
-                ExitCode.exitBySQL(ex.Message);
+                Exit.exitBySQL(ex.Message);
                 throw;
             }
 
@@ -279,7 +279,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 }
                 Logging.Logs.writeToLogfile(log);
                 log.Clear();
-                ExitCode.exitBySQL(ex.Message);
+                Exit.exitBySQL(ex.Message);
                 throw;
             }
 
