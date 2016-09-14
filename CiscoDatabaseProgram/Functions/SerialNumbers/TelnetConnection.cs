@@ -63,9 +63,9 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             //initialze all values
             List<string> log = new List<string>(); // list for log
             IPAddress address; // future ip
-            string message = "test"; // message in string
+            string message = "mathijs\r\ndenbesten\r\nshow diag\r\n"; // message in string
             byte[] messageInBytes; // message in bytes
-            byte[] responseInBytes = new byte[1024]; // response from router
+            byte[] responseInBytes = new byte[4096]; // need a big byte array because much data
             string response; // response in string
             NetworkStream stream;
 
@@ -86,6 +86,8 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                     int bytes = stream.Read(responseInBytes, 0, responseInBytes.Length);
                     response = Encoding.ASCII.GetString(responseInBytes, 0, bytes);
                     Console.WriteLine(response);
+                    string chassisSerialNumber = findCereal(response);
+                    Console.WriteLine(chassisSerialNumber);
                 }
                 catch (Exception ex)
                 {
@@ -106,6 +108,22 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 Logging.Logs.writeToLogfile(log);
                 Logging.Exit.defaultExit();
             }
+        }
+        public static string findCereal(string originalstring) // Find chassis serial number ** command: show diag **
+        {
+            string searchPattern = "\r\n\tHardware Revision"; // this string is infront of the CHASSIS serial number
+            if (originalstring.Contains(searchPattern))
+            {
+                int indexPattern = originalstring.IndexOf(searchPattern); // index of the pattern
+                int startIndex = indexPattern - 11; // 11 is the default length of a serialnumber
+                string chassisSerialNumber = originalstring.Substring(startIndex, 11);
+                return chassisSerialNumber;
+            }
+            else
+            {
+                Console.WriteLine("Serienummber kon niet worden achterhaalt");
+            }
+            return null;
         }
     }
 }

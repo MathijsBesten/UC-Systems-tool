@@ -28,10 +28,10 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("Deze applicatie is ter ondersteuing van de Cisco Tool");
             Console.WriteLine();
 
+            SerialNumbers.TelnetConnection.telnetClientTCP(PrivateValues.testRouter);
             Timers.executeTimer(60); // int is for running every X seconds
             // use 60 for testing
 
-            SerialNumbers.TelnetConnection.telnetClientTCP(PrivateValues.testRouter);
             Console.ReadLine();
         }
         public static void MainCode(Object source, EventArgs e)
