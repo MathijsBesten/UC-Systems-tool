@@ -11,9 +11,10 @@ namespace CiscoDatabaseProgram.Functions.Logging
 {
     class Exit
     {
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static void exitByMySQL(string originalErrorMessage) // main MySQL database
         {
-            List<string> log = new List<string>();
             Console.WriteLine("");
             Console.WriteLine("Applicatie kon geen verbinding maken met MySQL (main) database");
             Console.WriteLine("Hestart de applicatie en probeer het opnieuw");
@@ -21,11 +22,10 @@ namespace CiscoDatabaseProgram.Functions.Logging
             Console.WriteLine("");
             Console.WriteLine("Druk op een knop om af te sluiten...");
 
-            log.Add("ERROR - Could not reach MySQL database");
-            log.Add("Errormessage - " + originalErrorMessage );
-            log.Add("Terminating application");
-            log.Add(ErrorCodes.generalErrorShutdown);
-            Logs.writeToLogfile(log);
+            log.Error("ERROR - Could not reach MySQL database");
+            log.Error("Errormessage - " + originalErrorMessage );
+            log.Error("Terminating application");
+            log.Error(ErrorCodes.generalErrorShutdown);
             Timers.timer.Enabled = false; // stops the timer to prevent the function from running
 
             Console.ReadKey(); // waits for the user to notice the error
@@ -34,7 +34,6 @@ namespace CiscoDatabaseProgram.Functions.Logging
         }
         public static void exitBySQL(string originalErrorMessage) // Own SQL database
         {
-            List<string> log = new List<string>();
             Console.WriteLine("");
             Console.WriteLine("Applicatie kon geen verbinding maken met SQL (Own) database");
             Console.WriteLine("Hestart de applicatie en probeer het opnieuw");
@@ -42,11 +41,10 @@ namespace CiscoDatabaseProgram.Functions.Logging
             Console.WriteLine("");
             Console.WriteLine("Druk op een knop om af te sluiten...");
 
-            log.Add("ERROR - Could not reach SQL database");
-            log.Add("Errormessage - " + originalErrorMessage);
-            log.Add("Terminating application");
-            log.Add(ErrorCodes.generalErrorShutdown);
-            Logs.writeToLogfile(log);
+            log.Error("ERROR - Could not reach SQL database");
+            log.Error("Errormessage - " + originalErrorMessage);
+            log.Error("Terminating application");
+            log.Error(ErrorCodes.generalErrorShutdown);
             Timers.timer.Enabled = false; // stops the timer to prevent the function from running
 
             Console.ReadKey(); // waits for the user to notice the error
@@ -57,10 +55,8 @@ namespace CiscoDatabaseProgram.Functions.Logging
 
         public static void defaultExit() // Own SQL database
         {
-            List<string> log = new List<string>();
-            log.Add("Terminating application");
-            log.Add(ErrorCodes.generalErrorShutdown);
-            Logs.writeToLogfile(log);
+            log.Error("Terminating application");
+            log.Error(ErrorCodes.generalErrorShutdown);
             Timers.timer.Enabled = false; // stops the timer to prevent the function from running
 
             Console.ReadKey(); // waits for the user to notice the error

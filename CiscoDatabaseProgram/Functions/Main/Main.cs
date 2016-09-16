@@ -17,6 +17,8 @@ namespace CiscoDatabaseProgram.Functions.Main
 {
     class Main
     {
+        private static readonly log4net.ILog log =
+               log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static void MainFunction()
         {
             Console.WriteLine("------------------------------");
@@ -36,13 +38,9 @@ namespace CiscoDatabaseProgram.Functions.Main
         }
         public static void MainCode(Object source, EventArgs e)
         {
-            List<string> log = new List<string>();
-            log.Add("");
-            log.Add("Timestampt: " + DateTime.Now);
-            log.Add("Running...");
-            Logs.writeToLogfile(log);
-            log.Clear(); // clear log for further use in this class
-
+            log.Info("");
+            log.Info("Timestampt: " + DateTime.Now);
+            log.Info("Running...");
             Console.WriteLine();
             Console.WriteLine(DateTime.Now);
             Console.WriteLine();

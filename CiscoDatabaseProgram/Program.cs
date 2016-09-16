@@ -20,8 +20,8 @@ namespace CiscoDatabaseProgram
         static void Main(string[] args)
         {
             Functions.Main.Main.MainFunction();
-
-
         }
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
     }
 }

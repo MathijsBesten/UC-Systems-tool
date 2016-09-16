@@ -11,9 +11,10 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 {
     class Data
     {
+        private static readonly log4net.ILog log =
+         log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static List<router> getDataFromMySQL(MySqlConnection connection, string query)
         {
-            List<string> log = new List<string>(); // initialize list for logging
             try // tries to connect to database
             {
                 connection.Open(); // opening connection
@@ -25,24 +26,23 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     case 0: // unable to connect to server
                         Console.WriteLine("kan niet verbinden met database");
-                        log.Add("Could not connect to Main Database - Unable to connect");
+                        log.Error("Could not connect to Main Database - Unable to connect");
                         break;
                     case 1045: // username or password is wrong
                         Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
-                        log.Add("Could not connect to Main Database - Wrong username or password");
+                        log.Error("Could not connect to Main Database - Wrong username or password");
                         break;
                     case 1326: // server was not found
                         Console.WriteLine("geen MySQL server gevonden op dit ip");
-                        log.Add("could not find MySQL server on given ip");
+                        log.Error("could not find MySQL server on given ip");
                         break;
                     default: // this will step into action if its not one of the above
                         Console.WriteLine("kan niet verbinden met database");
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
-                        log.Add("Could not connect to Main Database - Error code: " + ex.Number);
+                        log.Error("Could not connect to Main Database - Error code: " + ex.Number);
                         break;
                     //  function will stop on this point
                 }
-                Logging.Logs.writeToLogfile(log);
                 Exit.exitByMySQL(ex.Message);
                 return null;
             }
@@ -79,25 +79,23 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     Console.WriteLine("Probleem bij het lezen van één waarde uit de Main Database - Error Message: " + ex.Message);
                     Console.WriteLine("Locatie probleem: " + ex.Source);
-                    log.Add("Error while reading one value from Main Database - Error Message : " + ex.Message);
-                    log.Add("Error Location: " + ex.Source);
-                    Logging.Logs.writeToLogfile(log);
+                    log.Error("Error while reading one value from Main Database - Error Message : " + ex.Message);
+                    log.Error("Error Location: " + ex.Source);
                     throw ex;
                 }
             }
             connection.Close(); // closed connection to database
-            Logging.Logs.writeToLogfile(log); // write all output to local logfile
             return routers; // returns the freshly made Routers list
         } // for MySQL servers
         public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) // For Microsoft SQL servers
 
         {
-            List<string> log = new List<string>(); // initialize list for logging
+             // initialize list for logging
             try // tries to connect to database
             {
                 connection.Open(); // opening connection
                 Console.WriteLine("Verbonden met Cisco Tool database");
-                log.Add("Connected to Cisco Tool Database");
+                log.Info("Connected to Cisco Tool Database");
             }
 
             catch (SqlException ex) // cannot connect to server/database
@@ -106,25 +104,23 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     case 0: // unable to connect to server
                         Console.WriteLine("kan niet verbinden met database");
-                        log.Add("Could not connect to Cisco Tool Database - Unable to connect");
+                        log.Error("Could not connect to Cisco Tool Database - Unable to connect");
                         break;
                     case 1045: // username or password is wrong
                         Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
-                        log.Add("Could not connect to Cisco Tool Database - Wrong username or password");
+                        log.Error("Could not connect to Cisco Tool Database - Wrong username or password");
                         break;
                     case 1326: // server was not found
                         Console.WriteLine("geen sql server gevonden op dit ip");
-                        log.Add("could not find sql server on given ip");
+                        log.Error("could not find sql server on given ip");
                         break;
                     default: // this will step into action if its not one of the above
                         Console.WriteLine("kan niet verbinden met database");
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
-                        log.Add("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
+                        log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
                         break;
                         //  function will stop on this point
                 }
-                Logging.Logs.writeToLogfile(log);
-                log.Clear();
                 Exit.exitBySQL(ex.Message);
                 return null;
             }
@@ -163,9 +159,8 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     Console.WriteLine("Probleem bij het lezen van één waarde uit de Cisco Tool Database - Error Message: " + ex.Message);
                     Console.WriteLine("Locatie probleem: " + ex.Source);
-                    log.Add("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
-                    log.Add("Error Location: " + ex.Source);
-                    Logging.Logs.writeToLogfile(log);
+                    log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
+                    log.Error("Error Location: " + ex.Source);
                     Logging.Exit.defaultExit();
                     throw ex;
                 }
@@ -173,14 +168,13 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             }
             connection.Close(); // closed connection to database
             Console.WriteLine("Verbinding met Cisco Tool database correct afgesloten");
-            log.Add("Connection to Cisco Tool Database correctly closed");
-            Logging.Logs.writeToLogfile(log); // write all output to local logfile            
+            log.Info("Connection to Cisco Tool Database correctly closed");
             return routers; // returns the freshly made Routers list
         }
 
         public static bool writeNewToOwnServer(List<router> routerList)
         {
-            List<string> log = new List<string>();
+            
             SqlConnection connection = Connections.OwnDB();
             try
             {
@@ -193,24 +187,22 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     case 0: // unable to connect to server
                         Console.WriteLine("kan niet verbinden met database");
-                        log.Add("Could not connect to Cisco Tool Database - Unable to connect");
+                        log.Error("Could not connect to Cisco Tool Database - Unable to connect");
                         break;
                     case 1045: // username or password is wrong
                         Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
-                        log.Add("Could not connect to Cisco Tool Database - Wrong username or password");
+                        log.Error("Could not connect to Cisco Tool Database - Wrong username or password");
                         break;
                     case 1326: // server was not found
                         Console.WriteLine("geen sql server gevonden op dit ip");
-                        log.Add("could not find sql server on given ip");
+                        log.Error("could not find sql server on given ip");
                         break;
                     default: // this will step into action if its not one of the above
                         Console.WriteLine("kan niet verbinden met database");
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
-                        log.Add("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
+                        log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
                         break;
                 }
-                Logging.Logs.writeToLogfile(log);
-                log.Clear();
                 Exit.exitBySQL(ex.Message);
                 throw;
             }
@@ -235,10 +227,9 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                             Console.WriteLine("Er was een probleem bij het wegschrijven van de nieuwe data");
                             Console.WriteLine("ID van nieuwe item" + item.routerMainDB);
                             Console.WriteLine("Error melding: " + ex.Message);
-                            log.Add("ERROR - error while writing new data to the Cisco Tool Database");
-                            log.Add("ID van item: " + item.routerMainDB);
-                            log.Add("error message: " + ex.Message);
-                            Logging.Logs.writeToLogfile(log);
+                            log.Error("ERROR - error while writing new data to the Cisco Tool Database");
+                            log.Error("ID van item: " + item.routerMainDB);
+                            log.Error("error message: " + ex.Message);
                             break;
                     }
                 }
@@ -248,7 +239,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
         }
         public static bool updateItemOwnServer(List<router> routerList) // update new routerlist to Owndatabase
         {
-            List<string> log = new List<string>();
+            
             SqlConnection connection = Connections.OwnDB(); // open connection with database
             try
             {
@@ -261,24 +252,22 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     case 0: // unable to connect to server
                         Console.WriteLine("kan niet verbinden met database");
-                        log.Add("Could not connect to Cisco Tool Database - Unable to connect");
+                        log.Error("Could not connect to Cisco Tool Database - Unable to connect");
                         break;
                     case 1045: // username or password is wrong
                         Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
-                        log.Add("Could not connect to Cisco Tool Database - Wrong username or password");
+                        log.Error("Could not connect to Cisco Tool Database - Wrong username or password");
                         break;
                     case 1326: // server was not found
                         Console.WriteLine("geen sql server gevonden op dit ip");
-                        log.Add("could not find sql server on given ip");
+                        log.Error("could not find sql server on given ip");
                         break;
                     default: // this will step into action if its not one of the above
                         Console.WriteLine("kan niet verbinden met database");
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
-                        log.Add("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
+                        log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
                         break;
                 }
-                Logging.Logs.writeToLogfile(log);
-                log.Clear();
                 Exit.exitBySQL(ex.Message);
                 throw;
             }
@@ -304,10 +293,9 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                             Console.WriteLine("Er was een probleem bij het updaten van data");
                             Console.WriteLine("ID van oud item" + item.routerMainDB);
                             Console.WriteLine("Error melding: " + ex.Message);
-                            log.Add("ERROR - error while updating new data to the Cisco Tool Database");
-                            log.Add("ID van item: " + item.routerMainDB);
-                            log.Add("error message: " + ex.Message);
-                            Logging.Logs.writeToLogfile(log);
+                            log.Error("ERROR - error while updating new data to the Cisco Tool Database");
+                            log.Error("ID van item: " + item.routerMainDB);
+                            log.Error("error message: " + ex.Message);
                             break;
                     }
                 }
@@ -315,7 +303,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             connection.Close();
             return true; // returns true 
         }
-
         public static void getNewByCompare(List<router> mainDBList, List<router> ownDBList)
         {
             // function will make a mainID list, a OwnID list with there id's from the database
@@ -323,12 +310,12 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             // foreach new ID there will be a query to get the router from the jhhhhhhhjhjhjhj database
             // all the routers will be stored in a "router list"
             // the routerlist with all the new routers will be send to the "Own server" 
-            List<string> log = new List<string>(); // for log file
+             // for log file
             List<int> mainIDList = new List<int>(); // initialize list for all id's in MainDatabase
             List<int> OwnIDList = new List<int>(); // initialize list for all id's in OwnDatabase
             List<int> newIDs = new List<int>();
             string result;
-            log.Add("Getting new items from main database"); // for logbook
+            log.Info("Getting new items from main database"); // for logbook
 
             #region foreachloops
             foreach (var router in mainDBList) //  gets a list of all id's in MainDB
@@ -357,7 +344,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 
             if (newIDs.Count != 0)
             {
-                log.Add("Count new items: " + newIDs.Count()); // logs how many new items has been found
+                log.Info("Count new items: " + newIDs.Count()); // logs how many new items has been found
                 List<router> newRouters = new List<router>();
                 foreach (int ID in newIDs) //getting the new routers will take a few seconds
                 {
@@ -368,25 +355,24 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 }
                 var pushNewRoutersToOwnServer = writeNewToOwnServer(newRouters); // insert new routers to OwnDatabase
                 result = newIDs.Count + " nieuwe routers toegevoegd aan eigen database!";
-                log.Add("Correcly added New items to Cisco Tool Database"); // count already in logbook
+                log.Info("Correcly added New items to Cisco Tool Database"); // count already in logbook
             }
             else
             {
                 result = "Geen nieuwe routers gevonden";
-                log.Add("No new items found in Main Database while trying to get new items");
+                log.Error("No new items found in Main Database while trying to get new items");
             }
             Console.WriteLine();
             Console.WriteLine(result);
-            Logging.Logs.writeToLogfile(log);
         } // run this function before the compare function
 
         public static void compareAndSendNewList (List<router> mainDBList, List<router> ownDBList) // logging is complete
         {
-            List<string> log = new List<string>(); // list for logFile
+             // list for logFile
             if (mainDBList.Count == ownDBList.Count) // checks if the list are containing the correct amount of items
             {
                 Console.WriteLine("Databases vergelijken...");
-                log.Add("Comparing Databases...");
+                log.Info("Comparing Databases...");
                 mainDBList = mainDBList.OrderBy(id => id.routerMainDB).ToList(); //order list for comparison 
                 ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList(); // order list for comparison
                 List<router> newOwnDBList = new List<router>(); // new list for new items
@@ -400,7 +386,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     {
                         string newName = "Naam - ID: " + mainDBList[count].routerMainDB + " naam was: " + ownDBList[count].routerName + " is nu: " + mainDBList[count].routerName; // Combines all the info
                         Console.WriteLine(newName); // echo's the difference to the user
-                        log.Add(newName); // adds it to the logList
+                        log.Info(newName); // adds it to the logList
                         countChanges++; // counts the changes
                     }
                     newRouter.routerAlias = mainDBList[count].routerAlias; // Alias could change in the mainDB
@@ -408,7 +394,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     {
                         string newAlias = "Alias - ID: " + mainDBList[count].routerMainDB + " alias was: " + ownDBList[count].routerAlias + " is nu: " + mainDBList[count].routerAlias; // information string
                         Console.WriteLine(newAlias); // echo's the difference to the user
-                        log.Add(newAlias);// adds it to the logList
+                        log.Info(newAlias);// adds it to the logList
                         countChanges++; // counts the changes
                     }
                     newRouter.routerAddress = mainDBList[count].routerAddress; // address could change in the MainDB
@@ -416,7 +402,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     {
                         string newAddress = "IP adres - ID: " + mainDBList[count].routerMainDB + " IP adres was: " + ownDBList[count].routerAddress + " is nu: " + mainDBList[count].routerAddress; // information string
                         Console.WriteLine(newAddress); // echo's the difference to the user
-                        log.Add(newAddress); // adds it to the logList
+                        log.Info(newAddress); // adds it to the logList
                         countChanges++; // counts the changes
                     }
                     newRouter.routerActivate = mainDBList[count].routerActivate; // for new information
@@ -424,7 +410,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     {
                         string newActive = "Active - ID: " + mainDBList[count].routerMainDB + " active status was: " + ownDBList[count].routerActivate + " is nu: " + mainDBList[count].routerActivate; // information string
                         Console.WriteLine(newActive); // echo's the difference to the user
-                        log.Add(newActive); // adds it to the logList
+                        log.Info(newActive); // adds it to the logList
                         countChanges++; // counts the changes
                     }
                     newRouter.routerSerialnumber = ownDBList[count].routerSerialnumber; // serialnumber is only known in the OwnDB and is not available in the main DB
@@ -433,7 +419,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     {
                         string newMainDB = "ID - ID: " + mainDBList[count].routerMainDB + " Main database ID was: " + ownDBList[count].routerMainDB + " is nu: " + mainDBList[count].routerMainDB; // information string
                         Console.WriteLine(newMainDB); // echo's the difference to the user
-                        log.Add(newMainDB); // adds it to the logList
+                        log.Info(newMainDB); // adds it to the logList
                         countChanges++; // counts the changes
                     }
                     newOwnDBList.Add(newRouter); // add all items to the list
@@ -442,18 +428,18 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 {
                     Console.WriteLine();
                     Console.WriteLine("Geen veranderingen tussen databases");
-                    log.Add("No difference between databases");
+                    log.Info("No difference between databases");
                 }
                 else
                 {
                     try // tries to update the new data to the Cisco tool database
                     {
-                        log.Add("Trying to update new Data...");
+                        log.Info("Trying to update new Data...");
                         var updateItems = updateItemOwnServer(newOwnDBList);
                         if (updateItems == true)
                         {
-                            log.Add("Data succesfully updated");
-                            log.Add("Total values changed: " + countChanges);
+                            log.Info("Data succesfully updated");
+                            log.Info("Total values changed: " + countChanges);
                         }
                         Console.WriteLine();
                         Console.WriteLine("Database is bijgewerkt");
@@ -463,9 +449,9 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     {
                         Console.WriteLine("Error bij het updaten van de nieuwe gegevens");
                         Console.WriteLine("Error message: " + ex.Message);
-                        log.Add("Error - error while updating new data");
-                        log.Add("Error code: " + ex.Message);
-                        log.Add("location error: " + ex.Source);
+                        log.Error("Error - error while updating new data");
+                        log.Error("Error code: " + ex.Message);
+                        log.Error("location error: " + ex.Source);
                         throw;
                     }
                 }
@@ -474,10 +460,8 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             {
                 Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
-                log.Clear();
-                log.Add("Databases are not equal, update function will be executed");
-                log.Add("Starting update Function...");
-                Logging.Logs.writeToLogfile(log); // write log before starting the function again
+                log.Error("Databases are not equal, update function will be executed");
+                log.Info("Starting update Function...");
                 getNewByCompare(mainDBList, ownDBList); // gets new entries from the mainDB
                 ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.OwnServerServerQuery); // gets the checked and updated own Database
                 compareAndSendNewList(mainDBList, ownDBList);
@@ -488,10 +472,9 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 Console.WriteLine(" !!! NIET DE OFFICLE DATABASE !!! Database heeft teveel items, verwijder de data uit table ' dbo.router' !!! NIET DE OFFICLE DATABASE !!! de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
                 Console.WriteLine("NIET DE DATA UIT DE OFFICELE DATABASE VERWIJDEREN");
                 Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar: " + "compare_and_send_newlist | TOO MANY ITEMS ");
-                log.Add(@"OwnDatabase is too big - Please remove all data from table 'dbo.router' NOT THE OFFICIAL DATABASE!! ");
-                log.Add("!!! NOT THE OFFICIAL DATABASE !!!");
+                log.Error(@"OwnDatabase is too big - Please remove all data from table 'dbo.router' NOT THE OFFICIAL DATABASE!! ");
+                log.Error("!!! NOT THE OFFICIAL DATABASE !!!");
             }
-            Logging.Logs.writeToLogfile(log);
         }
     } //gets changed data from main server and push it to Owndata
 }
