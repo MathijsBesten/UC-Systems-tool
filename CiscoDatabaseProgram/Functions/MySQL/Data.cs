@@ -144,6 +144,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     Type threeString = reader.GetFieldType(3);
                     if (threeString != typeof(string)) { three = true; }
                     bool four = reader.IsDBNull(4);
+                    bool five = reader.IsDBNull(5);
 
                     //values from database are assign to Router router
                     Router.routerId = reader.GetInt32(0); // ID
@@ -151,7 +152,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
                     if (three == false) { Router.routerAddress = reader.GetString(3); } // ip address
                     if (four == false) { Router.routerActivate = reader.GetString(4); } // active
-                                                                                        // Serialnumber is only used in OwnDB, no need for storing it in this list
+                    if (five == false) { Router.routerSerialnumber = reader.GetString(5); }// Serialnumber 
                     Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
                     routers.Add(Router);         // Router is added to the Routers list
                 }

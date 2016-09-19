@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using static System.Net.Mime.MediaTypeNames;
 using System.Threading;
+using System.Configuration;
 
 namespace CiscoDatabaseProgram.Functions.Main
 {
@@ -30,9 +31,11 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("Deze applicatie is ter ondersteuing van de Cisco Tool");
             Console.WriteLine();
 
-            SerialNumbers.TelnetConnection.telnetClientTCP(PrivateValues.testRouter);
+            SerialNumbers.TelnetConnection.telnetClientTCP(ConfigurationManager.AppSettings["testRouterIP"]);
+
             Timers.executeTimer(60); // int is for running every X seconds
             // use 60 for testing
+
 
             Console.ReadLine();
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
 using CiscoDatabaseProgram.Values;
+using System.Configuration;
 
 namespace CiscoDatabaseProgram.Functions.MySQL
 {
@@ -18,7 +19,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
         }
         public static MySqlConnection MySQLConnnection() // Uses default data
         {
-            string connectionString = "SERVER=" + PrivateValues.NIETAANZITTENserver + ";" + "DATABASE=" + PrivateValues.NIETAANZITTENserverDB + ";" + "UID=" + PrivateValues.NIETAANZITTENserverUsername + ";" + "PASSWORD=" + PrivateValues.NIETAANZITTENserverPassword + "; connection timeout= 3";
+            string connectionString = "SERVER=" + ConfigurationManager.AppSettings["MainServerIP"] + ";" + "DATABASE=" + ConfigurationManager.AppSettings["MainServerDatabase"] + ";" + "UID=" + ConfigurationManager.AppSettings["MainServerUsername"] + ";" + "PASSWORD=" + ConfigurationManager.AppSettings["MainServerPassword"] + "; connection timeout= 3";
             return new MySqlConnection(connectionString);
         }
 

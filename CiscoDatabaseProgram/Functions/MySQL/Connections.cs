@@ -2,6 +2,7 @@
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -14,20 +15,20 @@ namespace CiscoDatabaseProgram.Functions.MySQL
         public static MySqlConnection MainDB()
         {
             MySqlConnection connection = Functions.MySQL.General.MySQLConnnection( // Make connection with Database
-                PrivateValues.NIETAANZITTENserver, // ip
-                PrivateValues.NIETAANZITTENserverDB, // database
-                PrivateValues.NIETAANZITTENserverUsername, // username
-                PrivateValues.NIETAANZITTENserverPassword
-                );  // password
+                ConfigurationManager.AppSettings["MainServerIP"], // ip
+                ConfigurationManager.AppSettings["MainServerDatabase"], // database
+                ConfigurationManager.AppSettings["MainServerUsername"], // username
+                ConfigurationManager.AppSettings["MainServerPassword"] //password
+                );  
             return connection;
         }
         public static SqlConnection OwnDB()
         {
             SqlConnection connection = Functions.MySQL.General.MicrosoftSQLConnection( // Make connection with Database
-                PrivateValues.OwnServer,// ip
-                PrivateValues.OwnServerDatabase, // database
-                PrivateValues.OwnServerUsername, // username
-                PrivateValues.OwnServerPassword);  // password
+                ConfigurationManager.AppSettings["CiscoToolServerIP"],// ip
+                ConfigurationManager.AppSettings["CiscoToolServerDatabase"], // database
+                ConfigurationManager.AppSettings["CiscoToolServerUsername"], // username
+                ConfigurationManager.AppSettings["CiscoToolServerPassword"]);  // password
             return connection;
         }
     }

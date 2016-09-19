@@ -10,6 +10,7 @@ using System.Threading;
 
 using CiscoDatabaseProgram.Values;
 using CiscoDatabaseProgram.Network.Stream;
+using System.Configuration;
 
 namespace CiscoDatabaseProgram.Functions.SerialNumbers
 {
@@ -65,7 +66,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             //initialze all values
             IPAddress address; // will be filled after conversion
             string command = "sh diag | inc Serial"; // command to get serialnumber
-            string message = PrivateValues.testRouterUsername + "\r\n"+ PrivateValues.testRouterPassword +"\r\n"+ command + "\r\n"; // command to run
+            string message = ConfigurationManager.AppSettings["TestRouterUsername"] + "\r\n"+ ConfigurationManager.AppSettings["TestRouterPassword"] + "\r\n"+ command + "\r\n"; // command to run
             byte[] messageInBytes; // message in bytes
             byte[] responseInBytes = new byte[4096]; // need a big byte array because much data
             string response; // response in string
@@ -79,10 +80,8 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 try // tries to get the info from router
                 {
                     response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(IPAddressString, message); // networksteam function
-
-                    Console.WriteLine(response); // response string will be echo't
                     string chassisSerialNumber = findCereal(response); // serialnumber will be received by using substring method
-                    Console.WriteLine(chassisSerialNumber); // serialnumber is echo't
+                    Console.WriteLine(IPAddressString + " serienummer: " + chassisSerialNumber); // serialnumber is echo't
                     log.Info("Serialnumber received - IP Address: " + IPAddressString + " Serialnumber: " + chassisSerialNumber);
                 }
                 catch (Exception ex)
