@@ -173,7 +173,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             return routers; // returns the freshly made Routers list
         }
 
-        public static bool writeNewToOwnServer(List<router> routerList)
+        public static bool insertNewIntoOwnServer(List<router> routerList)
         {
             
             SqlConnection connection = Connections.OwnDB();
@@ -238,14 +238,13 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             connection.Close();
             return true;
         }
-        public static bool updateItemOwnServer(List<router> routerList) // update new routerlist to Owndatabase
+        public static bool updateRoutersOwnServer(List<router> routerList) // update new routerlist to Owndatabase
         {
             
             SqlConnection connection = Connections.OwnDB(); // open connection with database
             try
             {
                 connection.Open(); // opening connection
-                Debug.WriteLine("connected to server");
             }
             catch (MySqlException ex)
             {
@@ -284,7 +283,16 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 command.CommandText = query;
                 try
                 {
-                    command.ExecuteNonQuery();
+                    int rowsEffected = command.ExecuteNonQuery(); // run the command
+                    if (rowsEffected == 0)
+                    {
+                        log.Info("there was no record found with ip: " + item.routerAddress);
+                    }
+                    else
+                    {
+                        log.Info("total rows affected by update: " + rowsEffected);
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
@@ -354,7 +362,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     data[0].routerId = 0; // ID is emptied for the new database
                     newRouters.Add(data[0]); // index 0, function will not return more than one result
                 }
-                var pushNewRoutersToOwnServer = writeNewToOwnServer(newRouters); // insert new routers to OwnDatabase
+                var pushNewRoutersToOwnServer = insertNewIntoOwnServer(newRouters); // insert new routers to OwnDatabase
                 result = newIDs.Count + " nieuwe routers toegevoegd aan eigen database!";
                 log.Info("Correcly added New items to Cisco Tool Database"); // count already in logbook
             }
@@ -436,7 +444,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     try // tries to update the new data to the Cisco tool database
                     {
                         log.Info("Trying to update new Data...");
-                        var updateItems = updateItemOwnServer(newOwnDBList);
+                        var updateItems = updateRoutersOwnServer(newOwnDBList);
                         if (updateItems == true)
                         {
                             log.Info("Data succesfully updated");

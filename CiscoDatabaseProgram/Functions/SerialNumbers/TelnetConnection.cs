@@ -59,17 +59,18 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 Logging.Exit.defaultExit();
             }
         }
-        public static void telnetClientTCP(string IPAddressString) // telnet client using tcp client
+        public static string telnetClientTCP(string IPAddressString,string username,string password) // telnet client using tcp client
         {
 
             log.Info("Telnet function was been started");
             //initialze all values
             IPAddress address; // will be filled after conversion
             string command = "sh diag | inc Serial"; // command to get serialnumber
-            string message = ConfigurationManager.AppSettings["TestRouterUsername"] + "\r\n"+ ConfigurationManager.AppSettings["TestRouterPassword"] + "\r\n"+ command + "\r\n"; // command to run
+            string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; // command to run
             byte[] messageInBytes; // message in bytes
             byte[] responseInBytes = new byte[4096]; // need a big byte array because much data
             string response; // response in string
+            string chassisSerialNumber = "";
             NetworkStream stream;
 
             log.Info("Getting serialnumber...");
@@ -80,7 +81,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 try // tries to get the info from router
                 {
                     response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(IPAddressString, message); // networksteam function
-                    string chassisSerialNumber = findCereal(response); // serialnumber will be received by using substring method
+                    chassisSerialNumber = findCereal(response); // serialnumber will be received by using substring method
                     Console.WriteLine(IPAddressString + " serienummer: " + chassisSerialNumber); // serialnumber is echo't
                     log.Info("Serialnumber received - IP Address: " + IPAddressString + " Serialnumber: " + chassisSerialNumber);
                 }
@@ -100,6 +101,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 log.Error("ERROR - could not verify " + IPAddressString);
                 Logging.Exit.defaultExit();
             }
+            return chassisSerialNumber;
         }
         public static string findCereal(string originalstring) // Find chassis serial number ** command: show diag **
         {
@@ -115,8 +117,8 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             {
                 Console.WriteLine("Serienummber kon niet worden achterhaalt");
                 log.Error("ERROR - could not find serialnumber using substring method");
+                return null;
             }
-            return null;
         }
     }
 }
