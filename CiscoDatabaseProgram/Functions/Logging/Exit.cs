@@ -26,7 +26,7 @@ namespace CiscoDatabaseProgram.Functions.Logging
             log.Error("Errormessage - " + originalErrorMessage );
             log.Error("Terminating application");
             log.Error(ErrorCodes.generalErrorShutdown);
-            Timers.TimerMain.Enabled = false; // stops the timer to prevent the function from running
+            Timers.TimerDatabaseUpdate.Enabled = false; // stops the timer to prevent the function from running
 
             Console.ReadKey(); // waits for the user to notice the error
             Environment.Exit(ErrorCodes.errorExitID);
@@ -45,7 +45,7 @@ namespace CiscoDatabaseProgram.Functions.Logging
             log.Error("Errormessage - " + originalErrorMessage);
             log.Error("Terminating application");
             log.Error(ErrorCodes.generalErrorShutdown);
-            Timers.TimerMain.Enabled = false; // stops the timer to prevent the function from running
+            Timers.TimerDatabaseUpdate.Enabled = false; // stops the timer to prevent the function from running
 
             Console.ReadKey(); // waits for the user to notice the error
             Console.WriteLine("bezig met afsluiten...");
@@ -57,12 +57,7 @@ namespace CiscoDatabaseProgram.Functions.Logging
         {
             log.Error("Terminating application");
             log.Error(ErrorCodes.generalErrorShutdown);
-            Timers.TimerMain.Enabled = false; // stops the timer to prevent the function from running
-
-            Console.ReadKey(); // waits for the user to notice the error
-            Console.WriteLine("bezig met afsluiten...");
-            Thread.Sleep(1000);
-            Environment.Exit(ErrorCodes.errorExitID);
+            Timers.TimerDatabaseUpdate.Enabled = false; // stops the timer to prevent the function from running
         }
     }
 }

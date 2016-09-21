@@ -286,11 +286,11 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     int rowsEffected = command.ExecuteNonQuery(); // run the command
                     if (rowsEffected == 0)
                     {
-                        log.Info("there was no record found with ip: " + item.routerAddress);
+                        log.Info("there was no record found in Cisco Tool Database with ip: " + item.routerAddress);
                     }
                     else
                     {
-                        log.Info("total rows affected by update: " + rowsEffected);
+                        log.Info("Serialnumber added in database for router " + item.routerAddress);
                     }
                     
                 }

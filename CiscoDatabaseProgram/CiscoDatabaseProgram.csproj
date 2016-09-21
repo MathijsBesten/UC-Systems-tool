@@ -55,6 +55,7 @@
     <Compile Include="Functions\Logging\ErrorCodes.cs" />
     <Compile Include="Functions\Logging\Exit.cs" />
     <Compile Include="Functions\Main\Main.cs" />
+    <Compile Include="Functions\Main\MainCode.cs" />
     <Compile Include="Functions\Main\Timers.cs" />
     <Compile Include="Functions\MySQL\Connections.cs" />
     <Compile Include="Functions\MySQL\General.cs" />

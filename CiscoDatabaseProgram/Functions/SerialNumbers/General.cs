@@ -21,32 +21,32 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
         public static void getSerialForRouters (List<router> routersWithoutSerial, string username, string password)
         {
             // command sentence below if you want to test
-            //routersWithoutSerial = receiveRoutersWithoutSerial(); //gets list of routers without serialnumber
+            //List<router> routersWithoutSerial = receiveRoutersWithoutSerial(); //gets list of routers without serialnumber
             List<router> finalRouterlist = new List<router>(); // list of routers, all routers will have a Serialnumber
-            foreach (var router in routersWithoutSerial) 
+            foreach (var router in routersWithoutSerial) //foreach router that has no serialnumber in database
             {
-                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router.routerAddress, username, password);
-                if (ChassisSerialNumber != null)
+                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router.routerAddress, username, password); // get serialnumber
+                if (ChassisSerialNumber != null) // if serialnumber is found 
                 {
-                    router.routerSerialnumber = ChassisSerialNumber;
-                    log.Info("Serialnumber added - " + router.routerAddress);
-                    finalRouterlist.Add(router);
+                    router.routerSerialnumber = ChassisSerialNumber; //assign found serialnumber to router
+                    log.Info("Serialnumber added - " + router.routerAddress); // log to logfile
+                    finalRouterlist.Add(router); // add complete router to finalList
                 }
-                else
+                else // serialnumber could not be found ** maybe timeout **
                 {
-                    Console.WriteLine("serienummer van " + router.routerAddress + " kon niet worden gevonden");
-                    log.Error("Serialnumber could not be found ip: " + router.routerAddress);
-                    finalRouterlist.Add(router);
+                    Console.WriteLine("serienummer van " + router.routerAddress + " kon niet worden gevonden"); // let user know that there is something wrong
+                    log.Error("Serialnumber could not be found ip: " + router.routerAddress); // log error to logfile
+                    finalRouterlist.Add(router); // add router to finalList - there will be no error and the serialnumber will be updated next round
                 }
             }
-            Data.updateRoutersOwnServer(finalRouterlist);
-            Console.WriteLine("serienummers zijn opgehaald en in de database gezet");
-            log.Info("Serialnumbers are synchronized");
+            Data.updateRoutersOwnServer(finalRouterlist); // updating new router details to the Cisco Tool Database
+            Console.WriteLine("serienummers zijn opgehaald en in de database gezet"); // let the user know that the data was been updated
+            log.Info("Serialnumbers are synchronized"); // log to logfile
 
         }
-        private static List<router> receiveRoutersWithoutSerial()
+        private static List<router> receiveRoutersWithoutSerial() // function will be run from the getSerialForRouters function to get all the routers without a serialnumber
         {
-            List<router> routersWithoutSerial = new List<router>(); // list for all routers without serial number
+            List<router> routersWithoutSerial = new List<router>(); // initialize list for all routers without serial number
             SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
             List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery); // returns list of items from OwnServer
             foreach (var item in OwnDatabaseData) // loop to get routers without a serialnumber

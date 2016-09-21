@@ -4,24 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Configuration;
 
 namespace CiscoDatabaseProgram.Functions.Main
 {
     class Timers
     {
-        public static Timer TimerMain = new Timer();
+        public static Timer TimerDatabaseUpdate = new Timer();
         public static Timer TimerSerial = new Timer();
-        public static void MainCodeTimer(int seconds)
+        public static void DatabaseUpdateTimer()
         {
-            TimerMain.Elapsed += new ElapsedEventHandler(Main.MainCode);
-            TimerMain.Interval = seconds * 1000; // from milliseconds to seconds
-            TimerMain.Enabled = true;
+            int minutes = Int32.Parse(ConfigurationManager.AppSettings["TimerDatabaseUpdate"]);
+            TimerDatabaseUpdate.Elapsed += new ElapsedEventHandler(MainCode.updateDatabase);
+            TimerDatabaseUpdate.Interval = minutes * 1000; // from milliseconds to seconds
+            TimerDatabaseUpdate.Enabled = true;
 
         }
-        public static void SerialCodeTimer(int seconds)
+        public static void SerialCodeTimer()
         {
-            //TimerSerial.Elapsed += new ElapsedEventHandler(Main.keepSerialNumbersUpToDate);
-            TimerSerial.Interval = seconds * 1000; // from milliseconds to seconds
+            int minutes = Int32.Parse(ConfigurationManager.AppSettings["TimerSerialnumbers"]);
+            TimerSerial.Elapsed += new ElapsedEventHandler(MainCode.updateSerials);
+            TimerSerial.Interval = minutes * 1000; // from milliseconds to minutes
             TimerSerial.Enabled = true;
         }
     }

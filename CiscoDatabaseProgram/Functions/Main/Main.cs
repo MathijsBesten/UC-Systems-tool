@@ -31,50 +31,13 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("Deze applicatie is ter ondersteuing van de Cisco Tool");
             Console.WriteLine();
 
-            keepSerialNumbersUpToDate();
-            Timers.MainCodeTimer(60); // int is for running every X seconds
-            // use 60 for testing
+            MainCode.updateDatabase();
+            MainCode.updateSerials();
+            Timers.DatabaseUpdateTimer(); // user can choose time using the config file
+            Timers.SerialCodeTimer(); // user can choose time using the config file
 
 
             Console.ReadLine();
-        }
-        public static void MainCode(Object source, EventArgs e)
-        {
-            log.Info("");
-            log.Info("Timestampt: " + DateTime.Now);
-            log.Info("DATABASES");
-            log.Info("Running...");
-            Console.WriteLine();
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine();
-
-            MySqlConnection connectionToMainDB = Connections.MainDB(); // connection to main database
-            List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
-            SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
-            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery); // returns list of items from OwnServer
-            Data.compareAndSendNewList(mainDatabaseData, OwnDatabaseData); // this will check for changes, if database are not the same it will try to fix itself
-        }
-        public static void keepSerialNumbersUpToDate()//Object source, EventArgs e)
-        {
-            log.Info("");
-            log.Info("Timestampt: " + DateTime.Now);
-            log.Info("SERIALNUMBERS");
-            log.Info("Running...");
-            Console.WriteLine("");
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine();
-
-            List<router> testList = new List<router>();
-            router myTestRouter = new router();
-            myTestRouter.routerAddress = ConfigurationManager.AppSettings["TestRouterIP"];
-            string username = ConfigurationManager.AppSettings["TestRouterUsername"];
-            string password = ConfigurationManager.AppSettings["TestRouterPassword"];
-
-            testList.Add(myTestRouter);
-
-            SerialNumbers.General.getSerialForRouters(testList, username, password);
-            
-
         }
     }
 }

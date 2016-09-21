@@ -98,7 +98,8 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             {
                 Console.WriteLine("error - Er was een probleem met het controleren van het ip adres ");
                 Console.WriteLine("probleem ontstond bij : " + IPAddressString);
-                log.Error("ERROR - could not verify " + IPAddressString);
+
+                log.Error("ERROR - IP address was not legit - IP:" + IPAddressString + " *If not ip address is show, please contact app developer*");
                 Logging.Exit.defaultExit();
             }
             return chassisSerialNumber;
