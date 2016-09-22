@@ -37,7 +37,10 @@ namespace CiscoDatabaseProgram.Functions.Main
             Timers.SerialCodeTimer(); // user can choose time using the config file
 
 
-            Console.ReadLine();
+            Console.ReadKey(); // waits for the user to notice the error
+            Console.WriteLine("bezig met afsluiten...");
+            Thread.Sleep(1000); // sleeps for userexperience
+            Environment.Exit(ErrorCodes.errorExitID); //exit application
         }
     }
 }

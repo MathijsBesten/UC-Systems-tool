@@ -40,7 +40,7 @@
             this.ManualUsername = new System.Windows.Forms.TextBox();
             this.MainGridView = new System.Windows.Forms.DataGridView();
             this.Status = new System.Windows.Forms.DataGridViewImageColumn();
-            this.CompanyName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.routerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -175,10 +175,15 @@
             // 
             // MainGridView
             // 
+            this.MainGridView.AllowUserToAddRows = false;
+            this.MainGridView.AllowUserToDeleteRows = false;
+            this.MainGridView.AllowUserToOrderColumns = true;
+            this.MainGridView.AllowUserToResizeColumns = false;
+            this.MainGridView.AllowUserToResizeRows = false;
             this.MainGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.MainGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Status,
-            this.CompanyName,
+            this.routerName,
             this.IpAddress,
             this.StatusInfo});
             this.MainGridView.Location = new System.Drawing.Point(730, 9);
@@ -196,15 +201,15 @@
             this.Status.ReadOnly = true;
             this.Status.Width = 16;
             // 
-            // CompanyName
+            // routerName
             // 
-            this.CompanyName.HeaderText = "Bedrijfsnaam";
-            this.CompanyName.Name = "CompanyName";
-            this.CompanyName.ReadOnly = true;
+            this.routerName.HeaderText = "Naam";
+            this.routerName.Name = "routerName";
+            this.routerName.ReadOnly = true;
             // 
             // IpAddress
             // 
-            this.IpAddress.HeaderText = "IP adres router";
+            this.IpAddress.HeaderText = "IP adres";
             this.IpAddress.Name = "IpAddress";
             this.IpAddress.ReadOnly = true;
             // 
@@ -531,10 +536,6 @@
         private System.Windows.Forms.Button ManualConnect;
         private System.Windows.Forms.DataGridView MainGridView;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.DataGridViewImageColumn Status;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CompanyName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
-        private System.Windows.Forms.DataGridViewTextBoxColumn StatusInfo;
         private System.Windows.Forms.GroupBox SearchGroupBox;
         private System.Windows.Forms.TextBox SearchBox;
         private System.Windows.Forms.Label SearchLabel;
@@ -564,6 +565,10 @@
         private System.Windows.Forms.TextBox Command2;
         private System.Windows.Forms.TextBox Command1;
         private System.Windows.Forms.Label CommandoInfo2;
+        private System.Windows.Forms.DataGridViewImageColumn Status;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StatusInfo;
     }
 }
 

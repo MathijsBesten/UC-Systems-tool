@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace CiscoDatabaseProgram.Network.Stream
+namespace Cisco_Tool.Functions.Stream
 {
     class Networkstreams
     {
@@ -19,7 +19,6 @@ namespace CiscoDatabaseProgram.Network.Stream
             byte[] responseInBytes = new byte[4096]; // byte array for response
             TcpClient client = new TcpClient(IPAddress, 23); // new tcp Client
             client.ReceiveTimeout = 3; //after 3 seconds
-            client.SendTimeout = 3;
             byte[] messageInBytes = Encoding.ASCII.GetBytes(message); // encodes the message to byte array
             NetworkStream stream = client.GetStream(); // talking line of client
             Console.WriteLine();

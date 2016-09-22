@@ -81,7 +81,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     Console.WriteLine("Locatie probleem: " + ex.Source);
                     log.Error("Error while reading one value from Main Database - Error Message : " + ex.Message);
                     log.Error("Error Location: " + ex.Source);
-                    throw ex;
                 }
             }
             connection.Close(); // closed connection to database
@@ -163,7 +162,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
                     log.Error("Error Location: " + ex.Source);
                     Logging.Exit.defaultExit();
-                    throw ex;
                 }
 
             }
@@ -205,7 +203,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                         break;
                 }
                 Exit.exitBySQL(ex.Message);
-                throw;
             }
 
             SqlCommand command = connection.CreateCommand(); // makes a SQL command
@@ -269,7 +266,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                         break;
                 }
                 Exit.exitBySQL(ex.Message);
-                throw;
             }
 
             SqlCommand command = connection.CreateCommand(); // makes a SQL command
@@ -337,7 +333,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             }
             mainIDList = mainIDList.OrderBy(p => p).ToList(); // order by ID for comparison
             OwnIDList = OwnIDList.OrderBy(p => p).ToList(); // order by ID
-            int count = 0;
             foreach (var ID in mainIDList) // checks for each ID if they are in Ownlist
             {
                 if (!OwnIDList.Contains(ID)) // checks if the ID is in OwnDB
@@ -461,7 +456,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                         log.Error("Error - error while updating new data");
                         log.Error("Error code: " + ex.Message);
                         log.Error("location error: " + ex.Source);
-                        throw;
                     }
                 }
             }

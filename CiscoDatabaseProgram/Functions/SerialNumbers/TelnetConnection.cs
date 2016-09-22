@@ -47,9 +47,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                     Console.WriteLine("errormessage - " + ex.Message);
                     log.Error("ERROR - Could not connect to "+ IPAddressString +" using telnet to get serialnumber ");
                     log.Error("errormessage - " + ex.Message);
-                    throw;
                 }
-
             }
             else
             {
@@ -59,7 +57,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 Logging.Exit.defaultExit();
             }
         }
-        public static string telnetClientTCP(string IPAddressString,string username,string password) // telnet client using tcp client
+        public static string telnetClientTCP(router router,string username,string password) // telnet client using tcp client
         {
 
             log.Info("Telnet function was been started");
@@ -67,40 +65,61 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             IPAddress address; // will be filled after conversion
             string command = "sh diag | inc Serial"; // command to get serialnumber
             string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; // command to run
-            byte[] messageInBytes; // message in bytes
             byte[] responseInBytes = new byte[4096]; // need a big byte array because much data
-            string response; // response in string
+            string response = ""; // response in string
             string chassisSerialNumber = "";
-            NetworkStream stream;
 
             log.Info("Getting serialnumber...");
-            bool convertIP = IPAddress.TryParse(IPAddressString, out address); //Try convert ip address
-            if (convertIP == true) // if conversion was successfull
+            bool convertIP = IPAddress.TryParse(router.routerAddress, out address); //Try convert ip address
+            if (convertIP == true || router.routerActivate == "1") // if conversion was successfull
             {
-                string endpoint = IPAddressString; // this is the designation
+                string endpoint = router.routerAddress; // this is the designation
                 try // tries to get the info from router
                 {
-                    response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(IPAddressString, message); // networksteam function
-                    chassisSerialNumber = findCereal(response); // serialnumber will be received by using substring method
-                    Console.WriteLine(IPAddressString + " serienummer: " + chassisSerialNumber); // serialnumber is echo't
-                    log.Info("Serialnumber received - IP Address: " + IPAddressString + " Serialnumber: " + chassisSerialNumber);
+                    response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(router.routerAddress, message); // networksteam function
+                    if (response.Contains("Login invalid") || !response.Contains("Chassis Serial Number"))
+                    {
+                        Console.WriteLine("error - kon niet verbinden met " + router.routerAddress + " via telnet om serienummer op te halen ");
+                        Console.WriteLine("Error, gebruikersnaam en/of wachtwoord is onjuist");
+                        log.Error("ERROR - Could not connect to " + router.routerAddress + " using telnet to get serialnumber ");
+                        log.Error("errormessage - username and/or password invalid");
+                    }
+                    else
+                    {
+                        chassisSerialNumber = findCereal(response); // serialnumber will be received by using substring method
+                        Console.WriteLine(router.routerAddress + " serienummer: " + chassisSerialNumber); // serialnumber is echo't
+                        log.Info("Serialnumber received - IP Address: " + router.routerAddress + " Serialnumber: " + chassisSerialNumber);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("error - kon niet verbinden met " + IPAddressString + " via telnet om serienummer op te halen ");
-                    Console.WriteLine("errormessage - " + ex.Message);
-                    log.Error("ERROR - Could not connect to " + IPAddressString + " using telnet to get serialnumber ");
-                    log.Error("errormessage - " + ex.Message);
+                    if (response.Contains("Login invalid"))
+                    {
+                        Console.WriteLine("error - kon niet verbinden met " + router.routerAddress + " via telnet om serienummer op te halen ");
+                        Console.WriteLine("Error, gebruikersnaam en/of wachtwoord is onjuist");
+                        log.Error("ERROR - Could not connect to " + router.routerAddress + " using telnet to get serialnumber ");
+                        log.Error("errormessage - username and/or password invalid");
+                    }
+                    else if (router.routerActivate == "0")
+                    {
+                        Console.WriteLine( router.routerAddress + " is niet actief en zal niet worden voorzien van een serienummer");
+                        log.Info(router.routerAddress + " is marked as not active, serialnumber will not be received");
+                    }
+                    else
+                    {
+                        Console.WriteLine("error - kon niet verbinden met " + router.routerAddress + " via telnet om serienummer op te halen ");
+                        Console.WriteLine("errormessage - " + ex.Message);
+                        log.Error("ERROR - Could not connect to " + router.routerAddress + " using telnet to get serialnumber ");
+                        log.Error("errormessage - " + ex.Message);
+                    }
                 }
-
             }
             else
             {
                 Console.WriteLine("error - Er was een probleem met het controleren van het ip adres ");
-                Console.WriteLine("probleem ontstond bij : " + IPAddressString);
+                Console.WriteLine("probleem ontstond bij : " + router.routerAddress);
 
-                log.Error("ERROR - IP address was not legit - IP:" + IPAddressString + " *If not ip address is show, please contact app developer*");
-                Logging.Exit.defaultExit();
+                log.Error("ERROR - IP address was not legit - IP:" + router.routerAddress + " *If not ip address is show, please contact app developer*");
             }
             return chassisSerialNumber;
         }

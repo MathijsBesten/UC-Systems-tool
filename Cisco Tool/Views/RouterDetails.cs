@@ -15,7 +15,6 @@ namespace Cisco_Tool.Views
         public RouterDetails()
         {
             InitializeComponent();
-            Functions.Netwerk.Sockethelper.tcpclientTest();
         }
     }
 }

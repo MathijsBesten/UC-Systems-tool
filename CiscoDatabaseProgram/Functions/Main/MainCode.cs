@@ -71,7 +71,7 @@ namespace CiscoDatabaseProgram.Functions.Main
 
             testList.Add(myTestRouter);
 
-            SerialNumbers.General.getSerialForRouters(testList, username, password); // main function to get serialnumbers           
+            SerialNumbers.General.getSerialForRouters(username, password); // main function to get serialnumbers           
         }
 
         public static void updateSerials(Object source, EventArgs e) // timed event
@@ -95,7 +95,7 @@ namespace CiscoDatabaseProgram.Functions.Main
 
             testList.Add(myTestRouter);
 
-            SerialNumbers.General.getSerialForRouters(testList, username, password); // main function to get serialnumbers           
+            SerialNumbers.General.getSerialForRouters(username, password); // main function to get serialnumbers           
         }
     }
 }

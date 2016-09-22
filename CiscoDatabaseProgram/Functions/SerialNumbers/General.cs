@@ -18,15 +18,15 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);   
 
-        public static void getSerialForRouters (List<router> routersWithoutSerial, string username, string password)
+        public static void getSerialForRouters(string username, string password)
         {
             // command sentence below if you want to test
-            //List<router> routersWithoutSerial = receiveRoutersWithoutSerial(); //gets list of routers without serialnumber
+            List<router> routersWithoutSerial = receiveRoutersWithoutSerial(); //gets list of routers without serialnumber
             List<router> finalRouterlist = new List<router>(); // list of routers, all routers will have a Serialnumber
             foreach (var router in routersWithoutSerial) //foreach router that has no serialnumber in database
             {
-                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router.routerAddress, username, password); // get serialnumber
-                if (ChassisSerialNumber != null) // if serialnumber is found 
+                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // get serialnumber
+                if (ChassisSerialNumber != "") // if serialnumber is found 
                 {
                     router.routerSerialnumber = ChassisSerialNumber; //assign found serialnumber to router
                     log.Info("Serialnumber added - " + router.routerAddress); // log to logfile
@@ -36,7 +36,6 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 {
                     Console.WriteLine("serienummer van " + router.routerAddress + " kon niet worden gevonden"); // let user know that there is something wrong
                     log.Error("Serialnumber could not be found ip: " + router.routerAddress); // log error to logfile
-                    finalRouterlist.Add(router); // add router to finalList - there will be no error and the serialnumber will be updated next round
                 }
             }
             Data.updateRoutersOwnServer(finalRouterlist); // updating new router details to the Cisco Tool Database
