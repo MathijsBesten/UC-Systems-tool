@@ -18,49 +18,48 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);   
 
-        public static void getSerialForRouters(string username, string password)
+        public static void getSerialnumbersForRouters(string username, string password)
         {
-            // command sentence below if you want to test
-            List<router> routersWithoutSerial = receiveRoutersWithoutSerial(); //gets list of routers without serialnumber
-            List<router> finalRouterlist = new List<router>(); // list of routers, all routers will have a Serialnumber
-            foreach (var router in routersWithoutSerial) //foreach router that has no serialnumber in database
+            List<router> routersWithoutSerial = receiveAllRoutersWithoutSerial(); 
+            List<router> finalRouterlist = new List<router>(); 
+            foreach (var router in routersWithoutSerial)
             {
-                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // get serialnumber
-                if (ChassisSerialNumber != "") // if serialnumber is found 
+                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // return "" if serialnumber is not found
+                if (ChassisSerialNumber != "") 
                 {
-                    router.routerSerialnumber = ChassisSerialNumber; //assign found serialnumber to router
-                    log.Info("Serialnumber added - " + router.routerAddress); // log to logfile
-                    finalRouterlist.Add(router); // add complete router to finalList
+                    router.routerSerialnumber = ChassisSerialNumber; 
+                    log.Info("Serialnumber added - " + router.routerAddress); 
+                    finalRouterlist.Add(router);
                 }
-                else // serialnumber could not be found ** maybe timeout **
+                else 
                 {
-                    Console.WriteLine("serienummer van " + router.routerAddress + " kon niet worden gevonden"); // let user know that there is something wrong
-                    log.Error("Serialnumber could not be found ip: " + router.routerAddress); // log error to logfile
+                    Console.WriteLine("serienummer van " + router.routerAddress + " kon niet worden gevonden"); 
+                    log.Error("Serialnumber could not be found ip: " + router.routerAddress); 
                 }
             }
-            Data.updateRoutersOwnServer(finalRouterlist); // updating new router details to the Cisco Tool Database
-            Console.WriteLine("serienummers zijn opgehaald en in de database gezet"); // let the user know that the data was been updated
-            log.Info("Serialnumbers are synchronized"); // log to logfile
+            Data.updateRoutersOwnServer(finalRouterlist);
+            Console.WriteLine("serienummers zijn opgehaald en in de database gezet");
+            log.Info("Serialnumbers are synchronized");
 
         }
-        private static List<router> receiveRoutersWithoutSerial() // function will be run from the getSerialForRouters function to get all the routers without a serialnumber
+        private static List<router> receiveAllRoutersWithoutSerial()
         {
-            List<router> routersWithoutSerial = new List<router>(); // initialize list for all routers without serial number
-            SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
-            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery); // returns list of items from OwnServer
-            foreach (var item in OwnDatabaseData) // loop to get routers without a serialnumber
+            List<router> routersWithoutSerial = new List<router>();
+            SqlConnection connectionToOwnDB = Connections.OwnDB();
+            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.getAllFromOwnDatabaseQuery); 
+            foreach (var Router in OwnDatabaseData) 
             {
-                if (item.routerSerialnumber == "") // if serialnumber field is empty
+                if (Router.routerSerialnumber == "")
                 {
-                    routersWithoutSerial.Add(item); // router will be added to list if it had no serialnumber
+                    routersWithoutSerial.Add(Router); 
                 }
             }
-            if (routersWithoutSerial.Count >= 1) // if list has more than one
+            if (routersWithoutSerial.Count >= 1) 
             {
-                return routersWithoutSerial; // return found routers
+                return routersWithoutSerial; 
 
             }
-            else // if all the routers have a serialnumber
+            else
             {
                 Console.WriteLine("Alle routers in de database hebben een serienummer");
                 log.Info("All routers in the database have a serialnumber");

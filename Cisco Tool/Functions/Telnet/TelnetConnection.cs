@@ -18,23 +18,22 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
     {
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static string telnetClientTCP(string IPAddressString,string command, string username,string password) // telnet client using tcp client
+        public static string telnetClientTCP(string IPAddressString,string command, string username,string password)
         {
 
             log.Info("Telnet function was been started");
-            //initialze all values
-            IPAddress address; // will be filled after conversion
-            string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; // command to run
-            byte[] responseInBytes = new byte[4096]; // need a big byte array because much data
-            string response =""; // response in string
+            IPAddress address; 
+            string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; 
+            byte[] responseInBytes = new byte[4096]; 
+            string response =""; 
 
-            bool convertIP = IPAddress.TryParse(IPAddressString, out address); //Try convert ip address
-            if (convertIP == true) // if conversion was successfull
+            bool convertIP = IPAddress.TryParse(IPAddressString, out address);
+            if (convertIP == true)
             {
-                string endpoint = IPAddressString; // this is the designation
-                try // tries to get the info from router
+                string endpoint = IPAddressString; 
+                try
                 {
-                    response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(IPAddressString, message); // networksteam function
+                    response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(IPAddressString, message);
                     log.Info("response from " + IPAddressString + ": " + response);
                 }
                 catch (Exception ex)
@@ -53,14 +52,14 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             }
             return response;
         }
-        public static string findCereal(string originalstring) // Find chassis serial number ** command: show diag **
+        public static string findCereal(string originalstring) //find serialnumber
         {
             string searchPattern = "Chassis Serial Number    :"; // this string is infront of the CHASSIS serial number
-            if (originalstring.Contains(searchPattern))// checks 
+            if (originalstring.Contains(searchPattern)) 
             {
-                int indexPattern = originalstring.IndexOf(searchPattern); // index of the pattern
-                int startIndex = indexPattern + searchPattern.Length + 1; // adding 1 for space after :
-                string chassisSerialNumber = originalstring.Substring(startIndex, 11); //serialnumber is received by substring orignalstring
+                int indexPattern = originalstring.IndexOf(searchPattern); 
+                int startIndex = indexPattern + searchPattern.Length + 1; 
+                string chassisSerialNumber = originalstring.Substring(startIndex, 11);
                 return chassisSerialNumber;
             }
             else

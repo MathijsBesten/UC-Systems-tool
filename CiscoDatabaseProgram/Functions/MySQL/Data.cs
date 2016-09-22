@@ -15,12 +15,12 @@ namespace CiscoDatabaseProgram.Functions.MySQL
          log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static List<router> getDataFromMySQL(MySqlConnection connection, string query)
         {
-            try // tries to connect to database
+            try
             {
-                connection.Open(); // opening connection
+                connection.Open();
             }
 
-            catch (MySqlException ex ) // cannot connect to server/database
+            catch (MySqlException ex )
             {
                 switch (ex.Number)
                 {
@@ -41,39 +41,35 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
                         log.Error("Could not connect to Main Database - Error code: " + ex.Number);
                         break;
-                    //  function will stop on this point
                 }
                 Exit.exitByMySQL(ex.Message);
                 return null;
             }
 
-            MySqlCommand command = connection.CreateCommand(); // makes a MySQL command
-            command.CommandText = query; // connects the query string to the MySQLcommand
-
-            List<Values.router> routers = new List<router> { }; // makes a list for all the routers in the database
-
-            MySqlDataReader reader; // initialize the reader
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
+            List<Values.router> routers = new List<router> { }; 
+            MySqlDataReader reader;
             reader = command.ExecuteReader(); // starts the reader
             while (reader.Read())
             {
-                router Router = new router(); // initialize new router element ** Used for storing every row **
+                router Router = new router();
                 try
                 {
-                    //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
+                    //checks if there is a null value in the cell
                     bool one = reader.IsDBNull(1);
                     bool two = reader.IsDBNull(2);
                     bool three = reader.IsDBNull(3);
                     bool four = reader.IsDBNull(4);
 
-                    //values from database are assign to Router router
-                    Router.routerId = reader.GetInt32(0); //ID 
-                    if (one == false) { Router.routerName = reader.GetString(1); } // name
-                    if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
+                    Router.routerId = reader.GetInt32(0);                               //ID 
+                    if (one == false) { Router.routerName = reader.GetString(1); }      // name
+                    if (two == false) { Router.routerAlias = reader.GetString(2); }     // alias
                     if (three == false) { Router.routerAddress = reader.GetString(3); } // IP address
                     if (four == false) { Router.routerActivate = reader.GetString(4); } // active
-                                                                                        // serialnumber wil be null and is only available in OwnDB
-                    Router.routerMainDB = reader.GetInt32(0); // mainDatabase ID
-                    routers.Add(Router);         // Router is added to the Routers list
+                                                                                        // serialnumber
+                    Router.routerMainDB = reader.GetInt32(0);                           // mainDatabase ID
+                    routers.Add(Router);         
                 }
                 catch (Exception ex)
                 {
@@ -83,21 +79,19 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     log.Error("Error Location: " + ex.Source);
                 }
             }
-            connection.Close(); // closed connection to database
-            return routers; // returns the freshly made Routers list
-        } // for MySQL servers
-        public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) // For Microsoft SQL servers
-
+            connection.Close(); 
+            return routers;
+        }
+        public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) 
         {
-             // initialize list for logging
-            try // tries to connect to database
+            try 
             {
-                connection.Open(); // opening connection
+                connection.Open();
                 Console.WriteLine("Verbonden met Cisco Tool database");
                 log.Info("Connected to Cisco Tool Database");
             }
 
-            catch (SqlException ex) // cannot connect to server/database
+            catch (SqlException ex)
             {
                 switch (ex.Number)
                 {
@@ -118,25 +112,22 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                         Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
                         log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
                         break;
-                        //  function will stop on this point
                 }
                 Exit.exitBySQL(ex.Message);
                 return null;
             }
 
-            SqlCommand command = connection.CreateCommand(); // makes a SQL command
-            command.CommandText = query; // query string
-
-            List<Values.router> routers = new List<router> { }; // makes a list for all the routers in the database
-
-            SqlDataReader reader; // initialize the reader
+            SqlCommand command = connection.CreateCommand(); 
+            command.CommandText = query;
+            List<Values.router> routers = new List<router> { };
+            SqlDataReader reader; 
             reader = command.ExecuteReader(); // starts the reader
             while (reader.Read())
             {
-                router Router = new router(); // initialize new router element ** Used for storing every row **
+                router Router = new router(); 
                 try
                 {
-                    //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
+                    //checks if there is a null value in the cell
                     bool one = reader.IsDBNull(1);
                     bool two = reader.IsDBNull(2);
                     bool three = reader.IsDBNull(3);
@@ -145,17 +136,16 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     bool four = reader.IsDBNull(4);
                     bool five = reader.IsDBNull(5);
 
-                    //values from database are assign to Router router
-                    Router.routerId = reader.GetInt32(0); // ID
-                    if (one == false) { Router.routerName = reader.GetString(1); } // Name
-                    if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
-                    if (three == false) { Router.routerAddress = reader.GetString(3); } // ip address
-                    if (four == false) { Router.routerActivate = reader.GetString(4); } // active
-                    if (five == false) { Router.routerSerialnumber = reader.GetString(5); }// Serialnumber 
-                    Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
-                    routers.Add(Router);         // Router is added to the Routers list
+                    Router.routerId = reader.GetInt32(0);                                   // ID
+                    if (one == false) { Router.routerName = reader.GetString(1); }          // Name
+                    if (two == false) { Router.routerAlias = reader.GetString(2); }         // alias
+                    if (three == false) { Router.routerAddress = reader.GetString(3); }     // ip address
+                    if (four == false) { Router.routerActivate = reader.GetString(4); }     // active
+                    if (five == false) { Router.routerSerialnumber = reader.GetString(5); } // Serialnumber 
+                    Router.routerMainDB = reader.GetInt32(6);                               // mainDatabase ID
+                    routers.Add(Router);
                 }
-                catch (Exception ex) // will execute when there is a problem with a value from the database
+                catch (Exception ex) 
                 {
                     Console.WriteLine("Probleem bij het lezen van één waarde uit de Cisco Tool Database - Error Message: " + ex.Message);
                     Console.WriteLine("Locatie probleem: " + ex.Source);
@@ -165,19 +155,18 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 }
 
             }
-            connection.Close(); // closed connection to database
+            connection.Close();
             Console.WriteLine("Verbinding met Cisco Tool database correct afgesloten");
             log.Info("Connection to Cisco Tool Database correctly closed");
-            return routers; // returns the freshly made Routers list
+            return routers;
         }
 
         public static bool insertNewIntoOwnServer(List<router> routerList)
-        {
-            
+        {   
             SqlConnection connection = Connections.OwnDB();
             try
             {
-                connection.Open(); // opening connection
+                connection.Open();
                 Debug.WriteLine("connected to server");
             }
             catch (MySqlException ex)
@@ -205,7 +194,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 Exit.exitBySQL(ex.Message);
             }
 
-            SqlCommand command = connection.CreateCommand(); // makes a SQL command
+            SqlCommand command = connection.CreateCommand();
             foreach (var item in routerList)
             {
                 string insertCommand =
@@ -235,13 +224,12 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             connection.Close();
             return true;
         }
-        public static bool updateRoutersOwnServer(List<router> routerList) // update new routerlist to Owndatabase
-        {
-            
-            SqlConnection connection = Connections.OwnDB(); // open connection with database
+        public static bool updateRoutersOwnServer(List<router> routerList)
+        {   
+            SqlConnection connection = Connections.OwnDB();
             try
             {
-                connection.Open(); // opening connection
+                connection.Open();
             }
             catch (MySqlException ex)
             {
@@ -268,7 +256,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 Exit.exitBySQL(ex.Message);
             }
 
-            SqlCommand command = connection.CreateCommand(); // makes a SQL command
+            SqlCommand command = connection.CreateCommand();
             foreach (var item in routerList)
             {
                 int mainID = item.routerId;
@@ -308,58 +296,49 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             connection.Close();
             return true; // returns true 
         }
-        public static void getNewByCompare(List<router> mainDBList, List<router> ownDBList)
+        public static void getNewByCompare(List<router> mainDBList, List<router> ownDBList) // run this function before the compare function
         {
-            // function will make a mainID list, a OwnID list with there id's from the database
-            // the newID's list will fill up because it will take MainID Minus (-) the id's from OwnID
-            // foreach new ID there will be a query to get the router from the jhhhhhhhjhjhjhj database
-            // all the routers will be stored in a "router list"
-            // the routerlist with all the new routers will be send to the "Own server" 
-             // for log file
-            List<int> mainIDList = new List<int>(); // initialize list for all id's in MainDatabase
-            List<int> OwnIDList = new List<int>(); // initialize list for all id's in OwnDatabase
+            List<int> mainIDsList = new List<int>();
+            List<int> OwnIDsList = new List<int>();
             List<int> newIDs = new List<int>();
             string result;
-            log.Info("Getting new items from main database"); // for logbook
+            log.Info("Getting new items from main database");
 
             #region foreachloops
-            foreach (var router in mainDBList) //  gets a list of all id's in MainDB
+            foreach (var router in mainDBList)
             {
-                mainIDList.Add(router.routerMainDB);
+                mainIDsList.Add(router.routerMainDB);
             }
-            foreach (var router in ownDBList) // gets list of all id's in OwnDB
+            foreach (var router in ownDBList) 
             {
-                OwnIDList.Add(router.routerMainDB); 
+                OwnIDsList.Add(router.routerMainDB); 
             }
-            mainIDList = mainIDList.OrderBy(p => p).ToList(); // order by ID for comparison
-            OwnIDList = OwnIDList.OrderBy(p => p).ToList(); // order by ID
-            foreach (var ID in mainIDList) // checks for each ID if they are in Ownlist
+            mainIDsList = mainIDsList.OrderBy(p => p).ToList(); // order by ID
+            OwnIDsList = OwnIDsList.OrderBy(p => p).ToList();   // order by ID
+            foreach (var ID in mainIDsList)
             {
-                if (!OwnIDList.Contains(ID)) // checks if the ID is in OwnDB
+                if (!OwnIDsList.Contains(ID))
                 {
-                    newIDs.Add(ID); // is a new ID that is not in OwnDB
+                    newIDs.Add(ID);
                 }
             }
 
 
             #endregion
-
-            // mainIDList // MainIDList now contains all the id's that are new to OwnDatabase
-
             if (newIDs.Count != 0)
             {
-                log.Info("Count new items: " + newIDs.Count()); // logs how many new items has been found
+                log.Info("Count new items: " + newIDs.Count());
                 List<router> newRouters = new List<router>();
-                foreach (int ID in newIDs) //getting the new routers will take a few seconds
+                foreach (int ID in newIDs) 
                 {
-                    string query = PrivateValues.get1Query + ID; // makes query string with ID - Only 1 result back
-                    var data = getDataFromMySQL(General.MySQLConnnection(), query); // gets router data from main database
-                    data[0].routerId = 0; // ID is emptied for the new database
-                    newRouters.Add(data[0]); // index 0, function will not return more than one result
+                    string query = PrivateValues.get1Query + ID;
+                    var data = getDataFromMySQL(General.MySQLConnnection(), query); 
+                    data[0].routerId = 0;
+                    newRouters.Add(data[0]); //index is always 0
                 }
-                var pushNewRoutersToOwnServer = insertNewIntoOwnServer(newRouters); // insert new routers to OwnDatabase
+                var pushNewRoutersToOwnServer = insertNewIntoOwnServer(newRouters); 
                 result = newIDs.Count + " nieuwe routers toegevoegd aan eigen database!";
-                log.Info("Correcly added New items to Cisco Tool Database"); // count already in logbook
+                log.Info("Correcly added New items to Cisco Tool Database");
             }
             else
             {
@@ -368,67 +347,67 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             }
             Console.WriteLine();
             Console.WriteLine(result);
-        } // run this function before the compare function
+        } 
 
-        public static void compareAndSendNewList (List<router> mainDBList, List<router> ownDBList) // logging is complete
+        public static void compareDatabasesAndUpdateIfNeeded (List<router> mainDBList, List<router> ownDBList)  
         {
              // list for logFile
-            if (mainDBList.Count == ownDBList.Count) // checks if the list are containing the correct amount of items
+            if (mainDBList.Count == ownDBList.Count) 
             {
                 Console.WriteLine("Databases vergelijken...");
                 log.Info("Comparing Databases...");
                 mainDBList = mainDBList.OrderBy(id => id.routerMainDB).ToList(); //order list for comparison 
-                ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList(); // order list for comparison
-                List<router> newOwnDBList = new List<router>(); // new list for new items
-                int countChanges = 0; // will count the final changes
+                ownDBList = ownDBList.OrderBy(id => id.routerMainDB).ToList();   // order list for comparison
+                List<router> newOwnDBList = new List<router>(); 
+                int totalChanges = 0; 
                 for (int count = 0; count < mainDBList.Count; count++) // algorithm for choosing the new information
                 {
-                    router newRouter = new router(); // foreach router in the routerlist there will be a new router
-                    newRouter.routerId = ownDBList[count].routerId; // by default the program will use the ownDB ID's because thats the target Database
-                    newRouter.routerName = mainDBList[count].routerName;
-                    if (mainDBList[count].routerName != ownDBList[count].routerName) // if statements are only for information to the user
+                    router newRouter = new router();
+                    newRouter.routerId = ownDBList[count].routerId;                                 //mainDB is leading
+                    newRouter.routerName = mainDBList[count].routerName;                            //mainDB is leading
+                    if (mainDBList[count].routerName != ownDBList[count].routerName)
                     {
-                        string newName = "Naam - ID: " + mainDBList[count].routerMainDB + " naam was: " + ownDBList[count].routerName + " is nu: " + mainDBList[count].routerName; // Combines all the info
-                        Console.WriteLine(newName); // echo's the difference to the user
-                        log.Info(newName); // adds it to the logList
-                        countChanges++; // counts the changes
+                        string newName = "Naam - ID: " + mainDBList[count].routerMainDB + " naam was: " + ownDBList[count].routerName + " is nu: " + mainDBList[count].routerName; 
+                        Console.WriteLine(newName); 
+                        log.Info(newName); 
+                        totalChanges++; 
                     }
-                    newRouter.routerAlias = mainDBList[count].routerAlias; // Alias could change in the mainDB
-                    if (mainDBList[count].routerAlias != ownDBList[count].routerAlias) // if statements are only for information
+                    newRouter.routerAlias = mainDBList[count].routerAlias;                          // mainDB is leading
+                    if (mainDBList[count].routerAlias != ownDBList[count].routerAlias) 
                     {
-                        string newAlias = "Alias - ID: " + mainDBList[count].routerMainDB + " alias was: " + ownDBList[count].routerAlias + " is nu: " + mainDBList[count].routerAlias; // information string
-                        Console.WriteLine(newAlias); // echo's the difference to the user
-                        log.Info(newAlias);// adds it to the logList
-                        countChanges++; // counts the changes
+                        string newAlias = "Alias - ID: " + mainDBList[count].routerMainDB + " alias was: " + ownDBList[count].routerAlias + " is nu: " + mainDBList[count].routerAlias; 
+                        Console.WriteLine(newAlias); 
+                        log.Info(newAlias);
+                        totalChanges++; 
                     }
-                    newRouter.routerAddress = mainDBList[count].routerAddress; // address could change in the MainDB
-                    if (mainDBList[count].routerAddress != ownDBList[count].routerAddress) // if statements are only for information
+                    newRouter.routerAddress = mainDBList[count].routerAddress;                      // mainDB is leading
+                    if (mainDBList[count].routerAddress != ownDBList[count].routerAddress) 
                     {
-                        string newAddress = "IP adres - ID: " + mainDBList[count].routerMainDB + " IP adres was: " + ownDBList[count].routerAddress + " is nu: " + mainDBList[count].routerAddress; // information string
-                        Console.WriteLine(newAddress); // echo's the difference to the user
-                        log.Info(newAddress); // adds it to the logList
-                        countChanges++; // counts the changes
+                        string newAddress = "IP adres - ID: " + mainDBList[count].routerMainDB + " IP adres was: " + ownDBList[count].routerAddress + " is nu: " + mainDBList[count].routerAddress; 
+                        Console.WriteLine(newAddress); 
+                        log.Info(newAddress); 
+                        totalChanges++; 
                     }
-                    newRouter.routerActivate = mainDBList[count].routerActivate; // for new information
-                    if (mainDBList[count].routerActivate != ownDBList[count].routerActivate) // if statements are only for information
+                    newRouter.routerActivate = mainDBList[count].routerActivate;                    // mainDB is leading
+                    if (mainDBList[count].routerActivate != ownDBList[count].routerActivate) 
                     {
-                        string newActive = "Active - ID: " + mainDBList[count].routerMainDB + " active status was: " + ownDBList[count].routerActivate + " is nu: " + mainDBList[count].routerActivate; // information string
-                        Console.WriteLine(newActive); // echo's the difference to the user
-                        log.Info(newActive); // adds it to the logList
-                        countChanges++; // counts the changes
+                        string newActive = "Active - ID: " + mainDBList[count].routerMainDB + " active status was: " + ownDBList[count].routerActivate + " is nu: " + mainDBList[count].routerActivate; 
+                        Console.WriteLine(newActive); 
+                        log.Info(newActive); 
+                        totalChanges++;
                     }
-                    newRouter.routerSerialnumber = ownDBList[count].routerSerialnumber; // serialnumber is only known in the OwnDB and is not available in the main DB
-                    newRouter.routerMainDB = ownDBList[count].routerMainDB; // mainDB and ownDB could be entered here
-                    if (mainDBList[count].routerMainDB != ownDBList[count].routerMainDB) // if statements are only for information
+                    newRouter.routerSerialnumber = ownDBList[count].routerSerialnumber;             // ownDB is leading
+                    newRouter.routerMainDB = ownDBList[count].routerMainDB;                         // mainDB is leading
+                    if (mainDBList[count].routerMainDB != ownDBList[count].routerMainDB) 
                     {
-                        string newMainDB = "ID - ID: " + mainDBList[count].routerMainDB + " Main database ID was: " + ownDBList[count].routerMainDB + " is nu: " + mainDBList[count].routerMainDB; // information string
-                        Console.WriteLine(newMainDB); // echo's the difference to the user
-                        log.Info(newMainDB); // adds it to the logList
-                        countChanges++; // counts the changes
+                        string newMainDB = "ID - ID: " + mainDBList[count].routerMainDB + " Main database ID was: " + ownDBList[count].routerMainDB + " is nu: " + mainDBList[count].routerMainDB; 
+                        Console.WriteLine(newMainDB); 
+                        log.Info(newMainDB); 
+                        totalChanges++;
                     }
-                    newOwnDBList.Add(newRouter); // add all items to the list
+                    newOwnDBList.Add(newRouter); 
                 }
-                if (countChanges == 0) // if there are no changed there will be no push to the Cisco tool database
+                if (totalChanges == 0)
                 {
                     Console.WriteLine();
                     Console.WriteLine("Geen veranderingen tussen databases");
@@ -436,18 +415,18 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 }
                 else
                 {
-                    try // tries to update the new data to the Cisco tool database
+                    try
                     {
                         log.Info("Trying to update new Data...");
                         var updateItems = updateRoutersOwnServer(newOwnDBList);
                         if (updateItems == true)
                         {
                             log.Info("Data succesfully updated");
-                            log.Info("Total values changed: " + countChanges);
+                            log.Info("Total values changed: " + totalChanges);
                         }
                         Console.WriteLine();
                         Console.WriteLine("Database is bijgewerkt");
-                        Console.WriteLine("Aantal veranderingen: " + countChanges);
+                        Console.WriteLine("Aantal veranderingen: " + totalChanges);
                     }
                     catch (Exception ex)
                     {
@@ -459,17 +438,17 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     }
                 }
             }
-            else if (mainDBList.Count > ownDBList.Count) // if there are new items in the Main database
+            else if (mainDBList.Count > ownDBList.Count) //mainDB had more than ownDB
             {
                 Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
                 log.Error("Databases are not equal, update function will be executed");
                 log.Info("Starting update Function...");
-                getNewByCompare(mainDBList, ownDBList); // gets new entries from the mainDB
-                ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.OwnServerServerQuery); // gets the checked and updated own Database
-                compareAndSendNewList(mainDBList, ownDBList);
+                getNewByCompare(mainDBList, ownDBList); 
+                ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.getAllFromOwnDatabaseQuery);
+                compareDatabasesAndUpdateIfNeeded(mainDBList, ownDBList);
             }
-            else // will never be triggerd, otherwise there is a problem with the code
+            else //ownDB had more than mainDB
             {
                 Console.WriteLine("GEEN DATA VERWIJDEREN UIT OFFICELE DATABASE");
                 Console.WriteLine(" !!! NIET DE OFFICLE DATABASE !!! Database heeft teveel items, verwijder de data uit table ' dbo.router' !!! NIET DE OFFICLE DATABASE !!! de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
@@ -479,5 +458,5 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 log.Error("!!! NOT THE OFFICIAL DATABASE !!!");
             }
         }
-    } //gets changed data from main server and push it to Owndata
+    } 
 }

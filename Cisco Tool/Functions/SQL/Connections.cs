@@ -14,11 +14,11 @@ namespace Cisco_Tool.Functions.SQL
     {
         public static SqlConnection OwnDB()
         {
-            SqlConnection connection = Functions.SQL.General.MicrosoftSQLConnection( // Make connection with Database
-                ConfigurationManager.AppSettings["CiscoToolServerIP"],// ip
-                ConfigurationManager.AppSettings["CiscoToolServerDatabase"], // database
-                ConfigurationManager.AppSettings["CiscoToolServerUsername"], // username
-                ConfigurationManager.AppSettings["CiscoToolServerPassword"]);  // password
+            SqlConnection connection = Functions.SQL.General.MicrosoftSQLConnection(
+                ConfigurationManager.AppSettings["CiscoToolServerIP"],
+                ConfigurationManager.AppSettings["CiscoToolServerDatabase"], 
+                ConfigurationManager.AppSettings["CiscoToolServerUsername"], 
+                ConfigurationManager.AppSettings["CiscoToolServerPassword"]);
             return connection;
         }
     }

@@ -14,21 +14,20 @@ namespace CiscoDatabaseProgram.Functions.MySQL
     {
         public static MySqlConnection MainDB()
         {
-            MySqlConnection connection = Functions.MySQL.General.MySQLConnnection( // Make connection with Database
-                ConfigurationManager.AppSettings["MainServerIP"], // ip
-                ConfigurationManager.AppSettings["MainServerDatabase"], // database
-                ConfigurationManager.AppSettings["MainServerUsername"], // username
-                ConfigurationManager.AppSettings["MainServerPassword"] //password
-                );  
+            MySqlConnection connection = Functions.MySQL.General.MySQLConnnection(
+                ConfigurationManager.AppSettings["MainServerIP"],
+                ConfigurationManager.AppSettings["MainServerDatabase"], 
+                ConfigurationManager.AppSettings["MainServerUsername"], 
+                ConfigurationManager.AppSettings["MainServerPassword"]);  
             return connection;
         }
         public static SqlConnection OwnDB()
         {
-            SqlConnection connection = Functions.MySQL.General.MicrosoftSQLConnection( // Make connection with Database
-                ConfigurationManager.AppSettings["CiscoToolServerIP"],// ip
-                ConfigurationManager.AppSettings["CiscoToolServerDatabase"], // database
-                ConfigurationManager.AppSettings["CiscoToolServerUsername"], // username
-                ConfigurationManager.AppSettings["CiscoToolServerPassword"]);  // password
+            SqlConnection connection = Functions.MySQL.General.MicrosoftSQLConnection( 
+                ConfigurationManager.AppSettings["CiscoToolServerIP"],
+                ConfigurationManager.AppSettings["CiscoToolServerDatabase"],
+                ConfigurationManager.AppSettings["CiscoToolServerUsername"],
+                ConfigurationManager.AppSettings["CiscoToolServerPassword"]);
             return connection;
         }
     }

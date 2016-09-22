@@ -12,7 +12,7 @@ namespace Cisco_Tool.Functions.SQL
 {
     class General
     {
-        public static SqlConnection  MicrosoftSQLConnection(string server, string database, string username, string password) // connection to Own Database
+        public static SqlConnection  MicrosoftSQLConnection(string server, string database, string username, string password)
         {
             string connectionString = "SERVER=" + server + ";" +
                 "UID=" + username + ";" +

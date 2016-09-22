@@ -13,7 +13,7 @@ namespace CiscoDatabaseProgram.Functions.Logging
     {
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static void exitByMySQL(string originalErrorMessage) // main MySQL database
+        public static void exitByMySQL(string originalErrorMessage) 
         {
             Console.WriteLine("");
             Console.WriteLine("Applicatie kon geen verbinding maken met MySQL (main) database");
@@ -28,15 +28,15 @@ namespace CiscoDatabaseProgram.Functions.Logging
             log.Error(ErrorCodes.generalErrorShutdown);
             if (Timers.TimerDatabaseUpdate.Enabled != false)
             {
-                Timers.TimerDatabaseUpdate.Stop(); // stops the timer to prevent the function from running
-                Timers.TimerSerial.Stop(); // stops timer from more runs
+                Timers.TimerDatabaseUpdate.Stop(); 
+                Timers.TimerSerial.Stop(); 
             }
             else
             {
-                Console.ReadKey(); // waits for the user to notice the error
+                Console.ReadKey(); 
                 Console.WriteLine("bezig met afsluiten...");
                 Thread.Sleep(1000); // sleeps for userexperience
-                Environment.Exit(ErrorCodes.errorExitID); //exit application
+                Environment.Exit(ErrorCodes.errorExitID); 
             }
 
 

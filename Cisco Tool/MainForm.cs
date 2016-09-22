@@ -33,7 +33,7 @@ namespace Cisco_Tool
             dataTable.Columns.Add("ipAddress", typeof(string));
             dataTable.Columns.Add("statusInfo", typeof(string));
             DataRow newRow = dataTable.NewRow();
-            //foreach (var router in routerlist)
+            foreach (var router in routerlist)
             {
                 newRow[1] = router.routerName;
                 newRow[2] = router.routerAddress;

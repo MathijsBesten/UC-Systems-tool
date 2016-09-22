@@ -14,17 +14,15 @@ namespace Cisco_Tool.Functions.SQL
         private static readonly log4net.ILog log =
          log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
        
-        public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) // For Microsoft SQL servers
-
+        public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) 
         {
-             // initialize list for logging
-            try // tries to connect to database
+            try
             {
-                connection.Open(); // opening connection
+                connection.Open();
                 log.Info("Connected to Cisco Tool Database");
             }
 
-            catch (SqlException ex) // cannot connect to server/database
+            catch (SqlException ex)
             {
                 switch (ex.Number)
                 {
@@ -40,21 +38,20 @@ namespace Cisco_Tool.Functions.SQL
                     default: // this will step into action if its not one of the above
                         log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
                         break;
-                        //  function will stop on this point
                 }
                 return null;
             }
 
-            SqlCommand command = connection.CreateCommand(); // makes a SQL command
-            command.CommandText = query; // query string
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = query;
 
-            List<router> routers = new List<router> { }; // makes a list for all the routers in the database
+            List<router> routers = new List<router> { };
 
-            SqlDataReader reader; // initialize the reader
-            reader = command.ExecuteReader(); // starts the reader
+            SqlDataReader reader; 
+            reader = command.ExecuteReader();
             while (reader.Read())
             {
-                router Router = new router(); // initialize new router element ** Used for storing every row **
+                router Router = new router();
                 try
                 {
                     //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
@@ -67,16 +64,16 @@ namespace Cisco_Tool.Functions.SQL
                     bool five = reader.IsDBNull(5);
 
                     //values from database are assign to Router router
-                    Router.routerId = reader.GetInt32(0); // ID
-                    if (one == false) { Router.routerName = reader.GetString(1); } // Name
-                    if (two == false) { Router.routerAlias = reader.GetString(2); } // alias
-                    if (three == false) { Router.routerAddress = reader.GetString(3); } // ip address
-                    if (four == false) { Router.routerActivate = reader.GetString(4); } // active
-                    if (five == false) { Router.routerSerialnumber = reader.GetString(5); }// Serialnumber 
-                    Router.routerMainDB = reader.GetInt32(6); // mainDatabase ID
-                    routers.Add(Router);         // Router is added to the Routers list
+                    Router.routerId = reader.GetInt32(0);                                   // ID
+                    if (one == false) { Router.routerName = reader.GetString(1); }          // Name
+                    if (two == false) { Router.routerAlias = reader.GetString(2); }         // alias
+                    if (three == false) { Router.routerAddress = reader.GetString(3); }     // ip address
+                    if (four == false) { Router.routerActivate = reader.GetString(4); }     // active
+                    if (five == false) { Router.routerSerialnumber = reader.GetString(5); } // Serialnumber 
+                    Router.routerMainDB = reader.GetInt32(6);                               // mainDatabase ID
+                    routers.Add(Router);
                 }
-                catch (Exception ex) // will execute when there is a problem with a value from the database
+                catch (Exception ex)
                 {
 
                     log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
@@ -85,9 +82,9 @@ namespace Cisco_Tool.Functions.SQL
                 }
 
             }
-            connection.Close(); // closed connection to database
+            connection.Close();
             log.Info("Connection to Cisco Tool Database correctly closed");
-            return routers; // returns the freshly made Routers list
+            return routers;
         }
     } 
 }

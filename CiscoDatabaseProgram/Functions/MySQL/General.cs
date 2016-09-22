@@ -12,12 +12,14 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 {
     class General
     {
-        public static MySqlConnection MySQLConnnection(string server,string database,string username,string password) // makes connection with a database
+        // timeout is in seconds
+
+        public static MySqlConnection MySQLConnnection(string server,string database,string username,string password)
         {
             string connectionString = "SERVER=" + server + ";" +"DATABASE=" +database + ";" + "UID=" + username + ";" + "PASSWORD=" + password + "; connection timeout= 3 ";
             return new MySqlConnection(connectionString);    
         }
-        public static MySqlConnection MySQLConnnection() // Uses default data
+        public static MySqlConnection MySQLConnnection() 
         {
             string connectionString = "SERVER=" + ConfigurationManager.AppSettings["MainServerIP"] + ";" + "DATABASE=" + ConfigurationManager.AppSettings["MainServerDatabase"] + ";" + "UID=" + ConfigurationManager.AppSettings["MainServerUsername"] + ";" + "PASSWORD=" + ConfigurationManager.AppSettings["MainServerPassword"] + "; connection timeout= 3";
             return new MySqlConnection(connectionString);
@@ -30,7 +32,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 "PASSWORD=" + password + ";" +
                 "Persist Security Info=True;" +
                 "DATABASE=" + database + ";" +
-                "connection timeout= 3"; // time in seconds timeout
+                "connection timeout= 3"; 
 
             return new SqlConnection(connectionString);
         }

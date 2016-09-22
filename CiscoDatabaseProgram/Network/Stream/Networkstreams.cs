@@ -16,17 +16,17 @@ namespace CiscoDatabaseProgram.Network.Stream
             int bytes;
             string response = "";
 
-            byte[] responseInBytes = new byte[4096]; // byte array for response
-            TcpClient client = new TcpClient(IPAddress, 23); // new tcp Client
-            client.ReceiveTimeout = 3; //after 3 seconds
+            byte[] responseInBytes = new byte[4096];
+            TcpClient client = new TcpClient(IPAddress, 23);
+            client.ReceiveTimeout = 3;
             client.SendTimeout = 3;
-            byte[] messageInBytes = Encoding.ASCII.GetBytes(message); // encodes the message to byte array
-            NetworkStream stream = client.GetStream(); // talking line of client
+            byte[] messageInBytes = Encoding.ASCII.GetBytes(message); 
+            NetworkStream stream = client.GetStream();
             Console.WriteLine();
-            stream.Write(messageInBytes, 0, messageInBytes.Count()); // send data to router
-            Thread.Sleep(50); // temporary way to let the router fill his tcp response
-            bytes = stream.Read(responseInBytes, 0, responseInBytes.Length); // read data is put in byte[] responseInBytes
-            response = Encoding.ASCII.GetString(responseInBytes, 0, bytes); // byte array is decoded to string using ascii code
+            stream.Write(messageInBytes, 0, messageInBytes.Count());    //send data to router
+            Thread.Sleep(50);                                           // temporary way to let the router fill his tcp response
+            bytes = stream.Read(responseInBytes, 0, responseInBytes.Length);
+            response = Encoding.ASCII.GetString(responseInBytes, 0, bytes); 
             return response;
         }
     }

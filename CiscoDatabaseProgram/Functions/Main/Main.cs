@@ -33,14 +33,14 @@ namespace CiscoDatabaseProgram.Functions.Main
 
             MainCode.updateDatabase();
             MainCode.updateSerials();
-            Timers.DatabaseUpdateTimer(); // user can choose time using the config file
-            Timers.SerialCodeTimer(); // user can choose time using the config file
+            Timers.DatabaseUpdateTimer(); 
+            Timers.SerialCodeTimer();
 
 
-            Console.ReadKey(); // waits for the user to notice the error
+            Console.ReadKey();
             Console.WriteLine("bezig met afsluiten...");
             Thread.Sleep(1000); // sleeps for userexperience
-            Environment.Exit(ErrorCodes.errorExitID); //exit application
+            Environment.Exit(ErrorCodes.errorExitID); 
         }
     }
 }

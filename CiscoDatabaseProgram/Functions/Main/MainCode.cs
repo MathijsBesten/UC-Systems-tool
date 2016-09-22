@@ -26,11 +26,11 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine(DateTime.Now);
             Console.WriteLine();
 
-            MySqlConnection connectionToMainDB = Connections.MainDB(); // connection to main database
+            MySqlConnection connectionToMainDB = Connections.MainDB();
             List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
-            SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
-            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery); // returns list of items from OwnServer
-            Data.compareAndSendNewList(mainDatabaseData, OwnDatabaseData); // this will check for changes, if database are not the same it will try to fix itself
+            SqlConnection connectionToOwnDB = Connections.OwnDB(); 
+            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.getAllFromOwnDatabaseQuery); 
+            Data.compareDatabasesAndUpdateIfNeeded(mainDatabaseData, OwnDatabaseData);
         }
 
         public static void updateDatabase(Object source, EventArgs e) // timed event
@@ -46,8 +46,8 @@ namespace CiscoDatabaseProgram.Functions.Main
             MySqlConnection connectionToMainDB = Connections.MainDB(); // connection to main database
             List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
             SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
-            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.OwnServerServerQuery); // returns list of items from OwnServer
-            Data.compareAndSendNewList(mainDatabaseData, OwnDatabaseData); // this will check for changes, if database are not the same it will try to fix itself
+            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.getAllFromOwnDatabaseQuery); // returns list of items from OwnServer
+            Data.compareDatabasesAndUpdateIfNeeded(mainDatabaseData, OwnDatabaseData); // this will check for changes, if database are not the same it will try to fix itself
         }
 
         public static void updateSerials()// first run
@@ -71,7 +71,7 @@ namespace CiscoDatabaseProgram.Functions.Main
 
             testList.Add(myTestRouter);
 
-            SerialNumbers.General.getSerialForRouters(username, password); // main function to get serialnumbers           
+            SerialNumbers.General.getSerialnumbersForRouters(username, password);      
         }
 
         public static void updateSerials(Object source, EventArgs e) // timed event
@@ -95,7 +95,7 @@ namespace CiscoDatabaseProgram.Functions.Main
 
             testList.Add(myTestRouter);
 
-            SerialNumbers.General.getSerialForRouters(username, password); // main function to get serialnumbers           
+            SerialNumbers.General.getSerialnumbersForRouters(username, password);         
         }
     }
 }
