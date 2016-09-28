@@ -21,11 +21,17 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
         public static void getSerialnumbersForRouters(string username, string password)
         {
             List<router> routersWithoutSerial = receiveAllRoutersWithoutSerial(); 
-            List<router> finalRouterlist = new List<router>(); 
+            List<router> finalRouterlist = new List<router>();
+            if (routersWithoutSerial == null)
+            {
+                Console.WriteLine("Alle routers hebben in de database een serienummer");
+                log.Info("All routers in the database have a serialnumber");
+                return;
+            }
             foreach (var router in routersWithoutSerial)
             {
-                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // return "" if serialnumber is not found
-                if (ChassisSerialNumber != "") 
+                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // return null if serialnumber is not found
+                if (ChassisSerialNumber != null) 
                 {
                     router.routerSerialnumber = ChassisSerialNumber; 
                     log.Info("Serialnumber added - " + router.routerAddress); 
@@ -39,6 +45,35 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             }
             Data.updateRoutersOwnServer(finalRouterlist);
             Console.WriteLine("serienummers zijn opgehaald en in de database gezet");
+            log.Info("Serialnumbers are synchronized");
+
+        }
+        public static void TESTmanualListGetSerialnumbersForRouters(List<router> routersWithoutSerial, string username, string password)
+        {
+            List<router> finalRouterlist = new List<router>();
+            if (routersWithoutSerial.Count == 0)
+            {
+                Console.WriteLine("Alle routers hebben in de database een serienummer");
+                log.Info("All routers in the database have a serialnumber");
+                return;
+            }
+            foreach (var router in routersWithoutSerial)
+            {
+                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // return null if serialnumber is not found
+                if (ChassisSerialNumber != null)
+                {
+                    router.routerSerialnumber = ChassisSerialNumber;
+                    log.Info("Serialnumber found for - " + router.routerAddress);
+                    finalRouterlist.Add(router);
+                }
+                else
+                {
+                    Console.WriteLine("serienummer van " + router.routerAddress + " kon niet worden gevonden");
+                    log.Error("Serialnumber could not be found ip: " + router.routerAddress);
+                }
+            }
+            Data.updateRoutersOwnServer(finalRouterlist);
+            Console.WriteLine("serienummers zijn in de database gezet");
             log.Info("Serialnumbers are synchronized");
 
         }
@@ -65,6 +100,23 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 log.Info("All routers in the database have a serialnumber");
                 return null;
             } 
+        }
+        public static string findCereal(string originalstring) // Find chassis serial number ** command: show diag **
+        {
+            string searchPattern = "Chassis Serial Number    :";
+            if (originalstring.Contains(searchPattern))
+            {
+                int indexOfPattern = originalstring.IndexOf(searchPattern); // index of the pattern
+                int startIndex = indexOfPattern + searchPattern.Length + 1; // adding 1 for space after :
+                string chassisSerialNumber = originalstring.Substring(startIndex, 11);
+                return chassisSerialNumber;
+            }
+            else
+            {
+                Console.WriteLine("Serienummber kon niet worden achterhaalt");
+                log.Error("ERROR - could not find serialnumber using substring method");
+                return null;
+            }
         }
     }
 }

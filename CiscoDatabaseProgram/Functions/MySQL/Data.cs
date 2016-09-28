@@ -28,9 +28,11 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                         Console.WriteLine("kan niet verbinden met database");
                         log.Error("Could not connect to Main Database - Unable to connect");
                         break;
-                    case 1045: // username or password is wrong
+                    case 1042: // username or password is wrong
                         Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
+                        Console.WriteLine("Controleer het config bestand, of de gebruikersnaam en wachtwoord correct zijn");
                         log.Error("Could not connect to Main Database - Wrong username or password");
+                        log.Error("Please check the username and password in the config file");
                         break;
                     case 1326: // server was not found
                         Console.WriteLine("geen MySQL server gevonden op dit ip");
@@ -294,7 +296,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                 }
             }
             connection.Close();
-            return true; // returns true 
+            return true; 
         }
         public static void getNewByCompare(List<router> mainDBList, List<router> ownDBList) // run this function before the compare function
         {

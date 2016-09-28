@@ -60,9 +60,10 @@
     <Compile Include="Functions\MySQL\Connections.cs" />
     <Compile Include="Functions\MySQL\General.cs" />
     <Compile Include="Functions\MySQL\Data.cs" />
+    <Compile Include="Functions\Network\validation.cs" />
     <Compile Include="Functions\SerialNumbers\General.cs" />
     <Compile Include="Functions\SerialNumbers\TelnetConnection.cs" />
-    <Compile Include="Network\Stream\Networkstreams.cs" />
+    <Compile Include="Functions\Network\Stream\Networkstreams.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

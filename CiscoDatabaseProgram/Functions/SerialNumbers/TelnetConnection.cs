@@ -9,7 +9,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 
 using CiscoDatabaseProgram.Values;
-using CiscoDatabaseProgram.Network.Stream;
+using CiscoDatabaseProgram.Functions.Network.Stream;
+using CiscoDatabaseProgram.Functions.SerialNumbers;
 using System.Configuration;
 
 namespace CiscoDatabaseProgram.Functions.SerialNumbers
@@ -62,33 +63,42 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
 
             log.Info("Telnet function was been started");
             //initialze all values
-            IPAddress address; // will be filled after conversion
-            string command = "sh diag | inc Serial"; // command to get serialnumber
-            string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; // command to run
-            byte[] responseInBytes = new byte[4096]; // need a big byte array because much data
-            string response = ""; // response in string
+            string command = "sh diag | inc Serial";                    // command to get serialnumber
+            string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; 
+            byte[] responseInBytes = new byte[4096];                    // cisco responses are big - 4096 bytes big
+            string response = ""; 
             string chassisSerialNumber = "";
 
             log.Info("Getting serialnumber...");
-            bool convertIP = IPAddress.TryParse(router.routerAddress, out address); //Try convert ip address
-            if (convertIP == true || router.routerActivate == "1") // if conversion was successfull
+            bool convertIP = Network.validation.validateIPv4(router.routerAddress); 
+            if (convertIP == true && router.routerActivate == "1")
             {
-                string endpoint = router.routerAddress; // this is the designation
-                try // tries to get the info from router
+                string endpoint = router.routerAddress; //destination
+                try 
                 {
-                    response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(router.routerAddress, message); // networksteam function
-                    if (response.Contains("Login invalid") || !response.Contains("Chassis Serial Number"))
+                    response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(router.routerAddress, message); 
+                    if (response != null)
                     {
-                        Console.WriteLine("error - kon niet verbinden met " + router.routerAddress + " via telnet om serienummer op te halen ");
-                        Console.WriteLine("Error, gebruikersnaam en/of wachtwoord is onjuist");
-                        log.Error("ERROR - Could not connect to " + router.routerAddress + " using telnet to get serialnumber ");
-                        log.Error("errormessage - username and/or password invalid");
+                        if (!response.Contains("Chassis Serial Number"))
+                        {
+                            Console.WriteLine("error - kon niet verbinden met " + router.routerAddress + " via telnet om serienummer op te halen ");
+                            Console.WriteLine("Error, gebruikersnaam en/of wachtwoord is onjuist");
+                            log.Error("ERROR - Could not connect to " + router.routerAddress + " using telnet to get serialnumber ");
+                            log.Error("errormessage - username and/or password invalid");
+                        }
+                        else
+                        {
+                            chassisSerialNumber = General.findCereal(response); 
+                            Console.WriteLine(router.routerAddress + " serienummer: " + chassisSerialNumber);
+                            log.Info("Serialnumber received - IP Address: " + router.routerAddress + " Serialnumber: " + chassisSerialNumber);
+                        }
                     }
                     else
                     {
-                        chassisSerialNumber = findCereal(response); // serialnumber will be received by using substring method
-                        Console.WriteLine(router.routerAddress + " serienummer: " + chassisSerialNumber); // serialnumber is echo't
-                        log.Info("Serialnumber received - IP Address: " + router.routerAddress + " Serialnumber: " + chassisSerialNumber);
+                        Console.WriteLine("error - kon niet verbinden met " + router.routerAddress + " via telnet om serienummer op te halen ");
+                        Console.WriteLine("Error, er vond een timeout plaats");
+                        log.Error("ERROR - Could not connect to " + router.routerAddress + " using telnet to get serialnumber ");
+                        log.Error("errormessage - Timeout, client did not respond within 2 seconds  ");
                     }
                 }
                 catch (Exception ex)
@@ -119,26 +129,9 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                 Console.WriteLine("error - Er was een probleem met het controleren van het ip adres ");
                 Console.WriteLine("probleem ontstond bij : " + router.routerAddress);
 
-                log.Error("ERROR - IP address was not legit - IP:" + router.routerAddress + " *If not ip address is show, please contact app developer*");
+                log.Error("ERROR - IP address was not legit - IP:" + router.routerAddress + " *If ip address is not shown, please contact app developer*");
             }
             return chassisSerialNumber;
-        }
-        public static string findCereal(string originalstring) // Find chassis serial number ** command: show diag **
-        {
-            string searchPattern = "Chassis Serial Number    :"; // this string is infront of the CHASSIS serial number
-            if (originalstring.Contains(searchPattern))// checks 
-            {
-                int indexPattern = originalstring.IndexOf(searchPattern); // index of the pattern
-                int startIndex = indexPattern + searchPattern.Length + 1; // adding 1 for space after :
-                string chassisSerialNumber = originalstring.Substring(startIndex, 11); //serialnumber is received by substring orignalstring
-                return chassisSerialNumber;
-            }
-            else
-            {
-                Console.WriteLine("Serienummber kon niet worden achterhaalt");
-                log.Error("ERROR - could not find serialnumber using substring method");
-                return null;
-            }
         }
     }
 }

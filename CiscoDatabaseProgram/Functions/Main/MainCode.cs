@@ -28,8 +28,8 @@ namespace CiscoDatabaseProgram.Functions.Main
 
             MySqlConnection connectionToMainDB = Connections.MainDB();
             List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
-            SqlConnection connectionToOwnDB = Connections.OwnDB(); 
-            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.getAllFromOwnDatabaseQuery); 
+            SqlConnection connectionToOwnDB = Connections.OwnDB();
+            List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.getAllFromOwnDatabaseQuery);
             Data.compareDatabasesAndUpdateIfNeeded(mainDatabaseData, OwnDatabaseData);
         }
 
@@ -59,19 +59,9 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("");
             Console.WriteLine(DateTime.Now);
             Console.WriteLine();
-
-            //testing part start
-            List<router> testList = new List<router>();
-            router myTestRouter = new router();
-            myTestRouter.routerAddress = ConfigurationManager.AppSettings["TestRouterIP"];
-            string username = ConfigurationManager.AppSettings["TestRouterUsername"];
-            string password = ConfigurationManager.AppSettings["TestRouterPassword"];
-            //testing part end
-
-
-            testList.Add(myTestRouter);
-
-            SerialNumbers.General.getSerialnumbersForRouters(username, password);      
+            string username = ConfigurationManager.AppSettings["username"];
+            string password = ConfigurationManager.AppSettings["password"];
+            SerialNumbers.General.getSerialnumbersForRouters(username, password);
         }
 
         public static void updateSerials(Object source, EventArgs e) // timed event
@@ -83,19 +73,28 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("");
             Console.WriteLine(DateTime.Now);
             Console.WriteLine();
+            string username = ConfigurationManager.AppSettings["username"];
+            string password = ConfigurationManager.AppSettings["password"];
+            SerialNumbers.General.getSerialnumbersForRouters(username, password);
+        }
 
-            //testing part start
-            List<router> testList = new List<router>();
-            router myTestRouter = new router();
-            myTestRouter.routerAddress = ConfigurationManager.AppSettings["TestRouterIP"];
-            string username = ConfigurationManager.AppSettings["TestRouterUsername"];
-            string password = ConfigurationManager.AppSettings["TestRouterPassword"];
-            //testing part end
+        public static void TESTUpdateSerials() // timed event
+        {
+            log.Info("");
+            log.Info("Timestampt: " + DateTime.Now);
+            log.Info("GETTING SERIALNUMBERS");
+            log.Info("Running...");
+            Console.WriteLine("");
+            Console.WriteLine(DateTime.Now);
+            Console.WriteLine();
+            string username = "mathijs";
+            string password = "denbesten";
+            List<router> testRouters = new List<router>();
+            router testRouter = new router();
 
+            testRouters.Add(testRouter);
 
-            testList.Add(myTestRouter);
-
-            SerialNumbers.General.getSerialnumbersForRouters(username, password);         
+            SerialNumbers.General.TESTmanualListGetSerialnumbersForRouters(testRouters, username, password);
         }
     }
 }

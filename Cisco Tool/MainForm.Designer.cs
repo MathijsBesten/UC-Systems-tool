@@ -39,10 +39,11 @@
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
             this.ManualUsername = new System.Windows.Forms.TextBox();
             this.MainGridView = new System.Windows.Forms.DataGridView();
-            this.Status = new System.Windows.Forms.DataGridViewImageColumn();
+            this.selected = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.routerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusInfo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.SearchGroupBox = new System.Windows.Forms.GroupBox();
             this.SearchButton = new System.Windows.Forms.Button();
@@ -178,47 +179,51 @@
             this.MainGridView.AllowUserToAddRows = false;
             this.MainGridView.AllowUserToDeleteRows = false;
             this.MainGridView.AllowUserToOrderColumns = true;
-            this.MainGridView.AllowUserToResizeColumns = false;
             this.MainGridView.AllowUserToResizeRows = false;
-            this.MainGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.MainGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.MainGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.MainGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Status,
+            this.selected,
             this.routerName,
             this.IpAddress,
-            this.StatusInfo});
-            this.MainGridView.Location = new System.Drawing.Point(730, 9);
+            this.StatusInfo,
+            this.ID});
+            this.MainGridView.Location = new System.Drawing.Point(423, 50);
             this.MainGridView.Name = "MainGridView";
-            this.MainGridView.ReadOnly = true;
-            this.MainGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.MainGridView.RowHeadersVisible = false;
             this.MainGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.MainGridView.Size = new System.Drawing.Size(522, 615);
+            this.MainGridView.Size = new System.Drawing.Size(816, 574);
             this.MainGridView.TabIndex = 4;
             // 
-            // Status
+            // selected
             // 
-            this.Status.HeaderText = "";
-            this.Status.Name = "Status";
-            this.Status.ReadOnly = true;
-            this.Status.Width = 16;
+            this.selected.HeaderText = "";
+            this.selected.Name = "selected";
+            this.selected.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.selected.Width = 32;
             // 
             // routerName
             // 
             this.routerName.HeaderText = "Naam";
             this.routerName.Name = "routerName";
-            this.routerName.ReadOnly = true;
             // 
             // IpAddress
             // 
             this.IpAddress.HeaderText = "IP adres";
             this.IpAddress.Name = "IpAddress";
-            this.IpAddress.ReadOnly = true;
             // 
             // StatusInfo
             // 
             this.StatusInfo.HeaderText = "Status informatie";
             this.StatusInfo.Name = "StatusInfo";
-            this.StatusInfo.ReadOnly = true;
-            this.StatusInfo.Width = 300;
+            this.StatusInfo.Width = 265;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "mainID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Visible = false;
             // 
             // dataGridViewImageColumn1
             // 
@@ -232,27 +237,29 @@
             this.SearchGroupBox.Controls.Add(this.SearchButton);
             this.SearchGroupBox.Controls.Add(this.SearchBox);
             this.SearchGroupBox.Controls.Add(this.SearchLabel);
-            this.SearchGroupBox.Location = new System.Drawing.Point(730, 630);
+            this.SearchGroupBox.Location = new System.Drawing.Point(897, 630);
             this.SearchGroupBox.Name = "SearchGroupBox";
-            this.SearchGroupBox.Size = new System.Drawing.Size(522, 39);
+            this.SearchGroupBox.Size = new System.Drawing.Size(342, 39);
             this.SearchGroupBox.TabIndex = 5;
             this.SearchGroupBox.TabStop = false;
             // 
             // SearchButton
             // 
-            this.SearchButton.Location = new System.Drawing.Point(460, 10);
+            this.SearchButton.Location = new System.Drawing.Point(278, 10);
             this.SearchButton.Name = "SearchButton";
             this.SearchButton.Size = new System.Drawing.Size(56, 23);
             this.SearchButton.TabIndex = 8;
             this.SearchButton.Text = "Search";
             this.SearchButton.UseVisualStyleBackColor = true;
+            this.SearchButton.Click += new System.EventHandler(this.SearchButton_Click);
             // 
             // SearchBox
             // 
             this.SearchBox.Location = new System.Drawing.Point(56, 13);
             this.SearchBox.Name = "SearchBox";
-            this.SearchBox.Size = new System.Drawing.Size(398, 20);
+            this.SearchBox.Size = new System.Drawing.Size(216, 20);
             this.SearchBox.TabIndex = 7;
+            this.SearchBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(checkEnterKeyPressed);
             // 
             // SearchLabel
             // 
@@ -565,10 +572,11 @@
         private System.Windows.Forms.TextBox Command2;
         private System.Windows.Forms.TextBox Command1;
         private System.Windows.Forms.Label CommandoInfo2;
-        private System.Windows.Forms.DataGridViewImageColumn Status;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn selected;
         private System.Windows.Forms.DataGridViewTextBoxColumn routerName;
         private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatusInfo;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
     }
 }
 
