@@ -15,6 +15,7 @@ using Cisco_Tool.Functions.SQL;
 using Cisco_Tool.Values;
 using static Cisco_Tool.Values.PrivateValues;
 using System.Data.SqlClient;
+using Cisco_Tool.Functions.Network;
 
 namespace Cisco_Tool
 {
@@ -77,6 +78,73 @@ namespace Cisco_Tool
                         MainGridView.Rows[count].Visible = false;
                     }
                     count++;
+                }
+            }
+        }
+
+        private void ManualConnect_Click(object sender, EventArgs e)
+        {
+            if (ManualIPAddress.Text == "")
+            {
+                mainErrorProvider.SetError(ManualIPAddress, "ip adres verplicht");
+            }
+            else
+            {
+                mainErrorProvider.SetError(ManualIPAddress, "");
+            }
+            if (ManualUsername.Text == "")
+            {
+                mainErrorProvider.SetError(ManualUsername, "Gebruikersnaam verplicht");
+            }
+            else
+            {
+                mainErrorProvider.SetError(ManualUsername, "");
+            }
+            if (ManualPassword.Text == "")
+            {
+                mainErrorProvider.SetError(ManualPassword, "Wachtwoord verplicht");
+            }
+            else
+            {
+                mainErrorProvider.SetError(ManualPassword, "");
+            }
+            if (ManualIPAddress.Text !="" && ManualUsername.Text !="" && ManualPassword.Text != "")
+            {
+                bool IPisValid = validation.validateIPv4(ManualIPAddress.Text);
+                if (!IPisValid)
+                {
+                    mainErrorProvider.SetError(ManualIPAddress, "Geen geldig ip adres");
+                }
+                // run function
+                RouterDetails test = new Cisco_Tool.Views.RouterDetails();
+                test.ShowDialog();
+            }
+        }
+
+        private void ScriptButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RunCommands_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainGridView_SelectionChanged(object sender, EventArgs e)
+        {
+            var selectedRows = new List<DataGridViewRow>();
+            foreach (DataGridViewRow selectedRow in MainGridView.Rows)
+            {
+                string stringBool = selectedRow.Cells[0].Value.ToString(); // return value is a object
+                bool isChecked = Boolean.Parse(stringBool);
+                if (isChecked)
+                {
+                    selectedRows.Add(selectedRow);
+                    if (!allSelectedRouters.Items.Contains(selectedRow.Cells[1].Value.ToString()))
+                    {
+                        allSelectedRouters.Items.Add(selectedRow.Cells[1].Value.ToString());
+                    }
                 }
             }
         }
