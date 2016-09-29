@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animations\Resizing.cs" />
     <Compile Include="Functions\Network\validation.cs" />
     <Compile Include="Functions\SQL\Connections.cs" />
     <Compile Include="Functions\SQL\Data.cs" />

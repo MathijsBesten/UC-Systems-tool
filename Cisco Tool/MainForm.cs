@@ -35,7 +35,7 @@ namespace Cisco_Tool
             allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
             foreach (var router in allRouters)
             {
-                this.MainGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                this.MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
             }    
         }
 
@@ -61,9 +61,9 @@ namespace Cisco_Tool
         private void filterRoutersInList()
         {
             int count = 0;
-            for (int i = 0; i < MainGridView.RowCount; i++)
+            for (int i = 0; i < MainDataGridView.RowCount; i++)
             {
-                MainGridView.Rows[i].Visible = true;
+                MainDataGridView.Rows[i].Visible = true;
 
             }
             if (SearchBox.Text != "")
@@ -75,7 +75,7 @@ namespace Cisco_Tool
                     string searchBoxTextLowerer = SearchBox.Text.ToLower();
                     if (!routerAliasLowered.Contains(searchBoxTextLowerer))
                     {
-                        MainGridView.Rows[count].Visible = false;
+                        MainDataGridView.Rows[count].Visible = false;
                     }
                     count++;
                 }
@@ -111,41 +111,58 @@ namespace Cisco_Tool
             if (ManualIPAddress.Text !="" && ManualUsername.Text !="" && ManualPassword.Text != "")
             {
                 bool IPisValid = validation.validateIPv4(ManualIPAddress.Text);
-                if (!IPisValid)
+                if (IPisValid)
+                {
+                    MessageBox.Show("De functie zal een nieuw tabje boven \'handmatig verbinden\' maken en de stying kopieeren van \'router connection\'");
+                }
+                else
                 {
                     mainErrorProvider.SetError(ManualIPAddress, "Geen geldig ip adres");
                 }
-                // run function
-                RouterDetails test = new Cisco_Tool.Views.RouterDetails();
-                test.ShowDialog();
             }
         }
 
         private void ScriptButton_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Aan deze functie wordt gewerkt");
         }
 
         private void RunCommands_Click(object sender, EventArgs e)
         {
-
+            MessageBox.Show("Aan deze functie wordt gewerkt");
         }
 
-        private void MainGridView_SelectionChanged(object sender, EventArgs e)
+        private void MainGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            var selectedRows = new List<DataGridViewRow>();
-            foreach (DataGridViewRow selectedRow in MainGridView.Rows)
+            if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
             {
-                string stringBool = selectedRow.Cells[0].Value.ToString(); // return value is a object
-                bool isChecked = Boolean.Parse(stringBool);
-                if (isChecked)
+                string nameOfRouter = MainDataGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
+                if (allSelectedRouters.Items.Contains(nameOfRouter))
                 {
-                    selectedRows.Add(selectedRow);
-                    if (!allSelectedRouters.Items.Contains(selectedRow.Cells[1].Value.ToString()))
-                    {
-                        allSelectedRouters.Items.Add(selectedRow.Cells[1].Value.ToString());
-                    }
+                    allSelectedRouters.Items.Remove(nameOfRouter);
                 }
+                else
+                {
+                    allSelectedRouters.Items.Add(nameOfRouter);
+                }
+            }
+        }
+
+        private void allSelectedRoutersLabel_MouseHover(object sender, EventArgs e)
+        {
+            if (allSelectedRouters.Items.Count >= 1)
+            {
+                while (allSelectedRouters.Width < 400)
+                {
+                    this.allSelectedRouters.Width++;
+                }
+            }
+        }
+        private void allSelectedRouters_MouseLeave(object sender, EventArgs e)
+        {
+            while (allSelectedRouters.Width != 189)
+            {
+                this.allSelectedRouters.Width--;
             }
         }
     }

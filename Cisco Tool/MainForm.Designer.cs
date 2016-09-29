@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.MainTabControl = new System.Windows.Forms.TabControl();
             this.MainMenuTab = new System.Windows.Forms.TabPage();
+            this.allSelectedRoutersLabel = new System.Windows.Forms.Label();
             this.allSelectedRouters = new System.Windows.Forms.ListBox();
             this.SearchGroupBox = new System.Windows.Forms.Panel();
             this.SearchButton = new System.Windows.Forms.Button();
@@ -62,7 +63,7 @@
             this.ManualIPAddress = new System.Windows.Forms.TextBox();
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
             this.ManualUsername = new System.Windows.Forms.TextBox();
-            this.MainGridView = new System.Windows.Forms.DataGridView();
+            this.MainDataGridView = new System.Windows.Forms.DataGridView();
             this.rowCheckbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.routerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -74,7 +75,7 @@
             this.SearchGroupBox.SuspendLayout();
             this.CommandoGB.SuspendLayout();
             this.ManualLoginGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MainGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewImageColumn1
@@ -101,10 +102,11 @@
             // MainMenuTab
             // 
             this.MainMenuTab.Controls.Add(this.allSelectedRouters);
+            this.MainMenuTab.Controls.Add(this.allSelectedRoutersLabel);
             this.MainMenuTab.Controls.Add(this.SearchGroupBox);
             this.MainMenuTab.Controls.Add(this.CommandoGB);
             this.MainMenuTab.Controls.Add(this.ManualLoginGroupBox);
-            this.MainMenuTab.Controls.Add(this.MainGridView);
+            this.MainMenuTab.Controls.Add(this.MainDataGridView);
             this.MainMenuTab.Location = new System.Drawing.Point(4, 22);
             this.MainMenuTab.Name = "MainMenuTab";
             this.MainMenuTab.Padding = new System.Windows.Forms.Padding(3);
@@ -113,14 +115,32 @@
             this.MainMenuTab.Text = "Home";
             this.MainMenuTab.UseVisualStyleBackColor = true;
             // 
+            // allSelectedRoutersLabel
+            // 
+            this.allSelectedRoutersLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.allSelectedRoutersLabel.ForeColor = System.Drawing.Color.Black;
+            this.allSelectedRoutersLabel.Location = new System.Drawing.Point(328, 160);
+            this.allSelectedRoutersLabel.Name = "allSelectedRoutersLabel";
+            this.allSelectedRoutersLabel.Size = new System.Drawing.Size(189, 36);
+            this.allSelectedRoutersLabel.TabIndex = 17;
+            this.allSelectedRoutersLabel.Text = "Alle geselecteerde routers";
+            this.allSelectedRoutersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.allSelectedRoutersLabel.MouseHover += new System.EventHandler(this.allSelectedRoutersLabel_MouseHover);
+            // 
             // allSelectedRouters
             // 
+            this.allSelectedRouters.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.allSelectedRouters.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.allSelectedRouters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.allSelectedRouters.ForeColor = System.Drawing.Color.Black;
             this.allSelectedRouters.FormattingEnabled = true;
-            this.allSelectedRouters.Location = new System.Drawing.Point(328, 160);
+            this.allSelectedRouters.ItemHeight = 16;
+            this.allSelectedRouters.Location = new System.Drawing.Point(328, 199);
             this.allSelectedRouters.Name = "allSelectedRouters";
-            this.allSelectedRouters.Size = new System.Drawing.Size(189, 390);
+            this.allSelectedRouters.Size = new System.Drawing.Size(189, 336);
             this.allSelectedRouters.TabIndex = 16;
+            this.allSelectedRouters.MouseLeave += new System.EventHandler(this.allSelectedRouters_MouseLeave);
+            this.allSelectedRouters.MouseHover += new System.EventHandler(this.allSelectedRoutersLabel_MouseHover);
             // 
             // SearchGroupBox
             // 
@@ -386,35 +406,35 @@
             this.ManualUsername.Size = new System.Drawing.Size(100, 20);
             this.ManualUsername.TabIndex = 11;
             // 
-            // MainGridView
+            // MainDataGridView
             // 
-            this.MainGridView.AllowUserToAddRows = false;
-            this.MainGridView.AllowUserToDeleteRows = false;
-            this.MainGridView.AllowUserToOrderColumns = true;
-            this.MainGridView.AllowUserToResizeRows = false;
-            this.MainGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.MainGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.MainGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.MainGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.MainDataGridView.AllowUserToAddRows = false;
+            this.MainDataGridView.AllowUserToDeleteRows = false;
+            this.MainDataGridView.AllowUserToOrderColumns = true;
+            this.MainDataGridView.AllowUserToResizeRows = false;
+            this.MainDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MainDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.MainDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.MainDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.rowCheckbox,
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainGridView.DefaultCellStyle = dataGridViewCellStyle2;
-            this.MainGridView.Location = new System.Drawing.Point(523, 6);
-            this.MainGridView.Name = "MainGridView";
-            this.MainGridView.RowHeadersVisible = false;
-            this.MainGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.MainGridView.Size = new System.Drawing.Size(696, 593);
-            this.MainGridView.TabIndex = 10;
-            this.MainGridView.SelectionChanged += new System.EventHandler(this.MainGridView_SelectionChanged);
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle10;
+            this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
+            this.MainDataGridView.Name = "MainDataGridView";
+            this.MainDataGridView.RowHeadersVisible = false;
+            this.MainDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.MainDataGridView.Size = new System.Drawing.Size(696, 593);
+            this.MainDataGridView.TabIndex = 10;
+            this.MainDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGridView_CellContentClick);
             // 
             // rowCheckbox
             // 
@@ -473,7 +493,7 @@
             this.CommandoGB.PerformLayout();
             this.ManualLoginGroupBox.ResumeLayout(false);
             this.ManualLoginGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.MainGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -512,11 +532,12 @@
         private System.Windows.Forms.TextBox ManualIPAddress;
         private System.Windows.Forms.Label ManualUsernameLabel;
         private System.Windows.Forms.TextBox ManualUsername;
-        private System.Windows.Forms.DataGridView MainGridView;
+        private System.Windows.Forms.DataGridView MainDataGridView;
         private System.Windows.Forms.DataGridViewCheckBoxColumn rowCheckbox;
         private System.Windows.Forms.DataGridViewTextBoxColumn routerName;
         private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.Label allSelectedRoutersLabel;
     }
 }
 
