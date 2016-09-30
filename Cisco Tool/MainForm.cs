@@ -124,11 +124,26 @@ namespace Cisco_Tool
 
         private void ScriptButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Aan deze functie wordt gewerkt");
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = ("Text Files|*.txt");
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+                string path = dialog.FileName;
+                List<string> allCommands = Functions.Scripting.Read.readScript(path);
+                foreach (var command in allCommands)
+                {
+                    // run command on router
+                    // get response
+                    // put response in output box
+                }
+            }
         }
-
         private void RunCommands_Click(object sender, EventArgs e)
         {
+            if (true)
+            {
+
+            }
             MessageBox.Show("Aan deze functie wordt gewerkt");
         }
 
@@ -147,23 +162,67 @@ namespace Cisco_Tool
                 }
             }
         }
-
-        private void allSelectedRoutersLabel_MouseHover(object sender, EventArgs e)
+        private void allSelectedRouters_MouseHover(object sender, EventArgs e)
         {
             if (allSelectedRouters.Items.Count >= 1)
             {
-                while (allSelectedRouters.Width < 400)
+                List<string> listOfRouters = new List<string>();
+                foreach (var item in allSelectedRouters.Items)
+                {
+                    listOfRouters.Add(item.ToString());
+                }
+                int maxwidth = Animations.Resizing.getLongestStringInPixels(listOfRouters);
+                while (allSelectedRouters.Width < maxwidth)
                 {
                     this.allSelectedRouters.Width++;
                 }
             }
         }
+
         private void allSelectedRouters_MouseLeave(object sender, EventArgs e)
         {
-            while (allSelectedRouters.Width != 189)
+            if (allSelectedRouters.Items.Count >= 1)
             {
-                this.allSelectedRouters.Width--;
+                while (allSelectedRouters.Width != 171) //171
+                {
+                    this.allSelectedRouters.Width--;
+                }
             }
         }
+
+        private void allSelectedRouters_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                allSelectedRouters.SelectedIndex = allSelectedRouters.IndexFromPoint(e.Location);
+                if (allSelectedRouters.SelectedIndex != -1)
+                {
+                    MainContextMenuStrip.Show(Cursor.Position);
+                }
+            }
+        }
+
+        private void removeToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
+        {
+            List<DataGridViewRow> data = new List<DataGridViewRow>();
+            int index = allSelectedRouters.SelectedIndex;
+            if (index != -1)
+            {
+                foreach (DataGridViewRow row in MainDataGridView.Rows)
+                {
+                    if (row.Cells[1].Value.ToString() == allSelectedRouters.Items[index].ToString())
+                    {
+                        int rowIndex = Int32.Parse(row.Index.ToString());
+                        (row.Cells[0] as DataGridViewCheckBoxCell).Value = false;
+
+                        MessageBox.Show(row.Index.ToString());
+                    }
+                }
+                this.MainDataGridView.Refresh();
+                allSelectedRouters.Items.RemoveAt(index); // functions as jquery
+                MainContextMenuStrip.Close();
+            }
+        }
+
     }
 }

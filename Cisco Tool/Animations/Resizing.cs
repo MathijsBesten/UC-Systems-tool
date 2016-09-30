@@ -22,15 +22,31 @@ namespace Cisco_Tool.Animations
 
             }
         }
-        public static int getLongestStringInPixels(List<string> allStrings, PaintEventArgs e)
+        public static int getLongestStringInPixels(List<string> allStrings)
         {
+            double width;
             String longestString = allStrings.OrderByDescending(s => s.Length).First();
             Font stringFont = new Font("Microsoft Sans Serif", 10);
-            SizeF stringSizeInFloat = new SizeF();
-            stringSizeInFloat = e.Graphics.MeasureString(longestString, stringFont);
-            //e.Graphics.DrawRectangle(new Pen(Color.Red, 1), 0.0F, 0.0F, stringSizeInFloat.Width, stringSizeInFloat.Height);
-            int size =  Convert.ToInt32(stringSizeInFloat);
-            return size;
+            using (Bitmap tempImage = new Bitmap(400,400))
+            {
+                SizeF stringsize = Graphics.FromImage(tempImage).MeasureString(longestString, stringFont);
+                width = stringsize.Width;
+            }
+            int stringInPixels = Convert.ToInt32(width);
+            return stringInPixels;
+        }
+        public static int getListHeight(List<string> list)
+        {
+            float totalHeight;
+            String longestString = list.OrderByDescending(s => s.Length).First();
+            Font stringFont = new Font("Microsoft Sans Serif", 10);
+            using (Bitmap tempImage = new Bitmap(400, 400))
+            {
+                float stringHeight = Graphics.FromImage(tempImage).MeasureString(longestString, stringFont).Height;
+                totalHeight = stringHeight * list.Count;
+            }
+            int totalHeightInPixels = Convert.ToInt32(totalHeight);
+            return totalHeightInPixels;
         }
     }
 }
