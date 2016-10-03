@@ -73,6 +73,15 @@
             this.RouterTab = new System.Windows.Forms.TabPage();
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.MainTemplatePanel = new System.Windows.Forms.Panel();
+            this.widgetInformationBlock = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.widgetTopBar = new System.Windows.Forms.Panel();
+            this.widgetTitle = new System.Windows.Forms.Label();
+            this.minMaxWidget = new System.Windows.Forms.PictureBox();
+            this.removeWidget = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -80,13 +89,19 @@
             this.SearchGroupBox.SuspendLayout();
             this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).BeginInit();
+            this.RouterTab.SuspendLayout();
             this.MainContextMenuStrip.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.MainTemplatePanel.SuspendLayout();
+            this.widgetInformationBlock.SuspendLayout();
+            this.widgetTopBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.minMaxWidget)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.removeWidget)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewImageColumn1
             // 
             this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Image = global::Cisco_Tool.Properties.Resources.warningIcon;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             this.dataGridViewImageColumn1.Width = 20;
             // 
@@ -205,7 +220,7 @@
             // 
             this.RunCommands.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.RunCommands.ForeColor = System.Drawing.Color.Black;
-            this.RunCommands.Location = new System.Drawing.Point(24, 330);
+            this.RunCommands.Location = new System.Drawing.Point(24, 321);
             this.RunCommands.Name = "RunCommands";
             this.RunCommands.Size = new System.Drawing.Size(100, 25);
             this.RunCommands.TabIndex = 67;
@@ -491,6 +506,7 @@
             // 
             // RouterTab
             // 
+            this.RouterTab.Controls.Add(this.tableLayoutPanel1);
             this.RouterTab.Location = new System.Drawing.Point(4, 22);
             this.RouterTab.Name = "RouterTab";
             this.RouterTab.Padding = new System.Windows.Forms.Padding(3);
@@ -512,6 +528,107 @@
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.removeToolStripMenuItem_MouseDown);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Controls.Add(this.MainTemplatePanel, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(224, 168);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1000, 460);
+            this.tableLayoutPanel1.TabIndex = 1;
+            // 
+            // MainTemplatePanel
+            // 
+            this.MainTemplatePanel.BackColor = System.Drawing.Color.Gray;
+            this.MainTemplatePanel.Controls.Add(this.widgetInformationBlock);
+            this.MainTemplatePanel.Controls.Add(this.widgetTopBar);
+            this.MainTemplatePanel.Location = new System.Drawing.Point(0, 0);
+            this.MainTemplatePanel.Margin = new System.Windows.Forms.Padding(0);
+            this.MainTemplatePanel.Name = "MainTemplatePanel";
+            this.MainTemplatePanel.Size = new System.Drawing.Size(250, 230);
+            this.MainTemplatePanel.TabIndex = 2;
+            // 
+            // widgetInformationBlock
+            // 
+            this.widgetInformationBlock.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.widgetInformationBlock.Controls.Add(this.label1);
+            this.widgetInformationBlock.Controls.Add(this.label2);
+            this.widgetInformationBlock.Location = new System.Drawing.Point(3, 34);
+            this.widgetInformationBlock.Name = "widgetInformationBlock";
+            this.widgetInformationBlock.Size = new System.Drawing.Size(244, 193);
+            this.widgetInformationBlock.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(2, 11);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(240, 25);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "SHOW DHCP SERVER ";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Location = new System.Drawing.Point(34, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(101, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Server: 192.168.1.1";
+            // 
+            // widgetTopBar
+            // 
+            this.widgetTopBar.Controls.Add(this.widgetTitle);
+            this.widgetTopBar.Controls.Add(this.minMaxWidget);
+            this.widgetTopBar.Controls.Add(this.removeWidget);
+            this.widgetTopBar.Location = new System.Drawing.Point(0, 0);
+            this.widgetTopBar.Name = "widgetTopBar";
+            this.widgetTopBar.Size = new System.Drawing.Size(250, 32);
+            this.widgetTopBar.TabIndex = 2;
+            // 
+            // widgetTitle
+            // 
+            this.widgetTitle.AutoSize = true;
+            this.widgetTitle.BackColor = System.Drawing.Color.Transparent;
+            this.widgetTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.widgetTitle.Location = new System.Drawing.Point(3, 8);
+            this.widgetTitle.Name = "widgetTitle";
+            this.widgetTitle.Size = new System.Drawing.Size(113, 16);
+            this.widgetTitle.TabIndex = 2;
+            this.widgetTitle.Text = "show dhcp server";
+            // 
+            // minMaxWidget
+            // 
+            this.minMaxWidget.Image = global::Cisco_Tool.Properties.Resources.windows_1;
+            this.minMaxWidget.Location = new System.Drawing.Point(189, 3);
+            this.minMaxWidget.Name = "minMaxWidget";
+            this.minMaxWidget.Size = new System.Drawing.Size(25, 25);
+            this.minMaxWidget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.minMaxWidget.TabIndex = 1;
+            this.minMaxWidget.TabStop = false;
+            // 
+            // removeWidget
+            // 
+            this.removeWidget.Image = global::Cisco_Tool.Properties.Resources.close;
+            this.removeWidget.InitialImage = null;
+            this.removeWidget.Location = new System.Drawing.Point(222, 3);
+            this.removeWidget.Name = "removeWidget";
+            this.removeWidget.Size = new System.Drawing.Size(25, 25);
+            this.removeWidget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.removeWidget.TabIndex = 0;
+            this.removeWidget.TabStop = false;
             // 
             // MainForm
             // 
@@ -535,7 +652,16 @@
             this.ManualLoginGroupBox.ResumeLayout(false);
             this.ManualLoginGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).EndInit();
+            this.RouterTab.ResumeLayout(false);
             this.MainContextMenuStrip.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.MainTemplatePanel.ResumeLayout(false);
+            this.widgetInformationBlock.ResumeLayout(false);
+            this.widgetInformationBlock.PerformLayout();
+            this.widgetTopBar.ResumeLayout(false);
+            this.widgetTopBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.minMaxWidget)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.removeWidget)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -584,6 +710,15 @@
         private System.Windows.Forms.Label outputLabel;
         private System.Windows.Forms.ContextMenuStrip MainContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Panel MainTemplatePanel;
+        private System.Windows.Forms.Panel widgetInformationBlock;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Panel widgetTopBar;
+        private System.Windows.Forms.Label widgetTitle;
+        private System.Windows.Forms.PictureBox minMaxWidget;
+        private System.Windows.Forms.PictureBox removeWidget;
     }
 }
 

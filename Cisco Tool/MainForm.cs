@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
-using Cisco_Tool.Views;
 using MySql.Data.MySqlClient;
 using Cisco_Tool.Functions.SQL;
 using Cisco_Tool.Values;
@@ -22,6 +21,15 @@ namespace Cisco_Tool
     public partial class MainForm : Form
     {
         private static List<router> allRouters;
+        private Point mouseLocation;
+        private int originalLocationWidgetLeft;
+        private int originalLocationWidgetTop;
+        private int originalTopBarWidth;
+        private int originalMainInfoWidth;
+        private int originalMainInfoHeight;
+        private int originalLocationRemoveLeft;
+        private int originalLocationMinMaxLeft;
+
 
         public MainForm()
         {
@@ -37,12 +45,6 @@ namespace Cisco_Tool
             {
                 this.MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
             }    
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            RouterDetails test = new Cisco_Tool.Views.RouterDetails();
-            test.ShowDialog();
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -140,11 +142,34 @@ namespace Cisco_Tool
         }
         private void RunCommands_Click(object sender, EventArgs e)
         {
-            if (true)
+            if (Username.Text == "")
             {
-
+                mainErrorProvider.SetError(Username, "gebruikersnaam vereist");
             }
-            MessageBox.Show("Aan deze functie wordt gewerkt");
+            else
+            {
+                mainErrorProvider.SetError(Username, "");
+            }
+            if (Password.Text == "")
+            {
+                mainErrorProvider.SetError(Password, "wachtwoord vereist");
+            }
+            else
+            {
+                mainErrorProvider.SetError(Password, "");
+            }
+            if (Command1.Text == "")
+            {
+                mainErrorProvider.SetError(Command1, "commando of script vereist");
+            }
+            else
+            {
+                mainErrorProvider.SetError(Command1, "");
+            }
+            if (Username.Text != "" && Password.Text !="" && Command1.Text != "" )
+            {
+                MessageBox.Show("executing command");
+            }
         }
 
         private void MainGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -224,5 +249,63 @@ namespace Cisco_Tool
             }
         }
 
+        private void panel2_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                mouseLocation = e.Location;
+            }
+        }
+
+        private void panel2_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left && MainTemplatePanel.Size.Width < 500)
+            {
+                MainTemplatePanel.Left = e.X + MainTemplatePanel.Left - mouseLocation.X;
+                MainTemplatePanel.Top = e.Y + MainTemplatePanel.Top - mouseLocation.Y;
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            MainTemplatePanel.Hide();
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (MainTemplatePanel.Size.Width < 500)
+            {
+                originalLocationWidgetLeft = MainTemplatePanel.Left;
+                originalLocationWidgetTop = MainTemplatePanel.Top;
+                originalLocationRemoveLeft = removeWidget.Left;
+                originalLocationMinMaxLeft = minMaxWidget.Left;
+                originalTopBarWidth = widgetTopBar.Width;
+                originalMainInfoHeight = widgetInformationBlock.Height;
+                originalMainInfoWidth = widgetInformationBlock.Width;
+
+                MainTemplatePanel.Left = 0;
+                MainTemplatePanel.Top = 0;
+                MainTemplatePanel.Height = 631;
+                MainTemplatePanel.Width = 1227;
+                widgetInformationBlock.Width = 1227;
+                widgetInformationBlock.Height = 594;
+                widgetTopBar.Width = 1227;
+                removeWidget.Left = 1194;
+                minMaxWidget.Left = 1155;
+
+            }
+            else
+            {
+                MainTemplatePanel.Height = 230;
+                MainTemplatePanel.Width = 250;
+                MainTemplatePanel.Left = originalLocationWidgetLeft;
+                MainTemplatePanel.Top = originalLocationWidgetTop;
+                removeWidget.Left = originalLocationRemoveLeft;
+                minMaxWidget.Left = originalLocationMinMaxLeft;
+                widgetTopBar.Width = originalTopBarWidth;
+                widgetInformationBlock.Height = originalMainInfoHeight;
+                widgetInformationBlock.Width = originalMainInfoWidth;
+            }
+        }
     }
 }

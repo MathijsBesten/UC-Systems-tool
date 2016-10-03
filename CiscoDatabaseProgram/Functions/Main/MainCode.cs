@@ -92,8 +92,6 @@ namespace CiscoDatabaseProgram.Functions.Main
             List<router> testRouters = new List<router>();
             router testRouter = new router();
 
-            testRouters.Add(testRouter);
-
             SerialNumbers.General.TESTmanualListGetSerialnumbersForRouters(testRouters, username, password);
         }
     }
