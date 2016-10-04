@@ -15,6 +15,7 @@ using Cisco_Tool.Values;
 using static Cisco_Tool.Values.PrivateValues;
 using System.Data.SqlClient;
 using Cisco_Tool.Functions.Network;
+using Cisco_Tool.Widgets.Views;
 
 namespace Cisco_Tool
 {
@@ -44,7 +45,8 @@ namespace Cisco_Tool
             foreach (var router in allRouters)
             {
                 this.MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
-            }    
+            }
+
         }
 
         private void SearchButton_Click(object sender, EventArgs e)
@@ -306,6 +308,12 @@ namespace Cisco_Tool
                 widgetInformationBlock.Height = originalMainInfoHeight;
                 widgetInformationBlock.Width = originalMainInfoWidth;
             }
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            WidgetCreator widgetMaker = new Widgets.Views.WidgetCreator();
+            widgetMaker.ShowDialog();
         }
     }
 }
