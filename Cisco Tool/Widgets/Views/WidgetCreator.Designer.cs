@@ -39,15 +39,15 @@
             this.NewWidgetName = new System.Windows.Forms.TextBox();
             this.NewWidgetCommandtypeLabel = new System.Windows.Forms.Label();
             this.NewWidgetInformationPanel = new System.Windows.Forms.Panel();
+            this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.newWidgetInformationLabel = new System.Windows.Forms.Label();
             this.choosenWidgetType = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.outputBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
             this.NewWidgetChoicePanel.SuspendLayout();
             this.NewWidgetInformationPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -66,9 +66,9 @@
             this.NewWidgetChoicePanel.Controls.Add(this.NewWidgetName);
             this.NewWidgetChoicePanel.Controls.Add(this.NewWidgetCommandtypeLabel);
             this.NewWidgetChoicePanel.ForeColor = System.Drawing.Color.White;
-            this.NewWidgetChoicePanel.Location = new System.Drawing.Point(22, 22);
+            this.NewWidgetChoicePanel.Location = new System.Drawing.Point(30, 12);
             this.NewWidgetChoicePanel.Name = "NewWidgetChoicePanel";
-            this.NewWidgetChoicePanel.Size = new System.Drawing.Size(334, 200);
+            this.NewWidgetChoicePanel.Size = new System.Drawing.Size(411, 201);
             this.NewWidgetChoicePanel.TabIndex = 14;
             // 
             // NewWidgetCommandtype
@@ -77,9 +77,9 @@
             this.NewWidgetCommandtype.Items.AddRange(new object[] {
             "Informatie",
             "Uitvoeren"});
-            this.NewWidgetCommandtype.Location = new System.Drawing.Point(134, 78);
+            this.NewWidgetCommandtype.Location = new System.Drawing.Point(147, 79);
             this.NewWidgetCommandtype.Name = "NewWidgetCommandtype";
-            this.NewWidgetCommandtype.Size = new System.Drawing.Size(168, 21);
+            this.NewWidgetCommandtype.Size = new System.Drawing.Size(208, 21);
             this.NewWidgetCommandtype.TabIndex = 17;
             // 
             // AddNewCommandTitle
@@ -114,9 +114,9 @@
             // 
             // NewWidgetCommand
             // 
-            this.NewWidgetCommand.Location = new System.Drawing.Point(134, 105);
+            this.NewWidgetCommand.Location = new System.Drawing.Point(147, 105);
             this.NewWidgetCommand.Name = "NewWidgetCommand";
-            this.NewWidgetCommand.Size = new System.Drawing.Size(168, 20);
+            this.NewWidgetCommand.Size = new System.Drawing.Size(208, 20);
             this.NewWidgetCommand.TabIndex = 4;
             // 
             // NewWidgetNameLabel
@@ -130,9 +130,9 @@
             // 
             // NewWidgetName
             // 
-            this.NewWidgetName.Location = new System.Drawing.Point(134, 53);
+            this.NewWidgetName.Location = new System.Drawing.Point(147, 53);
             this.NewWidgetName.Name = "NewWidgetName";
-            this.NewWidgetName.Size = new System.Drawing.Size(168, 20);
+            this.NewWidgetName.Size = new System.Drawing.Size(208, 20);
             this.NewWidgetName.TabIndex = 2;
             // 
             // NewWidgetCommandtypeLabel
@@ -155,10 +155,24 @@
             this.NewWidgetInformationPanel.Controls.Add(this.newWidgetInformationLabel);
             this.NewWidgetInformationPanel.Controls.Add(this.choosenWidgetType);
             this.NewWidgetInformationPanel.ForeColor = System.Drawing.Color.White;
-            this.NewWidgetInformationPanel.Location = new System.Drawing.Point(492, 22);
+            this.NewWidgetInformationPanel.Location = new System.Drawing.Point(490, 12);
             this.NewWidgetInformationPanel.Name = "NewWidgetInformationPanel";
-            this.NewWidgetInformationPanel.Size = new System.Drawing.Size(317, 407);
+            this.NewWidgetInformationPanel.Size = new System.Drawing.Size(317, 417);
             this.NewWidgetInformationPanel.TabIndex = 15;
+            // 
+            // textBox3
+            // 
+            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox3.ForeColor = System.Drawing.Color.White;
+            this.textBox3.Location = new System.Drawing.Point(34, 306);
+            this.textBox3.Multiline = true;
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(211, 56);
+            this.textBox3.TabIndex = 21;
+            this.textBox3.Text = "Voer zelf je commando uit, kopieer en plak de uitkomst van dat commando in de sel" +
+    "ectie output. Selecteer het gedeelte wat je zou willen als output en druk dan op" +
+    " enter.";
             // 
             // textBox2
             // 
@@ -219,13 +233,23 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel1.Controls.Add(this.textBox4);
+            this.panel1.Controls.Add(this.outputBox);
             this.panel1.Controls.Add(this.label2);
             this.panel1.ForeColor = System.Drawing.Color.White;
-            this.panel1.Location = new System.Drawing.Point(22, 229);
+            this.panel1.Location = new System.Drawing.Point(30, 229);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(451, 200);
+            this.panel1.Size = new System.Drawing.Size(411, 200);
             this.panel1.TabIndex = 16;
+            // 
+            // outputBox
+            // 
+            this.outputBox.Location = new System.Drawing.Point(21, 57);
+            this.outputBox.Multiline = true;
+            this.outputBox.Name = "outputBox";
+            this.outputBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.outputBox.Size = new System.Drawing.Size(345, 117);
+            this.outputBox.TabIndex = 11;
+            this.outputBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.outputBox_KeyDown);
             // 
             // label2
             // 
@@ -236,30 +260,6 @@
             this.label2.Size = new System.Drawing.Size(141, 25);
             this.label2.TabIndex = 10;
             this.label2.Text = "Selectie output";
-            // 
-            // textBox3
-            // 
-            this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(34, 306);
-            this.textBox3.Multiline = true;
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(211, 56);
-            this.textBox3.TabIndex = 21;
-            this.textBox3.Text = "Voer zelf je commando uit, kopieer en plak de uitkomst van dat commando in de sel" +
-    "ectie output. Selecteer het gedeelte wat je zou willen als output en druk dan op" +
-    " enter.";
-            // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(21, 57);
-            this.textBox4.Multiline = true;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox4.Size = new System.Drawing.Size(392, 117);
-            this.textBox4.TabIndex = 11;
-            this.textBox4.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox4_KeyDown);
             // 
             // WidgetCreator
             // 
@@ -300,7 +300,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox outputBox;
         private System.Windows.Forms.Label label2;
     }
 }

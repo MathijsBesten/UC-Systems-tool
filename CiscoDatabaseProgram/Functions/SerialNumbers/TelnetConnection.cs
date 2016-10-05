@@ -88,7 +88,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                         }
                         else
                         {
-                            chassisSerialNumber = General.findCereal(response); 
+                            chassisSerialNumber = General.findCereal(response); //get serialcode from response
                             Console.WriteLine(router.routerAddress + " serienummer: " + chassisSerialNumber);
                             log.Info("Serialnumber received - IP Address: " + router.routerAddress + " Serialnumber: " + chassisSerialNumber);
                         }
