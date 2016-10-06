@@ -11,13 +11,11 @@ namespace Cisco_Tool.Widgets
         public class widget
         {
             public string widgetName { get; set; }
-            public string widgetAlias { get; set; }
+            public string widgetType { get; set; }
             public string widgetCommand { get; set; }
+            public bool widgetUseSelection { get; set; }
             public int widgetEnterCountBeforeString { get; set; }
             public int WidgetEnterCountInString { get; set; }
-            public string widgetCharacterInString { get; set; }
-            public int widgetCharacterCountInString { get; set; }
-            public int widgetCharacterCountBeforeString { get; set; }
         }
     }
 }

@@ -120,4 +120,7 @@
   <data name="textBox1.Text" xml:space="preserve">
     <value>Het soort commando bepaald hoe de widget er uit zal zien. Kies u voor een Infromatie widget, zult u de uitkomst van een commando kunnen zien. Kiest u voor het Uitvoeren type, dan zult u een knop zien die u kunt gebruiken om het commando af te vuren</value>
   </data>
+  <metadata name="widgetCreatorErrorProvider.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

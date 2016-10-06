@@ -105,8 +105,8 @@
     <Compile Include="Values\PrivateValues.cs" />
     <Compile Include="Values\PublicValues.cs" />
     <Compile Include="Widgets\Classes.cs" />
+    <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
-    <Compile Include="Widgets\Functions\XML.cs" />
     <Compile Include="Widgets\Views\WidgetCreator.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,7 +141,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />

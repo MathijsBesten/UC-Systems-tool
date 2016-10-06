@@ -16,6 +16,8 @@ using static Cisco_Tool.Values.PrivateValues;
 using System.Data.SqlClient;
 using Cisco_Tool.Functions.Network;
 using Cisco_Tool.Widgets.Views;
+using Cisco_Tool.Widgets.Functions;
+using static Cisco_Tool.Widgets.Classes;
 
 namespace Cisco_Tool
 {
@@ -314,6 +316,25 @@ namespace Cisco_Tool
         {
             WidgetCreator widgetMaker = new Widgets.Views.WidgetCreator();
             widgetMaker.ShowDialog();
+            JSON.readJSON();
+            //load all widgets using json
+        }
+
+        private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int count = 1;
+            List<widget> widgets =  JSON.readJSON();
+            foreach (var item in widgets)
+            {
+                Panel newPanel = new Panel();
+                newPanel.BackColor = System.Drawing.Color.Gray;
+                newPanel.Controls.Add(this.widgetInformationBlock);
+                newPanel.Controls.Add(this.widgetTopBar);
+                newPanel.Location = new System.Drawing.Point(0, 0);
+                newPanel.Margin = new System.Windows.Forms.Padding(0);
+                newPanel.Name = "panel" + count;
+                newPanel.Size = new System.Drawing.Size(250, 230);
+            }
         }
     }
 }
