@@ -322,18 +322,16 @@ namespace Cisco_Tool
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            int count = 1;
-            List<widget> widgets =  JSON.readJSON();
-            foreach (var item in widgets)
+            if (MainTabControl.SelectedIndex == 1)
             {
-                Panel newPanel = new Panel();
-                newPanel.BackColor = System.Drawing.Color.Gray;
-                newPanel.Controls.Add(this.widgetInformationBlock);
-                newPanel.Controls.Add(this.widgetTopBar);
-                newPanel.Location = new System.Drawing.Point(0, 0);
-                newPanel.Margin = new System.Windows.Forms.Padding(0);
-                newPanel.Name = "panel" + count;
-                newPanel.Size = new System.Drawing.Size(250, 230);
+                int count = 1;
+                var widgets = JSON.readJSON();
+                Panel templatePanel = Widgets.Views.Templates.defaultPanel();
+                foreach (var item in widgets)
+                {
+                    templatePanel.Name = "panel" + count;
+                    MainTableLayoutPanel.Controls.Add(templatePanel);
+                }
             }
         }
     }

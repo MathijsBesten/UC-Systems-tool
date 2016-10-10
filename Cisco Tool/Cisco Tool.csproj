@@ -107,6 +107,7 @@
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
+    <Compile Include="Widgets\Views\Templates.cs" />
     <Compile Include="Widgets\Views\WidgetCreator.cs">
       <SubType>Form</SubType>
     </Compile>

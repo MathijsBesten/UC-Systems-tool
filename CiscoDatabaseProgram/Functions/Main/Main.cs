@@ -34,9 +34,9 @@ namespace CiscoDatabaseProgram.Functions.Main
             MainCode.TESTUpdateSerials();
 
             MainCode.updateDatabase();
-            MainCode.updateSerials();
+            //MainCode.updateSerials();
             Timers.DatabaseUpdateTimer(); 
-            Timers.SerialCodeTimer();
+            //Timers.SerialCodeTimer();
 
 
             Console.ReadKey();

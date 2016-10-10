@@ -60,7 +60,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             foreach (var router in routersWithoutSerial)
             {
                 string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // return null if serialnumber is not found
-                if (ChassisSerialNumber != null)
+                if (ChassisSerialNumber != "")
                 {
                     router.routerSerialnumber = ChassisSerialNumber;
                     log.Info("Serialnumber found for - " + router.routerAddress);

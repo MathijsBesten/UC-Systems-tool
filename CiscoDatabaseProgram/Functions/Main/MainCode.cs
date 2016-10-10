@@ -91,6 +91,9 @@ namespace CiscoDatabaseProgram.Functions.Main
             string password = "denbesten";
             List<router> testRouters = new List<router>();
             router testRouter = new router();
+            testRouter.routerAddress = ConfigurationManager.AppSettings["TestRouterIP"];
+            testRouter.routerActivate = "1";
+            testRouters.Add(testRouter);
 
             SerialNumbers.General.TESTmanualListGetSerialnumbersForRouters(testRouters, username, password);
         }

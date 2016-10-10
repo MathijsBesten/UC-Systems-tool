@@ -102,6 +102,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                     }
                 }
                 catch (Exception ex)
+
                 {
                     if (response.Contains("Login invalid"))
                     {
