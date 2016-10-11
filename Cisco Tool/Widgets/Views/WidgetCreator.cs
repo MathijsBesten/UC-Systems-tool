@@ -81,6 +81,7 @@ namespace Cisco_Tool.Widgets.Views
             {
                 newWidget.widgetName = NewWidgetName.Text;
                 newWidget.widgetCommand = NewWidgetCommand.Text;
+                newWidget.widgetUseSelection = newWidgetUseSelectionCheckbox.Checked;
                 newWidget.widgetType = NewWidgetCommandtype.Text;
                 List<widget> widgets = new List<Classes.widget>();
                 widgets.Add(newWidget);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace Cisco_Tool.Widgets.Views
     {
         public static Panel defaultPanel()
         {
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             //main panel
             Panel templatePanel = new Panel();
 
@@ -75,6 +78,8 @@ namespace Cisco_Tool.Widgets.Views
 
             templatePanel.Controls.Add(topBar);
             templatePanel.Controls.Add(informationPanel);
+            sw.Stop();
+
 
             return templatePanel;
         }

@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.MainTabControl = new System.Windows.Forms.TabControl();
@@ -71,9 +71,6 @@
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RouterTab = new System.Windows.Forms.TabPage();
-            this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainTemplatePanel = new System.Windows.Forms.Panel();
             this.widgetInformationBlock = new System.Windows.Forms.Panel();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -82,6 +79,9 @@
             this.widgetTitle = new System.Windows.Forms.Label();
             this.minMaxWidget = new System.Windows.Forms.PictureBox();
             this.removeWidget = new System.Windows.Forms.PictureBox();
+            this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -90,12 +90,12 @@
             this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).BeginInit();
             this.RouterTab.SuspendLayout();
-            this.MainContextMenuStrip.SuspendLayout();
             this.MainTemplatePanel.SuspendLayout();
             this.widgetInformationBlock.SuspendLayout();
             this.widgetTopBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minMaxWidget)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.removeWidget)).BeginInit();
+            this.MainContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewImageColumn1
@@ -461,14 +461,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -515,36 +515,6 @@
             this.RouterTab.TabIndex = 1;
             this.RouterTab.Text = "Router connection";
             this.RouterTab.UseVisualStyleBackColor = true;
-            // 
-            // MainTableLayoutPanel
-            // 
-            this.MainTableLayoutPanel.ColumnCount = 4;
-            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.MainTableLayoutPanel.Location = new System.Drawing.Point(227, 91);
-            this.MainTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
-            this.MainTableLayoutPanel.Name = "MainTableLayoutPanel";
-            this.MainTableLayoutPanel.RowCount = 2;
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
-            this.MainTableLayoutPanel.Size = new System.Drawing.Size(1000, 460);
-            this.MainTableLayoutPanel.TabIndex = 1;
-            // 
-            // MainContextMenuStrip
-            // 
-            this.MainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.removeToolStripMenuItem});
-            this.MainContextMenuStrip.Name = "MainContextMenuStrip";
-            this.MainContextMenuStrip.Size = new System.Drawing.Size(118, 26);
-            // 
-            // removeToolStripMenuItem
-            // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.removeToolStripMenuItem_MouseDown);
             // 
             // MainTemplatePanel
             // 
@@ -629,6 +599,37 @@
             this.removeWidget.TabIndex = 0;
             this.removeWidget.TabStop = false;
             // 
+            // MainTableLayoutPanel
+            // 
+            this.MainTableLayoutPanel.ColumnCount = 4;
+            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.MainTableLayoutPanel.Location = new System.Drawing.Point(227, 91);
+            this.MainTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.MainTableLayoutPanel.Name = "MainTableLayoutPanel";
+            this.MainTableLayoutPanel.RowCount = 2;
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.MainTableLayoutPanel.Size = new System.Drawing.Size(1000, 460);
+            this.MainTableLayoutPanel.TabIndex = 1;
+            // 
+            // MainContextMenuStrip
+            // 
+            this.MainContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeToolStripMenuItem});
+            this.MainContextMenuStrip.Name = "MainContextMenuStrip";
+            this.MainContextMenuStrip.Size = new System.Drawing.Size(118, 26);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.removeToolStripMenuItem_MouseDown);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -652,7 +653,6 @@
             this.ManualLoginGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).EndInit();
             this.RouterTab.ResumeLayout(false);
-            this.MainContextMenuStrip.ResumeLayout(false);
             this.MainTemplatePanel.ResumeLayout(false);
             this.widgetInformationBlock.ResumeLayout(false);
             this.widgetInformationBlock.PerformLayout();
@@ -660,6 +660,7 @@
             this.widgetTopBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minMaxWidget)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.removeWidget)).EndInit();
+            this.MainContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
