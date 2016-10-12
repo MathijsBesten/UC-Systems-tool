@@ -11,7 +11,7 @@ namespace Cisco_Tool.Widgets.Views
 {
     class Templates
     {
-        public Panel defaultPanel()
+        public Panel defaultWidgetTemplate()
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -62,6 +62,7 @@ namespace Cisco_Tool.Widgets.Views
             outputbox.Size = new Size(200, 150);
             outputbox.Location = new Point(20, 35);
             outputbox.Multiline = true;
+            outputbox.ScrollBars = ScrollBars.Both;
             outputbox.ReadOnly = true;
 
             templatePanel.BackColor = Color.Gray;

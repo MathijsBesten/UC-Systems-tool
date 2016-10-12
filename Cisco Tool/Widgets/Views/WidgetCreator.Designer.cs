@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetCreator));
             this.NewWidgetChoicePanel = new System.Windows.Forms.Panel();
+            this.newWidgetUseSelectionCheckbox = new System.Windows.Forms.CheckBox();
+            this.useSelectionLabel = new System.Windows.Forms.Label();
             this.NewWidgetCommandtype = new System.Windows.Forms.ComboBox();
             this.AddNewCommandTitle = new System.Windows.Forms.Label();
             this.NewWidgetAddButton = new System.Windows.Forms.Button();
@@ -50,8 +52,7 @@
             this.outputBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.widgetCreatorErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.useSelectionLabel = new System.Windows.Forms.Label();
-            this.newWidgetUseSelectionCheckbox = new System.Windows.Forms.CheckBox();
+            this.SelectionWizard = new System.Windows.Forms.Button();
             this.NewWidgetChoicePanel.SuspendLayout();
             this.NewWidgetInformationPanel.SuspendLayout();
             this.selectionPanel.SuspendLayout();
@@ -78,6 +79,27 @@
             this.NewWidgetChoicePanel.Size = new System.Drawing.Size(386, 211);
             this.NewWidgetChoicePanel.TabIndex = 14;
             // 
+            // newWidgetUseSelectionCheckbox
+            // 
+            this.newWidgetUseSelectionCheckbox.AutoSize = true;
+            this.newWidgetUseSelectionCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.newWidgetUseSelectionCheckbox.Location = new System.Drawing.Point(147, 132);
+            this.newWidgetUseSelectionCheckbox.Name = "newWidgetUseSelectionCheckbox";
+            this.newWidgetUseSelectionCheckbox.Size = new System.Drawing.Size(173, 17);
+            this.newWidgetUseSelectionCheckbox.TabIndex = 19;
+            this.newWidgetUseSelectionCheckbox.Text = "Laat leeg voor complete output";
+            this.newWidgetUseSelectionCheckbox.UseVisualStyleBackColor = true;
+            this.newWidgetUseSelectionCheckbox.CheckedChanged += new System.EventHandler(this.newWidgetUseSelectionCheckbox_CheckedChanged);
+            // 
+            // useSelectionLabel
+            // 
+            this.useSelectionLabel.AutoSize = true;
+            this.useSelectionLabel.Location = new System.Drawing.Point(41, 132);
+            this.useSelectionLabel.Name = "useSelectionLabel";
+            this.useSelectionLabel.Size = new System.Drawing.Size(85, 13);
+            this.useSelectionLabel.TabIndex = 18;
+            this.useSelectionLabel.Text = "Gebruik Selectie";
+            // 
             // NewWidgetCommandtype
             // 
             this.NewWidgetCommandtype.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -89,6 +111,7 @@
             this.NewWidgetCommandtype.Name = "NewWidgetCommandtype";
             this.NewWidgetCommandtype.Size = new System.Drawing.Size(208, 21);
             this.NewWidgetCommandtype.TabIndex = 17;
+            this.NewWidgetCommandtype.TextChanged += new System.EventHandler(this.NewWidgetCommandtype_TextChanged);
             // 
             // AddNewCommandTitle
             // 
@@ -166,7 +189,7 @@
             this.NewWidgetInformationPanel.ForeColor = System.Drawing.Color.White;
             this.NewWidgetInformationPanel.Location = new System.Drawing.Point(488, 12);
             this.NewWidgetInformationPanel.Name = "NewWidgetInformationPanel";
-            this.NewWidgetInformationPanel.Size = new System.Drawing.Size(317, 417);
+            this.NewWidgetInformationPanel.Size = new System.Drawing.Size(317, 469);
             this.NewWidgetInformationPanel.TabIndex = 15;
             // 
             // textBox3
@@ -174,7 +197,7 @@
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(34, 306);
+            this.textBox3.Location = new System.Drawing.Point(34, 317);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(211, 56);
@@ -188,7 +211,7 @@
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(34, 233);
+            this.textBox2.Location = new System.Drawing.Point(34, 245);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(201, 55);
@@ -242,12 +265,13 @@
             // 
             this.selectionPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.selectionPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.selectionPanel.Controls.Add(this.SelectionWizard);
             this.selectionPanel.Controls.Add(this.outputBox);
             this.selectionPanel.Controls.Add(this.label2);
             this.selectionPanel.ForeColor = System.Drawing.Color.White;
             this.selectionPanel.Location = new System.Drawing.Point(30, 229);
             this.selectionPanel.Name = "selectionPanel";
-            this.selectionPanel.Size = new System.Drawing.Size(386, 200);
+            this.selectionPanel.Size = new System.Drawing.Size(386, 252);
             this.selectionPanel.TabIndex = 16;
             // 
             // outputBox
@@ -274,32 +298,22 @@
             // 
             this.widgetCreatorErrorProvider.ContainerControl = this;
             // 
-            // useSelectionLabel
+            // SelectionWizard
             // 
-            this.useSelectionLabel.AutoSize = true;
-            this.useSelectionLabel.Location = new System.Drawing.Point(41, 132);
-            this.useSelectionLabel.Name = "useSelectionLabel";
-            this.useSelectionLabel.Size = new System.Drawing.Size(85, 13);
-            this.useSelectionLabel.TabIndex = 18;
-            this.useSelectionLabel.Text = "Gebruik Selectie";
-            // 
-            // newWidgetUseSelectionCheckbox
-            // 
-            this.newWidgetUseSelectionCheckbox.AutoSize = true;
-            this.newWidgetUseSelectionCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.newWidgetUseSelectionCheckbox.Location = new System.Drawing.Point(147, 132);
-            this.newWidgetUseSelectionCheckbox.Name = "newWidgetUseSelectionCheckbox";
-            this.newWidgetUseSelectionCheckbox.Size = new System.Drawing.Size(173, 17);
-            this.newWidgetUseSelectionCheckbox.TabIndex = 19;
-            this.newWidgetUseSelectionCheckbox.Text = "Laat leeg voor complete output";
-            this.newWidgetUseSelectionCheckbox.UseVisualStyleBackColor = true;
-            this.newWidgetUseSelectionCheckbox.CheckedChanged += new System.EventHandler(this.newWidgetUseSelectionCheckbox_CheckedChanged);
+            this.SelectionWizard.ForeColor = System.Drawing.Color.Black;
+            this.SelectionWizard.Location = new System.Drawing.Point(22, 203);
+            this.SelectionWizard.Name = "SelectionWizard";
+            this.SelectionWizard.Size = new System.Drawing.Size(105, 28);
+            this.SelectionWizard.TabIndex = 12;
+            this.SelectionWizard.Text = "use selction wizard";
+            this.SelectionWizard.UseVisualStyleBackColor = true;
+            this.SelectionWizard.Click += new System.EventHandler(this.SelectionWizard_Click);
             // 
             // WidgetCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(838, 441);
+            this.ClientSize = new System.Drawing.Size(838, 521);
             this.Controls.Add(this.selectionPanel);
             this.Controls.Add(this.NewWidgetInformationPanel);
             this.Controls.Add(this.NewWidgetChoicePanel);
@@ -340,5 +354,6 @@
         private System.Windows.Forms.CheckBox newWidgetUseSelectionCheckbox;
         private System.Windows.Forms.Label useSelectionLabel;
         private System.Windows.Forms.ErrorProvider widgetCreatorErrorProvider;
+        private System.Windows.Forms.Button SelectionWizard;
     }
 }

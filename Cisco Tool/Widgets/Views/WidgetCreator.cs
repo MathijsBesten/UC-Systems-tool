@@ -96,7 +96,25 @@ namespace Cisco_Tool.Widgets.Views
 
         private void newWidgetUseSelectionCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (newWidgetUseSelectionCheckbox.Checked)
+            if (newWidgetUseSelectionCheckbox.Checked && NewWidgetCommandtype.Text == "Informatie")
+            {
+                selectionPanel.Show();
+            }
+            else
+            {
+                selectionPanel.Hide();
+            }
+        }
+
+        private void SelectionWizard_Click(object sender, EventArgs e)
+        {
+            var wizardScreen = new LoginScreen();
+            var result = wizardScreen.ShowDialog();
+        }
+
+        private void NewWidgetCommandtype_TextChanged(object sender, EventArgs e)
+        {
+            if (newWidgetUseSelectionCheckbox.Checked && NewWidgetCommandtype.Text == "Informatie")
             {
                 selectionPanel.Show();
             }

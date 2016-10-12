@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using Cisco_Tool.Functions.Network;
 using Cisco_Tool.Widgets.Views;
 using Cisco_Tool.Widgets.Functions;
+using Cisco_Tool.Functions.Stream;
 
 namespace Cisco_Tool
 {
@@ -303,14 +304,10 @@ namespace Cisco_Tool
 
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (MainTabControl.SelectedIndex == 1)
+            var widgets = JSON.readJSON(); // 7ms for reading a empty file
+            if (MainTabControl.SelectedIndex == 1 && widgets != null)
             {
                 //getting widget infromation and setting up template details
-
-                var widgets = JSON.readJSON();
-                Panel templatePanel = new Templates().defaultPanel();
-                Panel[] templateControls = new Panel[widgets.Count];
-                templatePanel.Controls.CopyTo(templateControls, 0); // copy controls to array for use in other panels
                 Size templateSize = new Size(250, 230);
                 Color templateBackColor = Color.Gray; //backcolor
                 Color templateForeColor = Color.White; // font color
@@ -319,7 +316,7 @@ namespace Cisco_Tool
                 int count = 0;
                 foreach (var widget in widgets)
                 {
-                    Panel panel0 = new Templates().defaultPanel();
+                    Panel panel0 = new Templates().defaultWidgetTemplate();
                     panel0.Name = count.ToString();
                     panel0.Tag = count.ToString();
                     panel0.Size = templateSize;
@@ -327,9 +324,94 @@ namespace Cisco_Tool
                     panel0.ForeColor = templateForeColor;
                     panel0.Margin = templateMargin;
                     MainTableLayoutPanel.Controls.Add(panel0);
+
+                    int mainControlCount = 0;
+                    int childCount = 0;
+                    foreach (Control item in panel0.Controls)
+                    {
+                        if (item is Panel && item.HasChildren)
+                        {
+                            foreach (Control childControl in item.Controls)
+                            {
+                                childControl.Name = mainControlCount.ToString() + childCount.ToString();
+                                if (mainControlCount == 0) // top bar
+                                {
+                                    // new mousehandler
+                                    if (childCount == 0) // title
+                                    {
+                                        childControl.Text = widget.widgetName;
+                                    }
+                                    if (childCount == 1) // minimize button
+                                    {
+                                        // new mouse handler
+                                    }
+                                    if (childCount == 2) // close button
+                                    {
+                                        // new mouse handler
+                                    }
+                                    childCount++;
+                                    }
+                                    else if (mainControlCount == 1) // information box
+                                    {
+                                    if (childCount == 3)
+                                    {
+                                        childControl.Text = widget.widgetName;
+                                    }
+                                    if (childCount == 4)
+                                    {
+                                        // run command
+                                        string username = "mathijs";
+                                        string password = "denbesten";
+                                        string command = widget.widgetCommand;
+                                        string message = username + "\r\n" + password + "\r\n" + command + "\r\n";
+                                        string output = Functions.Stream.Networkstreams.TalkToCiscoRouterAndWaitForResponse("172.28.81.180",message);
+
+                                        string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+
+
+
+                                        childControl.Text = finalResult.ToString();
+                                    }
+                                    childCount++;
+                                }
+                            }
+                        }
+                        mainControlCount++;
+                    }
+                    if (MainTableLayoutPanel.Controls.Count < 8)
+                    {
+                        PictureBox addButton = new PictureBox();
+                        addButton.Size = new Size(100, 100);
+                        addButton.BackColor = Color.Transparent;
+                        addButton.Image = Properties.Resources.add_1;
+                        addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                        addButton.Anchor = AnchorStyles.None;
+                        addButton.Click += new EventHandler(addButtonClick);
+                        MainTableLayoutPanel.Controls.Add(addButton);
+                    }
+
                     count++;
                 }
             }
+            else
+            {
+            }
+        }
+        PictureBox templateAddButton()
+        {
+            PictureBox addButton = new PictureBox();
+            addButton.Size = new Size(100, 100);
+            addButton.BackColor = Color.Transparent;
+            addButton.Image = Properties.Resources.add_1;
+            addButton.SizeMode = PictureBoxSizeMode.Zoom;
+            addButton.Anchor = AnchorStyles.None;
+            addButton.Click += new EventHandler(addButtonClick);
+            return addButton;
+        }
+        void addButtonClick(object sender, EventArgs e)
+        {
+            var widgetCreator = new WidgetCreator();
+            var result = widgetCreator.ShowDialog();
         }
     }
 }

@@ -48,14 +48,12 @@ namespace Cisco_Tool.Widgets.Functions
         {
             if (!Directory.Exists(path))
             {
-                Directory.CreateDirectory(path);
+               var file =  Directory.CreateDirectory(path);
             }
-            else
+            if (!File.Exists(path + fileName))
             {
-                if (!File.Exists(path + fileName))
-                {
-                    File.Create(path + fileName);
-                }
+                var file = File.Create(path + fileName);
+                file.Close();
             }
             string json = File.ReadAllText(path + fileName);
             if (json != "")

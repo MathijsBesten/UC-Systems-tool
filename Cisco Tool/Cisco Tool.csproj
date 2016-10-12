@@ -107,6 +107,12 @@
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
+    <Compile Include="Widgets\Views\LoginScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Widgets\Views\LoginScreen.Designer.cs">
+      <DependentUpon>LoginScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Widgets\Views\Templates.cs" />
     <Compile Include="Widgets\Views\WidgetCreator.cs">
       <SubType>Form</SubType>
@@ -127,6 +133,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Widgets\Views\Loginscreen.resx">
+      <DependentUpon>LoginScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Widgets\Views\WidgetCreator.resx">
       <DependentUpon>WidgetCreator.cs</DependentUpon>
     </EmbeddedResource>
@@ -147,6 +156,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="EventHandlers\" />
     <Folder Include="Views\" />
     <Folder Include="Widgets\Algorithms\" />
   </ItemGroup>
