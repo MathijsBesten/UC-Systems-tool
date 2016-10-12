@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net;
-using System.Net.Sockets;
-using MySql.Data.MySqlClient;
 using Cisco_Tool.Functions.SQL;
 using Cisco_Tool.Values;
 using static Cisco_Tool.Values.PrivateValues;
@@ -17,7 +9,6 @@ using System.Data.SqlClient;
 using Cisco_Tool.Functions.Network;
 using Cisco_Tool.Widgets.Views;
 using Cisco_Tool.Widgets.Functions;
-using static Cisco_Tool.Widgets.Classes;
 
 namespace Cisco_Tool
 {
@@ -46,7 +37,7 @@ namespace Cisco_Tool
             allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
             foreach (var router in allRouters)
             {
-                this.MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
             }
 
         }
@@ -90,30 +81,20 @@ namespace Cisco_Tool
 
         private void ManualConnect_Click(object sender, EventArgs e)
         {
-            if (ManualIPAddress.Text == "")
-            {
-                mainErrorProvider.SetError(ManualIPAddress, "ip adres verplicht");
-            }
-            else
-            {
+            if (ManualIPAddress.Text != "")
                 mainErrorProvider.SetError(ManualIPAddress, "");
-            }
-            if (ManualUsername.Text == "")
-            {
-                mainErrorProvider.SetError(ManualUsername, "Gebruikersnaam verplicht");
-            }
             else
-            {
+                mainErrorProvider.SetError(ManualIPAddress, "ip adres verplicht");
+            if (ManualUsername.Text != "")
                 mainErrorProvider.SetError(ManualUsername, "");
-            }
-            if (ManualPassword.Text == "")
-            {
-                mainErrorProvider.SetError(ManualPassword, "Wachtwoord verplicht");
-            }
             else
-            {
+                mainErrorProvider.SetError(ManualUsername, "Gebruikersnaam verplicht");
+            if (ManualPassword.Text != "")
                 mainErrorProvider.SetError(ManualPassword, "");
-            }
+            else
+                mainErrorProvider.SetError(ManualPassword, "Wachtwoord verplicht");
+
+
             if (ManualIPAddress.Text !="" && ManualUsername.Text !="" && ManualPassword.Text != "")
             {
                 bool IPisValid = validation.validateIPv4(ManualIPAddress.Text);
@@ -203,7 +184,7 @@ namespace Cisco_Tool
                 int maxwidth = Animations.Resizing.getLongestStringInPixels(listOfRouters);
                 while (allSelectedRouters.Width < maxwidth)
                 {
-                    this.allSelectedRouters.Width++;
+                    allSelectedRouters.Width++;
                 }
             }
         }
@@ -214,7 +195,7 @@ namespace Cisco_Tool
             {
                 while (allSelectedRouters.Width != 171) //171
                 {
-                    this.allSelectedRouters.Width--;
+                    allSelectedRouters.Width--;
                 }
             }
         }
@@ -247,7 +228,7 @@ namespace Cisco_Tool
                         MessageBox.Show(row.Index.ToString());
                     }
                 }
-                this.MainDataGridView.Refresh();
+                MainDataGridView.Refresh();
                 allSelectedRouters.Items.RemoveAt(index); // functions as jquery
                 MainContextMenuStrip.Close();
             }
@@ -327,7 +308,7 @@ namespace Cisco_Tool
                 //getting widget infromation and setting up template details
 
                 var widgets = JSON.readJSON();
-                Panel templatePanel = Widgets.Views.Templates.defaultPanel();
+                Panel templatePanel = new Templates().defaultPanel();
                 Panel[] templateControls = new Panel[widgets.Count];
                 templatePanel.Controls.CopyTo(templateControls, 0); // copy controls to array for use in other panels
                 Size templateSize = new Size(250, 230);
@@ -335,105 +316,20 @@ namespace Cisco_Tool
                 Color templateForeColor = Color.White; // font color
                 Padding templateMargin = new System.Windows.Forms.Padding(0); // margin
 
-                RouterTab.Controls.Add(new Panel());
-                RouterTab.Controls.Add(templatePanel);
-                RouterTab.Controls.Add(templatePanel);
-                RouterTab.Controls.Add(templatePanel);
-                RouterTab.Controls.Add(templatePanel);
-
-
                 int count = 0;
                 foreach (var widget in widgets)
                 {
-                    if (count == 0)
-                    {
-                        Panel panel0 = new Panel();
-                        panel0.Name = "0";
-                        panel0.Controls.AddRange(templateControls);
-                        panel0.Size = templateSize;
-                        panel0.BackColor = templateBackColor;
-                        panel0.ForeColor = templateForeColor;
-                        panel0.Margin = templateMargin;
-                    }
-                    if (count == 1)
-                    {
-                        Panel panel1 = new Panel();
-                        panel1.Name = "1";
-                        panel1.Controls.Add(new Panel());      
-                        panel1.Size = templateSize;
-                        panel1.BackColor = templateBackColor;
-                        panel1.ForeColor = templateForeColor;
-                        panel1.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel1, 1, 0);
-                    }
-                    if (count == 2)
-                    {
-                        Panel panel2 = new Panel();
-                        panel2.Name = "2";
-                        panel2.Controls.AddRange(templateControls);
-                        panel2.Size = templateSize;
-                        panel2.BackColor = templateBackColor;
-                        panel2.ForeColor = templateForeColor;
-                        panel2.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel2, 2, 0);
-                    }
-                    if (count == 3)
-                    {
-                        Panel panel3 = new Panel();
-                        panel3.Controls.AddRange(templateControls);
-                        panel3.Size = templateSize;
-                        panel3.BackColor = templateBackColor;
-                        panel3.ForeColor = templateForeColor;
-                        panel3.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel3, 3, 0);
-                    }
-                    if (count == 4)
-                    {
-                        Panel panel4 = new Panel();
-                        panel4.Controls.AddRange(templateControls);
-                        panel4.Size = templateSize;
-                        panel4.BackColor = templateBackColor;
-                        panel4.ForeColor = templateForeColor;
-                        panel4.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel4, 0, 1);
-                    }
-                    if (count == 5)
-                    {
-                        Panel panel5 = new Panel();
-                        panel5.Controls.AddRange(templateControls);
-                        panel5.Size = templateSize;
-                        panel5.BackColor = templateBackColor;
-                        panel5.ForeColor = templateForeColor;
-                        panel5.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel5, 1, 1);
-                    }
-                    if (count == 6)
-                    {
-                        Panel panel6 = new Panel();
-                        panel6.Controls.AddRange(templateControls);
-                        panel6.Size = templateSize;
-                        panel6.BackColor = templateBackColor;
-                        panel6.ForeColor = templateForeColor;
-                        panel6.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel6, 2, 1);
-                    }
-                    if (count == 7)
-                    {
-                        Panel panel7 = new Panel();
-                        panel7.Controls.AddRange(templateControls);
-                        panel7.Size = templateSize;
-                        panel7.BackColor = templateBackColor;
-                        panel7.ForeColor = templateForeColor;
-                        panel7.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel7, 3, 1);
-                    }
+                    Panel panel0 = new Templates().defaultPanel();
+                    panel0.Name = count.ToString();
+                    panel0.Tag = count.ToString();
+                    panel0.Size = templateSize;
+                    panel0.BackColor = templateBackColor;
+                    panel0.ForeColor = templateForeColor;
+                    panel0.Margin = templateMargin;
+                    MainTableLayoutPanel.Controls.Add(panel0);
                     count++;
                 }
             }
-        }
-        public void setWidgets(int count, Panel templatePanel)
-        {
-            
         }
     }
 }

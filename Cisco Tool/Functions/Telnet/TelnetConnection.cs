@@ -24,13 +24,11 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             log.Info("Telnet function was been started");
             IPAddress address; 
             string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; 
-            byte[] responseInBytes = new byte[4096]; 
             string response =""; 
 
             bool convertIP = IPAddress.TryParse(IPAddressString, out address);
             if (convertIP == true)
             {
-                string endpoint = IPAddressString; 
                 try
                 {
                     response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(IPAddressString, message);

@@ -47,8 +47,7 @@ namespace Cisco_Tool.Functions.SQL
 
             List<router> routers = new List<router> { };
 
-            SqlDataReader reader; 
-            reader = command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 router Router = new router();
@@ -78,7 +77,6 @@ namespace Cisco_Tool.Functions.SQL
 
                     log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
                     log.Error("Error Location: " + ex.Source);
-                    throw ex;
                 }
 
             }

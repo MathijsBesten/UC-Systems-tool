@@ -11,7 +11,7 @@ namespace Cisco_Tool.Widgets.Views
 {
     class Templates
     {
-        public static Panel defaultPanel()
+        public Panel defaultPanel()
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();

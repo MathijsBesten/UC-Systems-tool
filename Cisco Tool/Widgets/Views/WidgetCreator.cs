@@ -86,17 +86,17 @@ namespace Cisco_Tool.Widgets.Views
                 List<widget> widgets = new List<Classes.widget>();
                 widgets.Add(newWidget);
                 JSON.writeJSON(widgets);
-                this.DialogResult = DialogResult.OK;
+                DialogResult = DialogResult.OK;
             }
             else
             {
-                this.DialogResult = DialogResult.None;
+                DialogResult = DialogResult.None;
             }
         }
 
         private void newWidgetUseSelectionCheckbox_CheckedChanged(object sender, EventArgs e)
         {
-            if (this.newWidgetUseSelectionCheckbox.Checked)
+            if (newWidgetUseSelectionCheckbox.Checked)
             {
                 selectionPanel.Show();
             }
