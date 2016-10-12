@@ -395,6 +395,14 @@ namespace Cisco_Tool
             }
             else
             {
+                PictureBox addButton = new PictureBox();
+                addButton.Size = new Size(100, 100);
+                addButton.BackColor = Color.Transparent;
+                addButton.Image = Properties.Resources.add_1;
+                addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                addButton.Anchor = AnchorStyles.None;
+                addButton.Click += new EventHandler(addButtonClick);
+                MainTableLayoutPanel.Controls.Add(addButton);
             }
         }
         PictureBox templateAddButton()
