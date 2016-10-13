@@ -1,6 +1,6 @@
 ﻿namespace Cisco_Tool.Widgets.Views
 {
-    partial class LoginScreen
+    partial class selctionWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.LoginPanel = new System.Windows.Forms.Panel();
+            this.LoginUsername = new System.Windows.Forms.TextBox();
             this.LoginLabel = new System.Windows.Forms.Label();
             this.LoginButton = new System.Windows.Forms.Button();
             this.LoginPasswordLabel = new System.Windows.Forms.Label();
@@ -36,8 +38,9 @@
             this.loginIPLabel = new System.Windows.Forms.Label();
             this.LoginIPAddress = new System.Windows.Forms.TextBox();
             this.LoginUsernameLabel = new System.Windows.Forms.Label();
-            this.LoginUsername = new System.Windows.Forms.TextBox();
+            this.loginScreenErrorHandler = new System.Windows.Forms.ErrorProvider(this.components);
             this.LoginPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loginScreenErrorHandler)).BeginInit();
             this.SuspendLayout();
             // 
             // LoginPanel
@@ -57,6 +60,13 @@
             this.LoginPanel.Name = "LoginPanel";
             this.LoginPanel.Size = new System.Drawing.Size(386, 211);
             this.LoginPanel.TabIndex = 15;
+            // 
+            // LoginUsername
+            // 
+            this.LoginUsername.Location = new System.Drawing.Point(157, 87);
+            this.LoginUsername.Name = "LoginUsername";
+            this.LoginUsername.Size = new System.Drawing.Size(208, 20);
+            this.LoginUsername.TabIndex = 20;
             // 
             // LoginLabel
             // 
@@ -78,6 +88,7 @@
             this.LoginButton.TabIndex = 5;
             this.LoginButton.Text = "Code ophalen";
             this.LoginButton.UseVisualStyleBackColor = true;
+            this.LoginButton.Click += new System.EventHandler(this.LoginButton_Click);
             // 
             // LoginPasswordLabel
             // 
@@ -120,12 +131,9 @@
             this.LoginUsernameLabel.TabIndex = 12;
             this.LoginUsernameLabel.Text = "Gebruikersnaam";
             // 
-            // LoginUsername
+            // loginScreenErrorHandler
             // 
-            this.LoginUsername.Location = new System.Drawing.Point(157, 87);
-            this.LoginUsername.Name = "LoginUsername";
-            this.LoginUsername.Size = new System.Drawing.Size(208, 20);
-            this.LoginUsername.TabIndex = 20;
+            this.loginScreenErrorHandler.ContainerControl = this;
             // 
             // LoginScreen
             // 
@@ -137,6 +145,7 @@
             this.Text = "Loginscreen";
             this.LoginPanel.ResumeLayout(false);
             this.LoginPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.loginScreenErrorHandler)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -152,5 +161,6 @@
         private System.Windows.Forms.Label loginIPLabel;
         private System.Windows.Forms.TextBox LoginIPAddress;
         private System.Windows.Forms.Label LoginUsernameLabel;
+        private System.Windows.Forms.ErrorProvider loginScreenErrorHandler;
     }
 }

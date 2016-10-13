@@ -108,7 +108,7 @@ namespace Cisco_Tool.Widgets.Views
 
         private void SelectionWizard_Click(object sender, EventArgs e)
         {
-            var wizardScreen = new LoginScreen();
+            var wizardScreen = new selctionWizard();
             var result = wizardScreen.ShowDialog();
         }
 

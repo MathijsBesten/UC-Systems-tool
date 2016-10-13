@@ -12,7 +12,7 @@ using Cisco_Tool.Values;
 using Cisco_Tool.Functions.Stream;
 using System.Configuration;
 
-namespace CiscoDatabaseProgram.Functions.SerialNumbers
+namespace Cisco_Tool.Functions.Telnet
 {
     class TelnetConnection
     {
@@ -23,7 +23,6 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
 
             log.Info("Telnet function was been started");
             IPAddress address; 
-            string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; 
             string response =""; 
 
             bool convertIP = IPAddress.TryParse(IPAddressString, out address);
@@ -31,7 +30,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             {
                 try
                 {
-                    response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(IPAddressString, message);
+                    response = Networkstreams.TalkToCiscoRouterAndGetResponse(IPAddressString,command,username,password);
                     log.Info("response from " + IPAddressString + ": " + response);
                 }
                 catch (Exception ex)

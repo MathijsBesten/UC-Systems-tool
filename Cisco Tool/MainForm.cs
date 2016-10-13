@@ -363,8 +363,7 @@ namespace Cisco_Tool
                                         string username = "mathijs";
                                         string password = "denbesten";
                                         string command = widget.widgetCommand;
-                                        string message = username + "\r\n" + password + "\r\n" + command + "\r\n";
-                                        string output = Functions.Stream.Networkstreams.TalkToCiscoRouterAndWaitForResponse("172.28.81.180",message);
+                                        string output =  Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180",command,username,password);
 
                                         string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
 
@@ -378,19 +377,18 @@ namespace Cisco_Tool
                         }
                         mainControlCount++;
                     }
-                    if (MainTableLayoutPanel.Controls.Count < 8)
-                    {
-                        PictureBox addButton = new PictureBox();
-                        addButton.Size = new Size(100, 100);
-                        addButton.BackColor = Color.Transparent;
-                        addButton.Image = Properties.Resources.add_1;
-                        addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                        addButton.Anchor = AnchorStyles.None;
-                        addButton.Click += new EventHandler(addButtonClick);
-                        MainTableLayoutPanel.Controls.Add(addButton);
-                    }
-
                     count++;
+                }
+                if (MainTableLayoutPanel.Controls.Count < 8)
+                {
+                    PictureBox addButton = new PictureBox();
+                    addButton.Size = new Size(100, 100);
+                    addButton.BackColor = Color.Transparent;
+                    addButton.Image = Properties.Resources.add_1;
+                    addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                    addButton.Anchor = AnchorStyles.None;
+                    addButton.Click += new EventHandler(addButtonClick);
+                    MainTableLayoutPanel.Controls.Add(addButton);
                 }
             }
             else

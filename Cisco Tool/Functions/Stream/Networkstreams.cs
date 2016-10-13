@@ -11,7 +11,7 @@ namespace Cisco_Tool.Functions.Stream
 {
     class Networkstreams
     {
-        public static string TalkToCiscoRouterAndWaitForResponse(string IPAddress,string message)
+        public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password)
         {
             int bytes;
             string response = "";
@@ -19,6 +19,7 @@ namespace Cisco_Tool.Functions.Stream
             byte[] responseInBytes = new byte[4096]; 
             TcpClient client = new TcpClient(IPAddress, 23); 
             client.ReceiveTimeout = 3; //after 3 seconds
+            string message = username + "\r\n" + password + "\r\n" + command + "\r\n";
             byte[] messageInBytes = Encoding.ASCII.GetBytes(message); 
             NetworkStream stream = client.GetStream(); 
             Console.WriteLine();

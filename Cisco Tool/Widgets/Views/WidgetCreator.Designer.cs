@@ -49,10 +49,10 @@
             this.newWidgetInformationLabel = new System.Windows.Forms.Label();
             this.choosenWidgetType = new System.Windows.Forms.Label();
             this.selectionPanel = new System.Windows.Forms.Panel();
+            this.SelectionWizard = new System.Windows.Forms.Button();
             this.outputBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.widgetCreatorErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.SelectionWizard = new System.Windows.Forms.Button();
             this.NewWidgetChoicePanel.SuspendLayout();
             this.NewWidgetInformationPanel.SuspendLayout();
             this.selectionPanel.SuspendLayout();
@@ -197,7 +197,7 @@
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(34, 317);
+            this.textBox3.Location = new System.Drawing.Point(34, 321);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(211, 56);
@@ -211,7 +211,7 @@
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(34, 245);
+            this.textBox2.Location = new System.Drawing.Point(34, 260);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(201, 55);
@@ -223,7 +223,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(31, 212);
+            this.label1.Location = new System.Drawing.Point(31, 233);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 15);
             this.label1.TabIndex = 19;
@@ -234,7 +234,7 @@
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(34, 74);
+            this.textBox1.Location = new System.Drawing.Point(34, 97);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(201, 93);
@@ -255,7 +255,7 @@
             // 
             this.choosenWidgetType.AutoSize = true;
             this.choosenWidgetType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.choosenWidgetType.Location = new System.Drawing.Point(31, 48);
+            this.choosenWidgetType.Location = new System.Drawing.Point(31, 73);
             this.choosenWidgetType.Name = "choosenWidgetType";
             this.choosenWidgetType.Size = new System.Drawing.Size(113, 15);
             this.choosenWidgetType.TabIndex = 12;
@@ -273,6 +273,17 @@
             this.selectionPanel.Name = "selectionPanel";
             this.selectionPanel.Size = new System.Drawing.Size(386, 252);
             this.selectionPanel.TabIndex = 16;
+            // 
+            // SelectionWizard
+            // 
+            this.SelectionWizard.ForeColor = System.Drawing.Color.Black;
+            this.SelectionWizard.Location = new System.Drawing.Point(22, 203);
+            this.SelectionWizard.Name = "SelectionWizard";
+            this.SelectionWizard.Size = new System.Drawing.Size(105, 28);
+            this.SelectionWizard.TabIndex = 12;
+            this.SelectionWizard.Text = "use selction wizard";
+            this.SelectionWizard.UseVisualStyleBackColor = true;
+            this.SelectionWizard.Click += new System.EventHandler(this.SelectionWizard_Click);
             // 
             // outputBox
             // 
@@ -297,17 +308,6 @@
             // widgetCreatorErrorProvider
             // 
             this.widgetCreatorErrorProvider.ContainerControl = this;
-            // 
-            // SelectionWizard
-            // 
-            this.SelectionWizard.ForeColor = System.Drawing.Color.Black;
-            this.SelectionWizard.Location = new System.Drawing.Point(22, 203);
-            this.SelectionWizard.Name = "SelectionWizard";
-            this.SelectionWizard.Size = new System.Drawing.Size(105, 28);
-            this.SelectionWizard.TabIndex = 12;
-            this.SelectionWizard.Text = "use selction wizard";
-            this.SelectionWizard.UseVisualStyleBackColor = true;
-            this.SelectionWizard.Click += new System.EventHandler(this.SelectionWizard_Click);
             // 
             // WidgetCreator
             // 
