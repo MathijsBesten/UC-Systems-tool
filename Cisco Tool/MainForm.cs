@@ -10,6 +10,8 @@ using Cisco_Tool.Functions.Network;
 using Cisco_Tool.Widgets.Views;
 using Cisco_Tool.Widgets.Functions;
 using Cisco_Tool.Functions.Stream;
+using System.ComponentModel;
+using System.Threading.Tasks;
 
 namespace Cisco_Tool
 {
@@ -301,11 +303,11 @@ namespace Cisco_Tool
             JSON.readJSON();
             //load all widgets using json
         }
-
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            MainTableLayoutPanel.Controls.Clear();
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
-            if (MainTabControl.SelectedIndex == 1 && widgets != null)
+            if (MainTabControl.SelectedIndex == 1 && widgets != null) // if user switched to router tab
             {
                 //getting widget infromation and setting up template details
                 Size templateSize = new Size(250, 230);
@@ -316,66 +318,135 @@ namespace Cisco_Tool
                 int count = 0;
                 foreach (var widget in widgets)
                 {
-                    Panel panel0 = new Templates().defaultWidgetTemplate();
-                    panel0.Name = count.ToString();
-                    panel0.Tag = count.ToString();
-                    panel0.Size = templateSize;
-                    panel0.BackColor = templateBackColor;
-                    panel0.ForeColor = templateForeColor;
-                    panel0.Margin = templateMargin;
-                    MainTableLayoutPanel.Controls.Add(panel0);
-
                     int mainControlCount = 0;
                     int childCount = 0;
-                    foreach (Control item in panel0.Controls)
+                    if (widget.widgetType == "Informatie")
                     {
-                        if (item is Panel && item.HasChildren)
+                        Panel panel0 = new Templates().defaultWidgetTemplate();
+                        panel0.Name = count.ToString();
+                        panel0.Tag = count.ToString();
+                        panel0.Size = templateSize;
+                        panel0.BackColor = templateBackColor;
+                        panel0.ForeColor = templateForeColor;
+                        panel0.Margin = templateMargin;
+                        MainTableLayoutPanel.Controls.Add(panel0);
+
+
+                        foreach (Control item in panel0.Controls)
                         {
-                            foreach (Control childControl in item.Controls)
+
+                            if (item is Panel && item.HasChildren)
                             {
-                                childControl.Name = mainControlCount.ToString() + childCount.ToString();
-                                if (mainControlCount == 0) // top bar
+                                foreach (Control childControl in item.Controls)
                                 {
-                                    // new mousehandler
-                                    if (childCount == 0) // title
+                                    childControl.Name = mainControlCount.ToString() + childCount.ToString();
+                                    if (mainControlCount == 0) // top bar
                                     {
-                                        childControl.Text = widget.widgetName;
-                                    }
-                                    if (childCount == 1) // minimize button
-                                    {
-                                        // new mouse handler
-                                    }
-                                    if (childCount == 2) // close button
-                                    {
-                                        // new mouse handler
-                                    }
-                                    childCount++;
+                                        // new mousehandler
+                                        if (childCount == 0) // title
+                                        {
+                                            childControl.Text = widget.widgetName;
+                                        }
+                                        if (childCount == 1) // minimize button
+                                        {
+                                            // new mouse handler
+                                        }
+                                        if (childCount == 2) // close button
+                                        {
+                                            // new mouse handler
+                                        }
+                                        childCount++;
                                     }
                                     else if (mainControlCount == 1) // information box
                                     {
-                                    if (childCount == 3)
-                                    {
-                                        childControl.Text = widget.widgetName;
+                                        if (childCount == 3)
+                                        {
+                                            childControl.Text = widget.widgetCommand;
+                                        }
+                                        if (childCount == 4)
+                                        {
+                                            // run command
+                                            string username = "mathijs";
+                                            string password = "denbesten";
+                                            string command = widget.widgetCommand;
+                                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password);
+
+                                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                            childControl.Text = finalResult.ToString();
+                                        }
+                                        childCount++;
                                     }
-                                    if (childCount == 4)
-                                    {
-                                        // run command
-                                        string username = "mathijs";
-                                        string password = "denbesten";
-                                        string command = widget.widgetCommand;
-                                        string output =  Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180",command,username,password);
-
-                                        string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-
-
-
-                                        childControl.Text = finalResult.ToString();
-                                    }
-                                    childCount++;
                                 }
+                                mainControlCount++;
                             }
                         }
-                        mainControlCount++;
+                    }
+                    else //button
+                    {
+
+                        Panel executePanel = new Templates().executeWidgetTemplate();
+                        executePanel.Name = count.ToString();
+                        executePanel.Tag = count.ToString();
+                        executePanel.Size = templateSize;
+                        executePanel.BackColor = templateBackColor;
+                        executePanel.ForeColor = templateForeColor;
+                        executePanel.Margin = templateMargin;
+                        MainTableLayoutPanel.Controls.Add(executePanel);
+
+
+                        foreach (Control item in executePanel.Controls)
+                        {
+
+                            if (item is Panel && item.HasChildren)
+                            {
+                                foreach (Control childControl in item.Controls)
+                                {
+                                    childControl.Name = mainControlCount.ToString() + childCount.ToString();
+                                    if (mainControlCount == 0) // top bar
+                                    {
+                                        // new mousehandler
+                                        if (childCount == 0) // title
+                                        {
+                                            childControl.Text = widget.widgetName;
+                                        }
+                                        if (childCount == 1) // minimize button
+                                        {
+                                            // new mouse handler
+                                        }
+                                        if (childCount == 2) // close button
+                                        {
+                                            // new mouse handler
+                                        }
+                                        childCount++;
+                                    }
+                                    else if (mainControlCount == 1) // information box
+                                    {
+                                        if (childCount == 3)
+                                        {
+                                            childControl.Text = widget.widgetCommand;
+                                        }
+                                        if (childCount == 4)
+                                        {
+                                            // run command
+                                            string username = "mathijs";
+                                            string password = "denbesten";
+                                            string command = widget.widgetCommand;
+                                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password);
+
+                                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                            childControl.Text = finalResult.ToString();
+                                        }
+                                        if (childCount == 5)
+                                        {
+                                            childControl.Text = "Uitvoeren";
+                                            // onclick event
+                                        }
+                                        childCount++;
+                                    }
+                                }
+                                mainControlCount++;
+                            }
+                        }
                     }
                     count++;
                 }
@@ -403,21 +474,14 @@ namespace Cisco_Tool
                 MainTableLayoutPanel.Controls.Add(addButton);
             }
         }
-        PictureBox templateAddButton()
-        {
-            PictureBox addButton = new PictureBox();
-            addButton.Size = new Size(100, 100);
-            addButton.BackColor = Color.Transparent;
-            addButton.Image = Properties.Resources.add_1;
-            addButton.SizeMode = PictureBoxSizeMode.Zoom;
-            addButton.Anchor = AnchorStyles.None;
-            addButton.Click += new EventHandler(addButtonClick);
-            return addButton;
-        }
         void addButtonClick(object sender, EventArgs e)
         {
             var widgetCreator = new WidgetCreator();
             var result = widgetCreator.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                MainTabControl.TabPages[1].Refresh();
+            }
         }
     }
 }

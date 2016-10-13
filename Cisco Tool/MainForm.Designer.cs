@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.MainTabControl = new System.Windows.Forms.TabControl();
@@ -47,7 +47,6 @@
             this.Command1 = new System.Windows.Forms.TextBox();
             this.CommandoInfo = new System.Windows.Forms.Label();
             this.ScriptButton = new System.Windows.Forms.Button();
-            this.Password = new System.Windows.Forms.TextBox();
             this.Username = new System.Windows.Forms.TextBox();
             this.ScriptLabel = new System.Windows.Forms.Label();
             this.PasswordLabel = new System.Windows.Forms.Label();
@@ -60,7 +59,6 @@
             this.ManualLoginTitle = new System.Windows.Forms.Label();
             this.ManualConnect = new System.Windows.Forms.Button();
             this.ManualPasswordLabel = new System.Windows.Forms.Label();
-            this.ManualPassword = new System.Windows.Forms.TextBox();
             this.ManualIPAddressLabel = new System.Windows.Forms.Label();
             this.ManualIPAddress = new System.Windows.Forms.TextBox();
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
@@ -82,6 +80,9 @@
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button1 = new System.Windows.Forms.Button();
+            this.Password = new System.Windows.Forms.TextBox();
+            this.ManualPassword = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.MainTabControl.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -277,13 +278,6 @@
             this.ScriptButton.Text = "Kies script";
             this.ScriptButton.UseVisualStyleBackColor = true;
             // 
-            // Password
-            // 
-            this.Password.Location = new System.Drawing.Point(124, 97);
-            this.Password.Name = "Password";
-            this.Password.Size = new System.Drawing.Size(171, 20);
-            this.Password.TabIndex = 61;
-            // 
             // Username
             // 
             this.Username.Location = new System.Drawing.Point(124, 71);
@@ -408,13 +402,6 @@
             this.ManualPasswordLabel.TabIndex = 16;
             this.ManualPasswordLabel.Text = "Wachtwoord";
             // 
-            // ManualPassword
-            // 
-            this.ManualPassword.Location = new System.Drawing.Point(134, 105);
-            this.ManualPassword.Name = "ManualPassword";
-            this.ManualPassword.Size = new System.Drawing.Size(100, 20);
-            this.ManualPassword.TabIndex = 4;
-            // 
             // ManualIPAddressLabel
             // 
             this.ManualIPAddressLabel.AutoSize = true;
@@ -428,7 +415,7 @@
             // 
             this.ManualIPAddress.Location = new System.Drawing.Point(134, 53);
             this.ManualIPAddress.Name = "ManualIPAddress";
-            this.ManualIPAddress.Size = new System.Drawing.Size(100, 20);
+            this.ManualIPAddress.Size = new System.Drawing.Size(163, 20);
             this.ManualIPAddress.TabIndex = 2;
             // 
             // ManualUsernameLabel
@@ -444,7 +431,7 @@
             // 
             this.ManualUsername.Location = new System.Drawing.Point(134, 79);
             this.ManualUsername.Name = "ManualUsername";
-            this.ManualUsername.Size = new System.Drawing.Size(100, 20);
+            this.ManualUsername.Size = new System.Drawing.Size(163, 20);
             this.ManualUsername.TabIndex = 3;
             // 
             // MainDataGridView
@@ -461,14 +448,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -530,6 +517,7 @@
             // widgetInformationBlock
             // 
             this.widgetInformationBlock.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.widgetInformationBlock.Controls.Add(this.button1);
             this.widgetInformationBlock.Controls.Add(this.textBox2);
             this.widgetInformationBlock.Controls.Add(this.label1);
             this.widgetInformationBlock.Location = new System.Drawing.Point(3, 33);
@@ -539,11 +527,11 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(20, 35);
+            this.textBox2.Location = new System.Drawing.Point(11, 35);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(200, 150);
+            this.textBox2.Size = new System.Drawing.Size(218, 57);
             this.textBox2.TabIndex = 3;
             // 
             // label1
@@ -551,7 +539,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(2, 9);
+            this.label1.Location = new System.Drawing.Point(2, 7);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(240, 25);
             this.label1.TabIndex = 2;
@@ -572,7 +560,7 @@
             this.widgetTitle.AutoSize = true;
             this.widgetTitle.BackColor = System.Drawing.Color.Transparent;
             this.widgetTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.widgetTitle.Location = new System.Drawing.Point(3, 8);
+            this.widgetTitle.Location = new System.Drawing.Point(3, 12);
             this.widgetTitle.Name = "widgetTitle";
             this.widgetTitle.Size = new System.Drawing.Size(113, 16);
             this.widgetTitle.TabIndex = 2;
@@ -630,6 +618,33 @@
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.removeToolStripMenuItem_MouseDown);
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DimGray;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(44, 128);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(139, 42);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Uitvoeren";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // Password
+            // 
+            this.Password.Location = new System.Drawing.Point(124, 97);
+            this.Password.Name = "Password";
+            this.Password.PasswordChar = '*';
+            this.Password.Size = new System.Drawing.Size(171, 20);
+            this.Password.TabIndex = 61;
+            // 
+            // ManualPassword
+            // 
+            this.ManualPassword.Location = new System.Drawing.Point(134, 105);
+            this.ManualPassword.Name = "ManualPassword";
+            this.ManualPassword.PasswordChar = '*';
+            this.ManualPassword.Size = new System.Drawing.Size(163, 20);
+            this.ManualPassword.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -679,7 +694,6 @@
         private System.Windows.Forms.Label ManualLoginTitle;
         private System.Windows.Forms.Button ManualConnect;
         private System.Windows.Forms.Label ManualPasswordLabel;
-        private System.Windows.Forms.TextBox ManualPassword;
         private System.Windows.Forms.Label ManualIPAddressLabel;
         private System.Windows.Forms.TextBox ManualIPAddress;
         private System.Windows.Forms.Label ManualUsernameLabel;
@@ -698,7 +712,6 @@
         private System.Windows.Forms.TextBox Command1;
         private System.Windows.Forms.Label CommandoInfo;
         private System.Windows.Forms.Button ScriptButton;
-        private System.Windows.Forms.TextBox Password;
         private System.Windows.Forms.TextBox Username;
         private System.Windows.Forms.Label ScriptLabel;
         private System.Windows.Forms.Label PasswordLabel;
@@ -718,6 +731,9 @@
         private System.Windows.Forms.Label widgetTitle;
         private System.Windows.Forms.PictureBox minMaxWidget;
         private System.Windows.Forms.PictureBox removeWidget;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox Password;
+        private System.Windows.Forms.TextBox ManualPassword;
     }
 }
 

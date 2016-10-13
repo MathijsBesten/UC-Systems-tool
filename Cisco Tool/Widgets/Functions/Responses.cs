@@ -12,33 +12,54 @@ namespace Cisco_Tool.Widgets.Functions
     {
         public static string getStringFromResponse(string fullText,int enterCountInfront,int enterCountInSelectedString)
         {
-            string[] enters = Regex.Split(fullText, "\\r\\n");
-            string fullstringWithoutWord = "";
-            string fullStringWithWord = "";
-            int count = 0;
-            foreach (var item in enters)
+            if (fullText != "")
             {
-                if (count < (enterCountInfront))
+                string[] enters = Regex.Split(fullText, "\\r\\n");
+                string fullstringWithoutWord = "";
+                string fullStringWithWord = "";
+                int count = 0;
+                string goalVariable;
+                if (enterCountInfront == 0 && enterCountInSelectedString == 0) // the complete reponse
                 {
-                    fullstringWithoutWord += item;
-                    fullStringWithWord += item;
-                    count++;
-                }
-                else if (count < (enterCountInfront + 1 + enterCountInSelectedString))
-                {
-                    fullStringWithWord += item;
-                    count++;
+                    goalVariable = fullText;
+                    string splitter = @"\r\n";
+                    int lenthOfSplitter = splitter.Length;
+                    int locationOfFirstSplitter = goalVariable.IndexOf("\r\n");
+                    goalVariable = goalVariable.Substring((locationOfFirstSplitter + lenthOfSplitter));
                 }
                 else
                 {
-                    break;
+                    foreach (var item in enters)
+                    {
+                        if (count < (enterCountInfront))
+                        {
+                            fullstringWithoutWord += item;
+                            fullStringWithWord += item;
+                            count++;
+                        }
+                        else if (count < (enterCountInfront + 1 + enterCountInSelectedString))
+                        {
+                            fullStringWithWord += item;
+                            count++;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    int startIndexOfResponse = fullstringWithoutWord.Length;
+                    goalVariable = fullStringWithWord.Remove(0, fullstringWithoutWord.Length);
                 }
+                //OPTIONAL - removes all enters
+                goalVariable = goalVariable.Replace(@"\r\n", "");
 
+                return goalVariable;
             }
-            int startIndexOfResponse = fullstringWithoutWord.Length;
-            string goalVariable = fullStringWithWord.Remove(0, fullstringWithoutWord.Length);
-            return goalVariable;
-        }
+            else
+            {
+                return ""; // starting string was empty
+            }
 
+        }
     }
 }

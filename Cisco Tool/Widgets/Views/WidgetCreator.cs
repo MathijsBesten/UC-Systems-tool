@@ -110,6 +110,16 @@ namespace Cisco_Tool.Widgets.Views
         {
             var wizardScreen = new selctionWizard();
             var result = wizardScreen.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string completeResponse = Cisco_Tool.Functions.Telnet.TelnetConnection.telnetClientTCP(wizardScreen.ipadres, this.NewWidgetCommand.Text, wizardScreen.username, wizardScreen.password);
+                MessageBox.Show(completeResponse);
+                outputBox.Text = completeResponse;
+            }
+            else
+            {
+                MessageBox.Show("Geen resultaat gevonden, probeer handmatig een selectie te maken of kies voor de complete output");
+            }
         }
 
         private void NewWidgetCommandtype_TextChanged(object sender, EventArgs e)
