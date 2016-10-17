@@ -83,6 +83,7 @@ namespace Cisco_Tool.Widgets.Views
                 newWidget.widgetCommand = NewWidgetCommand.Text;
                 newWidget.widgetUseSelection = newWidgetUseSelectionCheckbox.Checked;
                 newWidget.widgetType = NewWidgetCommandtype.Text;
+                newWidget.widgetUseLongProcessTime = NewWidgetUsesLongProcessTime.Checked;
                 List<widget> widgets = new List<Classes.widget>();
                 widgets.Add(newWidget);
                 JSON.writeJSON(widgets);
@@ -112,8 +113,7 @@ namespace Cisco_Tool.Widgets.Views
             var result = wizardScreen.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string completeResponse = Cisco_Tool.Functions.Telnet.TelnetConnection.telnetClientTCP(wizardScreen.ipadres, this.NewWidgetCommand.Text, wizardScreen.username, wizardScreen.password);
-                MessageBox.Show(completeResponse);
+                string completeResponse = Cisco_Tool.Functions.Telnet.TelnetConnection.telnetClientTCP(wizardScreen.ipadres, this.NewWidgetCommand.Text, wizardScreen.username, wizardScreen.password,NewWidgetUsesLongProcessTime.Checked);
                 outputBox.Text = completeResponse;
             }
             else
@@ -127,7 +127,7 @@ namespace Cisco_Tool.Widgets.Views
             if (newWidgetUseSelectionCheckbox.Checked && NewWidgetCommandtype.Text == "Informatie")
             {
                 selectionPanel.Show();
-            }
+            } 
             else
             {
                 selectionPanel.Hide();

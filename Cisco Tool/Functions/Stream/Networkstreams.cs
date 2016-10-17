@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -11,23 +12,53 @@ namespace Cisco_Tool.Functions.Stream
 {
     class Networkstreams
     {
-        public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password)
+        public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password, bool useLongProcessTime)
         {
-            int bytes;
+            int sleepMSAfterSend = 15;
+            int bytes = 0;
             string response = "";
+            byte[] lastBytesArray = new byte[4096];
+            byte[] responseInBytes = new byte[4096];
+            bool itIsTheEnd = false;
+            var client = new TcpClient();
+            client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(2));
 
-            byte[] responseInBytes = new byte[4096]; 
-            TcpClient client = new TcpClient(IPAddress, 23); 
-            client.ReceiveTimeout = 3; //after 3 seconds
-            string message = username + "\r\n" + password + "\r\n" + command + "\r\n";
-            byte[] messageInBytes = Encoding.ASCII.GetBytes(message); 
-            NetworkStream stream = client.GetStream(); 
-            Console.WriteLine();
-            stream.Write(messageInBytes, 0, messageInBytes.Count());    // send data to router
-            Thread.Sleep(50);                                           // temporary way to let the router fill his tcp response
-            bytes = stream.Read(responseInBytes, 0, responseInBytes.Length);
-            response = Encoding.ASCII.GetString(responseInBytes, 0, bytes);
-            return response;
+            if (useLongProcessTime == true)
+            {
+                sleepMSAfterSend = 1000; // sleeps for 1 second to let router get results
+            }
+            if (client.Connected == true)
+            {
+
+                client.ReceiveTimeout = 3;
+                client.SendTimeout = 3;
+                byte[] messageInBytes = Encoding.ASCII.GetBytes(command);
+                NetworkStream stream = client.GetStream();
+                Console.WriteLine();
+                using (var writer = new BinaryWriter(client.GetStream(), Encoding.ASCII, true))
+                {
+                    writer.Write(messageInBytes);
+                    Thread.Sleep(sleepMSAfterSend);
+                }
+                using (var reader = new BinaryReader(client.GetStream(), Encoding.ASCII, true))
+                {
+                    while (itIsTheEnd == false)
+                    {
+                        bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
+                        if (lastBytesArray == responseInBytes)
+                        {
+                            itIsTheEnd = true;
+                        }
+                        lastBytesArray = responseInBytes;
+                        Thread.Sleep(15);
+                    }
+                }
+                response = Encoding.ASCII.GetString(responseInBytes);
+                response = response.Replace("\0", "");
+                client.Close();
+                return response;
+            }
+            return null;
         }
     }
 }

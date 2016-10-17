@@ -9,6 +9,7 @@ using System.Data.SqlClient;
 using Cisco_Tool.Functions.Network;
 using Cisco_Tool.Widgets.Views;
 using Cisco_Tool.Widgets.Functions;
+using Cisco_Tool.Widgets.Templates;
 using Cisco_Tool.Functions.Stream;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -19,6 +20,9 @@ namespace Cisco_Tool
     {
         private static List<router> allRouters;
         private Point mouseLocation;
+        private string selectedScriptPath = "";
+
+        // all selected routers list
         private int originalLocationWidgetLeft;
         private int originalLocationWidgetTop;
         private int originalTopBarWidth;
@@ -120,12 +124,13 @@ namespace Cisco_Tool
             {
                 string path = dialog.FileName;
                 List<string> allCommands = Functions.Scripting.Read.readScript(path);
-                foreach (var command in allCommands)
-                {
-                    // run command on router
-                    // get response
-                    // put response in output box
-                }
+                selectedScriptPath = path;
+
+                ScriptButton.Text = selectedScriptPath;
+                ScriptButton.TextAlign = ContentAlignment.BottomLeft;
+                ScriptButton.BackColor = Color.FromArgb(64, 64, 64);
+                ScriptButton.ForeColor = Color.White;
+                ScriptButton.BorderStyle = BorderStyle.None;
             }
         }
         private void RunCommands_Click(object sender, EventArgs e)
@@ -227,8 +232,6 @@ namespace Cisco_Tool
                     {
                         int rowIndex = Int32.Parse(row.Index.ToString());
                         (row.Cells[0] as DataGridViewCheckBoxCell).Value = false;
-
-                        MessageBox.Show(row.Index.ToString());
                     }
                 }
                 MainDataGridView.Refresh();
@@ -307,148 +310,60 @@ namespace Cisco_Tool
         {
             MainTableLayoutPanel.Controls.Clear();
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
-            if (MainTabControl.SelectedIndex == 1 && widgets != null) // if user switched to router tab
+            if (script.SelectedIndex == 1 && widgets != null) // if user switched to router tab
             {
                 //getting widget infromation and setting up template details
                 Size templateSize = new Size(250, 230);
                 Color templateBackColor = Color.Gray; //backcolor
                 Color templateForeColor = Color.White; // font color
                 Padding templateMargin = new System.Windows.Forms.Padding(0); // margin
-
                 int count = 0;
                 foreach (var widget in widgets)
                 {
-                    int mainControlCount = 0;
-                    int childCount = 0;
+
+
                     if (widget.widgetType == "Informatie")
                     {
-                        Panel panel0 = new Templates().defaultWidgetTemplate();
-                        panel0.Name = count.ToString();
-                        panel0.Tag = count.ToString();
-                        panel0.Size = templateSize;
-                        panel0.BackColor = templateBackColor;
-                        panel0.ForeColor = templateForeColor;
-                        panel0.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(panel0);
-
-
-                        foreach (Control item in panel0.Controls)
+                        var newPanel = new InfoTemplate();
+                        newPanel.Name = count.ToString();
+                        newPanel.Tag = count.ToString();
+                        newPanel.titleWidgetLabel.Text = widget.widgetName;
+                        newPanel.commandName.Text = widget.widgetCommand;
+                        if (widget.widgetCommand != "")
                         {
+                            string username = "mathijs";
+                            string password = "denbesten";
+                            string command = widget.widgetCommand;
+                            bool usesLongProcessTime = widget.widgetUseLongProcessTime;
+                           // string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
 
-                            if (item is Panel && item.HasChildren)
-                            {
-                                foreach (Control childControl in item.Controls)
-                                {
-                                    childControl.Name = mainControlCount.ToString() + childCount.ToString();
-                                    if (mainControlCount == 0) // top bar
-                                    {
-                                        // new mousehandler
-                                        if (childCount == 0) // title
-                                        {
-                                            childControl.Text = widget.widgetName;
-                                        }
-                                        if (childCount == 1) // minimize button
-                                        {
-                                            // new mouse handler
-                                        }
-                                        if (childCount == 2) // close button
-                                        {
-                                            // new mouse handler
-                                        }
-                                        childCount++;
-                                    }
-                                    else if (mainControlCount == 1) // information box
-                                    {
-                                        if (childCount == 3)
-                                        {
-                                            childControl.Text = widget.widgetCommand;
-                                        }
-                                        if (childCount == 4)
-                                        {
-                                            // run command
-                                            string username = "mathijs";
-                                            string password = "denbesten";
-                                            string command = widget.widgetCommand;
-                                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password);
-
-                                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                            childControl.Text = finalResult.ToString();
-                                        }
-                                        childCount++;
-                                    }
-                                }
-                                mainControlCount++;
-                            }
+                           // string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                            newPanel.outputbox.Text = "rekt".ToString();
+                            MainTableLayoutPanel.Controls.Add(newPanel);
                         }
                     }
                     else //button
                     {
-
-                        Panel executePanel = new Templates().executeWidgetTemplate();
-                        executePanel.Name = count.ToString();
-                        executePanel.Tag = count.ToString();
-                        executePanel.Size = templateSize;
-                        executePanel.BackColor = templateBackColor;
-                        executePanel.ForeColor = templateForeColor;
-                        executePanel.Margin = templateMargin;
-                        MainTableLayoutPanel.Controls.Add(executePanel);
-
-
-                        foreach (Control item in executePanel.Controls)
+                        var newPanel = new ExecuteTemplate();
+                        newPanel.Name = count.ToString();
+                        newPanel.Tag = count.ToString();
+                        newPanel.titleWidgetLabel.Text = widget.widgetName;
+                        newPanel.commandName.Text = widget.widgetCommand;
+                        if (widget.widgetCommand != "")
                         {
+                            string username = "mathijs";
+                            string password = "denbesten";
+                            string command = widget.widgetCommand;
+                            bool usesLongProcessTime = widget.widgetUseLongProcessTime;
+                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
 
-                            if (item is Panel && item.HasChildren)
-                            {
-                                foreach (Control childControl in item.Controls)
-                                {
-                                    childControl.Name = mainControlCount.ToString() + childCount.ToString();
-                                    if (mainControlCount == 0) // top bar
-                                    {
-                                        // new mousehandler
-                                        if (childCount == 0) // title
-                                        {
-                                            childControl.Text = widget.widgetName;
-                                        }
-                                        if (childCount == 1) // minimize button
-                                        {
-                                            // new mouse handler
-                                        }
-                                        if (childCount == 2) // close button
-                                        {
-                                            // new mouse handler
-                                        }
-                                        childCount++;
-                                    }
-                                    else if (mainControlCount == 1) // information box
-                                    {
-                                        if (childCount == 3)
-                                        {
-                                            childControl.Text = widget.widgetCommand;
-                                        }
-                                        if (childCount == 4)
-                                        {
-                                            // run command
-                                            string username = "mathijs";
-                                            string password = "denbesten";
-                                            string command = widget.widgetCommand;
-                                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password);
-
-                                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                            childControl.Text = finalResult.ToString();
-                                        }
-                                        if (childCount == 5)
-                                        {
-                                            childControl.Text = "Uitvoeren";
-                                            // onclick event
-                                        }
-                                        childCount++;
-                                    }
-                                }
-                                mainControlCount++;
-                            }
+                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                            newPanel.outputbox.Text = finalResult.ToString();
                         }
+                        newPanel.runButton.Text = "Uitvoeren";
+                        //make new onclick event
+                        MainTableLayoutPanel.Controls.Add(newPanel);
                     }
-                    count++;
                 }
                 if (MainTableLayoutPanel.Controls.Count < 8)
                 {
@@ -480,7 +395,45 @@ namespace Cisco_Tool
             var result = widgetCreator.ShowDialog();
             if (result == DialogResult.OK)
             {
-                MainTabControl.TabPages[1].Refresh();
+                script.TabPages[1].Refresh();
+            }
+        }
+
+        private void MainDataGridView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
+        {
+            SearchGroupBox.Refresh();
+            
+        }
+
+        private void ScriptButton_MouseEnter(object sender, EventArgs e)
+        {
+            if (ScriptButton.Text != "Kies script")
+            {
+                ScriptButton.Text = "Kies script";
+                ScriptButton.TextAlign = ContentAlignment.MiddleCenter;
+                ScriptButton.BackColor = Color.Gainsboro;
+                ScriptButton.ForeColor = Color.Black;
+                ScriptButton.BorderStyle = BorderStyle.FixedSingle;
+            }
+            if (ScriptButton.Text == "Kies script")
+            {
+                ScriptButton.BorderStyle = BorderStyle.Fixed3D;
+            }
+        }
+
+        private void ScriptButton_MouseLeave(object sender, EventArgs e)
+        {
+            if (selectedScriptPath != "")
+            {
+                ScriptButton.Text = selectedScriptPath;
+                ScriptButton.TextAlign = ContentAlignment.BottomLeft;
+                ScriptButton.BackColor = Color.FromArgb(64, 64, 64);
+                ScriptButton.ForeColor = Color.White;
+                ScriptButton.BorderStyle = BorderStyle.None;
+            }
+            if (ScriptButton.Text == "Kies script")
+            {
+                ScriptButton.BorderStyle = BorderStyle.FixedSingle;
             }
         }
     }

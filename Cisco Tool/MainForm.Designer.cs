@@ -29,16 +29,17 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.MainTabControl = new System.Windows.Forms.TabControl();
+            this.script = new System.Windows.Forms.TabControl();
             this.MainMenuTab = new System.Windows.Forms.TabPage();
             this.outputLabel = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.allSelectedRouters = new System.Windows.Forms.ListBox();
             this.allSelectedRoutersLabel = new System.Windows.Forms.Label();
             this.CommandoGB = new System.Windows.Forms.Panel();
+            this.ScriptButton = new System.Windows.Forms.Label();
             this.CommandoInfo2 = new System.Windows.Forms.Label();
             this.RunCommands = new System.Windows.Forms.Button();
             this.Command7 = new System.Windows.Forms.TextBox();
@@ -46,7 +47,7 @@
             this.Command5 = new System.Windows.Forms.TextBox();
             this.Command1 = new System.Windows.Forms.TextBox();
             this.CommandoInfo = new System.Windows.Forms.Label();
-            this.ScriptButton = new System.Windows.Forms.Button();
+            this.Password = new System.Windows.Forms.TextBox();
             this.Username = new System.Windows.Forms.TextBox();
             this.ScriptLabel = new System.Windows.Forms.Label();
             this.PasswordLabel = new System.Windows.Forms.Label();
@@ -59,6 +60,7 @@
             this.ManualLoginTitle = new System.Windows.Forms.Label();
             this.ManualConnect = new System.Windows.Forms.Button();
             this.ManualPasswordLabel = new System.Windows.Forms.Label();
+            this.ManualPassword = new System.Windows.Forms.TextBox();
             this.ManualIPAddressLabel = new System.Windows.Forms.Label();
             this.ManualIPAddress = new System.Windows.Forms.TextBox();
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
@@ -71,6 +73,7 @@
             this.RouterTab = new System.Windows.Forms.TabPage();
             this.MainTemplatePanel = new System.Windows.Forms.Panel();
             this.widgetInformationBlock = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.widgetTopBar = new System.Windows.Forms.Panel();
@@ -80,11 +83,8 @@
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
-            this.Password = new System.Windows.Forms.TextBox();
-            this.ManualPassword = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
-            this.MainTabControl.SuspendLayout();
+            this.script.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
             this.CommandoGB.SuspendLayout();
             this.SearchGroupBox.SuspendLayout();
@@ -109,16 +109,16 @@
             // 
             this.mainErrorProvider.ContainerControl = this;
             // 
-            // MainTabControl
+            // script
             // 
-            this.MainTabControl.Controls.Add(this.MainMenuTab);
-            this.MainTabControl.Controls.Add(this.RouterTab);
-            this.MainTabControl.Location = new System.Drawing.Point(17, 12);
-            this.MainTabControl.Name = "MainTabControl";
-            this.MainTabControl.SelectedIndex = 0;
-            this.MainTabControl.Size = new System.Drawing.Size(1235, 657);
-            this.MainTabControl.TabIndex = 1;
-            this.MainTabControl.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
+            this.script.Controls.Add(this.MainMenuTab);
+            this.script.Controls.Add(this.RouterTab);
+            this.script.Location = new System.Drawing.Point(17, 12);
+            this.script.Name = "script";
+            this.script.SelectedIndex = 0;
+            this.script.Size = new System.Drawing.Size(1235, 657);
+            this.script.TabIndex = 1;
+            this.script.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
             // 
             // MainMenuTab
             // 
@@ -189,6 +189,7 @@
             // CommandoGB
             // 
             this.CommandoGB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.CommandoGB.Controls.Add(this.ScriptButton);
             this.CommandoGB.Controls.Add(this.CommandoInfo2);
             this.CommandoGB.Controls.Add(this.RunCommands);
             this.CommandoGB.Controls.Add(this.Command7);
@@ -196,7 +197,6 @@
             this.CommandoGB.Controls.Add(this.Command5);
             this.CommandoGB.Controls.Add(this.Command1);
             this.CommandoGB.Controls.Add(this.CommandoInfo);
-            this.CommandoGB.Controls.Add(this.ScriptButton);
             this.CommandoGB.Controls.Add(this.Password);
             this.CommandoGB.Controls.Add(this.Username);
             this.CommandoGB.Controls.Add(this.ScriptLabel);
@@ -206,6 +206,21 @@
             this.CommandoGB.Name = "CommandoGB";
             this.CommandoGB.Size = new System.Drawing.Size(330, 377);
             this.CommandoGB.TabIndex = 19;
+            // 
+            // ScriptButton
+            // 
+            this.ScriptButton.BackColor = System.Drawing.Color.Gainsboro;
+            this.ScriptButton.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.ScriptButton.ForeColor = System.Drawing.Color.Black;
+            this.ScriptButton.Location = new System.Drawing.Point(124, 125);
+            this.ScriptButton.Name = "ScriptButton";
+            this.ScriptButton.Size = new System.Drawing.Size(171, 18);
+            this.ScriptButton.TabIndex = 73;
+            this.ScriptButton.Text = "Kies script";
+            this.ScriptButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ScriptButton.Click += new System.EventHandler(this.ScriptButton_Click);
+            this.ScriptButton.MouseEnter += new System.EventHandler(this.ScriptButton_MouseEnter);
+            this.ScriptButton.MouseLeave += new System.EventHandler(this.ScriptButton_MouseLeave);
             // 
             // CommandoInfo2
             // 
@@ -267,16 +282,13 @@
             this.CommandoInfo.TabIndex = 71;
             this.CommandoInfo.Text = "Commando\'s uitvoeren";
             // 
-            // ScriptButton
+            // Password
             // 
-            this.ScriptButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.ScriptButton.ForeColor = System.Drawing.Color.Black;
-            this.ScriptButton.Location = new System.Drawing.Point(124, 123);
-            this.ScriptButton.Name = "ScriptButton";
-            this.ScriptButton.Size = new System.Drawing.Size(171, 23);
-            this.ScriptButton.TabIndex = 62;
-            this.ScriptButton.Text = "Kies script";
-            this.ScriptButton.UseVisualStyleBackColor = true;
+            this.Password.Location = new System.Drawing.Point(124, 97);
+            this.Password.Name = "Password";
+            this.Password.PasswordChar = '*';
+            this.Password.Size = new System.Drawing.Size(171, 20);
+            this.Password.TabIndex = 61;
             // 
             // Username
             // 
@@ -288,7 +300,7 @@
             // ScriptLabel
             // 
             this.ScriptLabel.AutoSize = true;
-            this.ScriptLabel.Location = new System.Drawing.Point(21, 129);
+            this.ScriptLabel.Location = new System.Drawing.Point(21, 125);
             this.ScriptLabel.Name = "ScriptLabel";
             this.ScriptLabel.Size = new System.Drawing.Size(34, 13);
             this.ScriptLabel.TabIndex = 70;
@@ -402,6 +414,14 @@
             this.ManualPasswordLabel.TabIndex = 16;
             this.ManualPasswordLabel.Text = "Wachtwoord";
             // 
+            // ManualPassword
+            // 
+            this.ManualPassword.Location = new System.Drawing.Point(134, 105);
+            this.ManualPassword.Name = "ManualPassword";
+            this.ManualPassword.PasswordChar = '*';
+            this.ManualPassword.Size = new System.Drawing.Size(163, 20);
+            this.ManualPassword.TabIndex = 4;
+            // 
             // ManualIPAddressLabel
             // 
             this.ManualIPAddressLabel.AutoSize = true;
@@ -448,14 +468,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -463,6 +483,7 @@
             this.MainDataGridView.Size = new System.Drawing.Size(696, 593);
             this.MainDataGridView.TabIndex = 6;
             this.MainDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGridView_CellContentClick);
+            this.MainDataGridView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.MainDataGridView_ColumnWidthChanged);
             // 
             // rowCheckbox
             // 
@@ -524,6 +545,17 @@
             this.widgetInformationBlock.Name = "widgetInformationBlock";
             this.widgetInformationBlock.Size = new System.Drawing.Size(244, 193);
             this.widgetInformationBlock.TabIndex = 3;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.DimGray;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(44, 128);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(139, 42);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Uitvoeren";
+            this.button1.UseVisualStyleBackColor = false;
             // 
             // textBox2
             // 
@@ -618,46 +650,19 @@
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.removeToolStripMenuItem_MouseDown);
             // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.DimGray;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(44, 128);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 42);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Uitvoeren";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // Password
-            // 
-            this.Password.Location = new System.Drawing.Point(124, 97);
-            this.Password.Name = "Password";
-            this.Password.PasswordChar = '*';
-            this.Password.Size = new System.Drawing.Size(171, 20);
-            this.Password.TabIndex = 61;
-            // 
-            // ManualPassword
-            // 
-            this.ManualPassword.Location = new System.Drawing.Point(134, 105);
-            this.ManualPassword.Name = "ManualPassword";
-            this.ManualPassword.PasswordChar = '*';
-            this.ManualPassword.Size = new System.Drawing.Size(163, 20);
-            this.ManualPassword.TabIndex = 4;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Controls.Add(this.MainTabControl);
+            this.Controls.Add(this.script);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "MainForm";
             this.Text = "Cisco Tool";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).EndInit();
-            this.MainTabControl.ResumeLayout(false);
+            this.script.ResumeLayout(false);
             this.MainMenuTab.ResumeLayout(false);
             this.MainMenuTab.PerformLayout();
             this.CommandoGB.ResumeLayout(false);
@@ -683,7 +688,7 @@
         #endregion
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.ErrorProvider mainErrorProvider;
-        private System.Windows.Forms.TabControl MainTabControl;
+        private System.Windows.Forms.TabControl script;
         private System.Windows.Forms.TabPage RouterTab;
         private System.Windows.Forms.TabPage MainMenuTab;
         private System.Windows.Forms.Panel SearchGroupBox;
@@ -711,7 +716,6 @@
         private System.Windows.Forms.TextBox Command5;
         private System.Windows.Forms.TextBox Command1;
         private System.Windows.Forms.Label CommandoInfo;
-        private System.Windows.Forms.Button ScriptButton;
         private System.Windows.Forms.TextBox Username;
         private System.Windows.Forms.Label ScriptLabel;
         private System.Windows.Forms.Label PasswordLabel;
@@ -734,6 +738,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox Password;
         private System.Windows.Forms.TextBox ManualPassword;
+        private System.Windows.Forms.Label ScriptButton;
     }
 }
 

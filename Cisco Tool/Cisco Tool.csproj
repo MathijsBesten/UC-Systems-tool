@@ -107,13 +107,19 @@
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
+    <Compile Include="Widgets\Templates\ExecuteTemplate.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Widgets\Templates\InfoTemplate.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Widgets\Views\selctionWizard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Widgets\Views\selctionWizard.Designer.cs">
       <DependentUpon>selctionWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Widgets\Views\Templates.cs" />
+    <Compile Include="Widgets\Templates\Templates.cs" />
     <Compile Include="Widgets\Views\WidgetCreator.cs">
       <SubType>Form</SubType>
     </Compile>

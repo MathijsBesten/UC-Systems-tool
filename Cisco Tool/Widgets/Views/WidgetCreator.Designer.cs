@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WidgetCreator));
             this.NewWidgetChoicePanel = new System.Windows.Forms.Panel();
+            this.NewWidgetUsesLongProcessTime = new System.Windows.Forms.CheckBox();
+            this.processTimeLablel = new System.Windows.Forms.Label();
             this.newWidgetUseSelectionCheckbox = new System.Windows.Forms.CheckBox();
             this.useSelectionLabel = new System.Windows.Forms.Label();
             this.NewWidgetCommandtype = new System.Windows.Forms.ComboBox();
@@ -42,6 +44,8 @@
             this.NewWidgetName = new System.Windows.Forms.TextBox();
             this.NewWidgetCommandtypeLabel = new System.Windows.Forms.Label();
             this.NewWidgetInformationPanel = new System.Windows.Forms.Panel();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -63,6 +67,8 @@
             // 
             this.NewWidgetChoicePanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.NewWidgetChoicePanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.NewWidgetChoicePanel.Controls.Add(this.NewWidgetUsesLongProcessTime);
+            this.NewWidgetChoicePanel.Controls.Add(this.processTimeLablel);
             this.NewWidgetChoicePanel.Controls.Add(this.newWidgetUseSelectionCheckbox);
             this.NewWidgetChoicePanel.Controls.Add(this.useSelectionLabel);
             this.NewWidgetChoicePanel.Controls.Add(this.NewWidgetCommandtype);
@@ -76,8 +82,28 @@
             this.NewWidgetChoicePanel.ForeColor = System.Drawing.Color.White;
             this.NewWidgetChoicePanel.Location = new System.Drawing.Point(30, 12);
             this.NewWidgetChoicePanel.Name = "NewWidgetChoicePanel";
-            this.NewWidgetChoicePanel.Size = new System.Drawing.Size(386, 211);
+            this.NewWidgetChoicePanel.Size = new System.Drawing.Size(386, 229);
             this.NewWidgetChoicePanel.TabIndex = 14;
+            // 
+            // NewWidgetUsesLongProcessTime
+            // 
+            this.NewWidgetUsesLongProcessTime.AutoSize = true;
+            this.NewWidgetUsesLongProcessTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Italic);
+            this.NewWidgetUsesLongProcessTime.Location = new System.Drawing.Point(147, 158);
+            this.NewWidgetUsesLongProcessTime.Name = "NewWidgetUsesLongProcessTime";
+            this.NewWidgetUsesLongProcessTime.Size = new System.Drawing.Size(210, 17);
+            this.NewWidgetUsesLongProcessTime.TabIndex = 21;
+            this.NewWidgetUsesLongProcessTime.Text = "Gebruik als  router meer tijd nodig heeft";
+            this.NewWidgetUsesLongProcessTime.UseVisualStyleBackColor = true;
+            // 
+            // processTimeLablel
+            // 
+            this.processTimeLablel.AutoSize = true;
+            this.processTimeLablel.Location = new System.Drawing.Point(41, 159);
+            this.processTimeLablel.Name = "processTimeLablel";
+            this.processTimeLablel.Size = new System.Drawing.Size(89, 13);
+            this.processTimeLablel.TabIndex = 20;
+            this.processTimeLablel.Text = "lange processtijd ";
             // 
             // newWidgetUseSelectionCheckbox
             // 
@@ -127,7 +153,7 @@
             // 
             this.NewWidgetAddButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.NewWidgetAddButton.ForeColor = System.Drawing.Color.Black;
-            this.NewWidgetAddButton.Location = new System.Drawing.Point(21, 167);
+            this.NewWidgetAddButton.Location = new System.Drawing.Point(21, 184);
             this.NewWidgetAddButton.Name = "NewWidgetAddButton";
             this.NewWidgetAddButton.Size = new System.Drawing.Size(100, 23);
             this.NewWidgetAddButton.TabIndex = 5;
@@ -180,6 +206,8 @@
             // 
             this.NewWidgetInformationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.NewWidgetInformationPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.NewWidgetInformationPanel.Controls.Add(this.textBox4);
+            this.NewWidgetInformationPanel.Controls.Add(this.label3);
             this.NewWidgetInformationPanel.Controls.Add(this.textBox3);
             this.NewWidgetInformationPanel.Controls.Add(this.textBox2);
             this.NewWidgetInformationPanel.Controls.Add(this.label1);
@@ -187,17 +215,40 @@
             this.NewWidgetInformationPanel.Controls.Add(this.newWidgetInformationLabel);
             this.NewWidgetInformationPanel.Controls.Add(this.choosenWidgetType);
             this.NewWidgetInformationPanel.ForeColor = System.Drawing.Color.White;
-            this.NewWidgetInformationPanel.Location = new System.Drawing.Point(488, 12);
+            this.NewWidgetInformationPanel.Location = new System.Drawing.Point(509, 12);
             this.NewWidgetInformationPanel.Name = "NewWidgetInformationPanel";
-            this.NewWidgetInformationPanel.Size = new System.Drawing.Size(317, 469);
+            this.NewWidgetInformationPanel.Size = new System.Drawing.Size(317, 487);
             this.NewWidgetInformationPanel.TabIndex = 15;
+            // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox4.ForeColor = System.Drawing.Color.White;
+            this.textBox4.Location = new System.Drawing.Point(34, 211);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(201, 69);
+            this.textBox4.TabIndex = 23;
+            this.textBox4.Text = "Sommige commando\'s hebben meer tijd nodig tijdens het geven van een output, gebru" +
+    "ik de optie \"Lange procestijd\". Bijvoorbeeld: SHOW RUNNING-CONFIG";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(31, 187);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(125, 15);
+            this.label3.TabIndex = 22;
+            this.label3.Text = "LANGE PROCESTIJD";
             // 
             // textBox3
             // 
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(34, 321);
+            this.textBox3.Location = new System.Drawing.Point(34, 387);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(211, 56);
@@ -211,19 +262,19 @@
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(34, 260);
+            this.textBox2.Location = new System.Drawing.Point(34, 326);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(201, 55);
             this.textBox2.TabIndex = 20;
-            this.textBox2.Text = "Het is mogelijk om een gedeelte van output te selecteren zodat je altijd in één o" +
-    "ogopslag kan zien wat de uitkomst is van een commando";
+            this.textBox2.Text = "Het is mogelijk om een gedeelte van de output te selecteren zodat je altijd in éé" +
+    "n oogopslag kan zien wat de uitkomst is van een commando";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(31, 233);
+            this.label1.Location = new System.Drawing.Point(31, 302);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 15);
             this.label1.TabIndex = 19;
@@ -234,7 +285,7 @@
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(34, 97);
+            this.textBox1.Location = new System.Drawing.Point(34, 70);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(201, 93);
@@ -255,7 +306,7 @@
             // 
             this.choosenWidgetType.AutoSize = true;
             this.choosenWidgetType.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.choosenWidgetType.Location = new System.Drawing.Point(31, 73);
+            this.choosenWidgetType.Location = new System.Drawing.Point(31, 46);
             this.choosenWidgetType.Name = "choosenWidgetType";
             this.choosenWidgetType.Size = new System.Drawing.Size(113, 15);
             this.choosenWidgetType.TabIndex = 12;
@@ -269,7 +320,7 @@
             this.selectionPanel.Controls.Add(this.outputBox);
             this.selectionPanel.Controls.Add(this.label2);
             this.selectionPanel.ForeColor = System.Drawing.Color.White;
-            this.selectionPanel.Location = new System.Drawing.Point(30, 229);
+            this.selectionPanel.Location = new System.Drawing.Point(30, 247);
             this.selectionPanel.Name = "selectionPanel";
             this.selectionPanel.Size = new System.Drawing.Size(386, 252);
             this.selectionPanel.TabIndex = 16;
@@ -281,7 +332,7 @@
             this.SelectionWizard.Name = "SelectionWizard";
             this.SelectionWizard.Size = new System.Drawing.Size(105, 28);
             this.SelectionWizard.TabIndex = 12;
-            this.SelectionWizard.Text = "use selction wizard";
+            this.SelectionWizard.Text = "selction wizard";
             this.SelectionWizard.UseVisualStyleBackColor = true;
             this.SelectionWizard.Click += new System.EventHandler(this.SelectionWizard_Click);
             // 
@@ -355,5 +406,9 @@
         private System.Windows.Forms.Label useSelectionLabel;
         private System.Windows.Forms.ErrorProvider widgetCreatorErrorProvider;
         private System.Windows.Forms.Button SelectionWizard;
+        private System.Windows.Forms.CheckBox NewWidgetUsesLongProcessTime;
+        private System.Windows.Forms.Label processTimeLablel;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label label3;
     }
 }

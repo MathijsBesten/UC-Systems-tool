@@ -18,7 +18,7 @@ namespace Cisco_Tool.Functions.Telnet
     {
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static string telnetClientTCP(string IPAddressString,string command, string username,string password)
+        public static string telnetClientTCP(string IPAddressString,string command, string username,string password, bool useLongProcessTime)
         {
 
             log.Info("Telnet function was been started");
@@ -30,13 +30,14 @@ namespace Cisco_Tool.Functions.Telnet
             {
                 try
                 {
-                    response = Networkstreams.TalkToCiscoRouterAndGetResponse(IPAddressString,command,username,password);
+                    response = Networkstreams.TalkToCiscoRouterAndGetResponse(IPAddressString,command,username,password, useLongProcessTime);
                     log.Info("response from " + IPAddressString + ": " + response);
                 }
                 catch (Exception ex)
                 {
                     log.Error("ERROR - Could not connect to " + IPAddressString + " using telnet to get serialnumber ");
                     log.Error("errormessage - " + ex.Message);
+                    System.Windows.Forms.MessageBox.Show(ex.Message);
                 }
 
             }
