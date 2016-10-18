@@ -45,7 +45,7 @@ namespace Cisco_Tool.Functions.Stream
                 {
                     while (itIsTheEnd == false)
                     {
-                        bytes = reader.BaseStream.Read(responseInBytes, 0, responseInBytes.Count());
+                        bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
                         if (lastBytesArray == responseInBytes)
                         {
                             itIsTheEnd = true;
