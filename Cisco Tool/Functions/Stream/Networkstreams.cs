@@ -24,25 +24,28 @@ namespace Cisco_Tool.Functions.Stream
             byte[] lastBytesArray = new byte[4096];
             byte[] responseInBytes = new byte[4096];
             bool itIsTheEnd = false;
+            string message = username + "\r\n" + password + "\r\n" + command + "\r\n"; // command with excape characters
+
             var client = new TcpClient();
             client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(2));
             if (client.Connected == true)
             {
                 client.ReceiveTimeout = 3;
                 client.SendTimeout = 3;
-                byte[] messageInBytes = Encoding.ASCII.GetBytes(command);
+                byte[] messageInBytes = Encoding.ASCII.GetBytes(message);
                 NetworkStream stream = client.GetStream();
                 Console.WriteLine();
                 using (var writer = new BinaryWriter(client.GetStream(), Encoding.ASCII, true))
                 {
                     writer.Write(messageInBytes);
-                    Thread.Sleep(15);
+                    Thread.Sleep(sleepMSAfterSend);
                 }
+
                 using (var reader = new BinaryReader(client.GetStream(), Encoding.ASCII, true))
                 {
                     while (itIsTheEnd == false)
                     {
-                        bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
+                        bytes = reader.BaseStream.Read(responseInBytes, 0, responseInBytes.Count());
                         if (lastBytesArray == responseInBytes)
                         {
                             itIsTheEnd = true;

@@ -337,7 +337,7 @@ namespace Cisco_Tool
                             bool usesLongProcessTime = widget.widgetUseLongProcessTime;
                             string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
                             string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                            newPanel.outputbox.Text = "rekt".ToString();
+                            newPanel.outputbox.Text = finalResult.ToString();
                             MainTableLayoutPanel.Controls.Add(newPanel);
                         }
                     }
@@ -399,8 +399,7 @@ namespace Cisco_Tool
 
         private void MainDataGridView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
-            SearchGroupBox.Refresh();
-            
+            SearchGroupBox.Refresh();     
         }
 
         private void ScriptButton_MouseEnter(object sender, EventArgs e)

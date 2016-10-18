@@ -15,7 +15,6 @@ namespace CiscoDatabaseProgram.Functions.Network.Stream
 {
     class Networkstreams
     {
-        public static int intt = 0;
         public static string TalkToCiscoRouterAndWaitForResponse(string IPAddress,string message)
         {
             int bytes = 0;
