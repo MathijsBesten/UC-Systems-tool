@@ -15,6 +15,10 @@ namespace Cisco_Tool.Functions.Stream
         public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password, bool useLongProcessTime)
         {
             int sleepMSAfterSend = 15;
+            if (useLongProcessTime == true)
+            {
+                sleepMSAfterSend = 1000;
+            }
             int bytes = 0;
             string response = "";
             byte[] lastBytesArray = new byte[4096];
@@ -22,14 +26,8 @@ namespace Cisco_Tool.Functions.Stream
             bool itIsTheEnd = false;
             var client = new TcpClient();
             client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(2));
-
-            if (useLongProcessTime == true)
-            {
-                sleepMSAfterSend = 1000; // sleeps for 1 second to let router get results
-            }
             if (client.Connected == true)
             {
-
                 client.ReceiveTimeout = 3;
                 client.SendTimeout = 3;
                 byte[] messageInBytes = Encoding.ASCII.GetBytes(command);
@@ -38,7 +36,7 @@ namespace Cisco_Tool.Functions.Stream
                 using (var writer = new BinaryWriter(client.GetStream(), Encoding.ASCII, true))
                 {
                     writer.Write(messageInBytes);
-                    Thread.Sleep(sleepMSAfterSend);
+                    Thread.Sleep(15);
                 }
                 using (var reader = new BinaryReader(client.GetStream(), Encoding.ASCII, true))
                 {

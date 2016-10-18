@@ -27,8 +27,6 @@ namespace CiscoDatabaseProgram.Functions.Network.Stream
             client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(2));
             if (client.Connected == true)
             {
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
                 client.ReceiveTimeout = 3;
                 client.SendTimeout = 3;
                 byte[] messageInBytes = Encoding.ASCII.GetBytes(message);
@@ -55,8 +53,6 @@ namespace CiscoDatabaseProgram.Functions.Network.Stream
                 response = Encoding.ASCII.GetString(responseInBytes);
                 response = response.Replace("\0", "");
                 client.Close();
-                var elapsed = sw.ElapsedMilliseconds;
-                sw.Stop();
                 return response;
             }
             return null;

@@ -335,9 +335,8 @@ namespace Cisco_Tool
                             string password = "denbesten";
                             string command = widget.widgetCommand;
                             bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                           // string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
-
-                           // string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
+                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
                             newPanel.outputbox.Text = "rekt".ToString();
                             MainTableLayoutPanel.Controls.Add(newPanel);
                         }
@@ -356,7 +355,6 @@ namespace Cisco_Tool
                             string command = widget.widgetCommand;
                             bool usesLongProcessTime = widget.widgetUseLongProcessTime;
                             string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
-
                             string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
                             newPanel.outputbox.Text = finalResult.ToString();
                         }
