@@ -92,7 +92,7 @@
             this.NewWidgetUsesLongProcessTime.Location = new System.Drawing.Point(147, 158);
             this.NewWidgetUsesLongProcessTime.Name = "NewWidgetUsesLongProcessTime";
             this.NewWidgetUsesLongProcessTime.Size = new System.Drawing.Size(210, 17);
-            this.NewWidgetUsesLongProcessTime.TabIndex = 21;
+            this.NewWidgetUsesLongProcessTime.TabIndex = 6;
             this.NewWidgetUsesLongProcessTime.Text = "Gebruik als  router meer tijd nodig heeft";
             this.NewWidgetUsesLongProcessTime.UseVisualStyleBackColor = true;
             // 
@@ -112,7 +112,7 @@
             this.newWidgetUseSelectionCheckbox.Location = new System.Drawing.Point(147, 132);
             this.newWidgetUseSelectionCheckbox.Name = "newWidgetUseSelectionCheckbox";
             this.newWidgetUseSelectionCheckbox.Size = new System.Drawing.Size(173, 17);
-            this.newWidgetUseSelectionCheckbox.TabIndex = 19;
+            this.newWidgetUseSelectionCheckbox.TabIndex = 5;
             this.newWidgetUseSelectionCheckbox.Text = "Laat leeg voor complete output";
             this.newWidgetUseSelectionCheckbox.UseVisualStyleBackColor = true;
             this.newWidgetUseSelectionCheckbox.CheckedChanged += new System.EventHandler(this.newWidgetUseSelectionCheckbox_CheckedChanged);
@@ -136,7 +136,7 @@
             this.NewWidgetCommandtype.Location = new System.Drawing.Point(147, 79);
             this.NewWidgetCommandtype.Name = "NewWidgetCommandtype";
             this.NewWidgetCommandtype.Size = new System.Drawing.Size(208, 21);
-            this.NewWidgetCommandtype.TabIndex = 17;
+            this.NewWidgetCommandtype.TabIndex = 3;
             this.NewWidgetCommandtype.TextChanged += new System.EventHandler(this.NewWidgetCommandtype_TextChanged);
             // 
             // AddNewCommandTitle
@@ -156,7 +156,7 @@
             this.NewWidgetAddButton.Location = new System.Drawing.Point(21, 184);
             this.NewWidgetAddButton.Name = "NewWidgetAddButton";
             this.NewWidgetAddButton.Size = new System.Drawing.Size(100, 23);
-            this.NewWidgetAddButton.TabIndex = 5;
+            this.NewWidgetAddButton.TabIndex = 7;
             this.NewWidgetAddButton.Text = "Toevoegen";
             this.NewWidgetAddButton.UseVisualStyleBackColor = true;
             this.NewWidgetAddButton.Click += new System.EventHandler(this.NewWidgetAddButton_Click);

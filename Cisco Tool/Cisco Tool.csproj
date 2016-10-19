@@ -101,6 +101,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Values\PrivateValues.cs" />
     <Compile Include="Values\PublicValues.cs" />
+    <Compile Include="Views\ConfirmationScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\ConfirmationScreen.Designer.cs">
+      <DependentUpon>ConfirmationScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
@@ -136,6 +142,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\confirmationScreen.resx">
+      <DependentUpon>ConfirmationScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Widgets\Views\selctionWizard.resx">
       <DependentUpon>selctionWizard.cs</DependentUpon>
     </EmbeddedResource>
@@ -160,7 +169,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EventHandlers\" />
-    <Folder Include="Views\" />
     <Folder Include="Widgets\Algorithms\" />
   </ItemGroup>
   <ItemGroup>

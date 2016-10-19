@@ -29,22 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.script = new System.Windows.Forms.TabControl();
             this.MainMenuTab = new System.Windows.Forms.TabPage();
             this.outputLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.OutputBox = new System.Windows.Forms.TextBox();
             this.allSelectedRouters = new System.Windows.Forms.ListBox();
             this.allSelectedRoutersLabel = new System.Windows.Forms.Label();
             this.CommandoGB = new System.Windows.Forms.Panel();
             this.ScriptButton = new System.Windows.Forms.Label();
             this.CommandoInfo2 = new System.Windows.Forms.Label();
             this.RunCommands = new System.Windows.Forms.Button();
-            this.Command7 = new System.Windows.Forms.TextBox();
-            this.Command6 = new System.Windows.Forms.TextBox();
-            this.Command5 = new System.Windows.Forms.TextBox();
+            this.Command4 = new System.Windows.Forms.TextBox();
+            this.Command3 = new System.Windows.Forms.TextBox();
+            this.Command2 = new System.Windows.Forms.TextBox();
             this.Command1 = new System.Windows.Forms.TextBox();
             this.CommandoInfo = new System.Windows.Forms.Label();
             this.Password = new System.Windows.Forms.TextBox();
@@ -124,7 +124,7 @@
             // 
             this.MainMenuTab.BackColor = System.Drawing.Color.White;
             this.MainMenuTab.Controls.Add(this.outputLabel);
-            this.MainMenuTab.Controls.Add(this.textBox1);
+            this.MainMenuTab.Controls.Add(this.OutputBox);
             this.MainMenuTab.Controls.Add(this.allSelectedRouters);
             this.MainMenuTab.Controls.Add(this.allSelectedRoutersLabel);
             this.MainMenuTab.Controls.Add(this.CommandoGB);
@@ -150,13 +150,14 @@
             this.outputLabel.Text = "OUTPUT";
             this.outputLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // OutputBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(346, 312);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(171, 287);
-            this.textBox1.TabIndex = 22;
+            this.OutputBox.Location = new System.Drawing.Point(346, 312);
+            this.OutputBox.Multiline = true;
+            this.OutputBox.Name = "OutputBox";
+            this.OutputBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.OutputBox.Size = new System.Drawing.Size(171, 287);
+            this.OutputBox.TabIndex = 22;
             // 
             // allSelectedRouters
             // 
@@ -192,9 +193,9 @@
             this.CommandoGB.Controls.Add(this.ScriptButton);
             this.CommandoGB.Controls.Add(this.CommandoInfo2);
             this.CommandoGB.Controls.Add(this.RunCommands);
-            this.CommandoGB.Controls.Add(this.Command7);
-            this.CommandoGB.Controls.Add(this.Command6);
-            this.CommandoGB.Controls.Add(this.Command5);
+            this.CommandoGB.Controls.Add(this.Command4);
+            this.CommandoGB.Controls.Add(this.Command3);
+            this.CommandoGB.Controls.Add(this.Command2);
             this.CommandoGB.Controls.Add(this.Command1);
             this.CommandoGB.Controls.Add(this.CommandoInfo);
             this.CommandoGB.Controls.Add(this.Password);
@@ -244,26 +245,26 @@
             this.RunCommands.UseVisualStyleBackColor = true;
             this.RunCommands.Click += new System.EventHandler(this.RunCommands_Click);
             // 
-            // Command7
+            // Command4
             // 
-            this.Command7.Location = new System.Drawing.Point(24, 270);
-            this.Command7.Name = "Command7";
-            this.Command7.Size = new System.Drawing.Size(271, 20);
-            this.Command7.TabIndex = 66;
+            this.Command4.Location = new System.Drawing.Point(24, 270);
+            this.Command4.Name = "Command4";
+            this.Command4.Size = new System.Drawing.Size(271, 20);
+            this.Command4.TabIndex = 66;
             // 
-            // Command6
+            // Command3
             // 
-            this.Command6.Location = new System.Drawing.Point(24, 244);
-            this.Command6.Name = "Command6";
-            this.Command6.Size = new System.Drawing.Size(271, 20);
-            this.Command6.TabIndex = 65;
+            this.Command3.Location = new System.Drawing.Point(24, 244);
+            this.Command3.Name = "Command3";
+            this.Command3.Size = new System.Drawing.Size(271, 20);
+            this.Command3.TabIndex = 65;
             // 
-            // Command5
+            // Command2
             // 
-            this.Command5.Location = new System.Drawing.Point(24, 218);
-            this.Command5.Name = "Command5";
-            this.Command5.Size = new System.Drawing.Size(271, 20);
-            this.Command5.TabIndex = 64;
+            this.Command2.Location = new System.Drawing.Point(24, 218);
+            this.Command2.Name = "Command2";
+            this.Command2.Size = new System.Drawing.Size(271, 20);
+            this.Command2.TabIndex = 64;
             // 
             // Command1
             // 
@@ -468,14 +469,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -529,7 +530,7 @@
             this.MainTemplatePanel.BackColor = System.Drawing.Color.Gray;
             this.MainTemplatePanel.Controls.Add(this.widgetInformationBlock);
             this.MainTemplatePanel.Controls.Add(this.widgetTopBar);
-            this.MainTemplatePanel.Location = new System.Drawing.Point(12, 16);
+            this.MainTemplatePanel.Location = new System.Drawing.Point(3, 321);
             this.MainTemplatePanel.Margin = new System.Windows.Forms.Padding(0);
             this.MainTemplatePanel.Name = "MainTemplatePanel";
             this.MainTemplatePanel.Size = new System.Drawing.Size(250, 230);
@@ -654,7 +655,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DimGray;
+            this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1264, 681);
             this.Controls.Add(this.script);
             this.ForeColor = System.Drawing.Color.White;
@@ -711,9 +712,9 @@
         private System.Windows.Forms.Panel CommandoGB;
         private System.Windows.Forms.Label CommandoInfo2;
         private System.Windows.Forms.Button RunCommands;
-        private System.Windows.Forms.TextBox Command7;
-        private System.Windows.Forms.TextBox Command6;
-        private System.Windows.Forms.TextBox Command5;
+        private System.Windows.Forms.TextBox Command4;
+        private System.Windows.Forms.TextBox Command3;
+        private System.Windows.Forms.TextBox Command2;
         private System.Windows.Forms.TextBox Command1;
         private System.Windows.Forms.Label CommandoInfo;
         private System.Windows.Forms.TextBox Username;
@@ -722,7 +723,7 @@
         private System.Windows.Forms.Label UsernameLabel;
         private System.Windows.Forms.ListBox allSelectedRouters;
         private System.Windows.Forms.Label allSelectedRoutersLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox OutputBox;
         private System.Windows.Forms.Label outputLabel;
         private System.Windows.Forms.ContextMenuStrip MainContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;

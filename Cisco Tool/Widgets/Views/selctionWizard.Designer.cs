@@ -59,14 +59,14 @@
             this.LoginPanel.Location = new System.Drawing.Point(41, 43);
             this.LoginPanel.Name = "LoginPanel";
             this.LoginPanel.Size = new System.Drawing.Size(386, 211);
-            this.LoginPanel.TabIndex = 15;
+            this.LoginPanel.TabIndex = 20;
             // 
             // LoginUsername
             // 
             this.LoginUsername.Location = new System.Drawing.Point(157, 87);
             this.LoginUsername.Name = "LoginUsername";
             this.LoginUsername.Size = new System.Drawing.Size(208, 20);
-            this.LoginUsername.TabIndex = 20;
+            this.LoginUsername.TabIndex = 3;
             // 
             // LoginLabel
             // 

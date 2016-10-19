@@ -13,6 +13,8 @@ using Cisco_Tool.Widgets.Templates;
 using Cisco_Tool.Functions.Stream;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Cisco_Tool
 {
@@ -21,6 +23,8 @@ namespace Cisco_Tool
         private static List<router> allRouters;
         private Point mouseLocation;
         private string selectedScriptPath = "";
+        public List<string> allCommands = new List<string>();
+        public List<string> selectedIPAddresses = new List<string>();
 
         // all selected routers list
         private int originalLocationWidgetLeft;
@@ -115,26 +119,10 @@ namespace Cisco_Tool
                 }
             }
         }
-
-        private void ScriptButton_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = ("Text Files|*.txt");
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                string path = dialog.FileName;
-                List<string> allCommands = Functions.Scripting.Read.readScript(path);
-                selectedScriptPath = path;
-
-                ScriptButton.Text = selectedScriptPath;
-                ScriptButton.TextAlign = ContentAlignment.BottomLeft;
-                ScriptButton.BackColor = Color.FromArgb(64, 64, 64);
-                ScriptButton.ForeColor = Color.White;
-                ScriptButton.BorderStyle = BorderStyle.None;
-            }
-        }
         private void RunCommands_Click(object sender, EventArgs e)
         {
+            var testDialog = new Views.ConfirmationScreen(allSelectedRouters.Items.Cast<string>().ToList(),allCommands);
+            testDialog.ShowDialog();
             if (Username.Text == "")
             {
                 mainErrorProvider.SetError(Username, "gebruikersnaam vereist");
@@ -153,15 +141,65 @@ namespace Cisco_Tool
             }
             if (Command1.Text == "")
             {
-                mainErrorProvider.SetError(Command1, "commando of script vereist");
+                if (allRouters.Count != 0) // user selected a script
+                {
+                    mainErrorProvider.SetError(Command1, "");
+                }
+                else
+                {
+                    mainErrorProvider.SetError(Command1, "commando of script vereist");
+                }
             }
             else
             {
                 mainErrorProvider.SetError(Command1, "");
             }
-            if (Username.Text != "" && Password.Text !="" && Command1.Text != "" )
+            if (Username.Text != "" && Password.Text !="" && (Command1.Text != "" || selectedIPAddresses.Count != 0))
             {
                 MessageBox.Show("executing command");
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+                if (selectedIPAddresses.Count == 0)
+                {
+                    MessageBox.Show("geen routers geselecteerd, vink de router(s) aan die je wilt aansturen");
+                }
+                else
+                {
+                    if (Command1.Text != "") { allCommands.Add(Command1.Text); }
+                    if (Command2.Text != "") { allCommands.Add(Command2.Text); }
+                    if (Command3.Text != "") { allCommands.Add(Command3.Text); }
+                    if (Command4.Text != "") { allCommands.Add(Command4.Text); }
+                    foreach (var IPAddress in selectedIPAddresses)
+                    {
+                        string localIP = "172.28.81.180";
+                        Console.WriteLine(localIP);
+                        string username = Username.Text;
+                        string password = Password.Text;
+
+                        OutputBox.Text += Environment.NewLine;
+                        OutputBox.Text += localIP;
+                        OutputBox.Text += Environment.NewLine;
+                        OutputBox.Text += Environment.NewLine;
+                        foreach (var command in allCommands)
+                        {
+                            string test;
+                            if (command.ToLower() == "show running-config")
+                            {
+                                test = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, true);
+                            }
+                            else
+                            {
+                                test = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, false);
+                            }
+                            OutputBox.Text += test;
+                            OutputBox.Text += Environment.NewLine;
+                            OutputBox.Text += "--------------";
+                            OutputBox.Text += Environment.NewLine;
+                        }
+                    }
+                }
+                sw.Stop();
+                MessageBox.Show(sw.Elapsed.ToString());
             }
         }
 
@@ -170,6 +208,7 @@ namespace Cisco_Tool
             if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
             {
                 string nameOfRouter = MainDataGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string IPAddress = MainDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
                 if (allSelectedRouters.Items.Contains(nameOfRouter))
                 {
                     allSelectedRouters.Items.Remove(nameOfRouter);
@@ -178,6 +217,15 @@ namespace Cisco_Tool
                 {
                     allSelectedRouters.Items.Add(nameOfRouter);
                 }
+                if (selectedIPAddresses.Contains(IPAddress))
+                {
+                    selectedIPAddresses.Remove(IPAddress);
+                }
+                else
+                {
+                    selectedIPAddresses.Add(IPAddress);
+                }
+
             }
         }
         private void allSelectedRouters_MouseHover(object sender, EventArgs e)
@@ -320,8 +368,6 @@ namespace Cisco_Tool
                 int count = 0;
                 foreach (var widget in widgets)
                 {
-
-
                     if (widget.widgetType == "Informatie")
                     {
                         var newPanel = new InfoTemplate();
@@ -336,8 +382,23 @@ namespace Cisco_Tool
                             string command = widget.widgetCommand;
                             bool usesLongProcessTime = widget.widgetUseLongProcessTime;
                             string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
-                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                            newPanel.outputbox.Text = finalResult.ToString();
+                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                            {
+                                if (widget.widgetUseSelection == true)
+                                {
+                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                    newPanel.outputbox.Text = finalResult.ToString();
+                                }
+                                else
+                                {
+                                    newPanel.outputbox.Text = output;
+                                }
+                            }
+                            else
+                            {
+                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"'  is niet geldig";                        
+                            }
                             MainTableLayoutPanel.Controls.Add(newPanel);
                         }
                     }
@@ -355,8 +416,23 @@ namespace Cisco_Tool
                             string command = widget.widgetCommand;
                             bool usesLongProcessTime = widget.widgetUseLongProcessTime;
                             string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
-                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                            newPanel.outputbox.Text = finalResult.ToString();
+                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                            {
+                                if (widget.widgetUseSelection == true)
+                                {
+                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                    newPanel.outputbox.Text = finalResult.ToString();
+                                }
+                                else
+                                {
+                                    newPanel.outputbox.Text = output;
+                                }
+                            }
+                            else
+                            {
+                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
+                            }
                         }
                         newPanel.runButton.Text = "Uitvoeren";
                         //make new onclick event
@@ -402,22 +478,52 @@ namespace Cisco_Tool
             SearchGroupBox.Refresh();     
         }
 
-        private void ScriptButton_MouseEnter(object sender, EventArgs e)
+
+        private void ScriptButton_Click(object sender, EventArgs e)
         {
-            if (ScriptButton.Text != "Kies script")
+            if (ScriptButton.Text == "Verwijder script")
             {
+                allCommands.Clear(); //remove all commands from script
+                selectedScriptPath = ""; // removes path for futher if statements
                 ScriptButton.Text = "Kies script";
                 ScriptButton.TextAlign = ContentAlignment.MiddleCenter;
                 ScriptButton.BackColor = Color.Gainsboro;
                 ScriptButton.ForeColor = Color.Black;
                 ScriptButton.BorderStyle = BorderStyle.FixedSingle;
             }
-            if (ScriptButton.Text == "Kies script")
+            else
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Filter = ("Text Files|*.txt");
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    string path = dialog.FileName;
+                    allCommands = Functions.Scripting.Read.readScript(path);
+                    selectedScriptPath = path; // styling for the text
+                    ScriptButton.Text = selectedScriptPath;
+                    ScriptButton.TextAlign = ContentAlignment.BottomLeft;
+                    ScriptButton.BackColor = Color.FromArgb(64, 64, 64);
+                    ScriptButton.ForeColor = Color.White;
+                    ScriptButton.BorderStyle = BorderStyle.None;
+                }
+            }
+        }
+
+        private void ScriptButton_MouseEnter(object sender, EventArgs e)
+        {
+            if (ScriptButton.Text != "Kies script")
+            {
+                ScriptButton.Text = "Verwijder script";
+                ScriptButton.TextAlign = ContentAlignment.MiddleCenter;
+                ScriptButton.BackColor = Color.Gainsboro;
+                ScriptButton.ForeColor = Color.Black;
+                ScriptButton.BorderStyle = BorderStyle.FixedSingle;
+            }
+            if (ScriptButton.Text == "Verwijder script")
             {
                 ScriptButton.BorderStyle = BorderStyle.Fixed3D;
             }
         }
-
         private void ScriptButton_MouseLeave(object sender, EventArgs e)
         {
             if (selectedScriptPath != "")

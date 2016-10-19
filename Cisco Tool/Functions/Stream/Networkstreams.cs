@@ -50,7 +50,7 @@ namespace Cisco_Tool.Functions.Stream
                             itIsTheEnd = true;
                         }
                         lastBytesArray = responseInBytes;
-                        Thread.Sleep(25);
+                        Thread.Sleep(50);
                     }
                 }
                 response = Encoding.ASCII.GetString(responseInBytes);
