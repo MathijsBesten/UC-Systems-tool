@@ -31,8 +31,8 @@ namespace Cisco_Tool.Functions.Stream
             client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(10));
             if (client.Connected == true)
             {
-                client.ReceiveTimeout = 10000;
-                client.Client.ReceiveTimeout = 10000; // socket
+                client.ReceiveTimeout = 1000;
+                client.Client.ReceiveTimeout = 1000; // socket
 
                 client.SendTimeout = 1;
                 client.Client.SendTimeout = 1; // socket
