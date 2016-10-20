@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.summaryPanel = new System.Windows.Forms.Panel();
+            this.summaryPanelTabel = new System.Windows.Forms.Label();
+            this.cancelButton = new System.Windows.Forms.Button();
+            this.continueButton = new System.Windows.Forms.Button();
             this.summaryOutputBox = new System.Windows.Forms.TextBox();
             this.summaryTitle = new System.Windows.Forms.Label();
-            this.continueButton = new System.Windows.Forms.Button();
-            this.cancelButton = new System.Windows.Forms.Button();
-            this.summaryPanelTabel = new System.Windows.Forms.Label();
             this.summaryPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +50,39 @@
             this.summaryPanel.Name = "summaryPanel";
             this.summaryPanel.Size = new System.Drawing.Size(525, 622);
             this.summaryPanel.TabIndex = 23;
+            // 
+            // summaryPanelTabel
+            // 
+            this.summaryPanelTabel.AutoSize = true;
+            this.summaryPanelTabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.summaryPanelTabel.ForeColor = System.Drawing.Color.White;
+            this.summaryPanelTabel.Location = new System.Drawing.Point(27, 21);
+            this.summaryPanelTabel.Name = "summaryPanelTabel";
+            this.summaryPanelTabel.Size = new System.Drawing.Size(90, 25);
+            this.summaryPanelTabel.TabIndex = 29;
+            this.summaryPanelTabel.Text = "overzicht";
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.ForeColor = System.Drawing.Color.Black;
+            this.cancelButton.Location = new System.Drawing.Point(386, 562);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(94, 29);
+            this.cancelButton.TabIndex = 28;
+            this.cancelButton.Text = "Annuleren";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
+            // continueButton
+            // 
+            this.continueButton.ForeColor = System.Drawing.Color.Black;
+            this.continueButton.Location = new System.Drawing.Point(281, 562);
+            this.continueButton.Name = "continueButton";
+            this.continueButton.Size = new System.Drawing.Size(94, 29);
+            this.continueButton.TabIndex = 27;
+            this.continueButton.Text = "Doorgaan";
+            this.continueButton.UseVisualStyleBackColor = true;
+            this.continueButton.Click += new System.EventHandler(this.continueButton_Click);
             // 
             // summaryOutputBox
             // 
@@ -69,37 +102,6 @@
             this.summaryTitle.Size = new System.Drawing.Size(379, 25);
             this.summaryTitle.TabIndex = 24;
             this.summaryTitle.Text = "Commando uitvoeren op meerdere routers";
-            // 
-            // continueButton
-            // 
-            this.continueButton.ForeColor = System.Drawing.Color.Black;
-            this.continueButton.Location = new System.Drawing.Point(281, 562);
-            this.continueButton.Name = "continueButton";
-            this.continueButton.Size = new System.Drawing.Size(94, 29);
-            this.continueButton.TabIndex = 27;
-            this.continueButton.Text = "Doorgaan";
-            this.continueButton.UseVisualStyleBackColor = true;
-            // 
-            // cancelButton
-            // 
-            this.cancelButton.ForeColor = System.Drawing.Color.Black;
-            this.cancelButton.Location = new System.Drawing.Point(386, 562);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(94, 29);
-            this.cancelButton.TabIndex = 28;
-            this.cancelButton.Text = "Annuleren";
-            this.cancelButton.UseVisualStyleBackColor = true;
-            // 
-            // summaryPanelTabel
-            // 
-            this.summaryPanelTabel.AutoSize = true;
-            this.summaryPanelTabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-            this.summaryPanelTabel.ForeColor = System.Drawing.Color.White;
-            this.summaryPanelTabel.Location = new System.Drawing.Point(27, 21);
-            this.summaryPanelTabel.Name = "summaryPanelTabel";
-            this.summaryPanelTabel.Size = new System.Drawing.Size(90, 25);
-            this.summaryPanelTabel.TabIndex = 29;
-            this.summaryPanelTabel.Text = "overzicht";
             // 
             // ConfirmationScreen
             // 

@@ -14,13 +14,13 @@ namespace Cisco_Tool.Functions.Stream
     {
         public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password, bool useLongProcessTime)
         {
-            int sleepMSAfterSend = 25;
+            int sleepMSAfterSend = 50;
             if (useLongProcessTime == true)
             {
                 sleepMSAfterSend = 1000;
             }
             int bytes = 0;
-            int lastBytes = 0;
+            int lastBytes  = 1;
             string response = "";
             byte[] lastBytesArray = new byte[4096];
             byte[] responseInBytes = new byte[4096];
@@ -42,7 +42,7 @@ namespace Cisco_Tool.Functions.Stream
                 using (var writer = new BinaryWriter(client.GetStream(), Encoding.ASCII, true))
                 {
                     writer.Write(messageInBytes);
-                    Thread.Sleep(25);
+                    Thread.Sleep(sleepMSAfterSend);
                 }
 
                 using (var reader = new BinaryReader(client.GetStream(), Encoding.ASCII, true))
@@ -54,10 +54,15 @@ namespace Cisco_Tool.Functions.Stream
                         {
                             itIsTheEnd = true;
                         }
-                        bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
-                        lastBytesArray = responseInBytes;
-                        lastBytes = bytes;
-                        Thread.Sleep(sleepMSAfterSend);
+                        else
+                        {
+                            bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
+                            if (bytes > 500) { sleepMSAfterSend = 250; }
+                            lastBytesArray = responseInBytes;
+                            lastBytes = bytes;
+                            Thread.Sleep(sleepMSAfterSend);
+                        }
+
                     }
                 }
                 response = Encoding.ASCII.GetString(responseInBytes);

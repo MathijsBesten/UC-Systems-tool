@@ -54,5 +54,15 @@ namespace Cisco_Tool.Views
                 summaryOutputBox.Text += totalRunTime + " seconden";
             }
         }
+
+        private void continueButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+        }
     }
 }

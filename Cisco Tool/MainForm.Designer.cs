@@ -71,18 +71,12 @@
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RouterTab = new System.Windows.Forms.TabPage();
-            this.MainTemplatePanel = new System.Windows.Forms.Panel();
-            this.widgetInformationBlock = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.widgetTopBar = new System.Windows.Forms.Panel();
-            this.widgetTitle = new System.Windows.Forms.Label();
-            this.minMaxWidget = new System.Windows.Forms.PictureBox();
-            this.removeWidget = new System.Windows.Forms.PictureBox();
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.script.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -91,12 +85,8 @@
             this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).BeginInit();
             this.RouterTab.SuspendLayout();
-            this.MainTemplatePanel.SuspendLayout();
-            this.widgetInformationBlock.SuspendLayout();
-            this.widgetTopBar.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.minMaxWidget)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.removeWidget)).BeginInit();
             this.MainContextMenuStrip.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridViewImageColumn1
@@ -113,10 +103,10 @@
             // 
             this.script.Controls.Add(this.MainMenuTab);
             this.script.Controls.Add(this.RouterTab);
-            this.script.Location = new System.Drawing.Point(17, 12);
+            this.script.Location = new System.Drawing.Point(17, 41);
             this.script.Name = "script";
             this.script.SelectedIndex = 0;
-            this.script.Size = new System.Drawing.Size(1235, 657);
+            this.script.Size = new System.Drawing.Size(1241, 643);
             this.script.TabIndex = 1;
             this.script.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
             // 
@@ -134,7 +124,7 @@
             this.MainMenuTab.Location = new System.Drawing.Point(4, 22);
             this.MainMenuTab.Name = "MainMenuTab";
             this.MainMenuTab.Padding = new System.Windows.Forms.Padding(3);
-            this.MainMenuTab.Size = new System.Drawing.Size(1227, 631);
+            this.MainMenuTab.Size = new System.Drawing.Size(1233, 617);
             this.MainMenuTab.TabIndex = 0;
             this.MainMenuTab.Text = "Home";
             // 
@@ -515,110 +505,14 @@
             // 
             // RouterTab
             // 
-            this.RouterTab.Controls.Add(this.MainTemplatePanel);
             this.RouterTab.Controls.Add(this.MainTableLayoutPanel);
             this.RouterTab.Location = new System.Drawing.Point(4, 22);
             this.RouterTab.Name = "RouterTab";
             this.RouterTab.Padding = new System.Windows.Forms.Padding(3);
-            this.RouterTab.Size = new System.Drawing.Size(1227, 631);
+            this.RouterTab.Size = new System.Drawing.Size(1233, 617);
             this.RouterTab.TabIndex = 1;
             this.RouterTab.Text = "Router connection";
             this.RouterTab.UseVisualStyleBackColor = true;
-            // 
-            // MainTemplatePanel
-            // 
-            this.MainTemplatePanel.BackColor = System.Drawing.Color.Gray;
-            this.MainTemplatePanel.Controls.Add(this.widgetInformationBlock);
-            this.MainTemplatePanel.Controls.Add(this.widgetTopBar);
-            this.MainTemplatePanel.Location = new System.Drawing.Point(3, 321);
-            this.MainTemplatePanel.Margin = new System.Windows.Forms.Padding(0);
-            this.MainTemplatePanel.Name = "MainTemplatePanel";
-            this.MainTemplatePanel.Size = new System.Drawing.Size(250, 230);
-            this.MainTemplatePanel.TabIndex = 3;
-            // 
-            // widgetInformationBlock
-            // 
-            this.widgetInformationBlock.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.widgetInformationBlock.Controls.Add(this.button1);
-            this.widgetInformationBlock.Controls.Add(this.textBox2);
-            this.widgetInformationBlock.Controls.Add(this.label1);
-            this.widgetInformationBlock.Location = new System.Drawing.Point(3, 33);
-            this.widgetInformationBlock.Name = "widgetInformationBlock";
-            this.widgetInformationBlock.Size = new System.Drawing.Size(244, 193);
-            this.widgetInformationBlock.TabIndex = 3;
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.DimGray;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(44, 128);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(139, 42);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Uitvoeren";
-            this.button1.UseVisualStyleBackColor = false;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(11, 35);
-            this.textBox2.Multiline = true;
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(218, 57);
-            this.textBox2.TabIndex = 3;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(2, 7);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(240, 25);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "SHOW DHCP SERVER ";
-            // 
-            // widgetTopBar
-            // 
-            this.widgetTopBar.Controls.Add(this.widgetTitle);
-            this.widgetTopBar.Controls.Add(this.minMaxWidget);
-            this.widgetTopBar.Controls.Add(this.removeWidget);
-            this.widgetTopBar.Location = new System.Drawing.Point(0, 0);
-            this.widgetTopBar.Name = "widgetTopBar";
-            this.widgetTopBar.Size = new System.Drawing.Size(250, 32);
-            this.widgetTopBar.TabIndex = 2;
-            // 
-            // widgetTitle
-            // 
-            this.widgetTitle.AutoSize = true;
-            this.widgetTitle.BackColor = System.Drawing.Color.Transparent;
-            this.widgetTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.widgetTitle.Location = new System.Drawing.Point(3, 12);
-            this.widgetTitle.Name = "widgetTitle";
-            this.widgetTitle.Size = new System.Drawing.Size(113, 16);
-            this.widgetTitle.TabIndex = 2;
-            this.widgetTitle.Text = "show dhcp server";
-            // 
-            // minMaxWidget
-            // 
-            this.minMaxWidget.Image = global::Cisco_Tool.Properties.Resources.windows_1;
-            this.minMaxWidget.Location = new System.Drawing.Point(185, 3);
-            this.minMaxWidget.Name = "minMaxWidget";
-            this.minMaxWidget.Size = new System.Drawing.Size(25, 25);
-            this.minMaxWidget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.minMaxWidget.TabIndex = 1;
-            this.minMaxWidget.TabStop = false;
-            // 
-            // removeWidget
-            // 
-            this.removeWidget.Image = global::Cisco_Tool.Properties.Resources.close;
-            this.removeWidget.InitialImage = null;
-            this.removeWidget.Location = new System.Drawing.Point(219, 3);
-            this.removeWidget.Name = "removeWidget";
-            this.removeWidget.Size = new System.Drawing.Size(25, 25);
-            this.removeWidget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.removeWidget.TabIndex = 0;
-            this.removeWidget.TabStop = false;
             // 
             // MainTableLayoutPanel
             // 
@@ -627,7 +521,7 @@
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.MainTableLayoutPanel.Location = new System.Drawing.Point(227, 91);
+            this.MainTableLayoutPanel.Location = new System.Drawing.Point(230, 154);
             this.MainTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
             this.MainTableLayoutPanel.Name = "MainTableLayoutPanel";
             this.MainTableLayoutPanel.RowCount = 2;
@@ -651,14 +545,42 @@
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.MouseDown += new System.Windows.Forms.MouseEventHandler(this.removeToolStripMenuItem_MouseDown);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.instellingenToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1283, 24);
+            this.menuStrip1.TabIndex = 2;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // instellingenToolStripMenuItem
+            // 
+            this.instellingenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sQLServerToolStripMenuItem});
+            this.instellingenToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
+            this.instellingenToolStripMenuItem.Name = "instellingenToolStripMenuItem";
+            this.instellingenToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.instellingenToolStripMenuItem.Text = "Instellingen";
+            // 
+            // sQLServerToolStripMenuItem
+            // 
+            this.sQLServerToolStripMenuItem.Name = "sQLServerToolStripMenuItem";
+            this.sQLServerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sQLServerToolStripMenuItem.Text = "SQL server";
+            this.sQLServerToolStripMenuItem.Click += new System.EventHandler(this.SQLServerToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
-            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.ClientSize = new System.Drawing.Size(1283, 696);
+            this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.script);
             this.ForeColor = System.Drawing.Color.White;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "Cisco Tool";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -674,15 +596,11 @@
             this.ManualLoginGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).EndInit();
             this.RouterTab.ResumeLayout(false);
-            this.MainTemplatePanel.ResumeLayout(false);
-            this.widgetInformationBlock.ResumeLayout(false);
-            this.widgetInformationBlock.PerformLayout();
-            this.widgetTopBar.ResumeLayout(false);
-            this.widgetTopBar.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.minMaxWidget)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.removeWidget)).EndInit();
             this.MainContextMenuStrip.ResumeLayout(false);
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -727,19 +645,13 @@
         private System.Windows.Forms.Label outputLabel;
         private System.Windows.Forms.ContextMenuStrip MainContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
-        private System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
-        public System.Windows.Forms.Panel MainTemplatePanel;
-        private System.Windows.Forms.Panel widgetInformationBlock;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel widgetTopBar;
-        private System.Windows.Forms.Label widgetTitle;
-        private System.Windows.Forms.PictureBox minMaxWidget;
-        private System.Windows.Forms.PictureBox removeWidget;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox Password;
         private System.Windows.Forms.TextBox ManualPassword;
         private System.Windows.Forms.Label ScriptButton;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem instellingenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sQLServerToolStripMenuItem;
+        private System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
     }
 }
 
