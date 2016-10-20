@@ -14,12 +14,13 @@ namespace Cisco_Tool.Functions.Stream
     {
         public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password, bool useLongProcessTime)
         {
-            int sleepMSAfterSend = 0;
+            int sleepMSAfterSend = 25;
             if (useLongProcessTime == true)
             {
                 sleepMSAfterSend = 1000;
             }
             int bytes = 0;
+            int lastBytes = 0;
             string response = "";
             byte[] lastBytesArray = new byte[4096];
             byte[] responseInBytes = new byte[4096];
@@ -27,30 +28,36 @@ namespace Cisco_Tool.Functions.Stream
             string message = username + "\r\n" + password + "\r\n" + command + "\r\n"; // command with excape characters
 
             var client = new TcpClient();
-            client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(2));
+            client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(10));
             if (client.Connected == true)
             {
-                client.ReceiveTimeout = 3;
-                client.SendTimeout = 3;
+                client.ReceiveTimeout = 10000;
+                client.Client.ReceiveTimeout = 10000; // socket
+
+                client.SendTimeout = 1;
+                client.Client.SendTimeout = 1; // socket
                 byte[] messageInBytes = Encoding.ASCII.GetBytes(message);
                 NetworkStream stream = client.GetStream();
                 Console.WriteLine();
                 using (var writer = new BinaryWriter(client.GetStream(), Encoding.ASCII, true))
                 {
                     writer.Write(messageInBytes);
+                    Thread.Sleep(25);
                 }
 
                 using (var reader = new BinaryReader(client.GetStream(), Encoding.ASCII, true))
                 {
                     while (itIsTheEnd == false)
                     {
-                        bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
-                        if (lastBytesArray == responseInBytes)
+                        //keep this if statement in front of the read part
+                        if (bytes == lastBytes)
                         {
                             itIsTheEnd = true;
                         }
+                        bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
                         lastBytesArray = responseInBytes;
-                        Thread.Sleep(50);
+                        lastBytes = bytes;
+                        Thread.Sleep(sleepMSAfterSend);
                     }
                 }
                 response = Encoding.ASCII.GetString(responseInBytes);
