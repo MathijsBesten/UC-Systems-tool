@@ -599,11 +599,6 @@ namespace Cisco_Tool
         }
         #endregion
 
-        private void SQLServerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var dialog = new SQLConfigScreen();
-            dialog.ShowDialog();
-        }
 
         private void ClearOutputFieldButton_Click(object sender, EventArgs e)
         {
@@ -620,6 +615,12 @@ namespace Cisco_Tool
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void sQLServerToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var dialog = new SQLConfigScreen();
+            dialog.ShowDialog();
         }
     }
 }

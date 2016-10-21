@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.script = new System.Windows.Forms.TabControl();
@@ -76,11 +76,11 @@
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.instellingenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.sQLServerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.instellingenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.sQLServerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.script.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -476,14 +476,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -572,6 +572,22 @@
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // instellingenToolStripMenuItem1
+            // 
+            this.instellingenToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sQLServerToolStripMenuItem1});
+            this.instellingenToolStripMenuItem1.ForeColor = System.Drawing.Color.Black;
+            this.instellingenToolStripMenuItem1.Name = "instellingenToolStripMenuItem1";
+            this.instellingenToolStripMenuItem1.Size = new System.Drawing.Size(80, 20);
+            this.instellingenToolStripMenuItem1.Text = "Instellingen";
+            // 
+            // sQLServerToolStripMenuItem1
+            // 
+            this.sQLServerToolStripMenuItem1.Name = "sQLServerToolStripMenuItem1";
+            this.sQLServerToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.sQLServerToolStripMenuItem1.Text = "SQL server";
+            this.sQLServerToolStripMenuItem1.Click += new System.EventHandler(this.sQLServerToolStripMenuItem1_Click);
+            // 
             // instellingenToolStripMenuItem
             // 
             this.instellingenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -586,27 +602,12 @@
             this.sQLServerToolStripMenuItem.Name = "sQLServerToolStripMenuItem";
             this.sQLServerToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.sQLServerToolStripMenuItem.Text = "SQL server";
-            this.sQLServerToolStripMenuItem.Click += new System.EventHandler(this.SQLServerToolStripMenuItem_Click);
             // 
             // jhToolStripMenuItem
             // 
             this.jhToolStripMenuItem.Name = "jhToolStripMenuItem";
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
-            // 
-            // instellingenToolStripMenuItem1
-            // 
-            this.instellingenToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sQLServerToolStripMenuItem1});
-            this.instellingenToolStripMenuItem1.Name = "instellingenToolStripMenuItem1";
-            this.instellingenToolStripMenuItem1.Size = new System.Drawing.Size(80, 20);
-            this.instellingenToolStripMenuItem1.Text = "instellingen";
-            // 
-            // sQLServerToolStripMenuItem1
-            // 
-            this.sQLServerToolStripMenuItem1.Name = "sQLServerToolStripMenuItem1";
-            this.sQLServerToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.sQLServerToolStripMenuItem1.Text = "SQL server";
             // 
             // MainForm
             // 
