@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.script = new System.Windows.Forms.TabControl();
             this.MainMenuTab = new System.Windows.Forms.TabPage();
+            this.ClearOutputFieldButton = new System.Windows.Forms.Button();
             this.outputLabel = new System.Windows.Forms.Label();
             this.OutputBox = new System.Windows.Forms.TextBox();
             this.allSelectedRouters = new System.Windows.Forms.ListBox();
@@ -77,6 +78,9 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.instellingenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.sQLServerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.script.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -113,6 +117,7 @@
             // MainMenuTab
             // 
             this.MainMenuTab.BackColor = System.Drawing.Color.White;
+            this.MainMenuTab.Controls.Add(this.ClearOutputFieldButton);
             this.MainMenuTab.Controls.Add(this.outputLabel);
             this.MainMenuTab.Controls.Add(this.OutputBox);
             this.MainMenuTab.Controls.Add(this.allSelectedRouters);
@@ -128,12 +133,23 @@
             this.MainMenuTab.TabIndex = 0;
             this.MainMenuTab.Text = "Home";
             // 
+            // ClearOutputFieldButton
+            // 
+            this.ClearOutputFieldButton.ForeColor = System.Drawing.Color.Black;
+            this.ClearOutputFieldButton.Location = new System.Drawing.Point(343, 563);
+            this.ClearOutputFieldButton.Name = "ClearOutputFieldButton";
+            this.ClearOutputFieldButton.Size = new System.Drawing.Size(174, 36);
+            this.ClearOutputFieldButton.TabIndex = 24;
+            this.ClearOutputFieldButton.Text = "Clear output";
+            this.ClearOutputFieldButton.UseVisualStyleBackColor = true;
+            this.ClearOutputFieldButton.Click += new System.EventHandler(this.ClearOutputFieldButton_Click);
+            // 
             // outputLabel
             // 
             this.outputLabel.BackColor = System.Drawing.Color.Transparent;
             this.outputLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.outputLabel.ForeColor = System.Drawing.Color.Black;
-            this.outputLabel.Location = new System.Drawing.Point(346, 285);
+            this.outputLabel.Location = new System.Drawing.Point(346, 241);
             this.outputLabel.Name = "outputLabel";
             this.outputLabel.Size = new System.Drawing.Size(171, 24);
             this.outputLabel.TabIndex = 23;
@@ -142,11 +158,12 @@
             // 
             // OutputBox
             // 
-            this.OutputBox.Location = new System.Drawing.Point(346, 312);
+            this.OutputBox.Location = new System.Drawing.Point(343, 268);
             this.OutputBox.Multiline = true;
             this.OutputBox.Name = "OutputBox";
+            this.OutputBox.ReadOnly = true;
             this.OutputBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.OutputBox.Size = new System.Drawing.Size(171, 287);
+            this.OutputBox.Size = new System.Drawing.Size(174, 287);
             this.OutputBox.TabIndex = 22;
             // 
             // allSelectedRouters
@@ -159,7 +176,7 @@
             this.allSelectedRouters.ItemHeight = 16;
             this.allSelectedRouters.Location = new System.Drawing.Point(346, 46);
             this.allSelectedRouters.Name = "allSelectedRouters";
-            this.allSelectedRouters.Size = new System.Drawing.Size(171, 224);
+            this.allSelectedRouters.Size = new System.Drawing.Size(171, 192);
             this.allSelectedRouters.TabIndex = 20;
             this.allSelectedRouters.MouseDown += new System.Windows.Forms.MouseEventHandler(this.allSelectedRouters_MouseDown);
             this.allSelectedRouters.MouseLeave += new System.EventHandler(this.allSelectedRouters_MouseLeave);
@@ -459,14 +476,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -548,7 +565,7 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.instellingenToolStripMenuItem});
+            this.instellingenToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1283, 24);
@@ -567,9 +584,29 @@
             // sQLServerToolStripMenuItem
             // 
             this.sQLServerToolStripMenuItem.Name = "sQLServerToolStripMenuItem";
-            this.sQLServerToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sQLServerToolStripMenuItem.Size = new System.Drawing.Size(129, 22);
             this.sQLServerToolStripMenuItem.Text = "SQL server";
             this.sQLServerToolStripMenuItem.Click += new System.EventHandler(this.SQLServerToolStripMenuItem_Click);
+            // 
+            // jhToolStripMenuItem
+            // 
+            this.jhToolStripMenuItem.Name = "jhToolStripMenuItem";
+            this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
+            this.jhToolStripMenuItem.Text = "jh";
+            // 
+            // instellingenToolStripMenuItem1
+            // 
+            this.instellingenToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sQLServerToolStripMenuItem1});
+            this.instellingenToolStripMenuItem1.Name = "instellingenToolStripMenuItem1";
+            this.instellingenToolStripMenuItem1.Size = new System.Drawing.Size(80, 20);
+            this.instellingenToolStripMenuItem1.Text = "instellingen";
+            // 
+            // sQLServerToolStripMenuItem1
+            // 
+            this.sQLServerToolStripMenuItem1.Name = "sQLServerToolStripMenuItem1";
+            this.sQLServerToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.sQLServerToolStripMenuItem1.Text = "SQL server";
             // 
             // MainForm
             // 
@@ -581,8 +618,11 @@
             this.Controls.Add(this.script);
             this.ForeColor = System.Drawing.Color.White;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cisco Tool";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).EndInit();
             this.script.ResumeLayout(false);
@@ -652,6 +692,10 @@
         private System.Windows.Forms.ToolStripMenuItem instellingenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sQLServerToolStripMenuItem;
         private System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
+        private System.Windows.Forms.Button ClearOutputFieldButton;
+        private System.Windows.Forms.ToolStripMenuItem jhToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem instellingenToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem sQLServerToolStripMenuItem1;
     }
 }
 

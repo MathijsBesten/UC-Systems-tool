@@ -68,7 +68,7 @@
             this.cancelButton.Location = new System.Drawing.Point(386, 562);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(94, 29);
-            this.cancelButton.TabIndex = 28;
+            this.cancelButton.TabIndex = 2;
             this.cancelButton.Text = "Annuleren";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
@@ -79,7 +79,7 @@
             this.continueButton.Location = new System.Drawing.Point(281, 562);
             this.continueButton.Name = "continueButton";
             this.continueButton.Size = new System.Drawing.Size(94, 29);
-            this.continueButton.TabIndex = 27;
+            this.continueButton.TabIndex = 1;
             this.continueButton.Text = "Doorgaan";
             this.continueButton.UseVisualStyleBackColor = true;
             this.continueButton.Click += new System.EventHandler(this.continueButton_Click);
@@ -89,8 +89,10 @@
             this.summaryOutputBox.Location = new System.Drawing.Point(32, 65);
             this.summaryOutputBox.Multiline = true;
             this.summaryOutputBox.Name = "summaryOutputBox";
+            this.summaryOutputBox.ReadOnly = true;
             this.summaryOutputBox.Size = new System.Drawing.Size(448, 470);
-            this.summaryOutputBox.TabIndex = 0;
+            this.summaryOutputBox.TabIndex = 30;
+            this.summaryOutputBox.TabStop = false;
             // 
             // summaryTitle
             // 

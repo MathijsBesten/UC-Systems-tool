@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
 using Cisco_Tool.Views;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Cisco_Tool
 {
@@ -23,15 +25,25 @@ namespace Cisco_Tool
     {
         #region properties
         private static List<router> allRouters;
-        private Point mouseLocation;
         private string selectedScriptPath = "";
         public List<string> allCommands = new List<string>();
-        public List<string> selectedIPAddresses = new List<string>();
+        public List<string> selectedIPAddresses = new List<string>(); 
+
+        private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
+        private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
+        private string SQLUsername = Properties.Settings.Default.CiscoToolServerUsername;
+        private string SQLPassword = Properties.Settings.Default.CiscoToolServerPassword;
         #endregion
 
         public MainForm()
         {
             InitializeComponent();
+            if (SQLIP == "" && SQLDatabase == "" && SQLUsername == "" && SQLPassword == "")
+            {
+                var sqlDialog = new SQLConfigScreen();
+                sqlDialog.ShowDialog();
+            }
+
         }
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -39,9 +51,12 @@ namespace Cisco_Tool
         {
             SqlConnection connection = Connections.OwnDB();
             allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
-            foreach (var router in allRouters)
+            if (allRouters != null)
             {
-                MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                foreach (var router in allRouters)
+                {
+                    MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                }
             }
         }
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -281,7 +296,7 @@ namespace Cisco_Tool
             {
                 mainErrorProvider.SetError(Command1, "");
             }
-            if (Username.Text != "" && Password.Text != "" && (Command1.Text != "" || selectedIPAddresses.Count != 0))
+            if (Username.Text != "" && Password.Text != "" && (Command1.Text != "" || allCommands.Count != 0))
             {
                 if (selectedIPAddresses.Count == 0)
                 {
@@ -298,33 +313,108 @@ namespace Cisco_Tool
                     confirmDialog.ShowDialog();
                     if (confirmDialog.DialogResult == DialogResult.OK)
                     {
+                        int passwordFailedThreeTimes = 0;
+                        string stringIfPasswordIsWrong = "Password: ";
+                        string username = Username.Text;
+                        string password = Password.Text;
+
                         foreach (var IPAddress in selectedIPAddresses)
                         {
-                            string localIP = "172.28.81.180";
-                            Console.WriteLine(localIP);
-                            string username = Username.Text;
-                            string password = Password.Text;
-
-                            OutputBox.Text += Environment.NewLine;
-                            OutputBox.Text += localIP;
-                            OutputBox.Text += Environment.NewLine;
-                            OutputBox.Text += Environment.NewLine;
-                            foreach (var command in allCommands)
+                            if (passwordFailedThreeTimes < 3)
                             {
-                                string output;
-                                if (command.ToLower() == "show running-config" || command.ToLower() == "write")
+                                bool passwordIsStillWrong = false;
+                                string ipWherePasswordIsWrong = "";
+                                int indexOfCommand = 0;
+                                string localIP = "172.28.81.180";
+
+
+                                foreach (var command in allCommands)
                                 {
-                                    output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, true);
+                                    if (localIP != ipWherePasswordIsWrong)
+                                    {
+                                        Console.WriteLine(localIP);
+                                        OutputBox.Text += Environment.NewLine;
+                                        OutputBox.Text += localIP;
+                                        OutputBox.Text += Environment.NewLine;
+                                        OutputBox.Text += Environment.NewLine;
+                                        string output;
+                                        if (command.ToLower() == "show running-config" || command.ToLower() == "write")
+                                        {
+                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, true);
+                                        }
+                                        else
+                                        {
+                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, false);
+                                        }
+                                        indexOfCommand++;
+                                        var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
+                                        if (splittedOutput[1] == "")
+                                        {
+                                            ipWherePasswordIsWrong = localIP;
+                                            passwordFailedThreeTimes++;
+                                        }
+                                        else
+                                        {
+                                            if (output.Contains(@"% Invalid input detected at '^' marker."))
+                                            {
+                                                OutputBox.Text +=  @"'" + command + @"'"  + " -  GEEN GELDIG COMMANDO";
+                                                OutputBox.Text += Environment.NewLine;
+                                                OutputBox.Text += "--------------";
+                                                OutputBox.Text += Environment.NewLine;
+                                            }
+                                            else
+                                            {
+                                                OutputBox.Text += output;
+                                                OutputBox.Text += Environment.NewLine;
+                                                OutputBox.Text += "--------------";
+                                                OutputBox.Text += Environment.NewLine;
+                                            }
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // continues to fail
+                                        string output;
+                                        if (allCommands[indexOfCommand].ToLower() == "show running-config" || allCommands[indexOfCommand].ToLower() == "write")
+                                        {
+                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, allCommands[indexOfCommand], username, password, true);
+                                        }
+                                        else
+                                        {
+                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, allCommands[indexOfCommand], username, password, false);
+                                        }
+                                        var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
+                                        if (splittedOutput[1] == "")
+                                        {
+                                            passwordIsStillWrong = true;
+                                            OutputBox.Text += Environment.NewLine;
+                                            OutputBox.Text += "Gebruikersnaam en/of wachtwoord is waarschijnlijk fout";
+                                            OutputBox.Text += Environment.NewLine;
+                                            break;
+                                        }
+                                    }
                                 }
-                                else
-                                {
-                                    output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, false);
-                                }
-                                OutputBox.Text += output;
-                                OutputBox.Text += Environment.NewLine;
-                                OutputBox.Text += "--------------";
-                                OutputBox.Text += Environment.NewLine;
                             }
+                            else
+                            {
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += "Om meer problemen te voorkomen, is het uitvoeren van commando's gestopt";
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += "De logingegevens zijn niet correct bevonden op 3 van de geselecteerde routers";
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += "Controleer de gebruikersnaam en wachtwoord en voer de commando's opnieuw uit";
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += Environment.NewLine;
+                                OutputBox.Text += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+                                OutputBox.Text += Environment.NewLine;
+                                break;
+                            }                          
                         }
                     }
                     else
@@ -403,7 +493,10 @@ namespace Cisco_Tool
         #region searchbox
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            filterRoutersInList();
+            if (MainDataGridView.RowCount != 0)
+            {
+                filterRoutersInList();
+            }
         }
         private void filterRoutersInList()
         {
@@ -433,8 +526,12 @@ namespace Cisco_Tool
         {
             if (e.KeyChar == (char)Keys.Return)
             {
-                filterRoutersInList();
-                e.Handled = true;
+                if (MainDataGridView.RowCount != 0)
+                {
+                    filterRoutersInList();
+                    e.Handled = true;
+                }
+
             }
         }
         #endregion
@@ -506,6 +603,23 @@ namespace Cisco_Tool
         {
             var dialog = new SQLConfigScreen();
             dialog.ShowDialog();
+        }
+
+        private void ClearOutputFieldButton_Click(object sender, EventArgs e)
+        {
+            if (OutputBox.Text != "")
+            {
+                DialogResult confirm = MessageBox.Show("Als u op OK drukt zal alle output worden verwijderd," + Environment.NewLine + "DIT IS ONOMKEERBAAR!", "Waarschuwing", MessageBoxButtons.OKCancel);
+                if (confirm == DialogResult.OK)
+                {
+                    OutputBox.Clear();
+                }
+            }
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

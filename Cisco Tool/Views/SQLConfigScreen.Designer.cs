@@ -179,6 +179,7 @@
             this.cancelButton.TabIndex = 16;
             this.cancelButton.Text = "Annuleren";
             this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // mainErrorProvider
             // 

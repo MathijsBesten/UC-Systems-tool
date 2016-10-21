@@ -72,7 +72,14 @@ namespace Cisco_Tool.Views
                 Properties.Settings.Default.CiscoToolServerPassword = SQLPassword.Text;
 
                 Properties.Settings.Default.Save();
+
+                this.DialogResult = DialogResult.OK;
             }
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
         }
     }
 }

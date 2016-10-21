@@ -101,6 +101,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Values\PrivateValues.cs" />
     <Compile Include="Values\PublicValues.cs" />
+    <Compile Include="Views\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\ConfirmationScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -148,6 +154,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Views\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\confirmationScreen.resx">
       <DependentUpon>ConfirmationScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -1340,6 +1349,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\albums.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\loading-gif.gif" />
+    <Content Include="Resources\loading.gif" />
+    <None Include="Resources\UCFont.bmp" />
+    <Content Include="Resources\UCLOGO.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
