@@ -622,5 +622,11 @@ namespace Cisco_Tool
             var dialog = new SQLConfigScreen();
             dialog.ShowDialog();
         }
+
+        private void aboutCiscoToolToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var aboutScreen = new AboutScreen();
+            var result = aboutScreen.ShowDialog();
+        }
     }
 }

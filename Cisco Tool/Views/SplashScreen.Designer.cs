@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SplashScreen));
             this.Autor = new System.Windows.Forms.Label();
-            this.applicationName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.applicationName = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -47,33 +47,33 @@
             this.Autor.TabIndex = 1;
             this.Autor.Text = "Made by: Mathijs den Besten";
             // 
-            // applicationName
-            // 
-            this.applicationName.AutoSize = true;
-            this.applicationName.Font = new System.Drawing.Font("Modern No. 20", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.applicationName.Location = new System.Drawing.Point(42, 176);
-            this.applicationName.Name = "applicationName";
-            this.applicationName.Size = new System.Drawing.Size(126, 29);
-            this.applicationName.TabIndex = 3;
-            this.applicationName.Text = "Cisco Tool";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(274, 242);
+            this.label1.Location = new System.Drawing.Point(275, 230);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(217, 25);
             this.label1.TabIndex = 4;
             this.label1.Text = "Loading application...";
             // 
+            // applicationName
+            // 
+            this.applicationName.AutoSize = true;
+            this.applicationName.Font = new System.Drawing.Font("Modern No. 20", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.applicationName.Location = new System.Drawing.Point(45, 180);
+            this.applicationName.Name = "applicationName";
+            this.applicationName.Size = new System.Drawing.Size(126, 29);
+            this.applicationName.TabIndex = 3;
+            this.applicationName.Text = "Cisco Tool";
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(38, 36);
+            this.pictureBox1.Location = new System.Drawing.Point(40, 40);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(143, 137);
+            this.pictureBox1.Size = new System.Drawing.Size(131, 137);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -105,10 +105,9 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label Autor;
-        private System.Windows.Forms.Label applicationName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label applicationName;
     }
 }
