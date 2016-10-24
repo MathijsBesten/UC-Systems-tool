@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.script = new System.Windows.Forms.TabControl();
             this.MainMenuTab = new System.Windows.Forms.TabPage();
+            this.maxOutputWindow = new System.Windows.Forms.PictureBox();
             this.ClearOutputFieldButton = new System.Windows.Forms.Button();
             this.outputLabel = new System.Windows.Forms.Label();
             this.OutputBox = new System.Windows.Forms.TextBox();
@@ -79,13 +80,14 @@
             this.instellingenToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutCiscoToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutCiscoToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.script.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).BeginInit();
             this.CommandoGB.SuspendLayout();
             this.SearchGroupBox.SuspendLayout();
             this.ManualLoginGroupBox.SuspendLayout();
@@ -119,6 +121,7 @@
             // MainMenuTab
             // 
             this.MainMenuTab.BackColor = System.Drawing.Color.White;
+            this.MainMenuTab.Controls.Add(this.maxOutputWindow);
             this.MainMenuTab.Controls.Add(this.ClearOutputFieldButton);
             this.MainMenuTab.Controls.Add(this.outputLabel);
             this.MainMenuTab.Controls.Add(this.OutputBox);
@@ -135,12 +138,26 @@
             this.MainMenuTab.TabIndex = 0;
             this.MainMenuTab.Text = "Home";
             // 
+            // maxOutputWindow
+            // 
+            this.maxOutputWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maxOutputWindow.Image = global::Cisco_Tool.Properties.Resources.perspective;
+            this.maxOutputWindow.Location = new System.Drawing.Point(483, 565);
+            this.maxOutputWindow.Name = "maxOutputWindow";
+            this.maxOutputWindow.Size = new System.Drawing.Size(34, 34);
+            this.maxOutputWindow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.maxOutputWindow.TabIndex = 25;
+            this.maxOutputWindow.TabStop = false;
+            this.maxOutputWindow.Click += new System.EventHandler(this.maxOutputWindow_Click);
+            this.maxOutputWindow.MouseLeave += new System.EventHandler(this.maxOutputWindow_MouseLeave);
+            this.maxOutputWindow.MouseHover += new System.EventHandler(this.maxOutputWindow_MouseHover);
+            // 
             // ClearOutputFieldButton
             // 
             this.ClearOutputFieldButton.ForeColor = System.Drawing.Color.Black;
             this.ClearOutputFieldButton.Location = new System.Drawing.Point(343, 563);
             this.ClearOutputFieldButton.Name = "ClearOutputFieldButton";
-            this.ClearOutputFieldButton.Size = new System.Drawing.Size(174, 36);
+            this.ClearOutputFieldButton.Size = new System.Drawing.Size(121, 36);
             this.ClearOutputFieldButton.TabIndex = 24;
             this.ClearOutputFieldButton.Text = "Clear output";
             this.ClearOutputFieldButton.UseVisualStyleBackColor = true;
@@ -160,11 +177,12 @@
             // 
             // OutputBox
             // 
+            this.OutputBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OutputBox.Location = new System.Drawing.Point(343, 268);
             this.OutputBox.Multiline = true;
             this.OutputBox.Name = "OutputBox";
             this.OutputBox.ReadOnly = true;
-            this.OutputBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.OutputBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.OutputBox.Size = new System.Drawing.Size(174, 287);
             this.OutputBox.TabIndex = 22;
             // 
@@ -478,14 +496,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -600,6 +618,13 @@
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
             // 
+            // aboutCiscoToolToolStripMenuItem
+            // 
+            this.aboutCiscoToolToolStripMenuItem.Name = "aboutCiscoToolToolStripMenuItem";
+            this.aboutCiscoToolToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
+            this.aboutCiscoToolToolStripMenuItem.Text = "About...";
+            this.aboutCiscoToolToolStripMenuItem.Click += new System.EventHandler(this.aboutCiscoToolToolStripMenuItem_Click);
+            // 
             // instellingenToolStripMenuItem
             // 
             this.instellingenToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -621,13 +646,6 @@
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
             // 
-            // aboutCiscoToolToolStripMenuItem
-            // 
-            this.aboutCiscoToolToolStripMenuItem.Name = "aboutCiscoToolToolStripMenuItem";
-            this.aboutCiscoToolToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.aboutCiscoToolToolStripMenuItem.Text = "About...";
-            this.aboutCiscoToolToolStripMenuItem.Click += new System.EventHandler(this.aboutCiscoToolToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -648,6 +666,7 @@
             this.script.ResumeLayout(false);
             this.MainMenuTab.ResumeLayout(false);
             this.MainMenuTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).EndInit();
             this.CommandoGB.ResumeLayout(false);
             this.CommandoGB.PerformLayout();
             this.SearchGroupBox.ResumeLayout(false);
@@ -718,6 +737,7 @@
         private System.Windows.Forms.ToolStripMenuItem sQLServerToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutCiscoToolToolStripMenuItem;
+        private System.Windows.Forms.PictureBox maxOutputWindow;
     }
 }
 

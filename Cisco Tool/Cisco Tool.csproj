@@ -140,7 +140,6 @@
     <Compile Include="Widgets\Views\selctionWizard.Designer.cs">
       <DependentUpon>selctionWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Widgets\Templates\Templates.cs" />
     <Compile Include="Widgets\Views\WidgetCreator.cs">
       <SubType>Form</SubType>
     </Compile>

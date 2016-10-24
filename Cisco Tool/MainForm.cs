@@ -59,6 +59,10 @@ namespace Cisco_Tool
                 }
             }
         }
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             MainTableLayoutPanel.Controls.Clear();
@@ -174,8 +178,6 @@ namespace Cisco_Tool
                 MainTableLayoutPanel.Controls.Add(addButton);
             }
         }
-
-
 
 
         #region widget layout
@@ -304,12 +306,17 @@ namespace Cisco_Tool
                 }
                 else
                 {
-                    if (Command1.Text != "") { allCommands.Add(Command1.Text); }
-                    if (Command2.Text != "") { allCommands.Add(Command2.Text); }
-                    if (Command3.Text != "") { allCommands.Add(Command3.Text); }
-                    if (Command4.Text != "") { allCommands.Add(Command4.Text); }
+                    List<string> commands = new List<string>();
+                    foreach (var item in allCommands)
+                    {
+                        commands.Add(item);
+                    }
+                    if (Command1.Text != "") { commands.Add(Command1.Text); }
+                    if (Command2.Text != "") { commands.Add(Command2.Text); }
+                    if (Command3.Text != "") { commands.Add(Command3.Text); }
+                    if (Command4.Text != "") { commands.Add(Command4.Text); }
 
-                    var confirmDialog = new Views.ConfirmationScreen(allSelectedRouters.Items.Cast<string>().ToList(), allCommands);
+                    var confirmDialog = new Views.ConfirmationScreen(allSelectedRouters.Items.Cast<string>().ToList(), commands);
                     confirmDialog.ShowDialog();
                     if (confirmDialog.DialogResult == DialogResult.OK)
                     {
@@ -328,7 +335,7 @@ namespace Cisco_Tool
                                 string localIP = "172.28.81.180";
 
 
-                                foreach (var command in allCommands)
+                                foreach (var command in commands)
                                 {
                                     if (localIP != ipWherePasswordIsWrong)
                                     {
@@ -350,8 +357,19 @@ namespace Cisco_Tool
                                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
                                         if (splittedOutput[1] == "")
                                         {
-                                            ipWherePasswordIsWrong = localIP;
-                                            passwordFailedThreeTimes++;
+                                            if (selectedIPAddresses.Count < 3)
+                                            {
+                                                ipWherePasswordIsWrong = localIP;
+                                                passwordFailedThreeTimes = 3;
+                                                OutputBox.Text += Environment.NewLine;
+                                                OutputBox.Text += "Gebruikersnaam en/of wachtwoord is waarschijnlijk fout";
+                                                OutputBox.Text += Environment.NewLine;
+
+                                            }
+                                            else
+                                            {
+                                                passwordFailedThreeTimes++;
+                                            }
                                         }
                                         else
                                         {
@@ -376,13 +394,13 @@ namespace Cisco_Tool
                                     {
                                         // continues to fail
                                         string output;
-                                        if (allCommands[indexOfCommand].ToLower() == "show running-config" || allCommands[indexOfCommand].ToLower() == "write")
+                                        if (commands[indexOfCommand].ToLower() == "show running-config" || commands[indexOfCommand].ToLower() == "write")
                                         {
-                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, allCommands[indexOfCommand], username, password, true);
+                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, commands[indexOfCommand], username, password, true);
                                         }
                                         else
                                         {
-                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, allCommands[indexOfCommand], username, password, false);
+                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, commands[indexOfCommand], username, password, false);
                                         }
                                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
                                         if (splittedOutput[1] == "")
@@ -405,7 +423,7 @@ namespace Cisco_Tool
                                 OutputBox.Text += "Om meer problemen te voorkomen, is het uitvoeren van commando's gestopt";
                                 OutputBox.Text += Environment.NewLine;
                                 OutputBox.Text += Environment.NewLine;
-                                OutputBox.Text += "De logingegevens zijn niet correct bevonden op 3 van de geselecteerde routers";
+                                OutputBox.Text += "De logingegevens zijn niet correct bevonden op één of meerdere geselecteerde routers";
                                 OutputBox.Text += Environment.NewLine;
                                 OutputBox.Text += Environment.NewLine;
                                 OutputBox.Text += "Controleer de gebruikersnaam en wachtwoord en voer de commando's opnieuw uit";
@@ -449,7 +467,7 @@ namespace Cisco_Tool
         {
             if (allSelectedRouters.Items.Count >= 1)
             {
-                while (allSelectedRouters.Width != 171) //171
+                while (allSelectedRouters.Width != 171) // default = 171
                 {
                     allSelectedRouters.Width--;
                 }
@@ -612,10 +630,6 @@ namespace Cisco_Tool
             }
         }
 
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
 
         private void sQLServerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -627,6 +641,49 @@ namespace Cisco_Tool
         {
             var aboutScreen = new AboutScreen();
             var result = aboutScreen.ShowDialog();
+        }
+
+        private void maxOutputWindow_Click(object sender, EventArgs e)
+        {
+            if (OutputBox.Width == 174) // make bigger
+            {
+                if (OutputBox.Text.Length >= 10)
+                {
+                    string originalOutput = OutputBox.Text;
+                    string[] strings = Regex.Split(originalOutput, "\r\n");
+                    List<string> listOfRouters = new List<string>();
+                    foreach (var item in strings)
+                    {
+                        listOfRouters.Add(item.ToString());
+                    }
+                    int maxwidth = Animations.Resizing.getLongestStringInPixels(listOfRouters);
+                    while (OutputBox.Width < maxwidth)
+                    {
+                        OutputBox.Width++;
+                    }
+                }
+            }
+            else // make smaller
+            {
+                if (OutputBox.Text.Length >= 10)
+                {
+                    while (OutputBox.Width != 174)
+                    {
+                        OutputBox.Width--;
+                    }
+                }
+            }
+        }
+
+        private void maxOutputWindow_MouseHover(object sender, EventArgs e)
+        {
+            maxOutputWindow.BorderStyle = BorderStyle.None;
+        }
+
+        private void maxOutputWindow_MouseLeave(object sender, EventArgs e)
+        {
+            maxOutputWindow.BorderStyle = BorderStyle.FixedSingle;
+
         }
     }
 }
