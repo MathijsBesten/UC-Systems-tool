@@ -66,5 +66,14 @@ namespace Cisco_Tool.Widgets.Functions
                 return null;
             }
         }
+
+        public static void removeWidgetFromWidgetList(int index)
+        {
+            var widgets = readJSON(); //get current widgets
+            widgets.RemoveAt(index);
+            string json = JsonConvert.SerializeObject(widgets.ToArray(), Formatting.Indented);
+            System.IO.File.WriteAllText(path + fileName, json);
+
+        }
     }
 }

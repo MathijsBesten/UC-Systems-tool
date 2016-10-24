@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.script = new System.Windows.Forms.TabControl();
@@ -73,6 +73,8 @@
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RouterTab = new System.Windows.Forms.TabPage();
+            this.CMDTelnetPanel = new System.Windows.Forms.Panel();
+            this.CMDTelnetLabel = new System.Windows.Forms.Label();
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.MainContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -93,6 +95,7 @@
             this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).BeginInit();
             this.RouterTab.SuspendLayout();
+            this.CMDTelnetPanel.SuspendLayout();
             this.MainContextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -496,14 +499,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle10.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle10;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -542,6 +545,7 @@
             // 
             // RouterTab
             // 
+            this.RouterTab.Controls.Add(this.CMDTelnetPanel);
             this.RouterTab.Controls.Add(this.MainTableLayoutPanel);
             this.RouterTab.Location = new System.Drawing.Point(4, 22);
             this.RouterTab.Name = "RouterTab";
@@ -550,6 +554,30 @@
             this.RouterTab.TabIndex = 1;
             this.RouterTab.Text = "Router connection";
             this.RouterTab.UseVisualStyleBackColor = true;
+            // 
+            // CMDTelnetPanel
+            // 
+            this.CMDTelnetPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.CMDTelnetPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CMDTelnetPanel.Controls.Add(this.CMDTelnetLabel);
+            this.CMDTelnetPanel.Location = new System.Drawing.Point(940, 17);
+            this.CMDTelnetPanel.Name = "CMDTelnetPanel";
+            this.CMDTelnetPanel.Size = new System.Drawing.Size(264, 95);
+            this.CMDTelnetPanel.TabIndex = 2;
+            this.CMDTelnetPanel.Click += new System.EventHandler(this.CMDTelnetPanel_Click);
+            this.CMDTelnetPanel.MouseLeave += new System.EventHandler(this.CMDTelnetPanel_MouseLeave);
+            this.CMDTelnetPanel.MouseHover += new System.EventHandler(this.CMDTelnetPanel_MouseHover);
+            // 
+            // CMDTelnetLabel
+            // 
+            this.CMDTelnetLabel.AutoSize = true;
+            this.CMDTelnetLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CMDTelnetLabel.Location = new System.Drawing.Point(20, 30);
+            this.CMDTelnetLabel.Name = "CMDTelnetLabel";
+            this.CMDTelnetLabel.Size = new System.Drawing.Size(219, 31);
+            this.CMDTelnetLabel.TabIndex = 0;
+            this.CMDTelnetLabel.Text = "Handmatig telnet";
+            this.CMDTelnetLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainTableLayoutPanel
             // 
@@ -675,6 +703,8 @@
             this.ManualLoginGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).EndInit();
             this.RouterTab.ResumeLayout(false);
+            this.CMDTelnetPanel.ResumeLayout(false);
+            this.CMDTelnetPanel.PerformLayout();
             this.MainContextMenuStrip.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -738,6 +768,8 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutCiscoToolToolStripMenuItem;
         private System.Windows.Forms.PictureBox maxOutputWindow;
+        private System.Windows.Forms.Panel CMDTelnetPanel;
+        private System.Windows.Forms.Label CMDTelnetLabel;
     }
 }
 

@@ -11,17 +11,6 @@ namespace Cisco_Tool.Animations
 {
     class Resizing
     {
-        public static void changewidth(int orginalPixelCount, int goalPixelCount)
-        {
-            if (orginalPixelCount < goalPixelCount) // make bigger
-            {
-
-            }
-            else
-            {
-
-            }
-        }
         public static int getLongestStringInPixels(List<string> allStrings)
         {
             double width;

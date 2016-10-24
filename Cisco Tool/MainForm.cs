@@ -81,7 +81,7 @@ namespace Cisco_Tool
                     {
                         var newPanel = new InfoTemplate();
                         newPanel.Name = "Panel" + count.ToString();
-                        newPanel.Tag = "Panel" + count.ToString();
+                        newPanel.Tag = count.ToString();
                         newPanel.titleWidgetLabel.Text = widget.widgetName;
                         newPanel.commandName.Text = widget.widgetCommand;
                         newPanel.minMaxWidgetPicturebox.Click += new System.EventHandler(this.minMaxButton_Click);
@@ -231,7 +231,20 @@ namespace Cisco_Tool
         {
             PictureBox realSender = ((PictureBox)sender);
             var parentPanel = realSender.Parent.Parent; // get widget panel
-            MessageBox.Show(parentPanel.Name.ToString());
+            int indexToRemove;
+            try
+            {
+                indexToRemove = Int32.Parse(parentPanel.Tag.ToString());
+            }
+            catch (Exception)
+            {
+                indexToRemove = -1;
+                MessageBox.Show("There was a problem with converting the widget tag");
+            }
+            if (indexToRemove >= 0) 
+            {
+                JSON.removeWidgetFromWidgetList(indexToRemove);
+            }
         }
         #endregion
 
@@ -684,6 +697,25 @@ namespace Cisco_Tool
         {
             maxOutputWindow.BorderStyle = BorderStyle.FixedSingle;
 
+        }
+
+        private void CMDTelnetPanel_Click(object sender, EventArgs e)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";
+            process.StartInfo.Arguments = "172.28.81.180";
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            process.Start();
+        }
+
+        private void CMDTelnetPanel_MouseHover(object sender, EventArgs e)
+        {
+            CMDTelnetPanel.BorderStyle = BorderStyle.None;
+        }
+
+        private void CMDTelnetPanel_MouseLeave(object sender, EventArgs e)
+        {
+            CMDTelnetPanel.BorderStyle = BorderStyle.FixedSingle;
         }
     }
 }
