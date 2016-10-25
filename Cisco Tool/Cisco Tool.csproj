@@ -84,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animations\Resizing.cs" />
+    <Compile Include="EventHandlers\EventHandlers.cs" />
     <Compile Include="Functions\Network\validation.cs" />
     <Compile Include="Functions\Scripting\Read.cs" />
     <Compile Include="Functions\SQL\Connections.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
+    <Compile Include="Widgets\Functions\WidgetGenerator.cs" />
     <Compile Include="Widgets\Templates\ExecuteTemplate.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -194,7 +196,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="EventHandlers\" />
     <Folder Include="Widgets\Algorithms\" />
   </ItemGroup>
   <ItemGroup>

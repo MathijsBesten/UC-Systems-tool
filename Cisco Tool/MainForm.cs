@@ -69,102 +69,26 @@ namespace Cisco_Tool
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
             if (script.SelectedIndex == 1 && widgets != null) // if user switched to router tab
             {
-                //getting widget infromation and setting up template details
-                Size templateSize = new Size(250, 230);
-                Color templateBackColor = Color.Gray; //backcolor
-                Color templateForeColor = Color.White; // font color
-                Padding templateMargin = new System.Windows.Forms.Padding(0); // margin
-                int count = 0;
-                foreach (var widget in widgets)
-                {
-                    if (widget.widgetType == "Informatie")
-                    {
-                        var newPanel = new InfoTemplate();
-                        newPanel.Name = "Panel" + count.ToString();
-                        newPanel.Tag = count.ToString();
-                        newPanel.titleWidgetLabel.Text = widget.widgetName;
-                        newPanel.commandName.Text = widget.widgetCommand;
-                        newPanel.minMaxWidgetPicturebox.Click += new System.EventHandler(this.minMaxButton_Click);
-                        newPanel.closeWidgetPicturebox.Click += new System.EventHandler(this.closeButton_Click);
-                        if (widget.widgetCommand != "")
-                        {
-                            string username = "mathijs";
-                            string password = "denbesten";
-                            string command = widget.widgetCommand;
-                            bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
-                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
-                            {
-                                if (widget.widgetUseSelection == true)
-                                {
-                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                    newPanel.outputbox.Text = finalResult.ToString();
-                                }
-                                else
-                                {
-                                    newPanel.outputbox.Text = output;
-                                }
-                            }
-                            else
-                            {
-                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
-                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"'  is niet geldig";
-                            }
-                            MainTableLayoutPanel.Controls.Add(newPanel);
-                        }
-                    }
-                    else //button
-                    {
-                        var newPanel = new ExecuteTemplate();
-                        newPanel.Name = "Panel" + count.ToString();
-                        newPanel.Tag = "Panel" + count.ToString();
-                        newPanel.titleWidgetLabel.Text = widget.widgetName;
-                        newPanel.commandName.Text = widget.widgetCommand;
-                        newPanel.minMaxWidgetPicturebox.Click += new System.EventHandler(this.minMaxButton_Click);
-                        newPanel.closeWidgetPicturebox.Click += new System.EventHandler(this.closeButton_Click);
+                Task  shit = WidgetGenerator.makeAllWidgets();
+                MainTableLayoutPanel.Controls.Clear();
+                shit.Wait();
 
-                        if (widget.widgetCommand != "")
-                        {
-                            string username = "mathijs";
-                            string password = "denbesten";
-                            string command = widget.widgetCommand;
-                            bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                            string output = Functions.Telnet.TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
-                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
-                            {
-                                if (widget.widgetUseSelection == true)
-                                {
-                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                    newPanel.outputbox.Text = finalResult.ToString();
-                                }
-                                else
-                                {
-                                    newPanel.outputbox.Text = output;
-                                }
-                            }
-                            else
-                            {
-                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
-                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
-                            }
-                        }
-                        newPanel.runButton.Text = "Uitvoeren";
-                        //make new onclick event
-                        MainTableLayoutPanel.Controls.Add(newPanel);
-                    }
-                    count++;
-                }
-                if (MainTableLayoutPanel.Controls.Count < 8)
+
+                foreach (var panel in WidgetGenerator.readyPanels)
                 {
-                    PictureBox addButton = new PictureBox();
-                    addButton.Size = new Size(100, 100);
-                    addButton.BackColor = Color.Transparent;
-                    addButton.Image = Properties.Resources.add_1;
-                    addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                    addButton.Anchor = AnchorStyles.None;
-                    addButton.Click += new EventHandler(addButtonClick);
-                    MainTableLayoutPanel.Controls.Add(addButton);
+                    MainTableLayoutPanel.Controls.Add(panel);
                 }
+                WidgetGenerator.readyPanels.Clear();
+
+
+                PictureBox addButton = new PictureBox();
+                addButton.Size = new Size(100, 100);
+                addButton.BackColor = Color.Transparent;
+                addButton.Image = Properties.Resources.add_1;
+                addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                addButton.Anchor = AnchorStyles.None;
+                addButton.Click += new EventHandler(addButtonClick);
+                MainTableLayoutPanel.Controls.Add(addButton);
             }
             else
             {
@@ -221,13 +145,13 @@ namespace Cisco_Tool
             }
         }
 
-        private void minMaxButton_Click(object sender, EventArgs e)
+        public void minMaxButton_Click(object sender, EventArgs e)
         {
             PictureBox realSender = ((PictureBox)sender);
             var parentPanel = realSender.Parent.Parent; // get widget panel
             MessageBox.Show(parentPanel.Name.ToString());
         }
-        private void closeButton_Click(object sender, EventArgs e)
+        public void closeButton_Click(object sender, EventArgs e)
         {
             PictureBox realSender = ((PictureBox)sender);
             var parentPanel = realSender.Parent.Parent; // get widget panel
