@@ -66,6 +66,7 @@
             this.tabs.SelectedIndex = 0;
             this.tabs.Size = new System.Drawing.Size(648, 323);
             this.tabs.TabIndex = 0;
+            this.tabs.SelectedIndexChanged += new System.EventHandler(this.tabs_SelectedIndexChanged);
             // 
             // welcomePage
             // 
@@ -292,6 +293,7 @@
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Instellingen";
+            this.TopMost = true;
             this.tabs.ResumeLayout(false);
             this.welcomePage.ResumeLayout(false);
             this.welcomePage.PerformLayout();

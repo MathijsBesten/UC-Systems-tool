@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.script = new System.Windows.Forms.TabControl();
             this.MainMenuTab = new System.Windows.Forms.TabPage();
+            this.maxOutputWindow = new System.Windows.Forms.PictureBox();
             this.ClearOutputFieldButton = new System.Windows.Forms.Button();
             this.outputLabel = new System.Windows.Forms.Label();
             this.OutputBox = new System.Windows.Forms.TextBox();
@@ -85,11 +86,10 @@
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.maxOutputWindow = new System.Windows.Forms.PictureBox();
-            this.wizardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.script.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).BeginInit();
             this.CommandoGB.SuspendLayout();
             this.SearchGroupBox.SuspendLayout();
             this.ManualLoginGroupBox.SuspendLayout();
@@ -98,7 +98,6 @@
             this.CMDTelnetPanel.SuspendLayout();
             this.MainContextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewImageColumn1
@@ -141,6 +140,20 @@
             this.MainMenuTab.Size = new System.Drawing.Size(1233, 617);
             this.MainMenuTab.TabIndex = 0;
             this.MainMenuTab.Text = "Home";
+            // 
+            // maxOutputWindow
+            // 
+            this.maxOutputWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maxOutputWindow.Image = global::Cisco_Tool.Properties.Resources.perspective;
+            this.maxOutputWindow.Location = new System.Drawing.Point(483, 565);
+            this.maxOutputWindow.Name = "maxOutputWindow";
+            this.maxOutputWindow.Size = new System.Drawing.Size(34, 34);
+            this.maxOutputWindow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.maxOutputWindow.TabIndex = 25;
+            this.maxOutputWindow.TabStop = false;
+            this.maxOutputWindow.Click += new System.EventHandler(this.maxOutputWindow_Click);
+            this.maxOutputWindow.MouseLeave += new System.EventHandler(this.maxOutputWindow_MouseLeave);
+            this.maxOutputWindow.MouseHover += new System.EventHandler(this.maxOutputWindow_MouseHover);
             // 
             // ClearOutputFieldButton
             // 
@@ -486,14 +499,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -611,8 +624,7 @@
             // instellingenToolStripMenuItem1
             // 
             this.instellingenToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sQLServerToolStripMenuItem1,
-            this.wizardToolStripMenuItem});
+            this.sQLServerToolStripMenuItem1});
             this.instellingenToolStripMenuItem1.ForeColor = System.Drawing.Color.Black;
             this.instellingenToolStripMenuItem1.Name = "instellingenToolStripMenuItem1";
             this.instellingenToolStripMenuItem1.Size = new System.Drawing.Size(80, 20);
@@ -621,7 +633,7 @@
             // sQLServerToolStripMenuItem1
             // 
             this.sQLServerToolStripMenuItem1.Name = "sQLServerToolStripMenuItem1";
-            this.sQLServerToolStripMenuItem1.Size = new System.Drawing.Size(129, 22);
+            this.sQLServerToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.sQLServerToolStripMenuItem1.Text = "SQL server";
             this.sQLServerToolStripMenuItem1.Click += new System.EventHandler(this.sQLServerToolStripMenuItem1_Click);
             // 
@@ -662,27 +674,6 @@
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
             // 
-            // maxOutputWindow
-            // 
-            this.maxOutputWindow.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.maxOutputWindow.Image = global::Cisco_Tool.Properties.Resources.perspective;
-            this.maxOutputWindow.Location = new System.Drawing.Point(483, 565);
-            this.maxOutputWindow.Name = "maxOutputWindow";
-            this.maxOutputWindow.Size = new System.Drawing.Size(34, 34);
-            this.maxOutputWindow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.maxOutputWindow.TabIndex = 25;
-            this.maxOutputWindow.TabStop = false;
-            this.maxOutputWindow.Click += new System.EventHandler(this.maxOutputWindow_Click);
-            this.maxOutputWindow.MouseLeave += new System.EventHandler(this.maxOutputWindow_MouseLeave);
-            this.maxOutputWindow.MouseHover += new System.EventHandler(this.maxOutputWindow_MouseHover);
-            // 
-            // wizardToolStripMenuItem
-            // 
-            this.wizardToolStripMenuItem.Name = "wizardToolStripMenuItem";
-            this.wizardToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.wizardToolStripMenuItem.Text = "Wizard";
-            this.wizardToolStripMenuItem.Click += new System.EventHandler(this.wizardToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -704,6 +695,7 @@
             this.script.ResumeLayout(false);
             this.MainMenuTab.ResumeLayout(false);
             this.MainMenuTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).EndInit();
             this.CommandoGB.ResumeLayout(false);
             this.CommandoGB.PerformLayout();
             this.SearchGroupBox.ResumeLayout(false);
@@ -717,7 +709,6 @@
             this.MainContextMenuStrip.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -770,7 +761,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem instellingenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sQLServerToolStripMenuItem;
-        private System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
         private System.Windows.Forms.Button ClearOutputFieldButton;
         private System.Windows.Forms.ToolStripMenuItem jhToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem instellingenToolStripMenuItem1;
@@ -780,7 +770,7 @@
         private System.Windows.Forms.PictureBox maxOutputWindow;
         private System.Windows.Forms.Panel CMDTelnetPanel;
         private System.Windows.Forms.Label CMDTelnetLabel;
-        private System.Windows.Forms.ToolStripMenuItem wizardToolStripMenuItem;
+        public System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
     }
 }
 

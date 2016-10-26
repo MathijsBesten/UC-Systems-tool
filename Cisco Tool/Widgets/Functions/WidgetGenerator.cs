@@ -1,4 +1,5 @@
-﻿using Cisco_Tool.Functions.Telnet;
+﻿using Cisco_Tool;
+using Cisco_Tool.Functions.Telnet;
 using Cisco_Tool.Widgets.Templates;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace Cisco_Tool.Widgets.Functions
             MessageBox.Show("Test");
             return 1;
         }
-        public static async Task<int> widgetMaker()
+        public  async Task<int> widgetMaker()
         {
             await Task.Run(() =>
             {
@@ -113,7 +114,7 @@ namespace Cisco_Tool.Widgets.Functions
                 MessageBox.Show("Test");
                 
             });
-            MessageBox.Show("lul");
+            new MainForm().fillTableWithWidgets();
             return 1;
         }
     } 

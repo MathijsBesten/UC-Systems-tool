@@ -18,6 +18,7 @@ using System.Diagnostics;
 using Cisco_Tool.Views;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Cisco_Tool.Functions.Telnet;
 
 namespace Cisco_Tool
 {
@@ -27,7 +28,7 @@ namespace Cisco_Tool
         private static List<router> allRouters;
         private string selectedScriptPath = "";
         public List<string> allCommands = new List<string>();
-        public List<string> selectedIPAddresses = new List<string>(); 
+        public List<string> selectedIPAddresses = new List<string>();
 
         private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
         private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
@@ -68,35 +69,27 @@ namespace Cisco_Tool
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
             if (script.SelectedIndex == 1 && widgets != null) // if user switched to router tab
             {
-                var shit = WidgetGenerator.widgetMaker(); //WIP
-                foreach (var panel in WidgetGenerator.readyPanels)
-                {
-                    MainTableLayoutPanel.Controls.Add(panel);
-                }
-                WidgetGenerator.readyPanels.Clear();
-
-
-                PictureBox addButton = new PictureBox();
-                addButton.Size = new Size(100, 100);
-                addButton.BackColor = Color.Transparent;
-                addButton.Image = Properties.Resources.add_1;
-                addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                addButton.Anchor = AnchorStyles.None;
-                addButton.Click += new EventHandler(addButtonClick);
-                MainTableLayoutPanel.Controls.Add(addButton);
-            }
-            else
-            {
-                PictureBox addButton = new PictureBox();
-                addButton.Size = new Size(100, 100);
-                addButton.BackColor = Color.Transparent;
-                addButton.Image = Properties.Resources.add_1;
-                addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                addButton.Anchor = AnchorStyles.None;
-                addButton.Click += new EventHandler(addButtonClick);
-                MainTableLayoutPanel.Controls.Add(addButton);
+                var shit = new Widgets.Functions.WidgetGenerator(); //WIP
             }
         }
+        public void fillTableWithWidgets()
+        {
+            foreach (var panel in WidgetGenerator.readyPanels)
+            {
+                MainTableLayoutPanel.Controls.Add(panel);
+            }
+            WidgetGenerator.readyPanels.Clear();
+
+            PictureBox addButton = new PictureBox();
+            addButton.Size = new Size(100, 100);
+            addButton.BackColor = Color.Transparent;
+            addButton.Image = Properties.Resources.add_1;
+            addButton.SizeMode = PictureBoxSizeMode.Zoom;
+            addButton.Anchor = AnchorStyles.None;
+            addButton.Click += new EventHandler(addButtonClick);
+            MainTableLayoutPanel.Controls.Add(addButton);
+}
+
 
 
         #region widget layout
@@ -565,8 +558,8 @@ namespace Cisco_Tool
 
         private void sQLServerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            var dialog = new SQLConfigScreen();
-            dialog.ShowDialog();
+            var wizard = new FirstRunScreen();
+            wizard.ShowDialog();
         }
 
         private void aboutCiscoToolToolStripMenuItem_Click(object sender, EventArgs e)
@@ -635,12 +628,6 @@ namespace Cisco_Tool
         private void CMDTelnetPanel_MouseLeave(object sender, EventArgs e)
         {
             CMDTelnetPanel.BorderStyle = BorderStyle.FixedSingle;
-        }
-
-        private void wizardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var wizard = new FirstRunScreen();
-            wizard.ShowDialog();
         }
     }
 }

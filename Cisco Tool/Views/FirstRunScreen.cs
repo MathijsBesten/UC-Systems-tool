@@ -132,5 +132,26 @@ namespace Cisco_Tool.Views
                     break;
             }
         }
+
+        private void tabs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (tabs.SelectedIndex)
+            {
+                case 0:
+                    BackButton.Text = "Annuleren";
+                    NextButton.Text = "Volgende";
+                    break;
+                case 1:
+                    BackButton.Text = "Vorige";
+                    NextButton.Text = "Volgende";
+                    break;
+                case 2:
+                    BackButton.Text = "Vorige";
+                    NextButton.Text = "Voltooien";
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
