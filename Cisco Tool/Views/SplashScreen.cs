@@ -24,7 +24,7 @@ namespace Cisco_Tool.Views
         private void SplashScreen_Shown(object sender, EventArgs e)
         {
             mainTimer = new Timer();
-            mainTimer.Interval =1000;
+            mainTimer.Interval =500;
             mainTimer.Start();
             mainTimer.Tick += mianTimer_Tick;
             mainform = new MainForm();

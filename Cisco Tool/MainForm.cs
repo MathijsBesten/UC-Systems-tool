@@ -38,17 +38,17 @@ namespace Cisco_Tool
         public MainForm()
         {
             InitializeComponent();
-            if (SQLIP == "" && SQLDatabase == "" && SQLUsername == "" && SQLPassword == "")
-            {
-                var sqlDialog = new SQLConfigScreen();
-                sqlDialog.ShowDialog();
-            }
-
         }
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (SQLIP == "" && SQLDatabase == "" && SQLUsername == "" && SQLPassword == "")
+            {
+                var firstRunDialog = new FirstRunScreen();
+                firstRunDialog.ShowDialog();
+            }
+
             SqlConnection connection = Connections.OwnDB();
             allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
             if (allRouters != null)
@@ -65,15 +65,10 @@ namespace Cisco_Tool
         }
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainTableLayoutPanel.Controls.Clear();
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
             if (script.SelectedIndex == 1 && widgets != null) // if user switched to router tab
             {
-                Task  shit = WidgetGenerator.makeAllWidgets();
-                MainTableLayoutPanel.Controls.Clear();
-                shit.Wait();
-
-
+                var shit = WidgetGenerator.widgetMaker(); //WIP
                 foreach (var panel in WidgetGenerator.readyPanels)
                 {
                     MainTableLayoutPanel.Controls.Add(panel);
@@ -640,6 +635,12 @@ namespace Cisco_Tool
         private void CMDTelnetPanel_MouseLeave(object sender, EventArgs e)
         {
             CMDTelnetPanel.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void wizardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var wizard = new FirstRunScreen();
+            wizard.ShowDialog();
         }
     }
 }

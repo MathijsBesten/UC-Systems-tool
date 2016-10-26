@@ -88,6 +88,7 @@
             this.linkLabelAuthor.Name = "linkLabelAuthor";
             this.linkLabelAuthor.Size = new System.Drawing.Size(121, 16);
             this.linkLabelAuthor.TabIndex = 9;
+            this.linkLabelAuthor.TabStop = true;
             this.linkLabelAuthor.Text = "Mathijs den Besten";
             this.linkLabelAuthor.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelAuthor_LinkClicked);
             // 
@@ -119,6 +120,7 @@
             this.UCSystemsLink.Name = "UCSystemsLink";
             this.UCSystemsLink.Size = new System.Drawing.Size(128, 16);
             this.UCSystemsLink.TabIndex = 11;
+            this.UCSystemsLink.TabStop = true;
             this.UCSystemsLink.Text = "https://ucsystems.nl/";
             this.UCSystemsLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.UCSystemsLink_LinkClicked);
             // 
