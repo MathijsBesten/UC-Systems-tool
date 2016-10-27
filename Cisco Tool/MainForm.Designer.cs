@@ -32,7 +32,7 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.script = new System.Windows.Forms.TabControl();
+            this.mainMenu = new System.Windows.Forms.TabControl();
             this.MainMenuTab = new System.Windows.Forms.TabPage();
             this.maxOutputWindow = new System.Windows.Forms.PictureBox();
             this.ClearOutputFieldButton = new System.Windows.Forms.Button();
@@ -86,8 +86,9 @@
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
-            this.script.SuspendLayout();
+            this.mainMenu.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).BeginInit();
             this.CommandoGB.SuspendLayout();
@@ -110,16 +111,16 @@
             // 
             this.mainErrorProvider.ContainerControl = this;
             // 
-            // script
+            // mainMenu
             // 
-            this.script.Controls.Add(this.MainMenuTab);
-            this.script.Controls.Add(this.RouterTab);
-            this.script.Location = new System.Drawing.Point(17, 41);
-            this.script.Name = "script";
-            this.script.SelectedIndex = 0;
-            this.script.Size = new System.Drawing.Size(1241, 643);
-            this.script.TabIndex = 1;
-            this.script.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
+            this.mainMenu.Controls.Add(this.MainMenuTab);
+            this.mainMenu.Controls.Add(this.RouterTab);
+            this.mainMenu.Location = new System.Drawing.Point(17, 41);
+            this.mainMenu.Name = "mainMenu";
+            this.mainMenu.SelectedIndex = 0;
+            this.mainMenu.Size = new System.Drawing.Size(1241, 643);
+            this.mainMenu.TabIndex = 1;
+            this.mainMenu.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
             // 
             // MainMenuTab
             // 
@@ -674,6 +675,10 @@
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerReportsProgress = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -681,7 +686,7 @@
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(1283, 696);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.script);
+            this.Controls.Add(this.mainMenu);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MainMenuStrip = this.menuStrip1;
@@ -692,7 +697,7 @@
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).EndInit();
-            this.script.ResumeLayout(false);
+            this.mainMenu.ResumeLayout(false);
             this.MainMenuTab.ResumeLayout(false);
             this.MainMenuTab.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.maxOutputWindow)).EndInit();
@@ -717,7 +722,7 @@
         #endregion
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.ErrorProvider mainErrorProvider;
-        private System.Windows.Forms.TabControl script;
+        private System.Windows.Forms.TabControl mainMenu;
         private System.Windows.Forms.TabPage RouterTab;
         private System.Windows.Forms.TabPage MainMenuTab;
         private System.Windows.Forms.Panel SearchGroupBox;
@@ -771,6 +776,7 @@
         private System.Windows.Forms.Panel CMDTelnetPanel;
         private System.Windows.Forms.Label CMDTelnetLabel;
         public System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

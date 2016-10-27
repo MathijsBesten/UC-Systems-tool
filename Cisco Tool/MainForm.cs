@@ -29,6 +29,8 @@ namespace Cisco_Tool
         private string selectedScriptPath = "";
         public List<string> allCommands = new List<string>();
         public List<string> selectedIPAddresses = new List<string>();
+        public static List<Control> readyPanels = new List<Control>();
+
 
         private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
         private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
@@ -50,6 +52,7 @@ namespace Cisco_Tool
                 firstRunDialog.ShowDialog();
             }
 
+            mainMenu.TabPages.Remove(RouterTab);
             SqlConnection connection = Connections.OwnDB();
             allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
             if (allRouters != null)
@@ -67,14 +70,17 @@ namespace Cisco_Tool
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
-            if (script.SelectedIndex == 1 && widgets != null) // if user switched to router tab
+            if (mainMenu.SelectedIndex == 1 && widgets != null) // if user switched to router tab
             {
-                var shit = new Widgets.Functions.WidgetGenerator(); //WIP
+                var bla = taskGetWidgets(); //WIP
+                bla.Wait();
+                MessageBox.Show("Test");
+                fillTableWithWidgets();
             }
         }
         public void fillTableWithWidgets()
         {
-            foreach (var panel in WidgetGenerator.readyPanels)
+            foreach (var panel in readyPanels)
             {
                 MainTableLayoutPanel.Controls.Add(panel);
             }
@@ -95,7 +101,11 @@ namespace Cisco_Tool
         #region widget layout
         private void MainGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
+            if (MainDataGridView.CurrentCell.ColumnIndex == 2)
+            {
+
+            }
+            else if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
             {
                 string nameOfRouter = MainDataGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
                 string IPAddress = MainDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
@@ -129,7 +139,7 @@ namespace Cisco_Tool
             var result = widgetCreator.ShowDialog();
             if (result == DialogResult.OK)
             {
-                script.TabPages[1].Refresh();
+                mainMenu.TabPages[1].Refresh();
             }
         }
 
@@ -180,13 +190,26 @@ namespace Cisco_Tool
             if (ManualIPAddress.Text != "" && ManualUsername.Text != "" && ManualPassword.Text != "")
             {
                 bool IPisValid = validation.validateIPv4(ManualIPAddress.Text);
-                if (IPisValid)
+                if (!IPisValid)
                 {
-                    MessageBox.Show("De functie zal een nieuw tabje boven \'handmatig verbinden\' maken en de stying kopieeren van \'router connection\'");
+                    mainErrorProvider.SetError(ManualIPAddress, "Geen geldig ip adres");
                 }
                 else
                 {
-                    mainErrorProvider.SetError(ManualIPAddress, "Geen geldig ip adres");
+
+
+                    MessageBox.Show("De functie zal een nieuw tabje boven \'handmatig verbinden\' maken en de stying kopieeren van \'router connection\'");
+                    if (mainMenu.TabCount == 1)
+                    {
+                        mainMenu.TabPages.Add(RouterTab);
+                        RouterTab.Text = ManualIPAddress.Text;
+                    }
+                    else
+                    {
+                        mainMenu.TabPages.Remove(RouterTab);
+                        mainMenu.TabPages.Add(RouterTab);
+                        RouterTab.Text = ManualIPAddress.Text;
+                    }
                 }
             }
         }
@@ -628,6 +651,103 @@ namespace Cisco_Tool
         private void CMDTelnetPanel_MouseLeave(object sender, EventArgs e)
         {
             CMDTelnetPanel.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private async Task taskGetWidgets()
+        {
+            await Task.Run(() =>
+            {
+
+                var widgets = JSON.readJSON(); // 7ms for reading a empty file
+                                               //getting widget infromation and setting up template details
+                Size templateSize = new Size(250, 230);
+                Color templateBackColor = Color.Gray; //backcolor
+                Color templateForeColor = Color.White; // font color
+                Padding templateMargin = new System.Windows.Forms.Padding(0); // margin
+                int count = 0;
+                foreach (var widget in widgets)
+                {
+                    if (widget.widgetType == "Informatie")
+                    {
+                        var newPanel = new InfoTemplate();
+                        newPanel.Name = "Panel" + count.ToString();
+                        newPanel.Tag = count.ToString();
+                        newPanel.titleWidgetLabel.Text = widget.widgetName;
+                        newPanel.commandName.Text = widget.widgetCommand;
+                        //newPanel.minMaxWidgetPicturebox.Click += new System.EventHandler(EventHandlers.EventHandlers.minMaxButton_Click);
+                        //newPanel.closeWidgetPicturebox.Click += new System.EventHandler(MainForm.closeButton_Click);
+                        if (widget.widgetCommand != "")
+                        {
+                            string username = "mathijs";
+                            string password = "denbesten";
+                            string command = widget.widgetCommand;
+                            bool usesLongProcessTime = widget.widgetUseLongProcessTime;
+                            string output = TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
+                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                            {
+                                if (widget.widgetUseSelection == true)
+                                {
+                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                    newPanel.outputbox.Text = finalResult.ToString();
+                                }
+                                else
+                                {
+                                    newPanel.outputbox.Text = output;
+                                }
+                            }
+                            else
+                            {
+                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"'  is niet geldig";
+                            }
+                            readyPanels.Add(newPanel);
+                        }
+                    }
+                    else //button
+                    {
+                        var newPanel = new ExecuteTemplate();
+                        newPanel.Name = "Panel" + count.ToString();
+                        newPanel.Tag = "Panel" + count.ToString();
+                        newPanel.titleWidgetLabel.Text = widget.widgetName;
+                        newPanel.commandName.Text = widget.widgetCommand;
+                        // newPanel.minMaxWidgetPicturebox.Click += new System.EventHandler(MainForm.minMaxButton_Click);
+                        // newPanel.closeWidgetPicturebox.Click += new System.EventHandler(MainForm.closeButton_Click);
+
+                        if (widget.widgetCommand != "")
+                        {
+                            string username = "mathijs";
+                            string password = "denbesten";
+                            string command = widget.widgetCommand;
+                            bool usesLongProcessTime = widget.widgetUseLongProcessTime;
+                            string output = TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
+                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                            {
+                                if (widget.widgetUseSelection == true)
+                                {
+                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                    newPanel.outputbox.Text = finalResult.ToString();
+                                }
+                                else
+                                {
+                                    newPanel.outputbox.Text = output;
+                                }
+                            }
+                            else
+                            {
+                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
+                            }
+                        }
+                        newPanel.runButton.Text = "Uitvoeren";
+                        //make new onclick event
+                        readyPanels.Add(newPanel);
+                    }
+                    count++;
+                }
+                return;
+            });
+            return;
+            MessageBox.Show("Test");
         }
     }
 }

@@ -108,6 +108,12 @@
     <Compile Include="Views\AboutScreen.Designer.cs">
       <DependentUpon>AboutScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\EnterUsernameAndPasswordScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\EnterUsernameAndPasswordScreen.Designer.cs">
+      <DependentUpon>EnterUsernameAndPasswordScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\FirstRunScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +175,9 @@
     </Compile>
     <EmbeddedResource Include="Views\AboutScreen.resx">
       <DependentUpon>AboutScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\EnterUsernameAndPasswordScreen.resx">
+      <DependentUpon>EnterUsernameAndPasswordScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FirstRunScreen.resx">
       <DependentUpon>FirstRunScreen.cs</DependentUpon>
