@@ -72,9 +72,10 @@ namespace Cisco_Tool
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
             if (mainMenu.SelectedIndex == 1 && widgets != null) // if user switched to router tab
             {
-                var bla = taskGetWidgets(); //WIP
-                bla.Wait();
-                MessageBox.Show("Test");
+                Task bla = new Task(() => {
+                    taskGetWidgets();
+                });
+                bla.RunSynchronously();
                 fillTableWithWidgets();
             }
         }
@@ -94,9 +95,7 @@ namespace Cisco_Tool
             addButton.Anchor = AnchorStyles.None;
             addButton.Click += new EventHandler(addButtonClick);
             MainTableLayoutPanel.Controls.Add(addButton);
-}
-
-
+        }
 
         #region widget layout
         private void MainGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -657,7 +656,7 @@ namespace Cisco_Tool
         {
             await Task.Run(() =>
             {
-
+                MessageBox.Show("Test");
                 var widgets = JSON.readJSON(); // 7ms for reading a empty file
                                                //getting widget infromation and setting up template details
                 Size templateSize = new Size(250, 230);
@@ -744,10 +743,15 @@ namespace Cisco_Tool
                     }
                     count++;
                 }
-                return;
+                MessageBox.Show("Bla is done");
+                fillTableWithWidgets();
             });
-            return;
-            MessageBox.Show("Test");
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("button on ip tab is clicked!");
         }
     }
 }

@@ -34,7 +34,6 @@ namespace Cisco_Tool.Views
             mainTimer.Stop();
             mainform.Show();
             this.Hide();
-
         }
     }
 }
