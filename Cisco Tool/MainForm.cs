@@ -570,7 +570,7 @@ namespace Cisco_Tool
                 DialogResult confirm = MessageBox.Show("Als u op OK drukt zal alle output worden verwijderd," + Environment.NewLine + "DIT IS ONOMKEERBAAR!", "Waarschuwing", MessageBoxButtons.OKCancel);
                 if (confirm == DialogResult.OK)
                 {
-                    OutputBox.Clear();
+                    OutputBox.Text = "";
                 }
             }
         }
@@ -610,12 +610,9 @@ namespace Cisco_Tool
             }
             else // make smaller
             {
-                if (OutputBox.Text.Length >= 10)
+                while (OutputBox.Width != 174)
                 {
-                    while (OutputBox.Width != 174)
-                    {
-                        OutputBox.Width--;
-                    }
+                    OutputBox.Width--;
                 }
             }
         }
