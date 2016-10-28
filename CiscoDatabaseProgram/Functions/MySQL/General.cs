@@ -21,7 +21,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
         }
         public static MySqlConnection MySQLConnnection() 
         {
-            string connectionString = "SERVER=" + ConfigurationManager.AppSettings["MainServerIP"] + ";" + "DATABASE=" + ConfigurationManager.AppSettings["MainServerDatabase"] + ";" + "UID=" + ConfigurationManager.AppSettings["MainServerUsername"] + ";" + "PASSWORD=" + ConfigurationManager.AppSettings["MainServerPassword"] + "; connection timeout= 3";
+            string connectionString = "SERVER=" + Settings.Default.MainServerIP + ";" + "DATABASE=" + Settings.Default.MainServerDatabase + ";" + "UID=" + Settings.Default.MainServerUsername + ";" + "PASSWORD=" + Settings.Default.MainServerPassword + "; connection timeout= 3";
             return new MySqlConnection(connectionString);
         }
 

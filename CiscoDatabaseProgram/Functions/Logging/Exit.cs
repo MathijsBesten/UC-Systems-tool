@@ -81,7 +81,7 @@ namespace CiscoDatabaseProgram.Functions.Logging
             {
                 Console.ReadKey(); // waits for the user to notice the error
                 Console.WriteLine("bezig met afsluiten...");
-                Thread.Sleep(1000); // sleeps for userexperience
+                Thread.Sleep(1000); // sleeps for user experience
                 Environment.Exit(ErrorCodes.errorExitID); //exit application
             }
         }

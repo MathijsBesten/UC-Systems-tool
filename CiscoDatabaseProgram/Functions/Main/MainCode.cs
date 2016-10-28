@@ -59,8 +59,8 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("");
             Console.WriteLine(DateTime.Now);
             Console.WriteLine();
-            string username = ConfigurationManager.AppSettings["username"];
-            string password = ConfigurationManager.AppSettings["password"];
+            string username = Settings.Default.username;
+            string password = Settings.Default.password;
             SerialNumbers.General.getSerialnumbersForRouters(username, password);
         }
 
@@ -73,8 +73,8 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("");
             Console.WriteLine(DateTime.Now);
             Console.WriteLine();
-            string username = ConfigurationManager.AppSettings["username"];
-            string password = ConfigurationManager.AppSettings["password"];
+            string username = Settings.Default.username;
+            string password = Settings.Default.password;
             SerialNumbers.General.getSerialnumbersForRouters(username, password);
         }
 
@@ -91,7 +91,7 @@ namespace CiscoDatabaseProgram.Functions.Main
             string password = "denbesten";
             List<router> testRouters = new List<router>();
             router testRouter = new router();
-            testRouter.routerAddress = ConfigurationManager.AppSettings["TestRouterIP"];
+            testRouter.routerAddress = Settings.Default.TestRouterIP;
             testRouter.routerActivate = "1";
             testRouters.Add(testRouter);
 
