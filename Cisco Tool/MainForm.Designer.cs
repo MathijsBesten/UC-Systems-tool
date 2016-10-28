@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.mainMenu = new System.Windows.Forms.TabControl();
@@ -87,7 +87,6 @@
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.mainMenu.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -120,7 +119,9 @@
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.SelectedIndex = 0;
             this.mainMenu.Size = new System.Drawing.Size(1241, 643);
+            this.mainMenu.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.mainMenu.TabIndex = 1;
+            this.mainMenu.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.mainMenu_DrawItem);
             this.mainMenu.SelectedIndexChanged += new System.EventHandler(this.MainTabControl_SelectedIndexChanged);
             // 
             // MainMenuTab
@@ -501,14 +502,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -547,7 +548,6 @@
             // 
             // RouterTab
             // 
-            this.RouterTab.Controls.Add(this.button1);
             this.RouterTab.Controls.Add(this.CMDTelnetPanel);
             this.RouterTab.Controls.Add(this.MainTableLayoutPanel);
             this.RouterTab.Location = new System.Drawing.Point(4, 22);
@@ -681,16 +681,6 @@
             // 
             this.backgroundWorker1.WorkerReportsProgress = true;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(672, 67);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -789,7 +779,6 @@
         private System.Windows.Forms.Label CMDTelnetLabel;
         public System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.Button button1;
     }
 }
 
