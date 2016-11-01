@@ -122,42 +122,6 @@ namespace CiscoDatabaseProgram {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TestRouterIP {
-            get {
-                return ((string)(this["TestRouterIP"]));
-            }
-            set {
-                this["TestRouterIP"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TestRouterUsername {
-            get {
-                return ((string)(this["TestRouterUsername"]));
-            }
-            set {
-                this["TestRouterUsername"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string TestRouterPassword {
-            get {
-                return ((string)(this["TestRouterPassword"]));
-            }
-            set {
-                this["TestRouterPassword"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string username {
             get {
                 return ((string)(this["username"]));

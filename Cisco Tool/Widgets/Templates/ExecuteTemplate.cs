@@ -16,11 +16,10 @@ namespace Cisco_Tool.Widgets.Templates
         public Panel templatePanel = new Panel();
         public Panel topBar = new Panel();
         public Label titleWidgetLabel = new Label();
-        public PictureBox minMaxWidgetPicturebox = new PictureBox();
         public PictureBox closeWidgetPicturebox = new PictureBox();
         public Panel informationPanel = new Panel();
         public Label commandName = new Label();
-        public RichTextBox outputbox = new RichTextBox();
+        public TextBox outputbox = new TextBox();
         public Button runButton = new Button();
 
         // new sort of control
@@ -40,12 +39,6 @@ namespace Cisco_Tool.Widgets.Templates
             informationPanel.BorderStyle = BorderStyle.Fixed3D;
             informationPanel.Location = new Point(3, 33);
 
-            minMaxWidgetPicturebox.Image = Properties.Resources.windows_1;
-            minMaxWidgetPicturebox.Height = 25;
-            minMaxWidgetPicturebox.Width = 25;
-            minMaxWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
-            minMaxWidgetPicturebox.Location = new Point(185, 3);
-
             closeWidgetPicturebox.Image = Properties.Resources.close;
             closeWidgetPicturebox.Height = 25;
             closeWidgetPicturebox.Width = 25;
@@ -60,15 +53,15 @@ namespace Cisco_Tool.Widgets.Templates
 
             runButton.BackColor = Color.DimGray;
             runButton.Size = new Size(139, 42);
-            runButton.Location = new Point(44, 128);
+            runButton.Location = new Point(44, 140);
             runButton.ForeColor = Color.White;
 
             outputbox.BackColor = Color.Gray;
             outputbox.ForeColor = Color.White;
-            outputbox.Size = new Size(218, 57);
+            outputbox.Size = new Size(218, 100);
             outputbox.Location = new Point(11, 35);
             outputbox.Multiline = true;
-            outputbox.ScrollBars = RichTextBoxScrollBars.Both;
+            outputbox.ScrollBars = ScrollBars.Vertical;
             outputbox.ReadOnly = true;
             outputbox.Cursor = Cursors.Arrow;
             outputbox.Visible = false;
@@ -81,7 +74,6 @@ namespace Cisco_Tool.Widgets.Templates
 
             //assign controls to panels
             topBar.Controls.Add(titleWidgetLabel);
-            topBar.Controls.Add(minMaxWidgetPicturebox);
             topBar.Controls.Add(closeWidgetPicturebox);
 
             informationPanel.Controls.Add(commandName);

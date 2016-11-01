@@ -19,48 +19,8 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
     {
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static void telnetClientSockets(string IPAddressString) // function will not work for cisco router
-        {
-            IPAddress address;
-            byte[] message;
-            byte[] responseInBytes = new byte[]{ };
-            string response;
-            bool convertIP = IPAddress.TryParse(IPAddressString, out address);
-            if (convertIP == true)
-            {
-                IPEndPoint endpoint = new IPEndPoint(address, 23);
-                Socket socket = new Socket(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.Tcp);
-                socket.ReceiveTimeout = 3;
-                try
-                {
-                    socket.Connect(endpoint);
-                    string testmessage = "test";
-                    message = Encoding.ASCII.GetBytes(testmessage);
-                    socket.Send(message);
-                    socket.Receive(responseInBytes);
-                    response = Encoding.ASCII.GetString(responseInBytes);
-                    Console.WriteLine(response);
-                    socket.Close();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("error - kon niet verbinden met " + IPAddressString +" via telnet om serienummer op te halen ");
-                    Console.WriteLine("errormessage - " + ex.Message);
-                    log.Error("ERROR - Could not connect to "+ IPAddressString +" using telnet to get serialnumber ");
-                    log.Error("errormessage - " + ex.Message);
-                }
-            }
-            else
-            {
-                Console.WriteLine("error - Er was een probleem met het controleren van het ip adres ");
-                Console.WriteLine("probleem ontstond bij : " + IPAddressString);
-                log.Error("ERROR - could not verify " + IPAddressString);
-                Logging.Exit.defaultExit();
-            }
-        }
         public static string telnetClientTCP(router router,string username,string password) // telnet client using tcp client
         {
-
             log.Info("Telnet function was been started");
             //initialze all values
             string command = "sh diag | inc Serial";                    // command to get serialnumber

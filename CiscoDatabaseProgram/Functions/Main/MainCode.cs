@@ -59,7 +59,7 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("");
             Console.WriteLine(DateTime.Now);
             Console.WriteLine();
-            string username = Settings.Default.username;
+            string username = Settings.Default.username; 
             string password = Settings.Default.password;
             SerialNumbers.General.getSerialnumbersForRouters(username, password);
         }
@@ -76,26 +76,6 @@ namespace CiscoDatabaseProgram.Functions.Main
             string username = Settings.Default.username;
             string password = Settings.Default.password;
             SerialNumbers.General.getSerialnumbersForRouters(username, password);
-        }
-
-        public static void TESTUpdateSerials() // timed event
-        {
-            log.Info("");
-            log.Info("Timestampt: " + DateTime.Now);
-            log.Info("GETTING SERIALNUMBERS");
-            log.Info("Running...");
-            Console.WriteLine("");
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine();
-            string username = "mathijs";
-            string password = "denbesten";
-            List<router> testRouters = new List<router>();
-            router testRouter = new router();
-            testRouter.routerAddress = Settings.Default.TestRouterIP;
-            testRouter.routerActivate = "1";
-            testRouters.Add(testRouter);
-
-            SerialNumbers.General.TESTmanualListGetSerialnumbersForRouters(testRouters, username, password);
         }
     }
 }

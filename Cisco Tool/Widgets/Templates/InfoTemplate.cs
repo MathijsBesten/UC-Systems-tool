@@ -13,7 +13,6 @@ namespace Cisco_Tool.Widgets.Templates
         public Panel templatePanel = new Panel();
         public Panel topBar = new Panel();
         public Label titleWidgetLabel = new Label();
-        public PictureBox minMaxWidgetPicturebox = new PictureBox();
         public PictureBox closeWidgetPicturebox = new PictureBox();
         public Panel informationPanel = new Panel();
         public Label commandName = new Label();
@@ -34,12 +33,6 @@ namespace Cisco_Tool.Widgets.Templates
             informationPanel.BackColor = Color.Gray;
             informationPanel.BorderStyle = BorderStyle.Fixed3D;
             informationPanel.Location = new Point(3, 33);
-
-            minMaxWidgetPicturebox.Image = Properties.Resources.windows_1;
-            minMaxWidgetPicturebox.Height = 25;
-            minMaxWidgetPicturebox.Width = 25;
-            minMaxWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
-            minMaxWidgetPicturebox.Location = new Point(185, 3);
 
             closeWidgetPicturebox.Image = Properties.Resources.close;
             closeWidgetPicturebox.Height = 25;
@@ -69,7 +62,6 @@ namespace Cisco_Tool.Widgets.Templates
 
             //assign controls to panels
             topBar.Controls.Add(titleWidgetLabel);
-            topBar.Controls.Add(minMaxWidgetPicturebox);
             topBar.Controls.Add(closeWidgetPicturebox);
 
             informationPanel.Controls.Add(commandName);

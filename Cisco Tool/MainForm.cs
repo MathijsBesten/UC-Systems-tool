@@ -19,6 +19,7 @@ using Cisco_Tool.Views;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Cisco_Tool.Functions.Telnet;
+using static Cisco_Tool.Widgets.Classes;
 
 namespace Cisco_Tool
 {
@@ -70,12 +71,26 @@ namespace Cisco_Tool
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
-            if (mainMenu.SelectedIndex == 1 && widgets != null) // if user switched to router tab
+            if (mainMenu.SelectedIndex == 1) // if user switched to router tab
             {
-                if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
+                if (widgets == null)
+                {
+                    if (MainTableLayoutPanel.Controls.Count != 1)
+                    {
+                        PictureBox addButton = new PictureBox();
+                        addButton.Size = new Size(100, 100);
+                        addButton.BackColor = Color.Transparent;
+                        addButton.Image = Properties.Resources.add_1;
+                        addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                        addButton.Anchor = AnchorStyles.None;
+                        addButton.Click += new EventHandler(addButtonClick);
+                        MainTableLayoutPanel.Controls.Add(addButton);
+                    }
+                }
+                else if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
                 {
                     MainTableLayoutPanel.Controls.Clear();
-                    taskGetWidgets();
+                    taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
                     fillTableWithWidgets();
                 }
             }
@@ -139,7 +154,10 @@ namespace Cisco_Tool
             var result = widgetCreator.ShowDialog();
             if (result == DialogResult.OK)
             {
-                mainMenu.TabPages[1].Refresh();
+                MainTableLayoutPanel.Controls.Clear();
+                readyPanels.Clear();
+                taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
+                fillTableWithWidgets();
             }
         }
 
@@ -632,7 +650,7 @@ namespace Cisco_Tool
         {
             Process process = new Process();
             process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";
-            process.StartInfo.Arguments = "172.28.81.180";
+            process.StartInfo.Arguments = ManualIPAddress.Text;
             process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             process.Start();
         }
@@ -647,7 +665,7 @@ namespace Cisco_Tool
             CMDTelnetPanel.BorderStyle = BorderStyle.FixedSingle;
         }
 
-        private void taskGetWidgets()
+        private void taskGetWidgets(string ip,string username,string password)
         {
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
 
@@ -666,15 +684,13 @@ namespace Cisco_Tool
                     newPanel.Tag = count.ToString();
                     newPanel.titleWidgetLabel.Text = widget.widgetName;
                     newPanel.commandName.Text = widget.widgetCommand;
-                    //newPanel.minMaxWidgetPicturebox.Click += new System.EventHandler(EventHandlers.EventHandlers.minMaxButton_Click);
-                    //newPanel.closeWidgetPicturebox.Click += new System.EventHandler(MainForm.closeButton_Click);
+                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+
                     if (widget.widgetCommand != "")
                     {
-                        string username = "mathijs";
-                        string password = "denbesten";
                         string command = widget.widgetCommand;
                         bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                        string output = TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
+                        string output = TelnetConnection.telnetClientTCP(ip, command, username, password, usesLongProcessTime);
                         if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
                         {
                             if (widget.widgetUseSelection == true)
@@ -699,19 +715,17 @@ namespace Cisco_Tool
                 {
                     var newPanel = new ExecuteTemplate();
                     newPanel.Name = "Panel" + count.ToString();
-                    newPanel.Tag = "Panel" + count.ToString();
+                    newPanel.Tag = count.ToString();
                     newPanel.titleWidgetLabel.Text = widget.widgetName;
                     newPanel.commandName.Text = widget.widgetCommand;
-                    // newPanel.minMaxWidgetPicturebox.Click += new System.EventHandler(MainForm.minMaxButton_Click);
-                    // newPanel.closeWidgetPicturebox.Click += new System.EventHandler(MainForm.closeButton_Click);
+                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                    newPanel.runButton.Click += new EventHandler(runCommand);
 
                     if (widget.widgetCommand != "")
                     {
-                        string username = "mathijs";
-                        string password = "denbesten";
                         string command = widget.widgetCommand;
                         bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                        string output = TelnetConnection.telnetClientTCP("172.28.81.180", command, username, password, usesLongProcessTime);
+                        string output = TelnetConnection.telnetClientTCP(ip, command, username, password, usesLongProcessTime);
                         if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
                         {
                             if (widget.widgetUseSelection == true)
@@ -731,15 +745,67 @@ namespace Cisco_Tool
                         }
                     }
                     newPanel.runButton.Text = "Uitvoeren";
-                    //make new onclick event
                     readyPanels.Add(newPanel);
                 }
                 count++;
             }
         }
 
-        private void mainMenu_DrawItem(object sender, DrawItemEventArgs e)
+        private void runCommand(object sender, EventArgs e)
         {
+            Button realsender = ((Button)sender);
+            ExecuteTemplate widgetSender =  (ExecuteTemplate)realsender.Parent.Parent;
+            int widgetIndex =  Int32.Parse(widgetSender.Tag.ToString());
+            var widgets = JSON.readJSON(); // 7ms for reading a empty file
+            var widget = widgets[widgetIndex];
+            string command = widgetSender.commandName.Text;
+            var outputbox = MainTableLayoutPanel.Controls[widgetIndex].Controls[1].Controls[1];
+
+
+            if (command != "")
+            {
+                outputbox.Visible = true;
+                outputbox.Text = "";
+                bool usesLongProcessTime = widget.widgetUseLongProcessTime;
+                string output = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, usesLongProcessTime);
+                if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                {
+                    if (widget.widgetUseSelection == true)
+                    {
+                        string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                        outputbox.Text = finalResult.ToString();
+                    }
+                    else
+                    {
+                        outputbox.Text = output;
+                    }
+                }
+                else
+                {
+                    outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                    outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
+                }
+            }
+        }
+
+        void removeWidget(object sender, EventArgs e)
+        {
+            PictureBox realSender = ((PictureBox)sender);
+            Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
+            DialogResult confirmRemove =  MessageBox.Show("Wil je widget '" + realSender.Parent.Controls[0].Text + "' verwijderen?");
+            if (confirmRemove == DialogResult.OK)
+            {
+                JSON.removeWidgetFromWidgetList(Int32.Parse(targetWidget.Tag.ToString()));
+                MainTableLayoutPanel.Controls.Clear();
+                readyPanels.Clear();
+                taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
+                fillTableWithWidgets();
+            }
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
         }
     }
 }

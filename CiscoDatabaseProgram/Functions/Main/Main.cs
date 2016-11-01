@@ -31,7 +31,6 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine("Deze applicatie is ter ondersteuing van de Cisco Tool");
             Console.WriteLine();
 
-            MainCode.TESTUpdateSerials();
 
             MainCode.updateDatabase();
             //MainCode.updateSerials();

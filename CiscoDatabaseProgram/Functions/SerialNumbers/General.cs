@@ -48,35 +48,7 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             log.Info("Serialnumbers are synchronized");
 
         }
-        public static void TESTmanualListGetSerialnumbersForRouters(List<router> routersWithoutSerial, string username, string password)
-        {
-            List<router> finalRouterlist = new List<router>();
-            if (routersWithoutSerial.Count == 0)
-            {
-                Console.WriteLine("Alle routers hebben in de database een serienummer");
-                log.Info("All routers in the database have a serialnumber");
-                return;
-            }
-            foreach (var router in routersWithoutSerial)
-            {
-                string ChassisSerialNumber = TelnetConnection.telnetClientTCP(router, username, password); // return null if serialnumber is not found
-                if (ChassisSerialNumber != "")
-                {
-                    router.routerSerialnumber = ChassisSerialNumber;
-                    log.Info("Serialnumber found for - " + router.routerAddress);
-                    finalRouterlist.Add(router);
-                }
-                else
-                {
-                    Console.WriteLine("serienummer van " + router.routerAddress + " kon niet worden gevonden");
-                    log.Error("Serialnumber could not be found ip: " + router.routerAddress);
-                }
-            }
-            Data.updateRoutersOwnServer(finalRouterlist);
-            Console.WriteLine("serienummers zijn in de database gezet");
-            log.Info("Serialnumbers are synchronized");
-
-        }
+       
         private static List<router> receiveAllRoutersWithoutSerial()
         {
             List<router> routersWithoutSerial = new List<router>();
