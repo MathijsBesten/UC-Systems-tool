@@ -31,6 +31,7 @@ namespace Cisco_Tool
         public List<string> allCommands = new List<string>();
         public List<string> selectedIPAddresses = new List<string>();
         public static List<Control> readyPanels = new List<Control>();
+        public bool loginDetailsChanged = false;
 
 
         private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
@@ -73,25 +74,35 @@ namespace Cisco_Tool
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
             if (mainMenu.SelectedIndex == 1) // if user switched to router tab
             {
-                if (widgets == null)
+                if (loginDetailsChanged == true)
                 {
-                    if (MainTableLayoutPanel.Controls.Count != 1)
+                    routerAliasText.Text = ManualIPAddress.Text;
+                    var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
+                    string PID = TelnetConnection.findPID(result);
+                    routerIPText.Text = PID;
+                    runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
+
+                    if (widgets == null)
                     {
-                        PictureBox addButton = new PictureBox();
-                        addButton.Size = new Size(100, 100);
-                        addButton.BackColor = Color.Transparent;
-                        addButton.Image = Properties.Resources.add_1;
-                        addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                        addButton.Anchor = AnchorStyles.None;
-                        addButton.Click += new EventHandler(addButtonClick);
-                        MainTableLayoutPanel.Controls.Add(addButton);
+                        if (MainTableLayoutPanel.Controls.Count != 1)
+                        {
+                            PictureBox addButton = new PictureBox();
+                            addButton.Size = new Size(100, 100);
+                            addButton.BackColor = Color.Transparent;
+                            addButton.Image = Properties.Resources.add_1;
+                            addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                            addButton.Anchor = AnchorStyles.None;
+                            addButton.Click += new EventHandler(addButtonClick);
+                            MainTableLayoutPanel.Controls.Add(addButton);
+                        }
                     }
-                }
-                else if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
-                {
-                    MainTableLayoutPanel.Controls.Clear();
-                    taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
-                    fillTableWithWidgets();
+                    else if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
+                    {
+                        MainTableLayoutPanel.Controls.Clear();
+                        taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
+                        fillTableWithWidgets();
+                    }
+                    loginDetailsChanged = false; // this will prevent reloading if user switches tabs
                 }
             }
         }
@@ -225,6 +236,7 @@ namespace Cisco_Tool
                         mainMenu.TabPages.Add(RouterTab);
                         RouterTab.Text = ManualIPAddress.Text;
                     }
+                    loginDetailsChanged = true;
                 }
             }
         }

@@ -67,5 +67,23 @@ namespace Cisco_Tool.Functions.Telnet
                 return null;
             }
         }
+        public static string findPID(string originalstring)
+        {
+            string searchPattern = "PID: "; // this string is infront of the CHASSIS serial number
+            if (originalstring.Contains(searchPattern))
+            {
+                int indexPattern = originalstring.IndexOf(searchPattern);
+                int startIndex = indexPattern + searchPattern.Length;
+                int indexOfNextComma = (originalstring.IndexOf(@",",startIndex)) - startIndex;
+                string chassisSerialNumber = originalstring.Substring(startIndex, indexOfNextComma);
+                return chassisSerialNumber;
+            }
+            else
+            {
+                Console.WriteLine("Serienummber kon niet worden achterhaalt");
+                log.Error("ERROR - could not find serialnumber using substring method");
+                return null;
+            }
+        }
     }
 }
