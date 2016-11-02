@@ -10,6 +10,8 @@ namespace Cisco_Tool.Widgets.Functions
 {
     class Responses
     {
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static string getStringFromResponse(string fullText,int enterCountInfront,int enterCountInSelectedString)
         {
             if (fullText != "")
@@ -52,7 +54,7 @@ namespace Cisco_Tool.Widgets.Functions
                 }
                 //OPTIONAL - removes all enters
                 goalVariable = goalVariable.Replace(@"\r\n", "");
-
+                log.Info("substring is found from response");
                 return goalVariable;
             }
             else

@@ -84,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animations\Resizing.cs" />
-    <Compile Include="EventHandlers\EventHandlers.cs" />
     <Compile Include="Functions\Network\validation.cs" />
     <Compile Include="Functions\Scripting\Read.cs" />
     <Compile Include="Functions\SQL\Connections.cs" />
@@ -101,18 +100,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Values\PrivateValues.cs" />
-    <Compile Include="Values\PublicValues.cs" />
     <Compile Include="Views\AboutScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\AboutScreen.Designer.cs">
       <DependentUpon>AboutScreen.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EnterUsernameAndPasswordScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\EnterUsernameAndPasswordScreen.Designer.cs">
-      <DependentUpon>EnterUsernameAndPasswordScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\FirstRunScreen.cs">
       <SubType>Form</SubType>
@@ -132,16 +124,9 @@
     <Compile Include="Views\ConfirmationScreen.Designer.cs">
       <DependentUpon>ConfirmationScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\SQLConfigScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\SQLConfigScreen.Designer.cs">
-      <DependentUpon>SQLConfigScreen.cs</DependentUpon>
-    </Compile>
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
-    <Compile Include="Widgets\Functions\WidgetGenerator.cs" />
     <Compile Include="Widgets\Templates\ExecuteTemplate.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -176,9 +161,6 @@
     <EmbeddedResource Include="Views\AboutScreen.resx">
       <DependentUpon>AboutScreen.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EnterUsernameAndPasswordScreen.resx">
-      <DependentUpon>EnterUsernameAndPasswordScreen.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Views\FirstRunScreen.resx">
       <DependentUpon>FirstRunScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -187,9 +169,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\confirmationScreen.resx">
       <DependentUpon>ConfirmationScreen.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\SQLConfigScreen.resx">
-      <DependentUpon>SQLConfigScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Widgets\Views\selctionWizard.resx">
       <DependentUpon>selctionWizard.cs</DependentUpon>
@@ -213,18 +192,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Widgets\Algorithms\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Files\error.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Files\OK.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Files\warning.png" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>

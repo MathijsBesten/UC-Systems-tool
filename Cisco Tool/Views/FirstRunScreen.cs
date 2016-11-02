@@ -12,12 +12,15 @@ namespace Cisco_Tool.Views
 {
     public partial class FirstRunScreen : Form
     {
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public FirstRunScreen()
         {
             InitializeComponent();
             tabs.TabPages.Remove(sqlPage);
             tabs.TabPages.Remove(summaryPage);
             BackButton.Text = "Annuleren";
+            log.Info("Launched first run screen");
         }
 
         private void NextButton_Click(object sender, EventArgs e)
@@ -83,6 +86,13 @@ namespace Cisco_Tool.Views
                         summaryTextBox.Text += SQLUsername.Text;
                         summaryTextBox.Text += Environment.NewLine;
 
+                        log.Info("Screenshot of user entered details");
+                        log.Info("----------");
+                        foreach (string line in summaryTextBox.Lines)
+                        {
+                            log.Info(line);
+                        }
+                        log.Info("----------");
 
 
                         tabs.TabPages.Add(summaryPage);
@@ -97,11 +107,13 @@ namespace Cisco_Tool.Views
                     Properties.Settings.Default.CiscoToolServerPassword = SQLPassword.Text;
 
                     Properties.Settings.Default.Save();
+                    log.Info("Database details are saved to local settings file");
                     this.DialogResult = DialogResult.OK;
                     break;
 
                 default:
                     MessageBox.Show("iets gaat niet goed - graag dit doorgeven aan het onwtikkelteam - Wizard nextbutton selectedindex " + tabs.SelectedIndex);
+                    log.Error("A error occurred while changing tabs - tabindex = " + tabs.SelectedIndex);
                     tabs.SelectedIndex = 0;
                     break;
             }        
@@ -112,6 +124,7 @@ namespace Cisco_Tool.Views
             switch (tabs.SelectedIndex)
             {
                 case 0:
+                    log.Info("User closed the first run screen ");
                     this.DialogResult = DialogResult.Cancel;
                     break;
                 case 1:
@@ -128,6 +141,7 @@ namespace Cisco_Tool.Views
 
                 default:
                     MessageBox.Show("iets gaat niet goed - graag dit doorgeven aan het onwtikkelteam - Wizard backbutton selectedindex " + tabs.SelectedIndex);
+                    log.Error("A error occurred while changing tabs - tabindex = " + tabs.SelectedIndex);
                     tabs.SelectedIndex = 0;
                     break;
             }

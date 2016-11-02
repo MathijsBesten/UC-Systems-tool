@@ -25,6 +25,9 @@ namespace Cisco_Tool
 {
     public partial class MainForm : Form
     {
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         #region properties
         private static List<router> allRouters;
         private string selectedScriptPath = "";
@@ -44,46 +47,60 @@ namespace Cisco_Tool
         {
             InitializeComponent();
         }
-        private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             if (SQLIP == "" && SQLDatabase == "" && SQLUsername == "" && SQLPassword == "")
             {
+                log.Info("No database details available - asking user to enter database details");
                 var firstRunDialog = new FirstRunScreen();
                 firstRunDialog.ShowDialog();
             }
-
             mainMenu.TabPages.Remove(RouterTab);
-            SqlConnection connection = Connections.OwnDB();
-            allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
-            if (allRouters != null)
+            try
             {
-                foreach (var router in allRouters)
+                SqlConnection connection = Connections.OwnDB();
+                allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
+                if (allRouters != null)
                 {
-                    MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                    foreach (var router in allRouters)
+                    {
+                        MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                    }
+                    log.Info("Loaded all routers to the application");
                 }
             }
+            catch (Exception ex)
+            {
+                log.Error("Database details are wrong - could not load routers from routerlist");
+                log.Error("error message - " + ex.Message);
+                log.Error("Please try entering the correct details using the sql wizard from the menubar");
+            }
+
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+            log.Info("Closing application");
             Application.Exit();
         }
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var widgets = JSON.readJSON(); // 7ms for reading a empty file
             if (mainMenu.SelectedIndex == 1) // if user switched to router tab
             {
+                var widgets = JSON.readJSON(); // 7ms for reading a empty file
                 if (loginDetailsChanged == true)
                 {
-                    routerAliasText.Text = ManualIPAddress.Text;
+                    log.Info("Loading all router information...");
+                    routerIPText.Text = ManualIPAddress.Text;
                     var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
                     string PID = TelnetConnection.findPID(result);
-                    routerIPText.Text = PID;
+                    routerAliasText.Text = PID;
                     runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
 
+                    log.Info("Loading all widgets / if available");
                     if (widgets == null)
                     {
+                        log.Info("No widgets were found - adding plus sign");
                         if (MainTableLayoutPanel.Controls.Count != 1)
                         {
                             PictureBox addButton = new PictureBox();
@@ -108,12 +125,13 @@ namespace Cisco_Tool
         }
         public void fillTableWithWidgets()
         {
+            log.Info("loading widgets");
             foreach (var panel in readyPanels)
             {
                 MainTableLayoutPanel.Controls.Add(panel);
             }
-            WidgetGenerator.readyPanels.Clear();
-
+            readyPanels.Clear();
+            log.Info("Adding plus sign");
             PictureBox addButton = new PictureBox();
             addButton.Size = new Size(100, 100);
             addButton.BackColor = Color.Transparent;
@@ -122,9 +140,12 @@ namespace Cisco_Tool
             addButton.Anchor = AnchorStyles.None;
             addButton.Click += new EventHandler(addButtonClick);
             MainTableLayoutPanel.Controls.Add(addButton);
+
+            log.Info("widgets and plus sign are added to GUI");
         }
 
         #region widget layout
+        // when user checks a router
         private void MainGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (MainDataGridView.CurrentCell.ColumnIndex == 2)
@@ -165,36 +186,12 @@ namespace Cisco_Tool
             var result = widgetCreator.ShowDialog();
             if (result == DialogResult.OK)
             {
+                log.Info("user made a new widget");
+                log.Info("clearing and refilling MainTableLayoutPanel");
                 MainTableLayoutPanel.Controls.Clear();
                 readyPanels.Clear();
                 taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
                 fillTableWithWidgets();
-            }
-        }
-
-        public void minMaxButton_Click(object sender, EventArgs e)
-        {
-            PictureBox realSender = ((PictureBox)sender);
-            var parentPanel = realSender.Parent.Parent; // get widget panel
-            MessageBox.Show(parentPanel.Name.ToString());
-        }
-        public void closeButton_Click(object sender, EventArgs e)
-        {
-            PictureBox realSender = ((PictureBox)sender);
-            var parentPanel = realSender.Parent.Parent; // get widget panel
-            int indexToRemove;
-            try
-            {
-                indexToRemove = Int32.Parse(parentPanel.Tag.ToString());
-            }
-            catch (Exception)
-            {
-                indexToRemove = -1;
-                MessageBox.Show("There was a problem with converting the widget tag");
-            }
-            if (indexToRemove >= 0) 
-            {
-                JSON.removeWidgetFromWidgetList(indexToRemove);
             }
         }
         #endregion
@@ -229,12 +226,14 @@ namespace Cisco_Tool
                     {
                         mainMenu.TabPages.Add(RouterTab);
                         RouterTab.Text = ManualIPAddress.Text;
+                        log.Info("Router tab added to mainmenu");
                     }
                     else
                     {
                         mainMenu.TabPages.Remove(RouterTab);
                         mainMenu.TabPages.Add(RouterTab);
                         RouterTab.Text = ManualIPAddress.Text;
+                        log.Info("Router tab refresh in the mainmenu");
                     }
                     loginDetailsChanged = true;
                 }
@@ -281,6 +280,7 @@ namespace Cisco_Tool
                 }
                 else
                 {
+                    log.Info("start the executing commands function");
                     List<string> commands = new List<string>();
                     foreach (var item in allCommands)
                     {
@@ -296,13 +296,13 @@ namespace Cisco_Tool
                     if (confirmDialog.DialogResult == DialogResult.OK)
                     {
                         int passwordFailedThreeTimes = 0;
-                        string stringIfPasswordIsWrong = "Password: ";
+                        string stringIfPasswordIsWrong = "Password: "; // this will be always the last part of response if the username/password is wrong
                         string username = Username.Text;
                         string password = Password.Text;
 
                         foreach (var IPAddress in selectedIPAddresses)
                         {
-                            if (passwordFailedThreeTimes < 3)
+                            if (passwordFailedThreeTimes < 3) // to prevent more runs when username or password is wrong
                             {
                                 bool passwordIsStillWrong = false;
                                 string ipWherePasswordIsWrong = "";
@@ -339,6 +339,7 @@ namespace Cisco_Tool
                                                 OutputBox.Text += Environment.NewLine;
                                                 OutputBox.Text += "Gebruikersnaam en/of wachtwoord is waarschijnlijk fout";
                                                 OutputBox.Text += Environment.NewLine;
+                                                log.Info("Username and or password is wrong");
 
                                             }
                                             else
@@ -354,6 +355,7 @@ namespace Cisco_Tool
                                                 OutputBox.Text += Environment.NewLine;
                                                 OutputBox.Text += "--------------";
                                                 OutputBox.Text += Environment.NewLine;
+                                                log.Info("command is not valid - command: " + command);                                         
                                             }
                                             else
                                             {
@@ -384,6 +386,7 @@ namespace Cisco_Tool
                                             OutputBox.Text += Environment.NewLine;
                                             OutputBox.Text += "Gebruikersnaam en/of wachtwoord is waarschijnlijk fout";
                                             OutputBox.Text += Environment.NewLine;
+                                            log.Info("Username and or password is wrong");
                                             break;
                                         }
                                     }
@@ -409,6 +412,16 @@ namespace Cisco_Tool
                                 break;
                             }                          
                         }
+                        // uncommand the following code to get output box in logfile
+
+
+                        //log.Info("Output box");
+                        //log.Info("----------");
+                        //foreach (string line in OutputBox.Lines)
+                        //{
+                        //    log.Info(line);
+                        //}
+                        //log.Info("----------");
                     }
                     else
                     {
@@ -534,6 +547,7 @@ namespace Cisco_Tool
         {
             if (ScriptButton.Text == "Verwijder script")
             {
+                log.Info("Script has been released from application");
                 allCommands.Clear(); //remove all commands from script
                 selectedScriptPath = ""; // removes path for futher if statements
                 ScriptButton.Text = "Kies script";
@@ -548,6 +562,7 @@ namespace Cisco_Tool
                 dialog.Filter = ("Text Files|*.txt");
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
+                    log.Info("Script has been loaded - location :" + selectedScriptPath);
                     string path = dialog.FileName;
                     allCommands = Functions.Scripting.Read.readScript(path);
                     selectedScriptPath = path; // styling for the text
@@ -600,6 +615,7 @@ namespace Cisco_Tool
                 DialogResult confirm = MessageBox.Show("Als u op OK drukt zal alle output worden verwijderd," + Environment.NewLine + "DIT IS ONOMKEERBAAR!", "Waarschuwing", MessageBoxButtons.OKCancel);
                 if (confirm == DialogResult.OK)
                 {
+                    log.Info("Output box has been cleared by the user");
                     OutputBox.Text = "";
                 }
             }
@@ -665,6 +681,7 @@ namespace Cisco_Tool
             process.StartInfo.Arguments = ManualIPAddress.Text;
             process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             process.Start();
+            log.Info("Telnet.exe has been started by the user");
         }
 
         private void CMDTelnetPanel_MouseHover(object sender, EventArgs e)
@@ -687,6 +704,7 @@ namespace Cisco_Tool
             Color templateForeColor = Color.White; // font color
             Padding templateMargin = new System.Windows.Forms.Padding(0); // margin
             int count = 0;
+            log.Info("every widget is being made and will be put into maintable");
             foreach (var widget in widgets)
             {
                 if (widget.widgetType == "Informatie")
@@ -719,6 +737,7 @@ namespace Cisco_Tool
                         {
                             newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
                             newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"'  is niet geldig";
+                            log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
                         }
                         readyPanels.Add(newPanel);
                     }
@@ -754,6 +773,7 @@ namespace Cisco_Tool
                         {
                             newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
                             newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
+                            log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
                         }
                     }
                     newPanel.runButton.Text = "Uitvoeren";
@@ -765,6 +785,7 @@ namespace Cisco_Tool
 
         private void runCommand(object sender, EventArgs e)
         {
+            log.Info("Running command from execute widget");
             Button realsender = ((Button)sender);
             ExecuteTemplate widgetSender =  (ExecuteTemplate)realsender.Parent.Parent;
             int widgetIndex =  Int32.Parse(widgetSender.Tag.ToString());
@@ -796,28 +817,41 @@ namespace Cisco_Tool
                 {
                     outputbox.Font = new Font("Microsoft Sans Serif", 15);
                     outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
+                    log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
                 }
             }
         }
 
         void removeWidget(object sender, EventArgs e)
         {
+            log.Info("removing widget from maintable");
             PictureBox realSender = ((PictureBox)sender);
             Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
-            DialogResult confirmRemove =  MessageBox.Show("Wil je widget '" + realSender.Parent.Controls[0].Text + "' verwijderen?");
-            if (confirmRemove == DialogResult.OK)
+            DialogResult confirmRemove =  MessageBox.Show("Wil je widget '" + realSender.Parent.Controls[0].Text + "' verwijderen?","Widget verwijderen",MessageBoxButtons.YesNo);
+            if (confirmRemove == DialogResult.Yes)
             {
                 JSON.removeWidgetFromWidgetList(Int32.Parse(targetWidget.Tag.ToString()));
                 MainTableLayoutPanel.Controls.Clear();
                 readyPanels.Clear();
                 taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
                 fillTableWithWidgets();
+                log.Info("Widget is removed and the GUI is refreshed");
             }
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
 
+        }
+
+        private void CMDTelnetLabel_Click(object sender, EventArgs e)
+        {
+            Process process = new Process();
+            process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";
+            process.StartInfo.Arguments = ManualIPAddress.Text;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            process.Start();
+            log.Info("Telnet.exe has been started by the user");
         }
     }
 }

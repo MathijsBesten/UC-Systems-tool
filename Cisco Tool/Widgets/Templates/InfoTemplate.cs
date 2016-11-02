@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Cisco_Tool.Widgets.Templates
-{
+{    
+    // This widget will be used in the MainTableLayoutPanel
+    // This control can also be added from the toolbox 
+
+
     public class InfoTemplate : Panel 
     {
         public Panel templatePanel = new Panel();
         public Panel topBar = new Panel();
         public Label titleWidgetLabel = new Label();
+        public PictureBox maxWidgetPicturebox = new PictureBox();
         public PictureBox closeWidgetPicturebox = new PictureBox();
         public Panel informationPanel = new Panel();
         public Label commandName = new Label();
@@ -34,11 +39,23 @@ namespace Cisco_Tool.Widgets.Templates
             informationPanel.BorderStyle = BorderStyle.Fixed3D;
             informationPanel.Location = new Point(3, 33);
 
-            closeWidgetPicturebox.Image = Properties.Resources.close;
+
+            maxWidgetPicturebox.Image = Properties.Resources.windows;
+            maxWidgetPicturebox.BackColor = Color.Green;
+            maxWidgetPicturebox.BorderStyle = BorderStyle.FixedSingle;
+            maxWidgetPicturebox.Height = 25;
+            maxWidgetPicturebox.Width = 25;
+            maxWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
+            maxWidgetPicturebox.Location = new Point(191, 3);
+
+            closeWidgetPicturebox.Image = Properties.Resources.multiply_1;
+            closeWidgetPicturebox.BackColor = Color.Red;
+            closeWidgetPicturebox.BorderStyle = BorderStyle.FixedSingle;
             closeWidgetPicturebox.Height = 25;
             closeWidgetPicturebox.Width = 25;
             closeWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
             closeWidgetPicturebox.Location = new Point(219, 3);
+
 
             commandName.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
             commandName.ForeColor = Color.White;
@@ -62,6 +79,7 @@ namespace Cisco_Tool.Widgets.Templates
 
             //assign controls to panels
             topBar.Controls.Add(titleWidgetLabel);
+            topBar.Controls.Add(maxWidgetPicturebox);
             topBar.Controls.Add(closeWidgetPicturebox);
 
             informationPanel.Controls.Add(commandName);

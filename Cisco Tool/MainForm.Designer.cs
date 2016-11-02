@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.mainMenu = new System.Windows.Forms.TabControl();
@@ -73,9 +73,13 @@
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RouterTab = new System.Windows.Forms.TabPage();
-            this.routerAliasText = new System.Windows.Forms.Label();
-            this.routerIPText = new System.Windows.Forms.Label();
+            this.mainInfoPanel = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.aliasLabel = new System.Windows.Forms.Label();
+            this.IPLabel = new System.Windows.Forms.Label();
             this.runningConfigPanel = new System.Windows.Forms.Panel();
+            this.runningConfigOutputField = new System.Windows.Forms.TextBox();
+            this.runningConfigLabel = new System.Windows.Forms.Label();
             this.CMDTelnetPanel = new System.Windows.Forms.Panel();
             this.CMDTelnetLabel = new System.Windows.Forms.Label();
             this.MainTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -89,9 +93,8 @@
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.runningConfigLabel = new System.Windows.Forms.Label();
-            this.runningConfigOutputField = new System.Windows.Forms.TextBox();
+            this.routerAliasText = new System.Windows.Forms.Label();
+            this.routerIPText = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.mainMenu.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -101,6 +104,7 @@
             this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).BeginInit();
             this.RouterTab.SuspendLayout();
+            this.mainInfoPanel.SuspendLayout();
             this.runningConfigPanel.SuspendLayout();
             this.CMDTelnetPanel.SuspendLayout();
             this.MainContextMenuStrip.SuspendLayout();
@@ -121,6 +125,7 @@
             // 
             this.mainMenu.Controls.Add(this.MainMenuTab);
             this.mainMenu.Controls.Add(this.RouterTab);
+            this.mainMenu.ItemSize = new System.Drawing.Size(120, 18);
             this.mainMenu.Location = new System.Drawing.Point(17, 41);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.SelectedIndex = 0;
@@ -142,6 +147,7 @@
             this.MainMenuTab.Controls.Add(this.SearchGroupBox);
             this.MainMenuTab.Controls.Add(this.ManualLoginGroupBox);
             this.MainMenuTab.Controls.Add(this.MainDataGridView);
+            this.MainMenuTab.ForeColor = System.Drawing.Color.White;
             this.MainMenuTab.Location = new System.Drawing.Point(4, 22);
             this.MainMenuTab.Name = "MainMenuTab";
             this.MainMenuTab.Padding = new System.Windows.Forms.Padding(3);
@@ -507,14 +513,14 @@
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Maroon;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -553,11 +559,11 @@
             // 
             // RouterTab
             // 
-            this.RouterTab.Controls.Add(this.routerAliasText);
-            this.RouterTab.Controls.Add(this.routerIPText);
+            this.RouterTab.Controls.Add(this.mainInfoPanel);
             this.RouterTab.Controls.Add(this.runningConfigPanel);
             this.RouterTab.Controls.Add(this.CMDTelnetPanel);
             this.RouterTab.Controls.Add(this.MainTableLayoutPanel);
+            this.RouterTab.ForeColor = System.Drawing.Color.White;
             this.RouterTab.Location = new System.Drawing.Point(4, 22);
             this.RouterTab.Name = "RouterTab";
             this.RouterTab.Padding = new System.Windows.Forms.Padding(3);
@@ -566,45 +572,92 @@
             this.RouterTab.Text = "Router connection";
             this.RouterTab.UseVisualStyleBackColor = true;
             // 
-            // routerAliasText
+            // mainInfoPanel
             // 
-            this.routerAliasText.AutoSize = true;
-            this.routerAliasText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.routerAliasText.ForeColor = System.Drawing.Color.Black;
-            this.routerAliasText.Location = new System.Drawing.Point(6, 84);
-            this.routerAliasText.Name = "routerAliasText";
-            this.routerAliasText.Size = new System.Drawing.Size(60, 24);
-            this.routerAliasText.TabIndex = 5;
-            this.routerAliasText.Text = "label1";
+            this.mainInfoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.mainInfoPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.mainInfoPanel.Controls.Add(this.routerIPText);
+            this.mainInfoPanel.Controls.Add(this.routerAliasText);
+            this.mainInfoPanel.Controls.Add(this.label3);
+            this.mainInfoPanel.Controls.Add(this.aliasLabel);
+            this.mainInfoPanel.Controls.Add(this.IPLabel);
+            this.mainInfoPanel.Location = new System.Drawing.Point(6, 6);
+            this.mainInfoPanel.Name = "mainInfoPanel";
+            this.mainInfoPanel.Size = new System.Drawing.Size(350, 142);
+            this.mainInfoPanel.TabIndex = 6;
             // 
-            // routerIPText
+            // label3
             // 
-            this.routerIPText.AutoSize = true;
-            this.routerIPText.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.routerIPText.ForeColor = System.Drawing.Color.Black;
-            this.routerIPText.Location = new System.Drawing.Point(6, 26);
-            this.routerIPText.Name = "routerIPText";
-            this.routerIPText.Size = new System.Drawing.Size(60, 24);
-            this.routerIPText.TabIndex = 4;
-            this.routerIPText.Text = "label1";
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(12, 9);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(131, 20);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "Router gegevens";
+            // 
+            // aliasLabel
+            // 
+            this.aliasLabel.AutoSize = true;
+            this.aliasLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.aliasLabel.ForeColor = System.Drawing.Color.White;
+            this.aliasLabel.Location = new System.Drawing.Point(53, 83);
+            this.aliasLabel.Name = "aliasLabel";
+            this.aliasLabel.Size = new System.Drawing.Size(82, 15);
+            this.aliasLabel.TabIndex = 7;
+            this.aliasLabel.Text = "typenummer :";
+            // 
+            // IPLabel
+            // 
+            this.IPLabel.AutoSize = true;
+            this.IPLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IPLabel.ForeColor = System.Drawing.Color.White;
+            this.IPLabel.Location = new System.Drawing.Point(53, 46);
+            this.IPLabel.Name = "IPLabel";
+            this.IPLabel.Size = new System.Drawing.Size(58, 15);
+            this.IPLabel.TabIndex = 6;
+            this.IPLabel.Text = "IP adres :";
             // 
             // runningConfigPanel
             // 
+            this.runningConfigPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.runningConfigPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.runningConfigPanel.Controls.Add(this.runningConfigOutputField);
             this.runningConfigPanel.Controls.Add(this.runningConfigLabel);
-            this.runningConfigPanel.Location = new System.Drawing.Point(3, 154);
+            this.runningConfigPanel.Location = new System.Drawing.Point(6, 154);
             this.runningConfigPanel.Name = "runningConfigPanel";
-            this.runningConfigPanel.Size = new System.Drawing.Size(224, 457);
+            this.runningConfigPanel.Size = new System.Drawing.Size(224, 463);
             this.runningConfigPanel.TabIndex = 3;
+            // 
+            // runningConfigOutputField
+            // 
+            this.runningConfigOutputField.Location = new System.Drawing.Point(3, 56);
+            this.runningConfigOutputField.Multiline = true;
+            this.runningConfigOutputField.Name = "runningConfigOutputField";
+            this.runningConfigOutputField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.runningConfigOutputField.Size = new System.Drawing.Size(214, 399);
+            this.runningConfigOutputField.TabIndex = 7;
+            // 
+            // runningConfigLabel
+            // 
+            this.runningConfigLabel.AutoSize = true;
+            this.runningConfigLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.runningConfigLabel.ForeColor = System.Drawing.Color.White;
+            this.runningConfigLabel.Location = new System.Drawing.Point(52, 13);
+            this.runningConfigLabel.Name = "runningConfigLabel";
+            this.runningConfigLabel.Size = new System.Drawing.Size(116, 20);
+            this.runningConfigLabel.TabIndex = 6;
+            this.runningConfigLabel.Text = "Running config";
             // 
             // CMDTelnetPanel
             // 
             this.CMDTelnetPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.CMDTelnetPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.CMDTelnetPanel.Controls.Add(this.CMDTelnetLabel);
-            this.CMDTelnetPanel.Location = new System.Drawing.Point(935, 13);
+            this.CMDTelnetPanel.Location = new System.Drawing.Point(980, 6);
             this.CMDTelnetPanel.Name = "CMDTelnetPanel";
-            this.CMDTelnetPanel.Size = new System.Drawing.Size(292, 120);
+            this.CMDTelnetPanel.Size = new System.Drawing.Size(247, 142);
             this.CMDTelnetPanel.TabIndex = 2;
             this.CMDTelnetPanel.Click += new System.EventHandler(this.CMDTelnetPanel_Click);
             this.CMDTelnetPanel.MouseLeave += new System.EventHandler(this.CMDTelnetPanel_MouseLeave);
@@ -614,12 +667,13 @@
             // 
             this.CMDTelnetLabel.AutoSize = true;
             this.CMDTelnetLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CMDTelnetLabel.Location = new System.Drawing.Point(37, 41);
+            this.CMDTelnetLabel.Location = new System.Drawing.Point(13, 53);
             this.CMDTelnetLabel.Name = "CMDTelnetLabel";
             this.CMDTelnetLabel.Size = new System.Drawing.Size(219, 31);
             this.CMDTelnetLabel.TabIndex = 0;
             this.CMDTelnetLabel.Text = "Handmatig telnet";
             this.CMDTelnetLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.CMDTelnetLabel.Click += new System.EventHandler(this.CMDTelnetLabel_Click);
             // 
             // MainTableLayoutPanel
             // 
@@ -716,30 +770,23 @@
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
             // 
-            // backgroundWorker1
+            // routerAliasText
             // 
-            this.backgroundWorker1.WorkerReportsProgress = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.routerAliasText.AutoSize = true;
+            this.routerAliasText.Location = new System.Drawing.Point(141, 85);
+            this.routerAliasText.Name = "routerAliasText";
+            this.routerAliasText.Size = new System.Drawing.Size(35, 13);
+            this.routerAliasText.TabIndex = 13;
+            this.routerAliasText.Text = "label1";
             // 
-            // runningConfigLabel
+            // routerIPText
             // 
-            this.runningConfigLabel.AutoSize = true;
-            this.runningConfigLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.runningConfigLabel.ForeColor = System.Drawing.Color.Black;
-            this.runningConfigLabel.Location = new System.Drawing.Point(52, 13);
-            this.runningConfigLabel.Name = "runningConfigLabel";
-            this.runningConfigLabel.Size = new System.Drawing.Size(116, 20);
-            this.runningConfigLabel.TabIndex = 6;
-            this.runningConfigLabel.Text = "Running config";
-            // 
-            // runningConfigOutputField
-            // 
-            this.runningConfigOutputField.Location = new System.Drawing.Point(3, 56);
-            this.runningConfigOutputField.Multiline = true;
-            this.runningConfigOutputField.Name = "runningConfigOutputField";
-            this.runningConfigOutputField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.runningConfigOutputField.Size = new System.Drawing.Size(218, 398);
-            this.runningConfigOutputField.TabIndex = 7;
+            this.routerIPText.AutoSize = true;
+            this.routerIPText.Location = new System.Drawing.Point(141, 48);
+            this.routerIPText.Name = "routerIPText";
+            this.routerIPText.Size = new System.Drawing.Size(35, 13);
+            this.routerIPText.TabIndex = 14;
+            this.routerIPText.Text = "label1";
             // 
             // MainForm
             // 
@@ -771,7 +818,8 @@
             this.ManualLoginGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).EndInit();
             this.RouterTab.ResumeLayout(false);
-            this.RouterTab.PerformLayout();
+            this.mainInfoPanel.ResumeLayout(false);
+            this.mainInfoPanel.PerformLayout();
             this.runningConfigPanel.ResumeLayout(false);
             this.runningConfigPanel.PerformLayout();
             this.CMDTelnetPanel.ResumeLayout(false);
@@ -841,12 +889,15 @@
         private System.Windows.Forms.Panel CMDTelnetPanel;
         private System.Windows.Forms.Label CMDTelnetLabel;
         public System.Windows.Forms.TableLayoutPanel MainTableLayoutPanel;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Panel runningConfigPanel;
-        private System.Windows.Forms.Label routerAliasText;
-        private System.Windows.Forms.Label routerIPText;
         private System.Windows.Forms.Label runningConfigLabel;
         private System.Windows.Forms.TextBox runningConfigOutputField;
+        private System.Windows.Forms.Panel mainInfoPanel;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label aliasLabel;
+        private System.Windows.Forms.Label IPLabel;
+        private System.Windows.Forms.Label routerIPText;
+        private System.Windows.Forms.Label routerAliasText;
     }
 }
 

@@ -31,8 +31,7 @@ namespace Cisco_Tool.Functions.Telnet
                 try
                 {
                     response = Networkstreams.TalkToCiscoRouterAndGetResponse(IPAddressString,command,username,password, useLongProcessTime);
-                    log.Info("response from " + IPAddressString + ": " + response);
-                }
+               }
                 catch (Exception ex)
                 {
                     log.Error("ERROR - Could not connect to " + IPAddressString + " using telnet to get serialnumber ");
@@ -63,7 +62,7 @@ namespace Cisco_Tool.Functions.Telnet
             else
             {
                 Console.WriteLine("Serienummber kon niet worden achterhaalt");
-                log.Error("ERROR - could not find serialnumber using substring method");
+                log.Error("could not find serialnumber using substring method");
                 return null;
             }
         }
@@ -75,13 +74,13 @@ namespace Cisco_Tool.Functions.Telnet
                 int indexPattern = originalstring.IndexOf(searchPattern);
                 int startIndex = indexPattern + searchPattern.Length;
                 int indexOfNextComma = (originalstring.IndexOf(@",",startIndex)) - startIndex;
-                string chassisSerialNumber = originalstring.Substring(startIndex, indexOfNextComma);
-                return chassisSerialNumber;
+                string PID = originalstring.Substring(startIndex, indexOfNextComma);
+                return PID;
             }
             else
             {
-                Console.WriteLine("Serienummber kon niet worden achterhaalt");
-                log.Error("ERROR - could not find serialnumber using substring method");
+                Console.WriteLine("apparaat type kon niet worden achterhaalt");
+                log.Error("could not find Device type using substring method");
                 return null;
             }
         }

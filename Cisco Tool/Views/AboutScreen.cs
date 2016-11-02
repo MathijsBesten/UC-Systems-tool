@@ -13,9 +13,12 @@ namespace Cisco_Tool.Views
 {
     public partial class AboutScreen : Form
     {
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public AboutScreen()
         {
             InitializeComponent();
+            log.Info("Launched About Screen");
         }
 
         private void OKButton_Click(object sender, EventArgs e)

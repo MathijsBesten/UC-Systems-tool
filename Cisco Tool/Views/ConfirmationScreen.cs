@@ -12,10 +12,15 @@ namespace Cisco_Tool.Views
 {
     public partial class ConfirmationScreen : Form
     {
+
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static int totalCommandsToRun;
         public static double totalRunTime;
         public ConfirmationScreen(List<string> IPAddressList, List<string> commandList)
         {
+            log.Info("Launched confirm screen");
             InitializeComponent();
             totalCommandsToRun = IPAddressList.Count* commandList.Count;
             totalRunTime = totalCommandsToRun * 0.4;
@@ -53,16 +58,26 @@ namespace Cisco_Tool.Views
             {
                 summaryOutputBox.Text += totalRunTime + " seconden";
             }
+
+            log.Info("Screenshot of confirm screen");
+            log.Info("----------");
+            foreach (var line in summaryOutputBox.Lines)
+            {
+                log.Info(line);
+            }
+            log.Info("----------");
         }
 
         private void continueButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
+            log.Info("User confirmed to run commands");
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+            log.Info("User closed the confirm window - commands wil not run");
         }
     }
 }

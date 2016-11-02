@@ -25,7 +25,6 @@ namespace Cisco_Tool.Functions.Scripting
                 log.Error("Could not read scriptfile");
                 log.Error("error - " + e.Message);
                 return null;
-
             }
         }
     }

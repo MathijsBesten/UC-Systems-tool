@@ -17,11 +17,15 @@ namespace Cisco_Tool.Widgets.Views
         public selctionWizard()
         {
             InitializeComponent();
+            log.Info("Launched selection wizard Screen");
         }
         public string ipadres  { get; set; }
         public string username { get; set; }
         public string password { get; set; }
 
+
+        private static readonly log4net.ILog log =
+             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
@@ -63,6 +67,8 @@ namespace Cisco_Tool.Widgets.Views
                 ipadres =  LoginIPAddress.Text;
                 username = LoginUsername.Text;
                 password = LoginPassword.Text;
+
+                log.Info("User details are correcly saved for widget creator");
             }
             else
             {

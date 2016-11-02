@@ -12,6 +12,8 @@ namespace Cisco_Tool.Functions.Stream
 {
     class Networkstreams
     {
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password, bool useLongProcessTime)
         {
             int sleepMSAfterSend = 50;
@@ -31,6 +33,9 @@ namespace Cisco_Tool.Functions.Stream
             client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(10));
             if (client.Connected == true)
             {
+                log.Info("Connected to router IP address: " + IPAddress);
+                log.Info("Running command - " + command);
+
                 client.ReceiveTimeout = 1000;
                 client.Client.ReceiveTimeout = 1000; // socket
 
@@ -62,14 +67,15 @@ namespace Cisco_Tool.Functions.Stream
                             lastBytes = bytes;
                             Thread.Sleep(sleepMSAfterSend);
                         }
-
                     }
                 }
                 response = Encoding.ASCII.GetString(responseInBytes);
                 response = response.Replace("\0", "");
                 client.Close();
+                log.Info("Connection to router correcly closed - IP address: " + IPAddress);
                 return response;
             }
+            log.Error("Router was not connected and could not get send command - IP address: " + IPAddress);
             return null;
         }
     }

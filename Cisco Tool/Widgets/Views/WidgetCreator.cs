@@ -19,7 +19,11 @@ namespace Cisco_Tool.Widgets.Views
         {
             InitializeComponent();
             selectionPanel.Hide();
+            log.Info("Launched widgetcreator Screen");
         }
+
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         widget newWidget = new widget();
         bool selectionHasRun = false;
@@ -40,6 +44,7 @@ namespace Cisco_Tool.Widgets.Views
                 newWidget.WidgetEnterCountInString = enterCountInSelectedString;
                 selectionHasRun = true;
                 MessageBox.Show("Je hebt "  + selectedString +" gekozen");
+                log.Info("User Chose substring");
             }
         }
 
@@ -87,6 +92,7 @@ namespace Cisco_Tool.Widgets.Views
                 List<widget> widgets = new List<Classes.widget>();
                 widgets.Add(newWidget);
                 JSON.writeJSON(widgets);
+                log.Info("widget is added from widget creator");
                 DialogResult = DialogResult.OK;
             }
             else
@@ -119,6 +125,7 @@ namespace Cisco_Tool.Widgets.Views
             else
             {
                 MessageBox.Show("Geen resultaat gevonden, probeer handmatig een selectie te maken of kies voor de complete output");
+                log.Info("user cancelled the selection wizard - if this happens multiple times, Please report to development team");
             }
         }
 

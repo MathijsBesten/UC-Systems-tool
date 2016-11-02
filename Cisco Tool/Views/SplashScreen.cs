@@ -14,9 +14,12 @@ namespace Cisco_Tool.Views
 {
     public partial class SplashScreen : Form
     {
+        private static readonly log4net.ILog log =
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public SplashScreen()
         {
             InitializeComponent();
+            log.Info("Launched spash screen");
         }
         Timer mainTimer;
         MainForm mainform;
