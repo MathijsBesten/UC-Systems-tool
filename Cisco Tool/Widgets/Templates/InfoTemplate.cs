@@ -32,7 +32,7 @@ namespace Cisco_Tool.Widgets.Templates
 
             titleWidgetLabel.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Italic);
             titleWidgetLabel.Location = new Point(3, 8);
-            titleWidgetLabel.Size = new Size(175, 25);
+            titleWidgetLabel.Size = new Size(181, 25);
 
             informationPanel.Size = new Size(244, 193);
             informationPanel.BackColor = Color.Gray;
@@ -43,18 +43,18 @@ namespace Cisco_Tool.Widgets.Templates
             maxWidgetPicturebox.Image = Properties.Resources.windows;
             maxWidgetPicturebox.BackColor = Color.Green;
             maxWidgetPicturebox.BorderStyle = BorderStyle.FixedSingle;
-            maxWidgetPicturebox.Height = 25;
-            maxWidgetPicturebox.Width = 25;
+            maxWidgetPicturebox.Height = 20;
+            maxWidgetPicturebox.Width = 20;
             maxWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
-            maxWidgetPicturebox.Location = new Point(191, 3);
+            maxWidgetPicturebox.Location = new Point(197, 6);
 
             closeWidgetPicturebox.Image = Properties.Resources.multiply_1;
             closeWidgetPicturebox.BackColor = Color.Red;
             closeWidgetPicturebox.BorderStyle = BorderStyle.FixedSingle;
-            closeWidgetPicturebox.Height = 25;
-            closeWidgetPicturebox.Width = 25;
+            closeWidgetPicturebox.Height = 20;
+            closeWidgetPicturebox.Width = 20;
             closeWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
-            closeWidgetPicturebox.Location = new Point(219, 3);
+            closeWidgetPicturebox.Location = new Point(225, 6);
 
 
             commandName.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);

@@ -85,7 +85,7 @@ namespace Cisco_Tool
         }
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (mainMenu.SelectedIndex == 1) // if user switched to router tab
+             if (mainMenu.SelectedIndex == 1) // if user switched to router tab
             {
                 var widgets = JSON.readJSON(); // 7ms for reading a empty file
                 if (loginDetailsChanged == true)
@@ -713,16 +713,20 @@ namespace Cisco_Tool
                     newPanel.titleWidgetLabel.Text = widget.widgetName;
                     newPanel.commandName.Text = widget.widgetCommand;
                     newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
 
                     if (count % 2 == 0 || count == 0)
                     {
                         newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
                         newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+
                     }
                     else
                     {
                         newPanel.topBar.BackColor = Color.FromArgb(255,140,32,32);
                         newPanel.informationPanel.BackColor = Color.FromArgb(255,153,35,35);
+                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
                     }
 
 
@@ -770,54 +774,42 @@ namespace Cisco_Tool
                     newPanel.commandName.Text = widget.widgetCommand;
                     newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
                     newPanel.runButton.Click += new EventHandler(runCommand);
+                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+
 
                     if (count % 2 == 0 || count == 0)
                     {
                         newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
                         newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+
                     }
                     else
                     {
                         newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
                         newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                    }
-
-                    if (widget.widgetCommand != "")
-                    {
-                        string command = widget.widgetCommand;
-                        bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                        string output = TelnetConnection.telnetClientTCP(ip, command, username, password, usesLongProcessTime);
-                        if (output != null)
-                        {
-                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
-                            {
-                                if (widget.widgetUseSelection == true)
-                                {
-                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                    newPanel.outputbox.Text = finalResult.ToString();
-                                }
-                                else
-                                {
-                                    newPanel.outputbox.Text = output;
-                                }
-                            }
-                            else
-                            {
-                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
-                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
-                                log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
-                            }
-                        }
-                        else
-                        {
-                            log.Info("cannot connect to router - username and/or password is wrong");
-                            MessageBox.Show("Kan niet verbinden met router - controleer gebruikersnaam en wachtwoord");
-                        }
+                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
                     }
                     newPanel.runButton.Text = "Uitvoeren";
                     readyPanels.Add(newPanel);
                 }
                 count++;
+            }
+        }
+
+        private void maximizeWidget(object sender, EventArgs e)
+        {
+            PictureBox realSender = ((PictureBox)sender);
+            Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
+            var widgetOutputBox = targetWidget.Controls[1].Controls[1];// infopart - outputbox
+            MessageBox.Show(widgetOutputBox.ToString ());
+            string outputText = widgetOutputBox.Text;
+            bigOutputBox.Text = outputText;
+            MainTableLayoutPanel.Enabled = false;
+            bigOutputPanel.Visible = true;
+            while (bigOutputPanel.Height != 550)
+            {
+                bigOutputPanel.Height++;
             }
         }
 
@@ -904,6 +896,16 @@ namespace Cisco_Tool
             process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
             process.Start();
             log.Info("Telnet.exe has been started by the user");
+        }
+
+        private void bigOutputBoxClose_Click(object sender, EventArgs e)
+        {
+            while (bigOutputPanel.Height != 0)
+            {
+                bigOutputPanel.Height--;
+            }
+            MainTableLayoutPanel.Enabled = true;
+            bigOutputPanel.Visible = false;
         }
     }
 }

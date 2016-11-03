@@ -23,7 +23,7 @@ namespace Cisco_Tool.Views
             log.Info("Launched confirm screen");
             InitializeComponent();
             totalCommandsToRun = IPAddressList.Count* commandList.Count;
-            totalRunTime = totalCommandsToRun * 0.4;
+            totalRunTime = totalCommandsToRun * 0.7;
 
             summaryOutputBox.Text += @"Commando's";
             summaryOutputBox.Text += Environment.NewLine;

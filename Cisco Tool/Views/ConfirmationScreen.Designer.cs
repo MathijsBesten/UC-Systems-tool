@@ -32,8 +32,8 @@
             this.summaryPanelTabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.continueButton = new System.Windows.Forms.Button();
-            this.summaryOutputBox = new System.Windows.Forms.TextBox();
             this.summaryTitle = new System.Windows.Forms.Label();
+            this.summaryOutputBox = new System.Windows.Forms.RichTextBox();
             this.summaryPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,10 +41,10 @@
             // 
             this.summaryPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.summaryPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.summaryPanel.Controls.Add(this.summaryOutputBox);
             this.summaryPanel.Controls.Add(this.summaryPanelTabel);
             this.summaryPanel.Controls.Add(this.cancelButton);
             this.summaryPanel.Controls.Add(this.continueButton);
-            this.summaryPanel.Controls.Add(this.summaryOutputBox);
             this.summaryPanel.ForeColor = System.Drawing.Color.White;
             this.summaryPanel.Location = new System.Drawing.Point(46, 75);
             this.summaryPanel.Name = "summaryPanel";
@@ -84,16 +84,6 @@
             this.continueButton.UseVisualStyleBackColor = true;
             this.continueButton.Click += new System.EventHandler(this.continueButton_Click);
             // 
-            // summaryOutputBox
-            // 
-            this.summaryOutputBox.Location = new System.Drawing.Point(32, 65);
-            this.summaryOutputBox.Multiline = true;
-            this.summaryOutputBox.Name = "summaryOutputBox";
-            this.summaryOutputBox.ReadOnly = true;
-            this.summaryOutputBox.Size = new System.Drawing.Size(448, 470);
-            this.summaryOutputBox.TabIndex = 30;
-            this.summaryOutputBox.TabStop = false;
-            // 
             // summaryTitle
             // 
             this.summaryTitle.AutoSize = true;
@@ -104,6 +94,14 @@
             this.summaryTitle.Size = new System.Drawing.Size(379, 25);
             this.summaryTitle.TabIndex = 24;
             this.summaryTitle.Text = "Commando uitvoeren op meerdere routers";
+            // 
+            // summaryOutputBox
+            // 
+            this.summaryOutputBox.Location = new System.Drawing.Point(32, 64);
+            this.summaryOutputBox.Name = "summaryOutputBox";
+            this.summaryOutputBox.Size = new System.Drawing.Size(450, 470);
+            this.summaryOutputBox.TabIndex = 30;
+            this.summaryOutputBox.Text = "";
             // 
             // ConfirmationScreen
             // 
@@ -126,10 +124,10 @@
         #endregion
 
         private System.Windows.Forms.Panel summaryPanel;
-        private System.Windows.Forms.TextBox summaryOutputBox;
         private System.Windows.Forms.Label summaryTitle;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button continueButton;
         private System.Windows.Forms.Label summaryPanelTabel;
+        private System.Windows.Forms.RichTextBox summaryOutputBox;
     }
 }
