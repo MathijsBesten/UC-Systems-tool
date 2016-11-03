@@ -114,6 +114,7 @@
             this.Controls.Add(this.summaryTitle);
             this.Controls.Add(this.summaryPanel);
             this.Name = "ConfirmationScreen";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "confirmationScreen";
             this.summaryPanel.ResumeLayout(false);
             this.summaryPanel.PerformLayout();

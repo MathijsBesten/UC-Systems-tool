@@ -92,11 +92,19 @@ namespace Cisco_Tool
                 {
                     log.Info("Loading all router information...");
                     routerIPText.Text = ManualIPAddress.Text;
-                    var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
-                    string PID = TelnetConnection.findPID(result);
-                    routerAliasText.Text = PID;
-                    runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
-
+                    try
+                    {
+                        var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
+                        string PID = TelnetConnection.findPID(result);
+                        routerAliasText.Text = PID;
+                        runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Info("Could not connect to server - username and/or password are wrong");
+                        log.Info("Message - " + ex.Message);
+                        MessageBox.Show("Kan niet verbinden met router - probeer het opnieuw");
+                    }
                     log.Info("Loading all widgets / if available");
                     if (widgets == null)
                     {
@@ -684,16 +692,6 @@ namespace Cisco_Tool
             log.Info("Telnet.exe has been started by the user");
         }
 
-        private void CMDTelnetPanel_MouseHover(object sender, EventArgs e)
-        {
-            CMDTelnetPanel.BorderStyle = BorderStyle.None;
-        }
-
-        private void CMDTelnetPanel_MouseLeave(object sender, EventArgs e)
-        {
-            CMDTelnetPanel.BorderStyle = BorderStyle.FixedSingle;
-        }
-
         private void taskGetWidgets(string ip,string username,string password)
         {
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
@@ -716,21 +714,37 @@ namespace Cisco_Tool
                     newPanel.commandName.Text = widget.widgetCommand;
                     newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
 
+                    if (count % 2 == 0 || count == 0)
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                    }
+                    else
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255,140,32,32);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255,153,35,35);
+                    }
+
+
+
                     if (widget.widgetCommand != "")
                     {
                         string command = widget.widgetCommand;
                         bool usesLongProcessTime = widget.widgetUseLongProcessTime;
                         string output = TelnetConnection.telnetClientTCP(ip, command, username, password, usesLongProcessTime);
-                        if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                        if (output != null)
                         {
-                            if (widget.widgetUseSelection == true)
+                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
                             {
-                                string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                newPanel.outputbox.Text = finalResult.ToString();
-                            }
-                            else
-                            {
-                                newPanel.outputbox.Text = output;
+                                if (widget.widgetUseSelection == true)
+                                {
+                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                    newPanel.outputbox.Text = finalResult.ToString();
+                                }
+                                else
+                                {
+                                    newPanel.outputbox.Text = output;
+                                }
                             }
                         }
                         else
@@ -740,6 +754,11 @@ namespace Cisco_Tool
                             log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
                         }
                         readyPanels.Add(newPanel);
+                    }
+                    else
+                    {
+                        log.Info("cannot connect to router - username and/or password is wrong");
+                        MessageBox.Show("Kan niet verbinden met router");
                     }
                 }
                 else //button
@@ -752,28 +771,47 @@ namespace Cisco_Tool
                     newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
                     newPanel.runButton.Click += new EventHandler(runCommand);
 
+                    if (count % 2 == 0 || count == 0)
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                    }
+                    else
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                    }
+
                     if (widget.widgetCommand != "")
                     {
                         string command = widget.widgetCommand;
                         bool usesLongProcessTime = widget.widgetUseLongProcessTime;
                         string output = TelnetConnection.telnetClientTCP(ip, command, username, password, usesLongProcessTime);
-                        if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                        if (output != null)
                         {
-                            if (widget.widgetUseSelection == true)
+                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
                             {
-                                string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                newPanel.outputbox.Text = finalResult.ToString();
+                                if (widget.widgetUseSelection == true)
+                                {
+                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                                    newPanel.outputbox.Text = finalResult.ToString();
+                                }
+                                else
+                                {
+                                    newPanel.outputbox.Text = output;
+                                }
                             }
                             else
                             {
-                                newPanel.outputbox.Text = output;
+                                newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                                newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
+                                log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
                             }
                         }
                         else
                         {
-                            newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
-                            newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
-                            log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
+                            log.Info("cannot connect to router - username and/or password is wrong");
+                            MessageBox.Show("Kan niet verbinden met router - controleer gebruikersnaam en wachtwoord");
                         }
                     }
                     newPanel.runButton.Text = "Uitvoeren";
@@ -801,23 +839,32 @@ namespace Cisco_Tool
                 outputbox.Text = "";
                 bool usesLongProcessTime = widget.widgetUseLongProcessTime;
                 string output = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, usesLongProcessTime);
-                if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                if (output != null)
                 {
-                    if (widget.widgetUseSelection == true)
+                    if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
                     {
-                        string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                        outputbox.Text = finalResult.ToString();
+                        if (widget.widgetUseSelection == true)
+                        {
+                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                            outputbox.Text = finalResult.ToString();
+                        }
+                        else
+                        {
+                            outputbox.Text = output;
+                        }
                     }
                     else
                     {
-                        outputbox.Text = output;
+                        outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                        outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
+                        log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
                     }
                 }
                 else
                 {
-                    outputbox.Font = new Font("Microsoft Sans Serif", 15);
-                    outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
-                    log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
+                    log.Info("cannot connect to router - username and/or password is wrong");
+                    outputbox.Text = "Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord";
+                    MessageBox.Show("Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord");
                 }
             }
         }
@@ -839,12 +886,17 @@ namespace Cisco_Tool
             }
         }
 
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private void CMDTelnetLabel_Click(object sender, EventArgs e)
         {
-
+            Process process = new Process();
+            process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";
+            process.StartInfo.Arguments = ManualIPAddress.Text;
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            process.Start();
+            log.Info("Telnet.exe has been started by the user");
         }
 
-        private void CMDTelnetLabel_Click(object sender, EventArgs e)
+        private void manualTelnetPicture_Click(object sender, EventArgs e)
         {
             Process process = new Process();
             process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";

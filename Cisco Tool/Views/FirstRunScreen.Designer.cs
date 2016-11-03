@@ -291,7 +291,7 @@
             this.MinimizeBox = false;
             this.Name = "FirstRunScreen";
             this.ShowIcon = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Instellingen";
             this.TopMost = true;
             this.tabs.ResumeLayout(false);

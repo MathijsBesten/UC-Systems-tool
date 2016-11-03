@@ -145,7 +145,7 @@
             this.Name = "AboutScreen";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About CIsco Tool";
             ((System.ComponentModel.ISupportInitialize)(this.UCLogo)).EndInit();
             this.ResumeLayout(false);
