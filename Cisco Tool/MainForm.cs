@@ -20,6 +20,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using Cisco_Tool.Functions.Telnet;
 using static Cisco_Tool.Widgets.Classes;
+using Cisco_Tool.Widgets;
 
 namespace Cisco_Tool
 {
@@ -705,95 +706,23 @@ namespace Cisco_Tool
             log.Info("every widget is being made and will be put into maintable");
             foreach (var widget in widgets)
             {
-                if (widget.widgetType == "Informatie")
-                {
-                    var newPanel = new InfoTemplate();
-                    newPanel.Name = "Panel" + count.ToString();
-                    newPanel.Tag = count.ToString();
-                    newPanel.titleWidgetLabel.Text = widget.widgetName;
-                    newPanel.commandName.Text = widget.widgetCommand;
-                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-                    if (count % 2 == 0 || count == 0)
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-
-                    }
-                    else
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255,140,32,32);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255,153,35,35);
-                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                    }
-
-
-
-                    if (widget.widgetCommand != "")
-                    {
-                        string command = widget.widgetCommand;
-                        bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                        string output = TelnetConnection.telnetClientTCP(ip, command, username, password, usesLongProcessTime);
-                        if (output != null)
-                        {
-                            if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
-                            {
-                                if (widget.widgetUseSelection == true)
-                                {
-                                    string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                                    newPanel.outputbox.Text = finalResult.ToString();
-                                }
-                                else
-                                {
-                                    newPanel.outputbox.Text = output;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            newPanel.outputbox.Font = new Font("Microsoft Sans Serif", 15);
-                            newPanel.outputbox.Text = @"Commando '" + widget.widgetCommand + @"'  is niet geldig";
-                            log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
-                        }
-                        readyPanels.Add(newPanel);
-                    }
-                    else
-                    {
-                        log.Info("cannot connect to router - username and/or password is wrong");
-                        MessageBox.Show("Kan niet verbinden met router");
-                    }
-                }
-                else //button
-                {
-                    var newPanel = new ExecuteTemplate();
-                    newPanel.Name = "Panel" + count.ToString();
-                    newPanel.Tag = count.ToString();
-                    newPanel.titleWidgetLabel.Text = widget.widgetName;
-                    newPanel.commandName.Text = widget.widgetCommand;
-                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                    newPanel.runButton.Click += new EventHandler(runCommand);
-                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-
-                    if (count % 2 == 0 || count == 0)
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-
-                    }
-                    else
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                    }
-                    newPanel.runButton.Text = "Uitvoeren";
-                    readyPanels.Add(newPanel);
-                }
+                var backgroundWorker = new BackgroundWidgetLoader(count, widget,ip,username,password);
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+                backgroundWorker.widgetLoader += this.widgetLoadedEventHandler;
+                backgroundWorker.RunWorkerAsync();
                 count++;
+            }
+        }
+        public void widgetLoadedEventHandler (object sender, EventArgs e)
+        {
+            if (ReadyPanels.readyInfoWidget != null)
+            {
+                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
+                MainTableLayoutPanel.Controls.Add(ReadyPanels.readyInfoWidget);
+            }
+            else
+            {
+                MainTableLayoutPanel.Controls.Add(ReadyPanels.readyExecuteWidget);
             }
         }
 
