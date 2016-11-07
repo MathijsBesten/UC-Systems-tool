@@ -124,9 +124,6 @@
     <Compile Include="Views\ConfirmationScreen.Designer.cs">
       <DependentUpon>ConfirmationScreen.cs</DependentUpon>
     </Compile>
-    <Compile Include="Widgets\Functions\BackgroundWidgetLoader.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />

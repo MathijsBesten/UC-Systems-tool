@@ -18,5 +18,11 @@ namespace Cisco_Tool.Widgets
             public int widgetEnterCountBeforeString { get; set; }
             public int WidgetEnterCountInString { get; set; }
         }
+
+        public class widgetResult
+        {
+            public int widgetTag { get; set; }
+            public string widgetOutput { get; set; }
+        }
     }
 }

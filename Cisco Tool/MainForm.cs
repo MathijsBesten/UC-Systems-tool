@@ -35,8 +35,9 @@ namespace Cisco_Tool
         public List<string> allCommands = new List<string>();
         public List<string> selectedIPAddresses = new List<string>();
         public static List<Control> readyPanels = new List<Control>();
+        static List<widgetResult> allOutputs = new List<widgetResult>();
+        public int widgetTag = 0;
         public bool loginDetailsChanged = false;
-
 
         private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
         private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
@@ -95,10 +96,10 @@ namespace Cisco_Tool
                     routerIPText.Text = ManualIPAddress.Text;
                     try
                     {
-                        var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
-                        string PID = TelnetConnection.findPID(result);
-                        routerAliasText.Text = PID;
-                        runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
+                        //var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
+                        //string PID = TelnetConnection.findPID(result);
+                        //routerAliasText.Text = PID;
+                        //runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
                     }
                     catch (Exception ex)
                     {
@@ -112,21 +113,20 @@ namespace Cisco_Tool
                         log.Info("No widgets were found - adding plus sign");
                         if (MainTableLayoutPanel.Controls.Count != 1)
                         {
-                            PictureBox addButton = new PictureBox();
-                            addButton.Size = new Size(100, 100);
-                            addButton.BackColor = Color.Transparent;
-                            addButton.Image = Properties.Resources.add_1;
-                            addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                            addButton.Anchor = AnchorStyles.None;
-                            addButton.Click += new EventHandler(addButtonClick);
-                            MainTableLayoutPanel.Controls.Add(addButton);
+
                         }
                     }
                     else if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
                     {
                         MainTableLayoutPanel.Controls.Clear();
-                        taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
-                        fillTableWithWidgets();
+                        taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text); // main get function
+                        readyPanels = readyPanels.OrderBy(o => o.Tag).ToList();
+                        allOutputs = allOutputs.OrderBy(o => o.widgetTag).ToList();
+                        for (int i = 0; i < allOutputs.Count; i++)
+                        {
+                            readyPanels[i].Controls[1].Controls[1].Text = allOutputs[i].widgetOutput;
+                        }
+
                     }
                     loginDetailsChanged = false; // this will prevent reloading if user switches tabs
                 }
@@ -139,16 +139,16 @@ namespace Cisco_Tool
             {
                 MainTableLayoutPanel.Controls.Add(panel);
             }
-            readyPanels.Clear();
-            log.Info("Adding plus sign");
-            PictureBox addButton = new PictureBox();
-            addButton.Size = new Size(100, 100);
-            addButton.BackColor = Color.Transparent;
-            addButton.Image = Properties.Resources.add_1;
-            addButton.SizeMode = PictureBoxSizeMode.Zoom;
-            addButton.Anchor = AnchorStyles.None;
-            addButton.Click += new EventHandler(addButtonClick);
-            MainTableLayoutPanel.Controls.Add(addButton);
+            //readyPanels.Clear();
+            //log.Info("Adding plus sign");
+            //PictureBox addButton = new PictureBox();
+            //addButton.Size = new Size(100, 100);
+            //addButton.BackColor = Color.Transparent;
+            //addButton.Image = Properties.Resources.add_1;
+            //addButton.SizeMode = PictureBoxSizeMode.Zoom;
+            //addButton.Anchor = AnchorStyles.None;
+            //addButton.Click += new EventHandler(addButtonClick);
+            //MainTableLayoutPanel.Controls.Add(addButton);
 
             log.Info("widgets and plus sign are added to GUI");
         }
@@ -706,24 +706,131 @@ namespace Cisco_Tool
             log.Info("every widget is being made and will be put into maintable");
             foreach (var widget in widgets)
             {
-                var backgroundWorker = new BackgroundWidgetLoader(count, widget,ip,username,password);
-                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                backgroundWorker.widgetLoader += this.widgetLoadedEventHandler;
-                backgroundWorker.RunWorkerAsync();
+                if (widget.widgetType == "Informatie")
+                {
+                    var newPanel = new InfoTemplate();
+                    newPanel.Name = "Panel" + count.ToString();
+                    newPanel.Tag = count.ToString();
+                    newPanel.titleWidgetLabel.Text = widget.widgetName;
+                    newPanel.commandName.Text = widget.widgetCommand;
+                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+
+                    if (count % 2 == 0 || count == 0)
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+
+                    }
+                    else
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                    }
+                    readyPanels.Add(newPanel);
+                }
+
+                else //execute widget
+                {
+                    var newPanel = new ExecuteTemplate();
+                    newPanel.Name = "Panel" + count.ToString();
+                    newPanel.Tag = count.ToString();
+                    newPanel.titleWidgetLabel.Text = widget.widgetName;
+                    newPanel.commandName.Text = widget.widgetCommand;
+                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                    newPanel.runButton.Click += new EventHandler(runCommand);
+                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+
+
+                    if (count % 2 == 0 || count == 0)
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+
+                    }
+                    else
+                    {
+                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
+                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                    }
+                    newPanel.runButton.Text = "Uitvoeren";
+                    readyPanels.Add(newPanel);
+                }
+                BackgroundWorker bw = new BackgroundWorker();
+                bw.DoWork += bw_work;
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_runCompleted);
+                widgetTag = count;
+                bw.RunWorkerAsync(widget);
                 count++;
+            }        
+        }
+
+        private void bw_runCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (allOutputs.Count == readyPanels.Count)
+            {
+                Console.WriteLine("totaal aantal widgets: " + allOutputs.Count);
+                readyPanels = readyPanels.OrderBy(o => o.Tag).ToList();
+                allOutputs = allOutputs.OrderBy(o => o.widgetTag).ToList();
+                for (int i = 0; i < allOutputs.Count; i++)
+                {
+                    readyPanels[i].Controls[1].Controls[1].Text = allOutputs[i].widgetOutput;
+                }
+
+                log.Info("widgets and plus sign are added to GUI");
+                fillTableWithWidgets();
+
+                //adding plus sign
+                log.Info("Adding plus sign");
+                PictureBox addButton = new PictureBox();
+                addButton.Size = new Size(100, 100);
+                addButton.BackColor = Color.Transparent;
+                addButton.Image = Properties.Resources.add_1;
+                addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                addButton.Anchor = AnchorStyles.None;
+                addButton.Click += new EventHandler(addButtonClick);
+                MainTableLayoutPanel.Controls.Add(addButton);
+
+
+                readyPanels.Clear();
+                allOutputs.Clear();
+                
             }
         }
-        public void widgetLoadedEventHandler (object sender, EventArgs e)
+
+        private void bw_work(object sender, DoWorkEventArgs e)
         {
-            if (ReadyPanels.readyInfoWidget != null)
+            widget widget = (widget)e.Argument;
+            widgetResult widgetOutput = new widgetResult();
+            widgetOutput.widgetTag = widgetTag;
+
+
+            string output = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, widget.widgetCommand, ManualUsername.Text, ManualPassword.Text, widget.widgetUseLongProcessTime);
+            if (output != null)
             {
-                Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-                MainTableLayoutPanel.Controls.Add(ReadyPanels.readyInfoWidget);
+                if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
+                {
+                    if (widget.widgetUseSelection == true)
+                    {
+                        string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
+                        widgetOutput.widgetOutput = finalResult.ToString();
+                    }
+                    else
+                    {
+                        widgetOutput.widgetOutput  = output;
+                    }
+                }
             }
             else
             {
-                MainTableLayoutPanel.Controls.Add(ReadyPanels.readyExecuteWidget);
+                widgetOutput.widgetOutput = @"Commando '" + widget.widgetCommand + @"'  is niet geldig";
+                log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
             }
+            allOutputs.Add(widgetOutput);
         }
 
         private void maximizeWidget(object sender, EventArgs e)
@@ -800,7 +907,7 @@ namespace Cisco_Tool
             {
                 JSON.removeWidgetFromWidgetList(Int32.Parse(targetWidget.Tag.ToString()));
                 MainTableLayoutPanel.Controls.Clear();
-                readyPanels.Clear();
+                //readyPanels.Clear();
                 taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
                 fillTableWithWidgets();
                 log.Info("Widget is removed and the GUI is refreshed");
