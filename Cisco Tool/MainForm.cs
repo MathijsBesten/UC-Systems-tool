@@ -96,10 +96,10 @@ namespace Cisco_Tool
                     routerIPText.Text = ManualIPAddress.Text;
                     try
                     {
-                        //var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
-                        //string PID = TelnetConnection.findPID(result);
-                        //routerAliasText.Text = PID;
-                        //runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
+                        ////var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
+                        ////string PID = TelnetConnection.findPID(result);
+                        ////routerAliasText.Text = PID;
+                        ////runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
                     }
                     catch (Exception ex)
                     {
@@ -331,11 +331,11 @@ namespace Cisco_Tool
                                         string output;
                                         if (command.ToLower() == "show running-config" || command.ToLower() == "write")
                                         {
-                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, true);
+                                            output = TelnetConnection.telnetClientTCP(localIP, command, username, password, true);
                                         }
                                         else
                                         {
-                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, command, username, password, false);
+                                            output = TelnetConnection.telnetClientTCP(localIP, command, username, password, false);
                                         }
                                         indexOfCommand++;
                                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
@@ -382,11 +382,11 @@ namespace Cisco_Tool
                                         string output;
                                         if (commands[indexOfCommand].ToLower() == "show running-config" || commands[indexOfCommand].ToLower() == "write")
                                         {
-                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, commands[indexOfCommand], username, password, true);
+                                            output = TelnetConnection.telnetClientTCP(localIP, commands[indexOfCommand], username, password, true);
                                         }
                                         else
                                         {
-                                            output = Networkstreams.TalkToCiscoRouterAndGetResponse(localIP, commands[indexOfCommand], username, password, false);
+                                            output = TelnetConnection.telnetClientTCP(localIP, commands[indexOfCommand], username, password, false);
                                         }
                                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
                                         if (splittedOutput[1] == "")
@@ -760,16 +760,16 @@ namespace Cisco_Tool
                     newPanel.runButton.Text = "Uitvoeren";
                     readyPanels.Add(newPanel);
                 }
-                BackgroundWorker bw = new BackgroundWorker();
-                bw.DoWork += bw_work;
-                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(bw_runCompleted);
+                BackgroundWorker backgroundWorkerMakeWidget = new BackgroundWorker();
+                backgroundWorkerMakeWidget.DoWork += backgroundWorkerMakeWidget_work;
+                backgroundWorkerMakeWidget.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorkerMakeWidget_runCompleted);
                 widgetTag = count;
-                bw.RunWorkerAsync(widget);
+                backgroundWorkerMakeWidget.RunWorkerAsync(widget);
                 count++;
             }        
         }
 
-        private void bw_runCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void backgroundWorkerMakeWidget_runCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             if (allOutputs.Count == readyPanels.Count)
             {
@@ -779,7 +779,7 @@ namespace Cisco_Tool
                 for (int i = 0; i < allOutputs.Count; i++)
                 {
                     readyPanels[i].Controls[1].Controls[1].Text = allOutputs[i].widgetOutput;
-                }
+                } 
 
                 log.Info("widgets and plus sign are added to GUI");
                 fillTableWithWidgets();
@@ -802,7 +802,7 @@ namespace Cisco_Tool
             }
         }
 
-        private void bw_work(object sender, DoWorkEventArgs e)
+        private void backgroundWorkerMakeWidget_work(object sender, DoWorkEventArgs e)
         {
             widget widget = (widget)e.Argument;
             widgetResult widgetOutput = new widgetResult();

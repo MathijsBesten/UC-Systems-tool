@@ -18,7 +18,7 @@ namespace Cisco_Tool.Functions.Telnet
     {
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static string telnetClientTCP(string IPAddressString,string command, string username,string password, bool useLongProcessTime)
+        public static string telnetClientTCP(string IPAddressString,string command, string username,string password, bool useLongProcessTime) 
         {
 
             log.Info("Telnet function was been started");
@@ -30,8 +30,10 @@ namespace Cisco_Tool.Functions.Telnet
             {
                 try
                 {
+#pragma warning disable CS0612 // Type or member is obsolete
                     response = Networkstreams.TalkToCiscoRouterAndGetResponse(IPAddressString,command,username,password, useLongProcessTime);
-               }
+#pragma warning restore CS0612 // Type or member is obsolete
+                }
                 catch (Exception ex)
                 {
                     log.Error("ERROR - Could not connect to " + IPAddressString + " using telnet to get serialnumber ");

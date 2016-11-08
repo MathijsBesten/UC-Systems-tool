@@ -14,6 +14,7 @@ namespace Cisco_Tool.Functions.Stream
     {
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        [Obsolete]
         public static string TalkToCiscoRouterAndGetResponse(string IPAddress,string command,string username,string password, bool useLongProcessTime)
         {
             int sleepMSAfterSend = 50;
