@@ -76,7 +76,7 @@ namespace Cisco_Tool.Functions.Stream
                 log.Info("Connection to router correcly closed - IP address: " + IPAddress);
                 return response;
             }
-            log.Error("Router was not connected and could not get send command - IP address: " + IPAddress);
+            log.Info("Router was not connected and could not get send command - IP address: " + IPAddress);
             return null;
         }
     }

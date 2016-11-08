@@ -38,6 +38,8 @@ namespace Cisco_Tool
         static List<widgetResult> allOutputs = new List<widgetResult>();
         public int widgetTag = 0;
         public bool loginDetailsChanged = false;
+        public static List<telnetDetails> readyTelnetOutputs = new List<telnetDetails>();
+        public static int totalAsyncTelnetExcutions = 0;
 
         private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
         private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
@@ -78,7 +80,6 @@ namespace Cisco_Tool
                 log.Error("error message - " + ex.Message);
                 log.Error("Please try entering the correct details using the sql wizard from the menubar");
             }
-
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -87,7 +88,7 @@ namespace Cisco_Tool
         }
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-             if (mainMenu.SelectedIndex == 1) // if user switched to router tab
+            if (mainMenu.SelectedIndex == 1) // if user switched to router tab
             {
                 var widgets = JSON.readJSON(); // 7ms for reading a empty file
                 if (loginDetailsChanged == true)
@@ -96,10 +97,37 @@ namespace Cisco_Tool
                     routerIPText.Text = ManualIPAddress.Text;
                     try
                     {
-                        ////var result = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show inventory", ManualUsername.Text, ManualPassword.Text, false);
-                        ////string PID = TelnetConnection.findPID(result);
-                        ////routerAliasText.Text = PID;
-                        ////runningConfigOutputField.Text = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, "show running-config", ManualUsername.Text, ManualPassword.Text, true);
+                        List<telnetDetails> listToRun = new List<telnetDetails>();
+
+                        telnetDetails PID = new telnetDetails();
+                        PID.IPAddress = ManualIPAddress.Text;
+                        PID.command = "show inventory";
+                        PID.username = ManualUsername.Text;
+                        PID.password = ManualPassword.Text;
+                        PID.useLongProcessTime = false ; // needs to be async
+                        listToRun.Add(PID);
+
+                        telnetDetails showRun = new telnetDetails();
+                        showRun.IPAddress = ManualIPAddress.Text;
+                        showRun.command = "show run";
+                        showRun.username = ManualUsername.Text;
+                        showRun.password = ManualPassword.Text;
+                        showRun.useLongProcessTime = true; // needs to be async
+                        listToRun.Add(showRun);
+
+                        for (int i = 0; i < 2; i++)
+                        {
+                            BackgroundWorker bw = new BackgroundWorker();
+                            bw.DoWork += asyncTelnet_Work;
+                            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(asyncTelnet_runCompleted);
+                            bw.RunWorkerAsync(listToRun[i]);
+                        }
+
+
+
+
+                        string PID = TelnetConnection.findPID(result);
+                        routerAliasText.Text = PID;
                     }
                     catch (Exception ex)
                     {
@@ -108,13 +136,17 @@ namespace Cisco_Tool
                         MessageBox.Show("Kan niet verbinden met router - probeer het opnieuw");
                     }
                     log.Info("Loading all widgets / if available");
-                    if (widgets == null)
+                    if (widgets == null || widgets.Count == 0) 
                     {
                         log.Info("No widgets were found - adding plus sign");
-                        if (MainTableLayoutPanel.Controls.Count != 1)
-                        {
-
-                        }
+                        PictureBox addButton = new PictureBox();
+                        addButton.Size = new Size(100, 100);
+                        addButton.BackColor = Color.Transparent;
+                        addButton.Image = Properties.Resources.add_1;
+                        addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                        addButton.Anchor = AnchorStyles.None;
+                        addButton.Click += new EventHandler(addButtonClick);
+                        MainTableLayoutPanel.Controls.Add(addButton);
                     }
                     else if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
                     {
@@ -132,6 +164,28 @@ namespace Cisco_Tool
                 }
             }
         }
+
+        private void asyncTelnet_runCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (totalAsyncTelnetExcutions == readyTelnetOutputs.Count)
+            {
+                routerAliasText.Text = 
+                runningConfigOutputField.Text = 
+            }
+        }
+
+        private void asyncTelnet_Work(object sender, DoWorkEventArgs e)
+        {
+            telnetDetails details = (telnetDetails)e.Argument;
+            string output = TelnetConnection.telnetClientTCP(details.IPAddress, details.command, details.username, details.password, details.useLongProcessTime);
+            if (output == null)
+            {
+                log.Info(@"Commando '" + details.command + @"'  is not a valid command");
+            }
+            details.output = output;
+            readyTelnetOutputs.Add(details);
+        }
+
         public void fillTableWithWidgets()
         {
             log.Info("loading widgets");
@@ -313,7 +367,9 @@ namespace Cisco_Tool
                         {
                             if (passwordFailedThreeTimes < 3) // to prevent more runs when username or password is wrong
                             {
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
                                 bool passwordIsStillWrong = false;
+#pragma warning restore CS0219 // Variable is assigned but its value is never used
                                 string ipWherePasswordIsWrong = "";
                                 int indexOfCommand = 0;
                                 string localIP = "172.28.81.180";
@@ -339,42 +395,62 @@ namespace Cisco_Tool
                                         }
                                         indexOfCommand++;
                                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
-                                        if (splittedOutput[1] == "")
+                                        if (splittedOutput.Count() == 2) // sometimes the network function will retrun a few characters and will not be split
+                                        {
+                                            if (splittedOutput[1] == "")
+                                            {
+                                                if (selectedIPAddresses.Count < 3)
+                                                {
+                                                    ipWherePasswordIsWrong = localIP;
+                                                    passwordFailedThreeTimes = 3;
+                                                    OutputBox.Text += Environment.NewLine;
+                                                    OutputBox.Text += "Gebruikersnaam en/of wachtwoord is waarschijnlijk fout";
+                                                    OutputBox.Text += Environment.NewLine;
+                                                    log.Info("Username and or password is wrong");
+
+                                                }
+                                                else
+                                                {
+                                                    passwordFailedThreeTimes++;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (output.Contains(@"% Invalid input detected at '^' marker."))
+                                                {
+                                                    OutputBox.Text += @"'" + command + @"'" + " -  GEEN GELDIG COMMANDO";
+                                                    OutputBox.Text += Environment.NewLine;
+                                                    OutputBox.Text += "--------------";
+                                                    OutputBox.Text += Environment.NewLine;
+                                                    log.Info("command is not valid - command: " + command);
+                                                }
+                                                else
+                                                {
+                                                    OutputBox.Text += output;
+                                                    OutputBox.Text += Environment.NewLine;
+                                                    OutputBox.Text += "--------------";
+                                                    OutputBox.Text += Environment.NewLine;
+                                                }
+                                            }
+                                        }
+                                        else
                                         {
                                             if (selectedIPAddresses.Count < 3)
                                             {
                                                 ipWherePasswordIsWrong = localIP;
                                                 passwordFailedThreeTimes = 3;
                                                 OutputBox.Text += Environment.NewLine;
-                                                OutputBox.Text += "Gebruikersnaam en/of wachtwoord is waarschijnlijk fout";
+                                                OutputBox.Text += "Problemen met het ophalen van router output";
                                                 OutputBox.Text += Environment.NewLine;
-                                                log.Info("Username and or password is wrong");
-
+                                                log.Info("response from router was too little");
+                                                log.Info("response from router: " + splittedOutput[0]);
                                             }
                                             else
                                             {
                                                 passwordFailedThreeTimes++;
                                             }
                                         }
-                                        else
-                                        {
-                                            if (output.Contains(@"% Invalid input detected at '^' marker."))
-                                            {
-                                                OutputBox.Text +=  @"'" + command + @"'"  + " -  GEEN GELDIG COMMANDO";
-                                                OutputBox.Text += Environment.NewLine;
-                                                OutputBox.Text += "--------------";
-                                                OutputBox.Text += Environment.NewLine;
-                                                log.Info("command is not valid - command: " + command);                                         
-                                            }
-                                            else
-                                            {
-                                                OutputBox.Text += output;
-                                                OutputBox.Text += Environment.NewLine;
-                                                OutputBox.Text += "--------------";
-                                                OutputBox.Text += Environment.NewLine;
-                                            }
-
-                                        }
+                                        
                                     }
                                     else
                                     {
@@ -419,7 +495,7 @@ namespace Cisco_Tool
                                 OutputBox.Text += "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
                                 OutputBox.Text += Environment.NewLine;
                                 break;
-                            }                          
+                            }
                         }
                         // uncommand the following code to get output box in logfile
 
@@ -693,7 +769,7 @@ namespace Cisco_Tool
             log.Info("Telnet.exe has been started by the user");
         }
 
-        private void taskGetWidgets(string ip,string username,string password)
+        private void taskGetWidgets(string ip, string username, string password)
         {
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
 
@@ -766,7 +842,7 @@ namespace Cisco_Tool
                 widgetTag = count;
                 backgroundWorkerMakeWidget.RunWorkerAsync(widget);
                 count++;
-            }        
+            }
         }
 
         private void backgroundWorkerMakeWidget_runCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -779,7 +855,7 @@ namespace Cisco_Tool
                 for (int i = 0; i < allOutputs.Count; i++)
                 {
                     readyPanels[i].Controls[1].Controls[1].Text = allOutputs[i].widgetOutput;
-                } 
+                }
 
                 log.Info("widgets and plus sign are added to GUI");
                 fillTableWithWidgets();
@@ -798,7 +874,7 @@ namespace Cisco_Tool
 
                 readyPanels.Clear();
                 allOutputs.Clear();
-                
+
             }
         }
 
@@ -821,7 +897,7 @@ namespace Cisco_Tool
                     }
                     else
                     {
-                        widgetOutput.widgetOutput  = output;
+                        widgetOutput.widgetOutput = output;
                     }
                 }
             }
@@ -838,7 +914,7 @@ namespace Cisco_Tool
             PictureBox realSender = ((PictureBox)sender);
             Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
             var widgetOutputBox = targetWidget.Controls[1].Controls[1];// infopart - outputbox
-            MessageBox.Show(widgetOutputBox.ToString ());
+            MessageBox.Show(widgetOutputBox.ToString());
             string outputText = widgetOutputBox.Text;
             bigOutputBox.Text = outputText;
             MainTableLayoutPanel.Enabled = false;
@@ -853,8 +929,8 @@ namespace Cisco_Tool
         {
             log.Info("Running command from execute widget");
             Button realsender = ((Button)sender);
-            ExecuteTemplate widgetSender =  (ExecuteTemplate)realsender.Parent.Parent;
-            int widgetIndex =  Int32.Parse(widgetSender.Tag.ToString());
+            ExecuteTemplate widgetSender = (ExecuteTemplate)realsender.Parent.Parent;
+            int widgetIndex = Int32.Parse(widgetSender.Tag.ToString());
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
             var widget = widgets[widgetIndex];
             string command = widgetSender.commandName.Text;
@@ -902,7 +978,7 @@ namespace Cisco_Tool
             log.Info("removing widget from maintable");
             PictureBox realSender = ((PictureBox)sender);
             Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
-            DialogResult confirmRemove =  MessageBox.Show("Wil je widget '" + realSender.Parent.Controls[0].Text + "' verwijderen?","Widget verwijderen",MessageBoxButtons.YesNo);
+            DialogResult confirmRemove = MessageBox.Show("Wil je widget '" + realSender.Parent.Controls[0].Text + "' verwijderen?", "Widget verwijderen", MessageBoxButtons.YesNo);
             if (confirmRemove == DialogResult.Yes)
             {
                 JSON.removeWidgetFromWidgetList(Int32.Parse(targetWidget.Tag.ToString()));

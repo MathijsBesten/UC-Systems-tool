@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cisco_Tool.Widgets
 {
-    class Classes
+    public class Classes
     {
         public class widget
         {
@@ -23,6 +23,15 @@ namespace Cisco_Tool.Widgets
         {
             public int widgetTag { get; set; }
             public string widgetOutput { get; set; }
+        }
+        public class telnetDetails
+        {
+            public string IPAddress { get; set; }
+            public string command { get; set; }
+            public string username { get; set; }
+            public string password { get; set; }
+            public string output { get; set; }
+            public bool useLongProcessTime { get; set; }
         }
     }
 }

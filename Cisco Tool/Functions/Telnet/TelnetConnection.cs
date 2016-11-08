@@ -11,6 +11,8 @@ using System.Threading;
 using Cisco_Tool.Values;
 using Cisco_Tool.Functions.Stream;
 using System.Configuration;
+using System.ComponentModel;
+using static Cisco_Tool.Widgets.Classes;
 
 namespace Cisco_Tool.Functions.Telnet
 {
@@ -68,6 +70,40 @@ namespace Cisco_Tool.Functions.Telnet
                 return null;
             }
         }
+        public void async_telnetClientTCP(string IPAddressString, string command, string username, string password, bool useLongProcessTime)
+        {
+            BackgroundWorker backgroundWorkerTelnet= new BackgroundWorker();
+            backgroundWorkerTelnet.DoWork += backgroundWorkerTelnet_Work;
+            backgroundWorkerTelnet.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorkerTelnet_runCompleted);
+            var telnetDetails = new Widgets.Classes.telnetDetails();
+            telnetDetails.command = command;
+            telnetDetails.IPAddress = IPAddressString;
+            telnetDetails.username = username;
+            telnetDetails.password = password;
+            telnetDetails.useLongProcessTime = useLongProcessTime; 
+            backgroundWorkerTelnet.RunWorkerAsync(telnetDetails);
+        }
+
+        private void backgroundWorkerTelnet_runCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            //if (PublicValues. totalAsyncTelnetExcutions == PublicValues.readyTelnetOutputs.Count)
+            {
+
+            }
+        }
+
+        private void backgroundWorkerTelnet_Work(object sender, DoWorkEventArgs e)
+        {
+            telnetDetails details = (telnetDetails)e.Argument;
+            string output = TelnetConnection.telnetClientTCP(details.IPAddress, details.command , details.username, details.password, details.useLongProcessTime);
+            if (output == null)
+            {
+                log.Info(@"Commando '" + details.command + @"'  is not a valid command");
+            }
+            details.output = output;
+            //PublicValues.readyTelnetOutputs.Add(details);
+        }
+
         public static string findPID(string originalstring)
         {
             string searchPattern = "PID: "; // this string is infront of the CHASSIS serial number
