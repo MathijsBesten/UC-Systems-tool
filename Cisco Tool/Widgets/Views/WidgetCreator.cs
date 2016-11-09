@@ -1,4 +1,5 @@
-﻿using Cisco_Tool.Widgets.Functions;
+﻿using Cisco_Tool.Functions.Telnet;
+using Cisco_Tool.Widgets.Functions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -119,7 +120,7 @@ namespace Cisco_Tool.Widgets.Views
             var result = wizardScreen.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string completeResponse = Cisco_Tool.Functions.Telnet.TelnetConnection.telnetClientTCP(wizardScreen.ipadres, this.NewWidgetCommand.Text, wizardScreen.username, wizardScreen.password,NewWidgetUsesLongProcessTime.Checked);
+                string completeResponse = new TelnetConnection().telnetClientTCP(wizardScreen.ipadres, this.NewWidgetCommand.Text, wizardScreen.username, wizardScreen.password,NewWidgetUsesLongProcessTime.Checked);
                 outputBox.Text = completeResponse;
             }
             else

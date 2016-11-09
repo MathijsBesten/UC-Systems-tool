@@ -76,9 +76,9 @@
             this.RouterTab = new System.Windows.Forms.TabPage();
             this.mainInfoPanel = new System.Windows.Forms.Panel();
             this.routerIPText = new System.Windows.Forms.Label();
-            this.routerAliasText = new System.Windows.Forms.Label();
+            this.routerType = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.aliasLabel = new System.Windows.Forms.Label();
+            this.routerTypeLabel = new System.Windows.Forms.Label();
             this.IPLabel = new System.Windows.Forms.Label();
             this.runningConfigPanel = new System.Windows.Forms.Panel();
             this.runningConfigOutputField = new System.Windows.Forms.TextBox();
@@ -597,9 +597,9 @@
             // 
             this.mainInfoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.mainInfoPanel.Controls.Add(this.routerIPText);
-            this.mainInfoPanel.Controls.Add(this.routerAliasText);
+            this.mainInfoPanel.Controls.Add(this.routerType);
             this.mainInfoPanel.Controls.Add(this.label3);
-            this.mainInfoPanel.Controls.Add(this.aliasLabel);
+            this.mainInfoPanel.Controls.Add(this.routerTypeLabel);
             this.mainInfoPanel.Controls.Add(this.IPLabel);
             this.mainInfoPanel.Location = new System.Drawing.Point(3, 6);
             this.mainInfoPanel.Name = "mainInfoPanel";
@@ -618,13 +618,13 @@
             // 
             // routerAliasText
             // 
-            this.routerAliasText.AutoSize = true;
-            this.routerAliasText.ForeColor = System.Drawing.Color.White;
-            this.routerAliasText.Location = new System.Drawing.Point(141, 85);
-            this.routerAliasText.Name = "routerAliasText";
-            this.routerAliasText.Size = new System.Drawing.Size(35, 13);
-            this.routerAliasText.TabIndex = 13;
-            this.routerAliasText.Text = "label1";
+            this.routerType.AutoSize = true;
+            this.routerType.ForeColor = System.Drawing.Color.White;
+            this.routerType.Location = new System.Drawing.Point(141, 85);
+            this.routerType.Name = "routerAliasText";
+            this.routerType.Size = new System.Drawing.Size(35, 13);
+            this.routerType.TabIndex = 13;
+            this.routerType.Text = "label1";
             // 
             // label3
             // 
@@ -639,14 +639,14 @@
             // 
             // aliasLabel
             // 
-            this.aliasLabel.AutoSize = true;
-            this.aliasLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.aliasLabel.ForeColor = System.Drawing.Color.White;
-            this.aliasLabel.Location = new System.Drawing.Point(53, 83);
-            this.aliasLabel.Name = "aliasLabel";
-            this.aliasLabel.Size = new System.Drawing.Size(82, 15);
-            this.aliasLabel.TabIndex = 7;
-            this.aliasLabel.Text = "typenummer :";
+            this.routerTypeLabel.AutoSize = true;
+            this.routerTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.routerTypeLabel.ForeColor = System.Drawing.Color.White;
+            this.routerTypeLabel.Location = new System.Drawing.Point(53, 83);
+            this.routerTypeLabel.Name = "aliasLabel";
+            this.routerTypeLabel.Size = new System.Drawing.Size(82, 15);
+            this.routerTypeLabel.TabIndex = 7;
+            this.routerTypeLabel.Text = "typenummer :";
             // 
             // IPLabel
             // 
@@ -983,10 +983,10 @@
         private System.Windows.Forms.TextBox runningConfigOutputField;
         private System.Windows.Forms.Panel mainInfoPanel;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label aliasLabel;
+        private System.Windows.Forms.Label routerTypeLabel;
         private System.Windows.Forms.Label IPLabel;
         private System.Windows.Forms.Label routerIPText;
-        private System.Windows.Forms.Label routerAliasText;
+        private System.Windows.Forms.Label routerType;
         private System.Windows.Forms.PictureBox manualTelnetPicture;
         private System.Windows.Forms.Panel bigOutputPanel;
         private System.Windows.Forms.Panel panel2;

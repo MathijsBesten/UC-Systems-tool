@@ -20,7 +20,7 @@ namespace Cisco_Tool.Functions.Telnet
     {
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static string telnetClientTCP(string IPAddressString,string command, string username,string password, bool useLongProcessTime) 
+        public string telnetClientTCP(string IPAddressString,string command, string username,string password, bool useLongProcessTime) 
         {
 
             log.Info("Telnet function was been started");
@@ -95,7 +95,7 @@ namespace Cisco_Tool.Functions.Telnet
         private void backgroundWorkerTelnet_Work(object sender, DoWorkEventArgs e)
         {
             telnetDetails details = (telnetDetails)e.Argument;
-            string output = TelnetConnection.telnetClientTCP(details.IPAddress, details.command , details.username, details.password, details.useLongProcessTime);
+            string output = new TelnetConnection().telnetClientTCP(details.IPAddress, details.command , details.username, details.password, details.useLongProcessTime);
             if (output == null)
             {
                 log.Info(@"Commando '" + details.command + @"'  is not a valid command");

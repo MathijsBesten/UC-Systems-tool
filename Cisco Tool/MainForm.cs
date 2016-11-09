@@ -41,6 +41,8 @@ namespace Cisco_Tool
         public static List<telnetDetails> readyTelnetOutputs = new List<telnetDetails>();
         public static int totalAsyncTelnetExcutions = 0;
 
+        List<widgetResult> listOfWidgetItems = new List<widgetResult>();
+
         private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
         private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
         private string SQLUsername = Properties.Settings.Default.CiscoToolServerUsername;
@@ -90,51 +92,25 @@ namespace Cisco_Tool
         {
             if (mainMenu.SelectedIndex == 1) // if user switched to router tab
             {
-                var widgets = JSON.readJSON(); // 7ms for reading a empty file
+                List<widget> widgets = JSON.readJSON(); 
                 if (loginDetailsChanged == true)
                 {
                     log.Info("Loading all router information...");
                     routerIPText.Text = ManualIPAddress.Text;
-                    try
-                    {
-                        List<telnetDetails> listToRun = new List<telnetDetails>();
 
-                        telnetDetails PID = new telnetDetails();
-                        PID.IPAddress = ManualIPAddress.Text;
-                        PID.command = "show inventory";
-                        PID.username = ManualUsername.Text;
-                        PID.password = ManualPassword.Text;
-                        PID.useLongProcessTime = false ; // needs to be async
-                        listToRun.Add(PID);
+                    List<widgetResult> listToRun = new List<widgetResult>(); // list contains all widgets and other elements
 
-                        telnetDetails showRun = new telnetDetails();
-                        showRun.IPAddress = ManualIPAddress.Text;
-                        showRun.command = "show run";
-                        showRun.username = ManualUsername.Text;
-                        showRun.password = ManualPassword.Text;
-                        showRun.useLongProcessTime = true; // needs to be async
-                        listToRun.Add(showRun);
+                    widgetResult PID = new widgetResult();
+                    PID.widgetCommand = "show inventory";
+                    PID.uselongTime = false ;
+                    PID.widgetTag = "PID";
+                    listToRun.Add(PID);
 
-                        for (int i = 0; i < 2; i++)
-                        {
-                            BackgroundWorker bw = new BackgroundWorker();
-                            bw.DoWork += asyncTelnet_Work;
-                            bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(asyncTelnet_runCompleted);
-                            bw.RunWorkerAsync(listToRun[i]);
-                        }
-
-
-
-
-                        string PID = TelnetConnection.findPID(result);
-                        routerAliasText.Text = PID;
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Info("Could not connect to server - username and/or password are wrong");
-                        log.Info("Message - " + ex.Message);
-                        MessageBox.Show("Kan niet verbinden met router - probeer het opnieuw");
-                    }
+                    widgetResult showRun = new widgetResult();
+                    showRun.widgetCommand = "show run";
+                    showRun.uselongTime = true; // needs to be async
+                    showRun.widgetTag = "showRun";
+                    listToRun.Add(showRun);
                     log.Info("Loading all widgets / if available");
                     if (widgets == null || widgets.Count == 0) 
                     {
@@ -150,40 +126,124 @@ namespace Cisco_Tool
                     }
                     else if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
                     {
-                        MainTableLayoutPanel.Controls.Clear();
-                        taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text); // main get function
-                        readyPanels = readyPanels.OrderBy(o => o.Tag).ToList();
-                        allOutputs = allOutputs.OrderBy(o => o.widgetTag).ToList();
-                        for (int i = 0; i < allOutputs.Count; i++)
+                        int count = 0;
+                        foreach (widget widget in widgets)
                         {
-                            readyPanels[i].Controls[1].Controls[1].Text = allOutputs[i].widgetOutput;
+                            widgetResult item = new widgetResult();
+                            item.widgetCommand = widget.widgetCommand;
+                            item.uselongTime = widget.widgetUseLongProcessTime;
+                            item.widgetTag = count.ToString();
+                            listToRun.Add(item);
+                            count++;
                         }
 
+
+                        //getInformationForWidgetPage(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text); // main get function
+                        //readyPanels = readyPanels.OrderBy(o => o.Tag).ToList();
+                        //allOutputs = allOutputs.OrderBy(o => o.widgetTag).ToList();
+                        //for (int i = 0; i < allOutputs.Count; i++)
+                        //{
+                        //    readyPanels[i].Controls[1].Controls[1].Text = allOutputs[i].widgetOutput;
+                        //}
                     }
+                    BackgroundWorker widgetPageBackgroundWorker = new BackgroundWorker();
+                    widgetPageBackgroundWorker.DoWork += getWidgetPageInfo_Work;
+                    widgetPageBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(getWidgetPageInfo_runCompleted);
+                    widgetPageBackgroundWorker.RunWorkerAsync(listToRun);
                     loginDetailsChanged = false; // this will prevent reloading if user switches tabs
                 }
             }
         }
 
-        private void asyncTelnet_runCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            if (totalAsyncTelnetExcutions == readyTelnetOutputs.Count)
-            {
-                routerAliasText.Text = 
-                runningConfigOutputField.Text = 
-            }
-        }
 
-        private void asyncTelnet_Work(object sender, DoWorkEventArgs e)
+
+        private void getWidgetPageInfo_Work(object sender, DoWorkEventArgs e)
         {
-            telnetDetails details = (telnetDetails)e.Argument;
-            string output = TelnetConnection.telnetClientTCP(details.IPAddress, details.command, details.username, details.password, details.useLongProcessTime);
-            if (output == null)
+            List<widgetResult> listToRun = (List<widgetResult>)e.Argument;
+            for (int i = 0; i < listToRun.Count; i++)
             {
-                log.Info(@"Commando '" + details.command + @"'  is not a valid command");
+                listToRun[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, listToRun[i].widgetCommand, ManualUsername.Text, ManualPassword.Text, listToRun[i].uselongTime); // find output
             }
-            details.output = output;
-            readyTelnetOutputs.Add(details);
+            listOfWidgetItems = listToRun;
+            log.Info("all items from the widget page has been loaded");
+        }
+        private void getWidgetPageInfo_runCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            List<widget> widgets = JSON.readJSON();
+            int indexWidget = 0;
+            foreach (var item in listOfWidgetItems)
+            {
+                if (item.widgetTag == "PID")
+                {
+                    string totalOutput = item.widgetOutput;
+                    string PID = TelnetConnection.findPID(totalOutput);
+                    routerType.Text = PID;
+                }
+                else if (item.widgetTag == "showRun")
+                {
+                    runningConfigOutputField.Text = item.widgetOutput;
+                }
+                else
+                {
+                    int index = Int32.Parse(item.widgetTag);
+                    if (widgets[index].widgetType == "Informatie")
+                    {
+                        var newPanel = new InfoTemplate();
+                        newPanel.Name = "Panel" + indexWidget.ToString();
+                        newPanel.Tag = indexWidget.ToString();
+                        newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
+                        newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
+                        newPanel.outputbox.Text = item.widgetOutput;
+                        newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                        newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+
+                        if (indexWidget % 2 == 0 || indexWidget == 0)
+                        {
+                            newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
+                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                            newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+
+                        }
+                        else
+                        {
+                            newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
+                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                            newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                        }
+                        MainTableLayoutPanel.Controls.Add(newPanel);
+                    }
+
+                    else //execute widget
+                    {
+                        var newPanel = new ExecuteTemplate();
+                        newPanel.Name = "Panel" + indexWidget.ToString();
+                        newPanel.Tag = indexWidget.ToString();
+                        newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
+                        newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
+                        newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                        newPanel.runButton.Click += new EventHandler(runCommand);
+                        newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+
+
+                        if (indexWidget % 2 == 0 || indexWidget == 0)
+                        {
+                            newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
+                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+                            newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
+
+                        }
+                        else
+                        {
+                            newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
+                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                            newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
+                        }
+                        newPanel.runButton.Text = "Uitvoeren";
+                        MainTableLayoutPanel.Controls.Add(newPanel);
+                    }
+                    indexWidget++;
+                }
+            }
         }
 
         public void fillTableWithWidgets()
@@ -253,7 +313,7 @@ namespace Cisco_Tool
                 log.Info("clearing and refilling MainTableLayoutPanel");
                 MainTableLayoutPanel.Controls.Clear();
                 readyPanels.Clear();
-                taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
+                getInformationForWidgetPage(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
                 fillTableWithWidgets();
             }
         }
@@ -387,11 +447,11 @@ namespace Cisco_Tool
                                         string output;
                                         if (command.ToLower() == "show running-config" || command.ToLower() == "write")
                                         {
-                                            output = TelnetConnection.telnetClientTCP(localIP, command, username, password, true);
+                                            output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, true);
                                         }
                                         else
                                         {
-                                            output = TelnetConnection.telnetClientTCP(localIP, command, username, password, false);
+                                            output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, false);
                                         }
                                         indexOfCommand++;
                                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
@@ -458,11 +518,11 @@ namespace Cisco_Tool
                                         string output;
                                         if (commands[indexOfCommand].ToLower() == "show running-config" || commands[indexOfCommand].ToLower() == "write")
                                         {
-                                            output = TelnetConnection.telnetClientTCP(localIP, commands[indexOfCommand], username, password, true);
+                                            output = new TelnetConnection().telnetClientTCP(localIP, commands[indexOfCommand], username, password, true);
                                         }
                                         else
                                         {
-                                            output = TelnetConnection.telnetClientTCP(localIP, commands[indexOfCommand], username, password, false);
+                                            output = new TelnetConnection().telnetClientTCP(localIP, commands[indexOfCommand], username, password, false);
                                         }
                                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
                                         if (splittedOutput[1] == "")
@@ -500,13 +560,13 @@ namespace Cisco_Tool
                         // uncommand the following code to get output box in logfile
 
 
-                        //log.Info("Output box");
-                        //log.Info("----------");
-                        //foreach (string line in OutputBox.Lines)
-                        //{
-                        //    log.Info(line);
-                        //}
-                        //log.Info("----------");
+                        log.Info("Output box");
+                        log.Info("----------");
+                        foreach (string line in OutputBox.Lines)
+                        {
+                            log.Info(line);
+                        }
+                        log.Info("----------");
                     }
                     else
                     {
@@ -706,7 +766,6 @@ namespace Cisco_Tool
             }
         }
 
-
         private void sQLServerToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var wizard = new FirstRunScreen();
@@ -769,7 +828,7 @@ namespace Cisco_Tool
             log.Info("Telnet.exe has been started by the user");
         }
 
-        private void taskGetWidgets(string ip, string username, string password)
+        private void getInformationForWidgetPage(string ip, string username, string password)
         {
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
 
@@ -847,6 +906,7 @@ namespace Cisco_Tool
 
         private void backgroundWorkerMakeWidget_runCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
+            var bla = (widget)e.Result;
             if (allOutputs.Count == readyPanels.Count)
             {
                 Console.WriteLine("totaal aantal widgets: " + allOutputs.Count);
@@ -882,10 +942,10 @@ namespace Cisco_Tool
         {
             widget widget = (widget)e.Argument;
             widgetResult widgetOutput = new widgetResult();
-            widgetOutput.widgetTag = widgetTag;
+            widgetOutput.widgetTag = widgetTag.ToString();
 
 
-            string output = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, widget.widgetCommand, ManualUsername.Text, ManualPassword.Text, widget.widgetUseLongProcessTime);
+            string output = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, widget.widgetCommand, ManualUsername.Text, ManualPassword.Text, widget.widgetUseLongProcessTime);
             if (output != null)
             {
                 if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
@@ -942,7 +1002,7 @@ namespace Cisco_Tool
                 outputbox.Visible = true;
                 outputbox.Text = "";
                 bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                string output = TelnetConnection.telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, usesLongProcessTime);
+                string output = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, usesLongProcessTime);
                 if (output != null)
                 {
                     if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
@@ -984,7 +1044,7 @@ namespace Cisco_Tool
                 JSON.removeWidgetFromWidgetList(Int32.Parse(targetWidget.Tag.ToString()));
                 MainTableLayoutPanel.Controls.Clear();
                 //readyPanels.Clear();
-                taskGetWidgets(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
+                getInformationForWidgetPage(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text);
                 fillTableWithWidgets();
                 log.Info("Widget is removed and the GUI is refreshed");
             }

@@ -21,8 +21,10 @@ namespace Cisco_Tool.Widgets
 
         public class widgetResult
         {
-            public int widgetTag { get; set; }
+            public string widgetTag { get; set; }
+            public string widgetCommand { get; set; }
             public string widgetOutput { get; set; }
+            public bool uselongTime { get; set; }
         }
         public class telnetDetails
         {
