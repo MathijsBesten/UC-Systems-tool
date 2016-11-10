@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.mainErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.mainMenu = new System.Windows.Forms.TabControl();
@@ -74,6 +74,11 @@
             this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RouterTab = new System.Windows.Forms.TabPage();
+            this.bigOutputPanel = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.bigOutputBoxClose = new System.Windows.Forms.PictureBox();
+            this.bigOutputBoxTitle = new System.Windows.Forms.Label();
+            this.bigOutputBox = new System.Windows.Forms.RichTextBox();
             this.mainInfoPanel = new System.Windows.Forms.Panel();
             this.routerIPText = new System.Windows.Forms.Label();
             this.routerType = new System.Windows.Forms.Label();
@@ -97,11 +102,6 @@
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.bigOutputPanel = new System.Windows.Forms.Panel();
-            this.bigOutputBox = new System.Windows.Forms.RichTextBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.bigOutputBoxTitle = new System.Windows.Forms.Label();
-            this.bigOutputBoxClose = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.mainMenu.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -111,15 +111,15 @@
             this.ManualLoginGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).BeginInit();
             this.RouterTab.SuspendLayout();
+            this.bigOutputPanel.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bigOutputBoxClose)).BeginInit();
             this.mainInfoPanel.SuspendLayout();
             this.runningConfigPanel.SuspendLayout();
             this.CMDTelnetPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.manualTelnetPicture)).BeginInit();
             this.MainContextMenuStrip.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            this.bigOutputPanel.SuspendLayout();
-            this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bigOutputBoxClose)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewImageColumn1
@@ -519,28 +519,28 @@
             this.MainDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.MainDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.MainDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle13.BackColor = System.Drawing.Color.Silver;
-            dataGridViewCellStyle13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle13.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle13.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle13.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle13.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.MainDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.Silver;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.MainDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.MainDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.MainDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.rowCheckbox,
             this.routerName,
             this.IpAddress,
             this.ID});
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle14.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle14.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle14.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle14.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle14.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.Gainsboro;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.MainDataGridView.DefaultCellStyle = dataGridViewCellStyle4;
             this.MainDataGridView.Location = new System.Drawing.Point(523, 6);
             this.MainDataGridView.Name = "MainDataGridView";
             this.MainDataGridView.RowHeadersVisible = false;
@@ -593,6 +593,58 @@
             this.RouterTab.Text = "Router connection";
             this.RouterTab.UseVisualStyleBackColor = true;
             // 
+            // bigOutputPanel
+            // 
+            this.bigOutputPanel.BackColor = System.Drawing.Color.DarkGray;
+            this.bigOutputPanel.Controls.Add(this.panel2);
+            this.bigOutputPanel.Controls.Add(this.bigOutputBox);
+            this.bigOutputPanel.Location = new System.Drawing.Point(432, 6);
+            this.bigOutputPanel.Name = "bigOutputPanel";
+            this.bigOutputPanel.Size = new System.Drawing.Size(465, 145);
+            this.bigOutputPanel.TabIndex = 8;
+            this.bigOutputPanel.Visible = false;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel2.Controls.Add(this.bigOutputBoxClose);
+            this.panel2.Controls.Add(this.bigOutputBoxTitle);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(465, 42);
+            this.panel2.TabIndex = 9;
+            // 
+            // bigOutputBoxClose
+            // 
+            this.bigOutputBoxClose.BackColor = System.Drawing.Color.White;
+            this.bigOutputBoxClose.Image = global::Cisco_Tool.Properties.Resources.menu_3;
+            this.bigOutputBoxClose.Location = new System.Drawing.Point(419, 9);
+            this.bigOutputBoxClose.Name = "bigOutputBoxClose";
+            this.bigOutputBoxClose.Size = new System.Drawing.Size(25, 25);
+            this.bigOutputBoxClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.bigOutputBoxClose.TabIndex = 12;
+            this.bigOutputBoxClose.TabStop = false;
+            this.bigOutputBoxClose.Click += new System.EventHandler(this.bigOutputBoxClose_Click);
+            // 
+            // bigOutputBoxTitle
+            // 
+            this.bigOutputBoxTitle.AutoSize = true;
+            this.bigOutputBoxTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bigOutputBoxTitle.ForeColor = System.Drawing.Color.White;
+            this.bigOutputBoxTitle.Location = new System.Drawing.Point(15, 9);
+            this.bigOutputBoxTitle.Name = "bigOutputBoxTitle";
+            this.bigOutputBoxTitle.Size = new System.Drawing.Size(131, 20);
+            this.bigOutputBoxTitle.TabIndex = 11;
+            this.bigOutputBoxTitle.Text = "Router gegevens";
+            // 
+            // bigOutputBox
+            // 
+            this.bigOutputBox.Location = new System.Drawing.Point(19, 48);
+            this.bigOutputBox.Name = "bigOutputBox";
+            this.bigOutputBox.Size = new System.Drawing.Size(425, 483);
+            this.bigOutputBox.TabIndex = 8;
+            this.bigOutputBox.Text = "";
+            // 
             // mainInfoPanel
             // 
             this.mainInfoPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -616,15 +668,15 @@
             this.routerIPText.TabIndex = 14;
             this.routerIPText.Text = "label1";
             // 
-            // routerAliasText
+            // routerType
             // 
             this.routerType.AutoSize = true;
             this.routerType.ForeColor = System.Drawing.Color.White;
             this.routerType.Location = new System.Drawing.Point(141, 85);
-            this.routerType.Name = "routerAliasText";
-            this.routerType.Size = new System.Drawing.Size(35, 13);
+            this.routerType.Name = "routerType";
+            this.routerType.Size = new System.Drawing.Size(39, 13);
             this.routerType.TabIndex = 13;
-            this.routerType.Text = "label1";
+            this.routerType.Text = "CISCO";
             // 
             // label3
             // 
@@ -637,13 +689,13 @@
             this.label3.TabIndex = 10;
             this.label3.Text = "Router gegevens";
             // 
-            // aliasLabel
+            // routerTypeLabel
             // 
             this.routerTypeLabel.AutoSize = true;
             this.routerTypeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.routerTypeLabel.ForeColor = System.Drawing.Color.White;
             this.routerTypeLabel.Location = new System.Drawing.Point(53, 83);
-            this.routerTypeLabel.Name = "aliasLabel";
+            this.routerTypeLabel.Name = "routerTypeLabel";
             this.routerTypeLabel.Size = new System.Drawing.Size(82, 15);
             this.routerTypeLabel.TabIndex = 7;
             this.routerTypeLabel.Text = "typenummer :";
@@ -820,58 +872,6 @@
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
             // 
-            // bigOutputPanel
-            // 
-            this.bigOutputPanel.BackColor = System.Drawing.Color.DarkGray;
-            this.bigOutputPanel.Controls.Add(this.panel2);
-            this.bigOutputPanel.Controls.Add(this.bigOutputBox);
-            this.bigOutputPanel.Location = new System.Drawing.Point(432, 6);
-            this.bigOutputPanel.Name = "bigOutputPanel";
-            this.bigOutputPanel.Size = new System.Drawing.Size(465, 145);
-            this.bigOutputPanel.TabIndex = 8;
-            this.bigOutputPanel.Visible = false;
-            // 
-            // bigOutputBox
-            // 
-            this.bigOutputBox.Location = new System.Drawing.Point(19, 48);
-            this.bigOutputBox.Name = "bigOutputBox";
-            this.bigOutputBox.Size = new System.Drawing.Size(425, 483);
-            this.bigOutputBox.TabIndex = 8;
-            this.bigOutputBox.Text = "";
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.panel2.Controls.Add(this.bigOutputBoxClose);
-            this.panel2.Controls.Add(this.bigOutputBoxTitle);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(465, 42);
-            this.panel2.TabIndex = 9;
-            // 
-            // bigOutputBoxTitle
-            // 
-            this.bigOutputBoxTitle.AutoSize = true;
-            this.bigOutputBoxTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bigOutputBoxTitle.ForeColor = System.Drawing.Color.White;
-            this.bigOutputBoxTitle.Location = new System.Drawing.Point(15, 9);
-            this.bigOutputBoxTitle.Name = "bigOutputBoxTitle";
-            this.bigOutputBoxTitle.Size = new System.Drawing.Size(131, 20);
-            this.bigOutputBoxTitle.TabIndex = 11;
-            this.bigOutputBoxTitle.Text = "Router gegevens";
-            // 
-            // bigOutputBoxClose
-            // 
-            this.bigOutputBoxClose.BackColor = System.Drawing.Color.White;
-            this.bigOutputBoxClose.Image = global::Cisco_Tool.Properties.Resources.menu_3;
-            this.bigOutputBoxClose.Location = new System.Drawing.Point(419, 9);
-            this.bigOutputBoxClose.Name = "bigOutputBoxClose";
-            this.bigOutputBoxClose.Size = new System.Drawing.Size(25, 25);
-            this.bigOutputBoxClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.bigOutputBoxClose.TabIndex = 12;
-            this.bigOutputBoxClose.TabStop = false;
-            this.bigOutputBoxClose.Click += new System.EventHandler(this.bigOutputBoxClose_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -902,6 +902,10 @@
             this.ManualLoginGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGridView)).EndInit();
             this.RouterTab.ResumeLayout(false);
+            this.bigOutputPanel.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bigOutputBoxClose)).EndInit();
             this.mainInfoPanel.ResumeLayout(false);
             this.mainInfoPanel.PerformLayout();
             this.runningConfigPanel.ResumeLayout(false);
@@ -912,10 +916,6 @@
             this.MainContextMenuStrip.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.bigOutputPanel.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bigOutputBoxClose)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

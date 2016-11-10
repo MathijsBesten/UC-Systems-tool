@@ -17,6 +17,7 @@ namespace Cisco_Tool.Widgets
             public bool widgetUseLongProcessTime { get; set; }
             public int widgetEnterCountBeforeString { get; set; }
             public int WidgetEnterCountInString { get; set; }
+            public string widgetOutput { get; set; }
         }
 
         public class widgetResult
