@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,7 +19,13 @@ namespace Cisco_Tool.Views
         public AboutScreen()
         {
             InitializeComponent();
+            string version = Assembly.GetExecutingAssembly()
+                                           .GetName()
+                                           .Version
+                                           .ToString();
+            versionNumber.Text = version;
             log.Info("Launched About Screen");
+            log.Info(version);
         }
 
         private void OKButton_Click(object sender, EventArgs e)

@@ -21,6 +21,7 @@ using System.Threading;
 using Cisco_Tool.Functions.Telnet;
 using static Cisco_Tool.Widgets.Classes;
 using Cisco_Tool.Widgets;
+using System.Reflection;
 
 namespace Cisco_Tool
 {
@@ -54,6 +55,11 @@ namespace Cisco_Tool
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            string version = Assembly.GetExecutingAssembly()
+                               .GetName()
+                               .Version
+                               .ToString();
+            log.Info(version);
 
             if (SQLIP == "" && SQLDatabase == "" && SQLUsername == "" && SQLPassword == "")
             {
@@ -1014,7 +1020,7 @@ namespace Cisco_Tool
 #pragma warning restore CS0219 // Variable is assigned but its value is never used
                     string ipWherePasswordIsWrong = "";
                     int indexOfCommand = 0;
-                    string localIP = "172.28.81.180"; // change to 'router' in release version
+                    string localIP = router;//= "172.28.81.180"; // change to 'router' in release version
                     if (localIP != ipWherePasswordIsWrong)
                     {
                         Console.WriteLine(localIP);
@@ -1023,7 +1029,7 @@ namespace Cisco_Tool
                         totalOutput.Add(Environment.NewLine);
                         totalOutput.Add(Environment.NewLine);
                         string output;
-                        if (command.ToLower() == "show running-config" || command.ToLower() == "write")
+                        if (command.ToLower() == "show running-config" || command.ToLower() == "show run" || command.ToLower() == "show version"|| command.ToLower() == "write" )
                         {
                             output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, true);
                         }
@@ -1149,6 +1155,16 @@ namespace Cisco_Tool
             {
                 OutputBox.Text += str;
             }
+        }
+
+        private void bugMeldenToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://gitreports.com/issue/MathijsBesten/UC-Systems-tool"); // report bug
+        }
+
+        private void logLevelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Dit komt in een latere versie van de applicatie");
         }
     }
 }

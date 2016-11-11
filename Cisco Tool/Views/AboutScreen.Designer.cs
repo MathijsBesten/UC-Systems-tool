@@ -37,6 +37,8 @@
             this.authorLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.UCSystemsLink = new System.Windows.Forms.LinkLabel();
+            this.versionNumberLabel = new System.Windows.Forms.Label();
+            this.versionNumber = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.UCLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,10 +63,10 @@
             // 
             // aboutInfo
             // 
-            this.aboutInfo.Location = new System.Drawing.Point(261, 133);
+            this.aboutInfo.Location = new System.Drawing.Point(261, 170);
             this.aboutInfo.Name = "aboutInfo";
             this.aboutInfo.ReadOnly = true;
-            this.aboutInfo.Size = new System.Drawing.Size(481, 306);
+            this.aboutInfo.Size = new System.Drawing.Size(481, 269);
             this.aboutInfo.TabIndex = 7;
             this.aboutInfo.TabStop = false;
             this.aboutInfo.Text = resources.GetString("aboutInfo.Text");
@@ -106,7 +108,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(258, 99);
+            this.label2.Location = new System.Drawing.Point(258, 100);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(83, 16);
             this.label2.TabIndex = 12;
@@ -116,7 +118,7 @@
             // 
             this.UCSystemsLink.AutoSize = true;
             this.UCSystemsLink.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UCSystemsLink.Location = new System.Drawing.Point(353, 99);
+            this.UCSystemsLink.Location = new System.Drawing.Point(353, 100);
             this.UCSystemsLink.Name = "UCSystemsLink";
             this.UCSystemsLink.Size = new System.Drawing.Size(128, 16);
             this.UCSystemsLink.TabIndex = 11;
@@ -124,12 +126,34 @@
             this.UCSystemsLink.Text = "https://ucsystems.nl/";
             this.UCSystemsLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.UCSystemsLink_LinkClicked);
             // 
+            // versionNumberLabel
+            // 
+            this.versionNumberLabel.AutoSize = true;
+            this.versionNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionNumberLabel.Location = new System.Drawing.Point(258, 135);
+            this.versionNumberLabel.Name = "versionNumberLabel";
+            this.versionNumberLabel.Size = new System.Drawing.Size(98, 16);
+            this.versionNumberLabel.TabIndex = 13;
+            this.versionNumberLabel.Text = "Versienummer:";
+            // 
+            // versionNumber
+            // 
+            this.versionNumber.AutoSize = true;
+            this.versionNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.versionNumber.Location = new System.Drawing.Point(353, 135);
+            this.versionNumber.Name = "versionNumber";
+            this.versionNumber.Size = new System.Drawing.Size(27, 16);
+            this.versionNumber.TabIndex = 14;
+            this.versionNumber.Text = "VN";
+            // 
             // AboutScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(933, 519);
+            this.Controls.Add(this.versionNumber);
+            this.Controls.Add(this.versionNumberLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.UCSystemsLink);
             this.Controls.Add(this.authorLabel);
@@ -163,5 +187,7 @@
         private System.Windows.Forms.Label authorLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel UCSystemsLink;
+        private System.Windows.Forms.Label versionNumberLabel;
+        private System.Windows.Forms.Label versionNumber;
     }
 }
