@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.summaryPanel = new System.Windows.Forms.Panel();
+            this.summaryOutputBox = new System.Windows.Forms.RichTextBox();
             this.summaryPanelTabel = new System.Windows.Forms.Label();
             this.cancelButton = new System.Windows.Forms.Button();
             this.continueButton = new System.Windows.Forms.Button();
             this.summaryTitle = new System.Windows.Forms.Label();
-            this.summaryOutputBox = new System.Windows.Forms.RichTextBox();
             this.summaryPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,6 +50,14 @@
             this.summaryPanel.Name = "summaryPanel";
             this.summaryPanel.Size = new System.Drawing.Size(525, 622);
             this.summaryPanel.TabIndex = 23;
+            // 
+            // summaryOutputBox
+            // 
+            this.summaryOutputBox.Location = new System.Drawing.Point(32, 64);
+            this.summaryOutputBox.Name = "summaryOutputBox";
+            this.summaryOutputBox.Size = new System.Drawing.Size(450, 470);
+            this.summaryOutputBox.TabIndex = 30;
+            this.summaryOutputBox.Text = "";
             // 
             // summaryPanelTabel
             // 
@@ -95,14 +103,6 @@
             this.summaryTitle.TabIndex = 24;
             this.summaryTitle.Text = "Commando uitvoeren op meerdere routers";
             // 
-            // summaryOutputBox
-            // 
-            this.summaryOutputBox.Location = new System.Drawing.Point(32, 64);
-            this.summaryOutputBox.Name = "summaryOutputBox";
-            this.summaryOutputBox.Size = new System.Drawing.Size(450, 470);
-            this.summaryOutputBox.TabIndex = 30;
-            this.summaryOutputBox.Text = "";
-            // 
             // ConfirmationScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -111,6 +111,7 @@
             this.ClientSize = new System.Drawing.Size(645, 756);
             this.Controls.Add(this.summaryTitle);
             this.Controls.Add(this.summaryPanel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "ConfirmationScreen";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "confirmationScreen";

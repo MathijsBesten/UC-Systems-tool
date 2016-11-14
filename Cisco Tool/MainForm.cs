@@ -1041,7 +1041,7 @@ namespace Cisco_Tool
                         var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
                         if (splittedOutput.Count() == 2) // sometimes the network function will retrun a few characters and will not be split
                         {
-                            if (splittedOutput[1] == "")
+                            if (splittedOutput[1] == "") // if there is no more characters after "password"
                             {
                                 if (selectedIPAddresses.Count < 3)
                                 {
@@ -1138,13 +1138,13 @@ namespace Cisco_Tool
                     break;
                 }
                 // uncommand the following code to get output box in logfile
-                //log.Info("Output box");
-                //log.Info("----------");
-                //foreach (string line in OutputBox.Lines)
-                //{
-                //    log.Info(line);
-                //}
-                //log.Info("----------");
+                log.Debug("Output box");
+                log.Debug("----------");
+                foreach (string line in OutputBox.Lines)
+                {
+                    log.Debug(line);
+                }
+                log.Debug("----------");
             }
             e.Result = totalOutput;
         }
@@ -1164,7 +1164,9 @@ namespace Cisco_Tool
 
         private void logLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Dit komt in een latere versie van de applicatie");
+            var logchangerDialog = new Views.ChangeLogLevelScreen();
+            logchangerDialog.Location = new Point (this.DesktopLocation.X + 105, this.DesktopLocation.Y + 60); 
+            DialogResult bla = logchangerDialog.ShowDialog();
         }
     }
 }
