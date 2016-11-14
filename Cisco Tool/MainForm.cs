@@ -59,7 +59,7 @@ namespace Cisco_Tool
                                .GetName()
                                .Version
                                .ToString();
-            log.Info(version);
+            log.Info("Current version: " + version);
 
             if (SQLIP == "" && SQLDatabase == "" && SQLUsername == "" && SQLPassword == "")
             {
@@ -1008,143 +1008,50 @@ namespace Cisco_Tool
             //start function
             foreach (var command in commands)
             {
-                int passwordFailedThreeTimes = 0;
-                string stringIfPasswordIsWrong = "Password: "; // this will be always the last part of response if the username/password is wrong
                 string username = Username.Text;
                 string password = Password.Text;
+                int indexOfCommand = 0;
+                string localIP = router;//= "172.28.81.180"; // change to 'router' in release version
 
-                if (passwordFailedThreeTimes < 3) // to prevent more runs when username or password is wrong
+
+                // start of telnet function
+                Console.WriteLine(localIP);
+                totalOutput.Add(Environment.NewLine);
+                totalOutput.Add(localIP);
+                totalOutput.Add(Environment.NewLine);
+                totalOutput.Add(Environment.NewLine);
+                string output;
+                if (command.ToLower() == "show running-config" || command.ToLower() == "show run" || command.ToLower() == "show version"|| command.ToLower() == "write" || indexOfCommand == 0)
                 {
-#pragma warning disable CS0219 // Variable is assigned but its value is never used
-                    bool passwordIsStillWrong = false;
-#pragma warning restore CS0219 // Variable is assigned but its value is never used
-                    string ipWherePasswordIsWrong = "";
-                    int indexOfCommand = 0;
-                    string localIP = router;//= "172.28.81.180"; // change to 'router' in release version
-                    if (localIP != ipWherePasswordIsWrong)
-                    {
-                        Console.WriteLine(localIP);
-                        totalOutput.Add(Environment.NewLine);
-                        totalOutput.Add(localIP);
-                        totalOutput.Add(Environment.NewLine);
-                        totalOutput.Add(Environment.NewLine);
-                        string output;
-                        if (command.ToLower() == "show running-config" || command.ToLower() == "show run" || command.ToLower() == "show version"|| command.ToLower() == "write" )
-                        {
-                            output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, true);
-                        }
-                        else
-                        {
-                            output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, false);
-                        }
-                        indexOfCommand++;
-                        var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
-                        if (splittedOutput.Count() == 2) // sometimes the network function will retrun a few characters and will not be split
-                        {
-                            if (splittedOutput[1] == "") // if there is no more characters after "password"
-                            {
-                                if (selectedIPAddresses.Count < 3)
-                                {
-                                    ipWherePasswordIsWrong = localIP;
-                                    passwordFailedThreeTimes = 3;
-                                    totalOutput.Add(Environment.NewLine);
-                                    totalOutput.Add("Gebruikersnaam en/of wachtwoord is waarschijnlijk fout");
-                                    totalOutput.Add(Environment.NewLine);
-                                    totalOutput.Add("Username and or password is wrong");
-                                }
-                                else
-                                {
-                                    passwordFailedThreeTimes++;
-                                }
-                            }
-                            else
-                            {
-                                if (output.Contains(@"% Invalid input detected at '^' marker."))
-                                {
-                                    totalOutput.Add(@"'" + command + @"'" + " -  GEEN GELDIG COMMANDO");
-                                    totalOutput.Add(Environment.NewLine);
-                                    totalOutput.Add("--------------");
-                                    totalOutput.Add(Environment.NewLine);
-                                    log.Info("command is not valid - command: " + command);
-                                }
-                                else
-                                {
-                                    totalOutput.Add(output);
-                                    totalOutput.Add(Environment.NewLine);
-                                    totalOutput.Add("--------------");
-                                    totalOutput.Add(Environment.NewLine);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (selectedIPAddresses.Count < 3)
-                            {
-                                ipWherePasswordIsWrong = localIP;
-                                passwordFailedThreeTimes = 3;
-                                OutputBox.Text += Environment.NewLine;
-                                OutputBox.Text += "Problemen met het ophalen van router output";
-                                OutputBox.Text += Environment.NewLine;
-                                log.Info("response from router was too little");
-                                log.Info("response from router: " + splittedOutput[0]);
-                            }
-                            else
-                            {
-                                passwordFailedThreeTimes++;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // continues to fail
-                        string output;
-                        if (commands[indexOfCommand].ToLower() == "show running-config" || commands[indexOfCommand].ToLower() == "write")
-                        {
-                            output = new TelnetConnection().telnetClientTCP(localIP, commands[indexOfCommand], username, password, true);
-                        }
-                        else
-                        {
-                            output = new TelnetConnection().telnetClientTCP(localIP, commands[indexOfCommand], username, password, false);
-                        }
-                        var splittedOutput = Regex.Split(output, stringIfPasswordIsWrong);
-                        if (splittedOutput[1] == "")
-                        {
-                            passwordIsStillWrong = true;
-                            OutputBox.Text += Environment.NewLine;
-                            OutputBox.Text += "Gebruikersnaam en/of wachtwoord is waarschijnlijk fout";
-                            OutputBox.Text += Environment.NewLine;
-                            log.Info("Username and or password is wrong");
-                            break;
-                        }
-                    }
+                    output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, true);
                 }
                 else
                 {
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add("Om meer problemen te voorkomen, is het uitvoeren van commando's gestopt");
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add("De logingegevens zijn niet correct bevonden op één of meerdere geselecteerde routers");
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add("Controleer de gebruikersnaam en wachtwoord en voer de commando's opnieuw uit");
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                    totalOutput.Add(Environment.NewLine);
-                    break;
+                    output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, false);
                 }
+                indexOfCommand++;
+                if (output.Contains(@"% Invalid input detected at '^' marker."))
+                {
+                    totalOutput.Add(@"'" + command + @"'" + " -  GEEN GELDIG COMMANDO");
+                    totalOutput.Add(Environment.NewLine);
+                    totalOutput.Add("--------------");
+                    totalOutput.Add(Environment.NewLine);
+                    log.Info("command is not valid - command: " + command + "command was run on " + localIP);
+                }
+                else
+                {
+                    totalOutput.Add(output); // add output to totalOutput
+                    totalOutput.Add(Environment.NewLine);
+                    totalOutput.Add("--------------");
+                    totalOutput.Add(Environment.NewLine);
+                }                       
+                
                 // uncommand the following code to get output box in logfile
-                log.Debug("Output box");
-                log.Debug("----------");
-                foreach (string line in OutputBox.Lines)
+                log.Debug("Output...");
+                foreach (string line in totalOutput)
                 {
                     log.Debug(line);
                 }
-                log.Debug("----------");
             }
             e.Result = totalOutput;
         }
@@ -1166,7 +1073,7 @@ namespace Cisco_Tool
         {
             var logchangerDialog = new Views.ChangeLogLevelScreen();
             logchangerDialog.Location = new Point (this.DesktopLocation.X + 105, this.DesktopLocation.Y + 60); 
-            DialogResult bla = logchangerDialog.ShowDialog();
+            DialogResult result = logchangerDialog.ShowDialog();
         }
     }
 }
