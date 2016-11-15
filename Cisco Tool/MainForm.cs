@@ -168,7 +168,8 @@ namespace Cisco_Tool
             List<widgetResult> listToRun = (List<widgetResult>)e.Argument;
             for (int i = 0; i < listToRun.Count; i++)
             {
-                listToRun[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, listToRun[i].widgetCommand, ManualUsername.Text, ManualPassword.Text, listToRun[i].uselongTime); // find output
+                List<string> command = new List<string>() { listToRun[i].widgetCommand };
+                listToRun[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, listToRun[i].uselongTime); // find output
             }
             listOfWidgetItems = listToRun;
             log.Info("all items from the widget page has been loaded");
@@ -788,7 +789,8 @@ namespace Cisco_Tool
                 outputbox.Visible = true;
                 outputbox.Text = "";
                 bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                string output = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, usesLongProcessTime);
+                List<string> commands = new List<string>() { command };
+                string output = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, usesLongProcessTime);
                 if (output != null)
                 {
                     if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
@@ -884,7 +886,8 @@ namespace Cisco_Tool
             List<widget> widgets = JSON.readJSON(); 
             for (int i = 0; i < widgets.Count; i++)
             {
-                widgets[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, widgets[i].widgetCommand, ManualUsername.Text, ManualPassword.Text, widgets[i].widgetUseLongProcessTime); // find output
+                List<string> command = new List<string>() { widgets[i].widgetCommand };
+                widgets[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, widgets[i].widgetUseLongProcessTime); // find output
             }
             readyWidgets = widgets;
             log.Info("all items from the widget page has been loaded");
@@ -1006,52 +1009,31 @@ namespace Cisco_Tool
             List<string> totalOutput = new List<string>();
 
             //start function
-            foreach (var command in commands)
+            string username = Username.Text;
+            string password = Password.Text;
+            int indexOfCommand = 0;
+            string localIP = router;//= "172.28.81.180"; // change to 'router' in release version
+
+
+            // start of telnet function
+            Console.WriteLine(localIP);
+            totalOutput.Add(Environment.NewLine);
+            totalOutput.Add(localIP);
+            totalOutput.Add(Environment.NewLine);
+            totalOutput.Add(Environment.NewLine);
+            string output;
+            output = new TelnetConnection().telnetClientTCP(localIP, commands, username, password, true);
+            indexOfCommand++;
+            totalOutput.Add(output); // add output to totalOutput
+            totalOutput.Add(Environment.NewLine);
+            totalOutput.Add("--------------");
+            totalOutput.Add(Environment.NewLine);                                
+                        
+            // uncommand the following code to get output box in logfile
+            log.Debug("Output...");
+            foreach (string line in totalOutput)
             {
-                string username = Username.Text;
-                string password = Password.Text;
-                int indexOfCommand = 0;
-                string localIP = router;//= "172.28.81.180"; // change to 'router' in release version
-
-
-                // start of telnet function
-                Console.WriteLine(localIP);
-                totalOutput.Add(Environment.NewLine);
-                totalOutput.Add(localIP);
-                totalOutput.Add(Environment.NewLine);
-                totalOutput.Add(Environment.NewLine);
-                string output;
-                if (command.ToLower() == "show running-config" || command.ToLower() == "show run" || command.ToLower() == "show version"|| command.ToLower() == "write" || indexOfCommand == 0)
-                {
-                    output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, true);
-                }
-                else
-                {
-                    output = new TelnetConnection().telnetClientTCP(localIP, command, username, password, false);
-                }
-                indexOfCommand++;
-                if (output.Contains(@"% Invalid input detected at '^' marker."))
-                {
-                    totalOutput.Add(@"'" + command + @"'" + " -  GEEN GELDIG COMMANDO");
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add("--------------");
-                    totalOutput.Add(Environment.NewLine);
-                    log.Info("command is not valid - command: " + command + "command was run on " + localIP);
-                }
-                else
-                {
-                    totalOutput.Add(output); // add output to totalOutput
-                    totalOutput.Add(Environment.NewLine);
-                    totalOutput.Add("--------------");
-                    totalOutput.Add(Environment.NewLine);
-                }                       
-                
-                // uncommand the following code to get output box in logfile
-                log.Debug("Output...");
-                foreach (string line in totalOutput)
-                {
-                    log.Debug(line);
-                }
+                log.Debug(line);
             }
             e.Result = totalOutput;
         }

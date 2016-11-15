@@ -120,7 +120,8 @@ namespace Cisco_Tool.Widgets.Views
             var result = wizardScreen.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string completeResponse = new TelnetConnection().telnetClientTCP(wizardScreen.ipadres, this.NewWidgetCommand.Text, wizardScreen.username, wizardScreen.password,NewWidgetUsesLongProcessTime.Checked);
+                List<string> command = new List<string>() { this.NewWidgetCommand.Text };
+                string completeResponse = new TelnetConnection().telnetClientTCP(wizardScreen.ipadres, command, wizardScreen.username, wizardScreen.password,NewWidgetUsesLongProcessTime.Checked);
                 outputBox.Text = completeResponse;
             }
             else
