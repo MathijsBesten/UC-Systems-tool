@@ -45,7 +45,7 @@
             this.titleLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(143, 56);
+            this.titleLabel.Size = new System.Drawing.Size(145, 56);
             this.titleLabel.TabIndex = 5;
             this.titleLabel.Text = "Log level";
             this.titleLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titleLabel_MouseDown);
@@ -98,7 +98,7 @@
             this.OkPanel.Controls.Add(this.pictureBox1);
             this.OkPanel.Location = new System.Drawing.Point(12, 182);
             this.OkPanel.Name = "OkPanel";
-            this.OkPanel.Size = new System.Drawing.Size(119, 50);
+            this.OkPanel.Size = new System.Drawing.Size(120, 50);
             this.OkPanel.TabIndex = 8;
             this.OkPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OkPanel_MouseClick);
             // 
@@ -117,9 +117,9 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::Cisco_Tool.Properties.Resources.checked_1;
-            this.pictureBox1.Location = new System.Drawing.Point(76, 5);
+            this.pictureBox1.Location = new System.Drawing.Point(81, 7);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(40, 40);
+            this.pictureBox1.Size = new System.Drawing.Size(35, 35);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
