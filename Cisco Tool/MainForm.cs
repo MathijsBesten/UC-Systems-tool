@@ -100,6 +100,7 @@ namespace Cisco_Tool
                 List<widget> widgets = JSON.readJSON(); 
                 if (loginDetailsChanged == true)
                 {
+                    MainTableLayoutPanel.Controls.Clear();
                     log.Info("Loading all router information...");
                     routerIPText.Text = ManualIPAddress.Text;
 
@@ -203,19 +204,6 @@ namespace Cisco_Tool
                         newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
                         newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
 
-                        if (indexWidget % 2 == 0 || indexWidget == 0)
-                        {
-                            newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                            newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-
-                        }
-                        else
-                        {
-                            newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
-                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                            newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                        }
                         if (widgets[indexWidget].widgetUseSelection == true)
                         {
                             string finalString = Responses.getStringFromResponse(item.widgetOutput, widgets[indexWidget].widgetEnterCountBeforeString, widgets[indexWidget].WidgetEnterCountInString);
@@ -239,22 +227,7 @@ namespace Cisco_Tool
                         newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
                         newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
                         newPanel.runButton.Click += new EventHandler(runCommand);
-                        newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-
-                        if (indexWidget % 2 == 0 || indexWidget == 0)
-                        {
-                            newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                            newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-
-                        }
-                        else
-                        {
-                            newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
-                            newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                            newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                        }
+                        //newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
                         newPanel.runButton.Text = "Uitvoeren";
                         MainTableLayoutPanel.Controls.Add(newPanel);
                     }
@@ -632,7 +605,7 @@ namespace Cisco_Tool
 
         private void maxOutputWindow_Click(object sender, EventArgs e)
         {
-            if (OutputBox.Width == 174) // make bigger
+            if (OutputBox.Width == 171) // make bigger
             {
                 if (OutputBox.Text.Length >= 10)
                 {
@@ -652,7 +625,7 @@ namespace Cisco_Tool
             }
             else // make smaller
             {
-                while (OutputBox.Width != 174)
+                while (OutputBox.Width != 171)
                 {
                     OutputBox.Width--;
                 }
@@ -702,20 +675,6 @@ namespace Cisco_Tool
                     newPanel.commandName.Text = widget.widgetCommand;
                     newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
                     newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-                    if (count % 2 == 0 || count == 0)
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-
-                    }
-                    else
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                    }
                     readyPanels.Add(newPanel);
                 }
 
@@ -730,20 +689,6 @@ namespace Cisco_Tool
                     newPanel.runButton.Click += new EventHandler(runCommand);
                     newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
 
-
-                    if (count % 2 == 0 || count == 0)
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-
-                    }
-                    else
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                    }
                     newPanel.runButton.Text = "Uitvoeren";
                     readyPanels.Add(newPanel);
                 }
@@ -920,20 +865,6 @@ namespace Cisco_Tool
 
 
 
-                    if (indexWidget % 2 == 0 || indexWidget == 0)
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                    }
-                    else
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                    }
-
-
                     MainTableLayoutPanel.Controls.Add(newPanel);
                 }
 
@@ -947,21 +878,6 @@ namespace Cisco_Tool
                     newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
                     newPanel.runButton.Click += new EventHandler(runCommand);
                     newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-
-                    if (indexWidget % 2 == 0 || indexWidget == 0)
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 64, 14, 14);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-                        newPanel.BackColor = Color.FromArgb(255, 76, 17, 17);
-
-                    }
-                    else
-                    {
-                        newPanel.topBar.BackColor = Color.FromArgb(255, 140, 32, 32);
-                        newPanel.informationPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                        newPanel.BackColor = Color.FromArgb(255, 153, 35, 35);
-                    }
                     newPanel.runButton.Text = "Uitvoeren";
                     MainTableLayoutPanel.Controls.Add(newPanel);
                 }

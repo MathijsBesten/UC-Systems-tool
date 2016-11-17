@@ -150,7 +150,7 @@
             // 
             // MainMenuTab
             // 
-            this.MainMenuTab.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
+            this.MainMenuTab.BackColor = System.Drawing.Color.White;
             this.MainMenuTab.Controls.Add(this.maxOutputWindow);
             this.MainMenuTab.Controls.Add(this.ClearOutputFieldButton);
             this.MainMenuTab.Controls.Add(this.outputLabel);
@@ -197,9 +197,9 @@
             // outputLabel
             // 
             this.outputLabel.BackColor = System.Drawing.Color.Transparent;
-            this.outputLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.outputLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.outputLabel.ForeColor = System.Drawing.Color.Black;
-            this.outputLabel.Location = new System.Drawing.Point(346, 241);
+            this.outputLabel.Location = new System.Drawing.Point(346, 222);
             this.outputLabel.Name = "outputLabel";
             this.outputLabel.Size = new System.Drawing.Size(171, 24);
             this.outputLabel.TabIndex = 23;
@@ -208,18 +208,19 @@
             // 
             // OutputBox
             // 
+            this.OutputBox.BackColor = System.Drawing.SystemColors.Control;
             this.OutputBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.OutputBox.Location = new System.Drawing.Point(343, 268);
+            this.OutputBox.Location = new System.Drawing.Point(346, 249);
             this.OutputBox.Multiline = true;
             this.OutputBox.Name = "OutputBox";
             this.OutputBox.ReadOnly = true;
             this.OutputBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.OutputBox.Size = new System.Drawing.Size(174, 287);
+            this.OutputBox.Size = new System.Drawing.Size(171, 298);
             this.OutputBox.TabIndex = 22;
             // 
             // allSelectedRouters
             // 
-            this.allSelectedRouters.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(249)))), ((int)(((byte)(249)))));
+            this.allSelectedRouters.BackColor = System.Drawing.Color.White;
             this.allSelectedRouters.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.allSelectedRouters.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.allSelectedRouters.ForeColor = System.Drawing.Color.Black;
@@ -227,7 +228,7 @@
             this.allSelectedRouters.ItemHeight = 16;
             this.allSelectedRouters.Location = new System.Drawing.Point(346, 46);
             this.allSelectedRouters.Name = "allSelectedRouters";
-            this.allSelectedRouters.Size = new System.Drawing.Size(171, 192);
+            this.allSelectedRouters.Size = new System.Drawing.Size(171, 160);
             this.allSelectedRouters.TabIndex = 20;
             this.allSelectedRouters.MouseDown += new System.Windows.Forms.MouseEventHandler(this.allSelectedRouters_MouseDown);
             this.allSelectedRouters.MouseLeave += new System.EventHandler(this.allSelectedRouters_MouseLeave);
@@ -236,11 +237,11 @@
             // allSelectedRoutersLabel
             // 
             this.allSelectedRoutersLabel.BackColor = System.Drawing.Color.Transparent;
-            this.allSelectedRoutersLabel.Font = new System.Drawing.Font("Arial Rounded MT Bold", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.allSelectedRoutersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.allSelectedRoutersLabel.ForeColor = System.Drawing.Color.Black;
-            this.allSelectedRoutersLabel.Location = new System.Drawing.Point(343, 6);
+            this.allSelectedRoutersLabel.Location = new System.Drawing.Point(346, 6);
             this.allSelectedRoutersLabel.Name = "allSelectedRoutersLabel";
-            this.allSelectedRoutersLabel.Size = new System.Drawing.Size(171, 37);
+            this.allSelectedRoutersLabel.Size = new System.Drawing.Size(168, 37);
             this.allSelectedRoutersLabel.TabIndex = 21;
             this.allSelectedRoutersLabel.Text = "Geselecteerde routers";
             this.allSelectedRoutersLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -370,18 +371,18 @@
             this.PasswordLabel.AutoSize = true;
             this.PasswordLabel.Location = new System.Drawing.Point(21, 100);
             this.PasswordLabel.Name = "PasswordLabel";
-            this.PasswordLabel.Size = new System.Drawing.Size(53, 13);
+            this.PasswordLabel.Size = new System.Drawing.Size(68, 13);
             this.PasswordLabel.TabIndex = 69;
-            this.PasswordLabel.Text = "Password";
+            this.PasswordLabel.Text = "Wachtwoord";
             // 
             // UsernameLabel
             // 
             this.UsernameLabel.AutoSize = true;
             this.UsernameLabel.Location = new System.Drawing.Point(21, 74);
             this.UsernameLabel.Name = "UsernameLabel";
-            this.UsernameLabel.Size = new System.Drawing.Size(55, 13);
+            this.UsernameLabel.Size = new System.Drawing.Size(84, 13);
             this.UsernameLabel.TabIndex = 68;
-            this.UsernameLabel.Text = "Username";
+            this.UsernameLabel.Text = "Gebruikersnaam";
             // 
             // SearchGroupBox
             // 
@@ -428,7 +429,6 @@
             // ManualLoginGroupBox
             // 
             this.ManualLoginGroupBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.ManualLoginGroupBox.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ManualLoginGroupBox.Controls.Add(this.ManualLoginTitle);
             this.ManualLoginGroupBox.Controls.Add(this.ManualConnect);
             this.ManualLoginGroupBox.Controls.Add(this.ManualPasswordLabel);
@@ -437,9 +437,9 @@
             this.ManualLoginGroupBox.Controls.Add(this.ManualIPAddress);
             this.ManualLoginGroupBox.Controls.Add(this.ManualUsernameLabel);
             this.ManualLoginGroupBox.Controls.Add(this.ManualUsername);
-            this.ManualLoginGroupBox.Location = new System.Drawing.Point(6, 6);
+            this.ManualLoginGroupBox.Location = new System.Drawing.Point(10, 6);
             this.ManualLoginGroupBox.Name = "ManualLoginGroupBox";
-            this.ManualLoginGroupBox.Size = new System.Drawing.Size(334, 200);
+            this.ManualLoginGroupBox.Size = new System.Drawing.Size(330, 200);
             this.ManualLoginGroupBox.TabIndex = 13;
             // 
             // ManualLoginTitle
@@ -519,7 +519,7 @@
             this.MainDataGridView.AllowUserToDeleteRows = false;
             this.MainDataGridView.AllowUserToOrderColumns = true;
             this.MainDataGridView.AllowUserToResizeRows = false;
-            this.MainDataGridView.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.MainDataGridView.BackgroundColor = System.Drawing.Color.DarkGray;
             this.MainDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.MainDataGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.Raised;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -582,6 +582,7 @@
             // 
             // RouterTab
             // 
+            this.RouterTab.BackColor = System.Drawing.Color.White;
             this.RouterTab.Controls.Add(this.bigOutputPanel);
             this.RouterTab.Controls.Add(this.mainInfoPanel);
             this.RouterTab.Controls.Add(this.runningConfigPanel);
@@ -594,7 +595,6 @@
             this.RouterTab.Size = new System.Drawing.Size(1233, 617);
             this.RouterTab.TabIndex = 1;
             this.RouterTab.Text = "Router connection";
-            this.RouterTab.UseVisualStyleBackColor = true;
             // 
             // bigOutputPanel
             // 
@@ -603,7 +603,7 @@
             this.bigOutputPanel.Controls.Add(this.bigOutputBox);
             this.bigOutputPanel.Location = new System.Drawing.Point(432, 6);
             this.bigOutputPanel.Name = "bigOutputPanel";
-            this.bigOutputPanel.Size = new System.Drawing.Size(465, 145);
+            this.bigOutputPanel.Size = new System.Drawing.Size(465, 133);
             this.bigOutputPanel.TabIndex = 8;
             this.bigOutputPanel.Visible = false;
             // 
@@ -636,9 +636,9 @@
             this.bigOutputBoxTitle.ForeColor = System.Drawing.Color.White;
             this.bigOutputBoxTitle.Location = new System.Drawing.Point(15, 9);
             this.bigOutputBoxTitle.Name = "bigOutputBoxTitle";
-            this.bigOutputBoxTitle.Size = new System.Drawing.Size(131, 20);
+            this.bigOutputBoxTitle.Size = new System.Drawing.Size(109, 20);
             this.bigOutputBoxTitle.TabIndex = 11;
-            this.bigOutputBoxTitle.Text = "Router gegevens";
+            this.bigOutputBoxTitle.Text = "Widget output";
             // 
             // bigOutputBox
             // 
@@ -658,7 +658,7 @@
             this.mainInfoPanel.Controls.Add(this.IPLabel);
             this.mainInfoPanel.Location = new System.Drawing.Point(3, 6);
             this.mainInfoPanel.Name = "mainInfoPanel";
-            this.mainInfoPanel.Size = new System.Drawing.Size(336, 142);
+            this.mainInfoPanel.Size = new System.Drawing.Size(336, 133);
             this.mainInfoPanel.TabIndex = 6;
             // 
             // routerIPText
@@ -720,9 +720,9 @@
             this.runningConfigPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.runningConfigPanel.Controls.Add(this.runningConfigOutputField);
             this.runningConfigPanel.Controls.Add(this.runningConfigLabel);
-            this.runningConfigPanel.Location = new System.Drawing.Point(6, 154);
+            this.runningConfigPanel.Location = new System.Drawing.Point(3, 154);
             this.runningConfigPanel.Name = "runningConfigPanel";
-            this.runningConfigPanel.Size = new System.Drawing.Size(224, 463);
+            this.runningConfigPanel.Size = new System.Drawing.Size(182, 463);
             this.runningConfigPanel.TabIndex = 3;
             // 
             // runningConfigOutputField
@@ -731,7 +731,7 @@
             this.runningConfigOutputField.Multiline = true;
             this.runningConfigOutputField.Name = "runningConfigOutputField";
             this.runningConfigOutputField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.runningConfigOutputField.Size = new System.Drawing.Size(214, 399);
+            this.runningConfigOutputField.Size = new System.Drawing.Size(171, 399);
             this.runningConfigOutputField.TabIndex = 7;
             // 
             // runningConfigLabel
@@ -739,7 +739,7 @@
             this.runningConfigLabel.AutoSize = true;
             this.runningConfigLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runningConfigLabel.ForeColor = System.Drawing.Color.White;
-            this.runningConfigLabel.Location = new System.Drawing.Point(52, 13);
+            this.runningConfigLabel.Location = new System.Drawing.Point(35, 13);
             this.runningConfigLabel.Name = "runningConfigLabel";
             this.runningConfigLabel.Size = new System.Drawing.Size(116, 20);
             this.runningConfigLabel.TabIndex = 6;
@@ -787,14 +787,13 @@
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.MainTableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.MainTableLayoutPanel.Location = new System.Drawing.Point(230, 154);
-            this.MainTableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.MainTableLayoutPanel.Location = new System.Drawing.Point(193, 147);
+            this.MainTableLayoutPanel.Margin = new System.Windows.Forms.Padding(5);
             this.MainTableLayoutPanel.Name = "MainTableLayoutPanel";
             this.MainTableLayoutPanel.RowCount = 2;
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 230F));
-            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.MainTableLayoutPanel.Size = new System.Drawing.Size(1000, 460);
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 240F));
+            this.MainTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 240F));
+            this.MainTableLayoutPanel.Size = new System.Drawing.Size(1040, 470);
             this.MainTableLayoutPanel.TabIndex = 1;
             // 
             // MainContextMenuStrip
@@ -904,7 +903,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkGray;
+            this.BackColor = System.Drawing.SystemColors.InactiveBorder;
             this.ClientSize = new System.Drawing.Size(1283, 696);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.mainMenu);

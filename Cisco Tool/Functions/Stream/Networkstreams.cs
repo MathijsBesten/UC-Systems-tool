@@ -22,7 +22,6 @@ namespace Cisco_Tool.Functions.Stream
             {
                 sleepMSAfterSend = 1000;
             }
-
             string response = "";
             byte[] lastBytesArray = new byte[(commands.Count * 4096)]; // buffer size increases 
             byte[] responseInBytes = new byte[(commands.Count * 4096)];

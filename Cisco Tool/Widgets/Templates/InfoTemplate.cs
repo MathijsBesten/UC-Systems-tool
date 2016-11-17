@@ -27,30 +27,28 @@ namespace Cisco_Tool.Widgets.Templates
         {
             topBar.Height = 32;
             topBar.Width = 250;
-            topBar.BackColor = Color.Gray;
+            topBar.BackColor = Color.FromArgb(255, 72, 201, 176);
             topBar.Location = new Point(0, 0);
 
             titleWidgetLabel.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Italic);
             titleWidgetLabel.Location = new Point(3, 8);
-            titleWidgetLabel.Size = new Size(181, 25);
+            titleWidgetLabel.Size = new Size(180, 25);
 
-            informationPanel.Size = new Size(244, 193);
-            informationPanel.BackColor = Color.Gray;
-            informationPanel.BorderStyle = BorderStyle.Fixed3D;
-            informationPanel.Location = new Point(3, 33);
+            informationPanel.Size = new Size(250, 208);
+            informationPanel.BackColor = Color.FromArgb(255, 118, 215, 196);
+            informationPanel.BorderStyle = BorderStyle.None;
+            informationPanel.Location = new Point(0, 32);
 
 
             maxWidgetPicturebox.Image = Properties.Resources.windows;
-            maxWidgetPicturebox.BackColor = Color.Green;
-            maxWidgetPicturebox.BorderStyle = BorderStyle.FixedSingle;
+            maxWidgetPicturebox.BorderStyle = BorderStyle.None;
             maxWidgetPicturebox.Height = 20;
             maxWidgetPicturebox.Width = 20;
             maxWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
             maxWidgetPicturebox.Location = new Point(197, 6);
 
             closeWidgetPicturebox.Image = Properties.Resources.multiply_1;
-            closeWidgetPicturebox.BackColor = Color.Red;
-            closeWidgetPicturebox.BorderStyle = BorderStyle.FixedSingle;
+            closeWidgetPicturebox.BorderStyle = BorderStyle.None;
             closeWidgetPicturebox.Height = 20;
             closeWidgetPicturebox.Width = 20;
             closeWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -68,6 +66,7 @@ namespace Cisco_Tool.Widgets.Templates
             outputbox.Size = new Size(200, 150);
             outputbox.Location = new Point(20, 35);
             outputbox.Multiline = true;
+            outputbox.BorderStyle = BorderStyle.None;
             outputbox.ScrollBars = RichTextBoxScrollBars.Both;
             outputbox.ReadOnly = true;
             outputbox.Cursor = Cursors.Arrow;

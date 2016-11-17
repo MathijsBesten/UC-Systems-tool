@@ -22,6 +22,8 @@ namespace Cisco_Tool.Views
         {
             log.Info("Launched confirm screen");
             InitializeComponent();
+            
+
             totalCommandsToRun = IPAddressList.Count* commandList.Count;
             totalRunTime = totalCommandsToRun * 0.7;
 
@@ -67,17 +69,45 @@ namespace Cisco_Tool.Views
             }
             log.Info("----------");
         }
-
-        private void continueButton_Click(object sender, EventArgs e)
+        public void confirm()
         {
             this.DialogResult = DialogResult.OK;
             log.Info("User confirmed to run commands");
         }
-
-        private void cancelButton_Click(object sender, EventArgs e)
+        public void cancel()
         {
             this.DialogResult = DialogResult.Cancel;
             log.Info("User closed the confirm window - commands wil not run");
+        }
+
+        private void continuePanel_Click(object sender, EventArgs e)
+        {
+            confirm();
+        }
+
+        private void cancelPanel_Click(object sender, EventArgs e)
+        {
+            cancel();
+        }
+
+        private void confirmLabel_Click(object sender, EventArgs e)
+        {
+            confirm();
+        }
+
+        private void confirmPicturebox_Click(object sender, EventArgs e)
+        {
+            confirm();
+        }
+
+        private void cancelLabel_Click(object sender, EventArgs e)
+        {
+            cancel();
+        }
+
+        private void cancelPicturebox_Click(object sender, EventArgs e)
+        {
+            cancel();
         }
     }
 }

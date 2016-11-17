@@ -108,18 +108,25 @@ namespace Cisco_Tool.Functions.Telnet
         public static string findPID(string originalstring)
         {
             string searchPattern = "PID: "; // this string is infront of the CHASSIS serial number
-            if (originalstring.Contains(searchPattern))
+            if (originalstring != null)
             {
-                int indexPattern = originalstring.IndexOf(searchPattern);
-                int startIndex = indexPattern + searchPattern.Length;
-                int indexOfNextComma = (originalstring.IndexOf(@",",startIndex)) - startIndex;
-                string PID = originalstring.Substring(startIndex, indexOfNextComma);
-                return PID;
+                if (originalstring.Contains(searchPattern))
+                {
+                    int indexPattern = originalstring.IndexOf(searchPattern);
+                    int startIndex = indexPattern + searchPattern.Length;
+                    int indexOfNextComma = (originalstring.IndexOf(@",", startIndex)) - startIndex;
+                    string PID = originalstring.Substring(startIndex, indexOfNextComma);
+                    return PID;
+                }
+                else
+                {
+                    log.Error("could not find Device type using substring method");
+                    return null;
+                }
             }
             else
             {
-                Console.WriteLine("apparaat type kon niet worden achterhaalt");
-                log.Error("could not find Device type using substring method");
+                log.Error("could not find Device type using substring method - original response was empty");
                 return null;
             }
         }
