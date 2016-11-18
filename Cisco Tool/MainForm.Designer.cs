@@ -834,7 +834,7 @@
             // bugMeldenToolStripMenuItem1
             // 
             this.bugMeldenToolStripMenuItem1.Name = "bugMeldenToolStripMenuItem1";
-            this.bugMeldenToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
+            this.bugMeldenToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.bugMeldenToolStripMenuItem1.Text = "bug melden";
             this.bugMeldenToolStripMenuItem1.Click += new System.EventHandler(this.bugMeldenToolStripMenuItem1_Click);
             // 
@@ -903,7 +903,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.InactiveBorder;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1283, 696);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.mainMenu);

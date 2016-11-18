@@ -32,13 +32,13 @@
             this.applicationName = new System.Windows.Forms.Label();
             this.UCLogo = new System.Windows.Forms.PictureBox();
             this.aboutInfo = new System.Windows.Forms.RichTextBox();
-            this.OKButton = new System.Windows.Forms.Button();
             this.linkLabelAuthor = new System.Windows.Forms.LinkLabel();
             this.authorLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.UCSystemsLink = new System.Windows.Forms.LinkLabel();
             this.versionNumberLabel = new System.Windows.Forms.Label();
             this.versionNumber = new System.Windows.Forms.Label();
+            this.OKButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.UCLogo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,16 +71,6 @@
             this.aboutInfo.TabStop = false;
             this.aboutInfo.Text = resources.GetString("aboutInfo.Text");
             this.aboutInfo.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.aboutInfo_LinkClicked);
-            // 
-            // OKButton
-            // 
-            this.OKButton.Location = new System.Drawing.Point(426, 467);
-            this.OKButton.Name = "OKButton";
-            this.OKButton.Size = new System.Drawing.Size(122, 38);
-            this.OKButton.TabIndex = 8;
-            this.OKButton.Text = "OK";
-            this.OKButton.UseVisualStyleBackColor = true;
-            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 
             // linkLabelAuthor
             // 
@@ -146,19 +136,29 @@
             this.versionNumber.TabIndex = 14;
             this.versionNumber.Text = "VN";
             // 
+            // OKButton
+            // 
+            this.OKButton.Location = new System.Drawing.Point(441, 456);
+            this.OKButton.Name = "OKButton";
+            this.OKButton.Size = new System.Drawing.Size(122, 39);
+            this.OKButton.TabIndex = 42;
+            this.OKButton.Text = "OK";
+            this.OKButton.UseVisualStyleBackColor = true;
+            this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
+            // 
             // AboutScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(933, 519);
+            this.Controls.Add(this.OKButton);
             this.Controls.Add(this.versionNumber);
             this.Controls.Add(this.versionNumberLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.UCSystemsLink);
             this.Controls.Add(this.authorLabel);
             this.Controls.Add(this.linkLabelAuthor);
-            this.Controls.Add(this.OKButton);
             this.Controls.Add(this.aboutInfo);
             this.Controls.Add(this.applicationName);
             this.Controls.Add(this.UCLogo);
@@ -182,12 +182,12 @@
         private System.Windows.Forms.Label applicationName;
         private System.Windows.Forms.PictureBox UCLogo;
         private System.Windows.Forms.RichTextBox aboutInfo;
-        private System.Windows.Forms.Button OKButton;
         private System.Windows.Forms.LinkLabel linkLabelAuthor;
         private System.Windows.Forms.Label authorLabel;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel UCSystemsLink;
         private System.Windows.Forms.Label versionNumberLabel;
         private System.Windows.Forms.Label versionNumber;
+        private System.Windows.Forms.Button OKButton;
     }
 }

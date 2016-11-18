@@ -93,7 +93,7 @@
             // 
             // OkPanel
             // 
-            this.OkPanel.BackColor = System.Drawing.Color.PowderBlue;
+            this.OkPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(100)))), ((int)(((byte)(221)))), ((int)(((byte)(187)))));
             this.OkPanel.Controls.Add(this.OKLabel);
             this.OkPanel.Controls.Add(this.pictureBox1);
             this.OkPanel.Location = new System.Drawing.Point(12, 182);
@@ -129,7 +129,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.DarkCyan;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(201)))), ((int)(((byte)(144)))));
             this.ClientSize = new System.Drawing.Size(145, 245);
             this.Controls.Add(this.OkPanel);
             this.Controls.Add(this.titleLabel);
