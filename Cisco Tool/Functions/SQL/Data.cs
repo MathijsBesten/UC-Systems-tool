@@ -14,7 +14,6 @@ namespace Cisco_Tool.Functions.SQL
         private static readonly log4net.ILog log =
          log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2100:Review SQL queries for security vulnerabilities")] // this is not from user input and is staticly set in the private class
         public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) 
         {
             try

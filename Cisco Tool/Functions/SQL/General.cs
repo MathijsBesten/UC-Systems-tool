@@ -19,7 +19,7 @@ namespace Cisco_Tool.Functions.SQL
                 "PASSWORD=" + password + ";" +
                 "Persist Security Info=True;" +
                 "DATABASE=" + database + ";" +
-                "Connection Timeout=3"; // time in seconds timeout
+                "Connection Timeout=1"; // time in seconds timeout
 
             return new SqlConnection(connectionString);
         }

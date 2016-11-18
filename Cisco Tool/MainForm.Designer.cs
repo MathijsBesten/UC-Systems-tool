@@ -69,10 +69,6 @@
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
             this.ManualUsername = new System.Windows.Forms.TextBox();
             this.MainDataGridView = new System.Windows.Forms.DataGridView();
-            this.rowCheckbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.routerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RouterTab = new System.Windows.Forms.TabPage();
             this.bigOutputPanel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -105,6 +101,10 @@
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rowCheckbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.routerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.mainMenu.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -553,33 +553,6 @@
             this.MainDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGridView_CellContentClick);
             this.MainDataGridView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.MainDataGridView_ColumnWidthChanged);
             // 
-            // rowCheckbox
-            // 
-            this.rowCheckbox.HeaderText = "";
-            this.rowCheckbox.Name = "rowCheckbox";
-            this.rowCheckbox.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.rowCheckbox.Width = 32;
-            // 
-            // routerName
-            // 
-            this.routerName.HeaderText = "Naam";
-            this.routerName.Name = "routerName";
-            this.routerName.Width = 250;
-            // 
-            // IpAddress
-            // 
-            this.IpAddress.HeaderText = "IP adres";
-            this.IpAddress.Name = "IpAddress";
-            this.IpAddress.Width = 250;
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "mainID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Visible = false;
-            this.ID.Width = 5;
-            // 
             // RouterTab
             // 
             this.RouterTab.BackColor = System.Drawing.Color.White;
@@ -899,6 +872,35 @@
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
             // 
+            // rowCheckbox
+            // 
+            this.rowCheckbox.HeaderText = "";
+            this.rowCheckbox.Name = "rowCheckbox";
+            this.rowCheckbox.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.rowCheckbox.Width = 32;
+            // 
+            // routerName
+            // 
+            this.routerName.HeaderText = "Naam";
+            this.routerName.Name = "routerName";
+            this.routerName.ReadOnly = true;
+            this.routerName.Width = 250;
+            // 
+            // IpAddress
+            // 
+            this.IpAddress.HeaderText = "IP adres";
+            this.IpAddress.Name = "IpAddress";
+            this.IpAddress.ReadOnly = true;
+            this.IpAddress.Width = 250;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "mainID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Visible = false;
+            this.ID.Width = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -966,10 +968,6 @@
         private System.Windows.Forms.Label ManualUsernameLabel;
         private System.Windows.Forms.TextBox ManualUsername;
         private System.Windows.Forms.DataGridView MainDataGridView;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn rowCheckbox;
-        private System.Windows.Forms.DataGridViewTextBoxColumn routerName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.Panel CommandoGB;
         private System.Windows.Forms.Label CommandoInfo2;
         private System.Windows.Forms.Button RunCommands;
@@ -1022,6 +1020,10 @@
         private System.Windows.Forms.ToolStripMenuItem bugMeldenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bugMeldenToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem logLevelToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn rowCheckbox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn routerName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IpAddress;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
     }
 }
 

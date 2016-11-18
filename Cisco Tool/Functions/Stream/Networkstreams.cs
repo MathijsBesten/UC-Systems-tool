@@ -33,7 +33,7 @@ namespace Cisco_Tool.Functions.Stream
             client.SendTimeout = 1;
             client.Client.SendTimeout = 1; // socket
 
-            client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(10));              // connect
+            client.ConnectAsync(IPAddress, 23).Wait(TimeSpan.FromSeconds(1));              // connect
             if (client.Connected == true)
             {
                 int count = 0;

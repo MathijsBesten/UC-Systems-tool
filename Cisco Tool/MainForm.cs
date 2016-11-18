@@ -41,6 +41,7 @@ namespace Cisco_Tool
         public int widgetTag = 0;
         public bool loginDetailsChanged = false;
         List<widgetResult> listOfWidgetItems = new List<widgetResult>();
+        public int indexOfRunWidget = 0;
 
         private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
         private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
@@ -80,12 +81,21 @@ namespace Cisco_Tool
                     }
                     log.Info("Loaded all routers to the application");
                 }
+                else
+                {
+                    log.Info("Database details are wrong");
+                    log.Info("Please try entering the correct details using the sql wizard from the menubar");
+                    MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
+                    CommandoGB.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
                 log.Error("Database details are wrong - could not load routers from routerlist");
                 log.Error("error message - " + ex.Message);
                 log.Error("Please try entering the correct details using the sql wizard from the menubar");
+                MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
+                CommandoGB.Enabled = false;
             }
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -143,15 +153,6 @@ namespace Cisco_Tool
                             listToRun.Add(item);
                             count++;
                         }
-
-
-                        //getInformationForWidgetPage(ManualIPAddress.Text, ManualUsername.Text, ManualPassword.Text); // main get function
-                        //readyPanels = readyPanels.OrderBy(o => o.Tag).ToList();
-                        //allOutputs = allOutputs.OrderBy(o => o.widgetTag).ToList();
-                        //for (int i = 0; i < allOutputs.Count; i++)
-                        //{
-                        //    readyPanels[i].Controls[1].Controls[1].Text = allOutputs[i].widgetOutput;
-                        //}
                     }
                     BackgroundWorker widgetPageBackgroundWorker = new BackgroundWorker();
                     widgetPageBackgroundWorker.DoWork += getWidgetPageInfo_Work;
@@ -179,70 +180,78 @@ namespace Cisco_Tool
         {
             List<widget> widgets = JSON.readJSON();
             int indexWidget = 0;
-            foreach (var item in listOfWidgetItems)
+            if (listOfWidgetItems[0].widgetOutput == null && listOfWidgetItems[1].widgetOutput == null)// check if command received timeout
             {
-                if (item.widgetTag == "PID")
-                {
-                    string totalOutput = item.widgetOutput;
-                    string PID = TelnetConnection.findPID(totalOutput);
-                    routerType.Text = PID;
-                }
-                else if (item.widgetTag == "showRun")
-                {
-                    runningConfigOutputField.Text = item.widgetOutput;
-                }
-                else
-                {
-                    int index = Int32.Parse(item.widgetTag);
-                    if (widgets[index].widgetType == "Informatie")
-                    {
-                        var newPanel = new InfoTemplate();
-                        newPanel.Name = "Panel" + indexWidget.ToString();
-                        newPanel.Tag = indexWidget.ToString();
-                        newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
-                        newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
-                        newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                        newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-                        if (widgets[indexWidget].widgetUseSelection == true)
-                        {
-                            string finalString = Responses.getStringFromResponse(item.widgetOutput, widgets[indexWidget].widgetEnterCountBeforeString, widgets[indexWidget].WidgetEnterCountInString);
-                            newPanel.outputbox.Text = finalString;
-                        }
-                        else
-                        {
-                            newPanel.outputbox.Text = item.widgetOutput;
-                        }
-
-
-                        MainTableLayoutPanel.Controls.Add(newPanel);
-                    }
-
-                    else //execute widget
-                    {
-                        var newPanel = new ExecuteTemplate();
-                        newPanel.Name = "Panel" + indexWidget.ToString();
-                        newPanel.Tag = indexWidget.ToString();
-                        newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
-                        newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
-                        newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                        newPanel.runButton.Click += new EventHandler(runCommand);
-                        //newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-                        newPanel.runButton.Text = "Uitvoeren";
-                        MainTableLayoutPanel.Controls.Add(newPanel);
-                    }
-                    indexWidget++;
-                }
+                MessageBox.Show("Er vond een timeout plaats - controleer de gegevens en probeer het opnieuw");
+                log.Info("A timeout has occured while trying to get widgets - check router details");
             }
-            PictureBox addButton = new PictureBox();
-            addButton.Size = new Size(100, 100);
-            addButton.BackColor = Color.Transparent;
-            addButton.Image = Properties.Resources.add_1;
-            addButton.SizeMode = PictureBoxSizeMode.Zoom;
-            addButton.Anchor = AnchorStyles.None;
-            addButton.Click += new EventHandler(addButtonClick);
-            MainTableLayoutPanel.Controls.Add(addButton);
-            MainTableLayoutPanel.Enabled = true;
+            else
+            {
+                foreach (var item in listOfWidgetItems)
+                {
+                    if (item.widgetTag == "PID")
+                    {
+                        string totalOutput = item.widgetOutput;
+                        string PID = TelnetConnection.findPID(totalOutput);
+                        routerType.Text = PID;
+                    }
+                    else if (item.widgetTag == "showRun")
+                    {
+                        runningConfigOutputField.Text = item.widgetOutput;
+                    }
+                    else
+                    {
+                        int index = Int32.Parse(item.widgetTag);
+                        if (widgets[index].widgetType == "Informatie")
+                        {
+                            var newPanel = new InfoTemplate();
+                            newPanel.Name = "Panel" + indexWidget.ToString();
+                            newPanel.Tag = indexWidget.ToString();
+                            newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
+                            newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
+                            newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                            newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+
+                            if (widgets[indexWidget].widgetUseSelection == true)
+                            {
+                                string finalString = Responses.getStringFromResponse(item.widgetOutput, widgets[indexWidget].widgetEnterCountBeforeString, widgets[indexWidget].WidgetEnterCountInString);
+                                newPanel.outputbox.Text = finalString;
+                            }
+                            else
+                            {
+                                newPanel.outputbox.Text = item.widgetOutput;
+                            }
+
+
+                            MainTableLayoutPanel.Controls.Add(newPanel);
+                        }
+
+                        else //execute widget
+                        {
+                            var newPanel = new ExecuteTemplate();
+                            newPanel.Name = "Panel" + indexWidget.ToString();
+                            newPanel.Tag = indexWidget.ToString();
+                            newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
+                            newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
+                            newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
+                            newPanel.runButton.Click += new EventHandler(runCommand);
+                            //newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+                            newPanel.runButton.Text = "Uitvoeren";
+                            MainTableLayoutPanel.Controls.Add(newPanel);
+                        }
+                        indexWidget++;
+                    }
+                }
+                PictureBox addButton = new PictureBox();
+                addButton.Size = new Size(100, 100);
+                addButton.BackColor = Color.Transparent;
+                addButton.Image = Properties.Resources.add_1;
+                addButton.SizeMode = PictureBoxSizeMode.Zoom;
+                addButton.Anchor = AnchorStyles.None;
+                addButton.Click += new EventHandler(addButtonClick);
+                MainTableLayoutPanel.Controls.Add(addButton);
+                MainTableLayoutPanel.Enabled = true;
+            }
         }
 
         #region widget layout
@@ -712,49 +721,60 @@ namespace Cisco_Tool
             log.Info("Running command from execute widget");
             Button realsender = ((Button)sender);
             ExecuteTemplate widgetSender = (ExecuteTemplate)realsender.Parent.Parent;
-            int widgetIndex = Int32.Parse(widgetSender.Tag.ToString());
+            indexOfRunWidget = Int32.Parse(widgetSender.Tag.ToString());
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
-            var widget = widgets[widgetIndex];
+            var widget = widgets[indexOfRunWidget];
             string command = widgetSender.commandName.Text;
-            var outputbox = MainTableLayoutPanel.Controls[widgetIndex].Controls[1].Controls[1];
+            var outputbox = MainTableLayoutPanel.Controls[indexOfRunWidget].Controls[1].Controls[1];
 
 
             if (command != "")
             {
-                outputbox.Visible = true;
-                outputbox.Text = "";
-                bool usesLongProcessTime = widget.widgetUseLongProcessTime;
-                List<string> commands = new List<string>() { command };
-                string output = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, usesLongProcessTime);
-                if (output != null)
+                widget thisWidget = new widget();
+                thisWidget.widgetUseLongProcessTime = widget.widgetUseLongProcessTime;
+                thisWidget.widgetCommand = command;
+                BackgroundWorker bw = new BackgroundWorker();
+                bw.DoWork += getWidgetResult_doWork;
+                bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(getWidgetResult_workFinished);
+                bw.RunWorkerAsync(thisWidget);
+
+                
+            }
+        }
+        public void getWidgetResult_doWork(object sender, DoWorkEventArgs e)
+        {
+            widget thisWidget = (widget)e.Argument ;
+            List<string> commands = new List<string>() {thisWidget.widgetCommand };
+            thisWidget.widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, thisWidget.widgetUseLongProcessTime);
+            e.Result = e.Argument;
+        }
+        public void getWidgetResult_workFinished(object sender, RunWorkerCompletedEventArgs e)
+        {
+            var outputbox = MainTableLayoutPanel.Controls[indexOfRunWidget].Controls[1].Controls[1];
+            string output = ((widget)e.Result).widgetOutput;
+            outputbox.Visible = true;
+            outputbox.Text = "";
+            if (output != null)
+            {
+                if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
                 {
-                    if (!output.Contains(@"% Invalid input detected at '^' marker")) // check if command was valid
-                    {
-                        if (widget.widgetUseSelection == true)
-                        {
-                            string finalResult = Widgets.Functions.Responses.getStringFromResponse(output, widget.widgetEnterCountBeforeString, widget.WidgetEnterCountInString);
-                            outputbox.Text = finalResult.ToString();
-                        }
-                        else
-                        {
-                            outputbox.Text = output;
-                        }
-                    }
-                    else
-                    {
-                        outputbox.Font = new Font("Microsoft Sans Serif", 15);
-                        outputbox.Text = @"Commando '" + widget.widgetCommand + @"' is niet geldig ";
-                        log.Info(@"Commando '" + widget.widgetCommand + @"'  is not a valid command");
-                    }
+                    outputbox.Text = output;
                 }
                 else
                 {
-                    log.Info("cannot connect to router - username and/or password is wrong");
-                    outputbox.Text = "Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord";
-                    MessageBox.Show("Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord");
+                    outputbox.Font = new Font("Microsoft Sans Serif", 15);
+                    outputbox.Text = @"Commando '" + output + @"' is niet geldig ";
+                    log.Info(@"Commando '" + output + @"'  is not a valid command");
                 }
             }
+            else
+            {
+                log.Info("cannot connect to router - username and/or password is wrong");
+                outputbox.Text = "Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord";
+                MessageBox.Show("Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord");
+            }
         }
+
 
         void removeWidget(object sender, EventArgs e)
         {
