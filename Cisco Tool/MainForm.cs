@@ -80,6 +80,7 @@ namespace Cisco_Tool
                         MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
                     }
                     log.Info("Loaded all routers to the application");
+                    CommandoGB.Enabled = true;
                 }
                 else
                 {
@@ -594,6 +595,35 @@ namespace Cisco_Tool
         {
             var wizard = new FirstRunScreen();
             wizard.ShowDialog();
+            try
+            {
+                SqlConnection connection = Connections.OwnDB();
+                allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
+                if (allRouters != null)
+                {
+                    foreach (var router in allRouters)
+                    {
+                        MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                    }
+                    log.Info("Loaded all routers to the application");
+                    CommandoGB.Enabled = true;
+                }
+                else
+                {
+                    log.Info("Database details are wrong");
+                    log.Info("Please try entering the correct details using the sql wizard from the menubar");
+                    MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
+                    CommandoGB.Enabled = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Database details are wrong - could not load routers from routerlist");
+                log.Error("error message - " + ex.Message);
+                log.Error("Please try entering the correct details using the sql wizard from the menubar");
+                MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
+                CommandoGB.Enabled = false;
+            }
         }
 
         private void aboutCiscoToolToolStripMenuItem_Click(object sender, EventArgs e)
