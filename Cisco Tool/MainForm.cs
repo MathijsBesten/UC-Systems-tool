@@ -249,12 +249,10 @@ namespace Cisco_Tool
         // when user checks a router
         private void MainGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (MainDataGridView.CurrentCell.ColumnIndex == 2)
+            if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
             {
-
-            }
-            else if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
-            {
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 string nameOfRouter = MainDataGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
                 string IPAddress = MainDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
                 if (allSelectedRouters.Items.Contains(nameOfRouter))
@@ -273,6 +271,8 @@ namespace Cisco_Tool
                 {
                     selectedIPAddresses.Add(IPAddress);
                 }
+                sw.Stop();
+                Console.WriteLine(sw.ElapsedTicks);
             }
         }
 
@@ -553,11 +553,6 @@ namespace Cisco_Tool
                 ScriptButton.TextAlign = ContentAlignment.MiddleCenter;
                 ScriptButton.BackColor = Color.Gainsboro;
                 ScriptButton.ForeColor = Color.Black;
-                ScriptButton.BorderStyle = BorderStyle.FixedSingle;
-            }
-            if (ScriptButton.Text == "Verwijder script")
-            {
-                ScriptButton.BorderStyle = BorderStyle.Fixed3D;
             }
         }
         private void ScriptButton_MouseLeave(object sender, EventArgs e)
@@ -568,11 +563,6 @@ namespace Cisco_Tool
                 ScriptButton.TextAlign = ContentAlignment.BottomLeft;
                 ScriptButton.BackColor = Color.FromArgb(64, 64, 64);
                 ScriptButton.ForeColor = Color.White;
-                ScriptButton.BorderStyle = BorderStyle.None;
-            }
-            if (ScriptButton.Text == "Kies script")
-            {
-                ScriptButton.BorderStyle = BorderStyle.FixedSingle;
             }
         }
         #endregion
