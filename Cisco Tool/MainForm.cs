@@ -257,7 +257,8 @@ namespace Cisco_Tool
 
         #region widget layout
         // when user checks a router
-        private void MainGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+
+        private void MainDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
             {
@@ -285,6 +286,15 @@ namespace Cisco_Tool
                 Console.WriteLine(sw.ElapsedTicks);
             }
         }
+        private void MainDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
+            {
+                MainDataGridView.EndEdit();
+            }
+
+        }
+
 
         private void MainDataGridView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
         {
@@ -1013,5 +1023,7 @@ namespace Cisco_Tool
             logchangerDialog.Location = new Point (this.DesktopLocation.X + 105, this.DesktopLocation.Y + 60); 
             DialogResult result = logchangerDialog.ShowDialog();
         }
+
+
     }
 }

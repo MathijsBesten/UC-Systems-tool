@@ -69,6 +69,10 @@
             this.ManualUsernameLabel = new System.Windows.Forms.Label();
             this.ManualUsername = new System.Windows.Forms.TextBox();
             this.MainDataGridView = new System.Windows.Forms.DataGridView();
+            this.rowCheckbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.routerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RouterTab = new System.Windows.Forms.TabPage();
             this.bigOutputPanel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -101,10 +105,6 @@
             this.instellingenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sQLServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.jhToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rowCheckbox = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.routerName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.IpAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.mainErrorProvider)).BeginInit();
             this.mainMenu.SuspendLayout();
             this.MainMenuTab.SuspendLayout();
@@ -539,7 +539,7 @@
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -550,8 +550,38 @@
             this.MainDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.MainDataGridView.Size = new System.Drawing.Size(696, 593);
             this.MainDataGridView.TabIndex = 6;
-            this.MainDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainGridView_CellContentClick);
+            this.MainDataGridView.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.MainDataGridView_CellMouseUp);
+            this.MainDataGridView.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.MainDataGridView_CellValueChanged);
             this.MainDataGridView.ColumnWidthChanged += new System.Windows.Forms.DataGridViewColumnEventHandler(this.MainDataGridView_ColumnWidthChanged);
+            // 
+            // rowCheckbox
+            // 
+            this.rowCheckbox.HeaderText = "";
+            this.rowCheckbox.Name = "rowCheckbox";
+            this.rowCheckbox.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.rowCheckbox.Width = 32;
+            // 
+            // routerName
+            // 
+            this.routerName.HeaderText = "Naam";
+            this.routerName.Name = "routerName";
+            this.routerName.ReadOnly = true;
+            this.routerName.Width = 250;
+            // 
+            // IpAddress
+            // 
+            this.IpAddress.HeaderText = "IP adres";
+            this.IpAddress.Name = "IpAddress";
+            this.IpAddress.ReadOnly = true;
+            this.IpAddress.Width = 250;
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "mainID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Visible = false;
+            this.ID.Width = 5;
             // 
             // RouterTab
             // 
@@ -807,7 +837,7 @@
             // bugMeldenToolStripMenuItem1
             // 
             this.bugMeldenToolStripMenuItem1.Name = "bugMeldenToolStripMenuItem1";
-            this.bugMeldenToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.bugMeldenToolStripMenuItem1.Size = new System.Drawing.Size(138, 22);
             this.bugMeldenToolStripMenuItem1.Text = "bug melden";
             this.bugMeldenToolStripMenuItem1.Click += new System.EventHandler(this.bugMeldenToolStripMenuItem1_Click);
             // 
@@ -871,35 +901,6 @@
             this.jhToolStripMenuItem.Name = "jhToolStripMenuItem";
             this.jhToolStripMenuItem.Size = new System.Drawing.Size(29, 20);
             this.jhToolStripMenuItem.Text = "jh";
-            // 
-            // rowCheckbox
-            // 
-            this.rowCheckbox.HeaderText = "";
-            this.rowCheckbox.Name = "rowCheckbox";
-            this.rowCheckbox.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.rowCheckbox.Width = 32;
-            // 
-            // routerName
-            // 
-            this.routerName.HeaderText = "Naam";
-            this.routerName.Name = "routerName";
-            this.routerName.ReadOnly = true;
-            this.routerName.Width = 250;
-            // 
-            // IpAddress
-            // 
-            this.IpAddress.HeaderText = "IP adres";
-            this.IpAddress.Name = "IpAddress";
-            this.IpAddress.ReadOnly = true;
-            this.IpAddress.Width = 250;
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "mainID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Visible = false;
-            this.ID.Width = 5;
             // 
             // MainForm
             // 
