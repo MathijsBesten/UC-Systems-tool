@@ -539,7 +539,7 @@
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.White;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -723,9 +723,9 @@
             this.runningConfigPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.runningConfigPanel.Controls.Add(this.runningConfigOutputField);
             this.runningConfigPanel.Controls.Add(this.runningConfigLabel);
-            this.runningConfigPanel.Location = new System.Drawing.Point(3, 154);
+            this.runningConfigPanel.Location = new System.Drawing.Point(3, 147);
             this.runningConfigPanel.Name = "runningConfigPanel";
-            this.runningConfigPanel.Size = new System.Drawing.Size(182, 463);
+            this.runningConfigPanel.Size = new System.Drawing.Size(182, 470);
             this.runningConfigPanel.TabIndex = 3;
             // 
             // runningConfigOutputField
@@ -733,9 +733,11 @@
             this.runningConfigOutputField.Location = new System.Drawing.Point(3, 56);
             this.runningConfigOutputField.Multiline = true;
             this.runningConfigOutputField.Name = "runningConfigOutputField";
+            this.runningConfigOutputField.ReadOnly = true;
             this.runningConfigOutputField.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.runningConfigOutputField.Size = new System.Drawing.Size(171, 399);
             this.runningConfigOutputField.TabIndex = 7;
+            this.runningConfigOutputField.TabStop = false;
             // 
             // runningConfigLabel
             // 

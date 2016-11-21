@@ -1,10 +1,6 @@
-﻿using Cisco_Tool.Values;
-using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Linq;
 using static Cisco_Tool.Values.PrivateValues;
 
 namespace Cisco_Tool.Functions.SQL
@@ -44,9 +40,7 @@ namespace Cisco_Tool.Functions.SQL
 
             SqlCommand command = connection.CreateCommand();
             command.CommandText = query; // this is not from user input and is staticly set in the private class
-
             List<router> routers = new List<router> { };
-
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
@@ -74,11 +68,9 @@ namespace Cisco_Tool.Functions.SQL
                 }
                 catch (Exception ex)
                 {
-
                     log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
                     log.Error("Error Location: " + ex.Source);
                 }
-
             }
             connection.Close();
             log.Info("Connection to Cisco Tool Database correctly closed");

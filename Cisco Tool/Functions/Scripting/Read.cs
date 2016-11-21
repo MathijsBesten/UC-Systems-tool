@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cisco_Tool.Functions.Scripting
 {
@@ -17,11 +14,11 @@ namespace Cisco_Tool.Functions.Scripting
             {
                 string[] allStrings = System.IO.File.ReadAllLines(filePath);
                 List<string> allCommands = new List<string>(allStrings);
+                log.Info("script correcly loaded");
                 return allCommands;
             }
             catch (Exception e)
             {
-
                 log.Error("Could not read scriptfile");
                 log.Error("error - " + e.Message);
                 return null;

@@ -2,13 +2,7 @@
 using log4net.Core;
 using log4net.Repository.Hierarchy;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Cisco_Tool.Views

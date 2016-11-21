@@ -1,12 +1,4 @@
-﻿using Cisco_Tool.Values;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.SqlClient;
 
 namespace Cisco_Tool.Functions.SQL
 {

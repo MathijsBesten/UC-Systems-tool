@@ -10,17 +10,13 @@ using Cisco_Tool.Functions.Network;
 using Cisco_Tool.Widgets.Views;
 using Cisco_Tool.Widgets.Functions;
 using Cisco_Tool.Widgets.Templates;
-using Cisco_Tool.Functions.Stream;
 using System.ComponentModel;
-using System.Threading.Tasks;
 using System.Linq;
 using System.Diagnostics;
 using Cisco_Tool.Views;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Cisco_Tool.Functions.Telnet;
 using static Cisco_Tool.Widgets.Classes;
-using Cisco_Tool.Widgets;
 using System.Reflection;
 
 namespace Cisco_Tool
@@ -236,7 +232,7 @@ namespace Cisco_Tool
                             newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
                             newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
                             newPanel.runButton.Click += new EventHandler(runCommand);
-                            //newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
+                            newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
                             newPanel.runButton.Text = "Uitvoeren";
                             MainTableLayoutPanel.Controls.Add(newPanel);
                         }
@@ -745,7 +741,6 @@ namespace Cisco_Tool
             PictureBox realSender = ((PictureBox)sender);
             Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
             var widgetOutputBox = targetWidget.Controls[1].Controls[1];// infopart - outputbox
-            MessageBox.Show(widgetOutputBox.ToString());
             string outputText = widgetOutputBox.Text;
             bigOutputBox.Text = outputText;
             MainTableLayoutPanel.Enabled = false;

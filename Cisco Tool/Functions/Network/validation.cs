@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace Cisco_Tool.Functions.Network
 {
@@ -21,7 +17,6 @@ namespace Cisco_Tool.Functions.Network
             }
             byte splitResult;
             return splittedValues.All(r => byte.TryParse(r, out splitResult));
-
         }
     }
 }

@@ -130,7 +130,6 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Values\PrivateValues.cs" />
-    <Compile Include="Values\PublicValues.cs" />
     <Compile Include="Views\AboutScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,7 +163,6 @@
     <Compile Include="Widgets\Classes.cs" />
     <Compile Include="Widgets\Functions\JSON.cs" />
     <Compile Include="Widgets\Functions\Responses.cs" />
-    <Compile Include="Widgets\ReadyPanels.cs" />
     <Compile Include="Widgets\Templates\ExecuteTemplate.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -220,9 +218,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Custom controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>

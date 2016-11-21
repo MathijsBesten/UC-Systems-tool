@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using System.Data.SqlClient;
-using Cisco_Tool.Values;
-using System.Configuration;
+﻿using System.Data.SqlClient;
 
 namespace Cisco_Tool.Functions.SQL
 {
@@ -20,7 +12,6 @@ namespace Cisco_Tool.Functions.SQL
                 "Persist Security Info=True;" +
                 "DATABASE=" + database + ";" +
                 "Connection Timeout=1"; // time in seconds timeout
-
             return new SqlConnection(connectionString);
         }
     }

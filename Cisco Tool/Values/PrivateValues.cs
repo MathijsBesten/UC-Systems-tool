@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cisco_Tool.Values
+﻿namespace Cisco_Tool.Values
 {
     class PrivateValues
     {
