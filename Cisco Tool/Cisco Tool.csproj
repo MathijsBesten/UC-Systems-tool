@@ -28,7 +28,7 @@
     <ProductName>Cisco Tool</ProductName>
     <PublisherName>Mathijs den Besten - UC Systems</PublisherName>
     <SuiteName>Mathijs den Besten - UC Systems</SuiteName>
-    <ApplicationRevision>3</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
