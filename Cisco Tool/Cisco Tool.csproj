@@ -108,8 +108,6 @@
     <Compile Include="Functions\Scripting\Read.cs" />
     <Compile Include="Functions\SQL\Connections.cs" />
     <Compile Include="Functions\SQL\Data.cs" />
-    <Compile Include="Functions\SQL\General.cs" />
-    <Compile Include="Functions\Stream\Networkstreams.cs" />
     <Compile Include="Functions\Telnet\TelnetConnection.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
