@@ -12,7 +12,6 @@
             public string routerActivate { get; set; }
             public string routerSerialnumber { get; set; }
             public int routerMainDB { get; set; }
-
         }
     }
 }

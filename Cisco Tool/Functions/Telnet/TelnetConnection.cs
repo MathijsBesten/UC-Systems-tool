@@ -31,8 +31,8 @@ namespace Cisco_Tool.Functions.Telnet
                     {
                         sleepMSAfterSend = 1000;
                     }
-                    byte[] lastBytesArray = new byte[(commands.Count * 4096)]; // buffer size increases 
-                    byte[] responseInBytes = new byte[(commands.Count * 4096)];
+                    byte[] lastBytesArray = new byte[(commands.Count * 8192)]; // buffer size increases 
+                    byte[] responseInBytes = new byte[(commands.Count * 8192)];
                     string messageStart = username + "\r\n" + password;// command with excape characters
 
                     var client = new TcpClient();

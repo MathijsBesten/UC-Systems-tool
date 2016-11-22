@@ -57,6 +57,8 @@
             this.outputBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.widgetCreatorErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.NewWidgetChoicePanel.SuspendLayout();
             this.NewWidgetInformationPanel.SuspendLayout();
             this.selectionPanel.SuspendLayout();
@@ -82,7 +84,7 @@
             this.NewWidgetChoicePanel.ForeColor = System.Drawing.Color.White;
             this.NewWidgetChoicePanel.Location = new System.Drawing.Point(30, 12);
             this.NewWidgetChoicePanel.Name = "NewWidgetChoicePanel";
-            this.NewWidgetChoicePanel.Size = new System.Drawing.Size(386, 229);
+            this.NewWidgetChoicePanel.Size = new System.Drawing.Size(404, 229);
             this.NewWidgetChoicePanel.TabIndex = 14;
             // 
             // NewWidgetUsesLongProcessTime
@@ -135,7 +137,7 @@
             "Uitvoeren"});
             this.NewWidgetCommandtype.Location = new System.Drawing.Point(147, 79);
             this.NewWidgetCommandtype.Name = "NewWidgetCommandtype";
-            this.NewWidgetCommandtype.Size = new System.Drawing.Size(208, 21);
+            this.NewWidgetCommandtype.Size = new System.Drawing.Size(237, 21);
             this.NewWidgetCommandtype.TabIndex = 3;
             this.NewWidgetCommandtype.TextChanged += new System.EventHandler(this.NewWidgetCommandtype_TextChanged);
             // 
@@ -174,7 +176,7 @@
             // 
             this.NewWidgetCommand.Location = new System.Drawing.Point(147, 105);
             this.NewWidgetCommand.Name = "NewWidgetCommand";
-            this.NewWidgetCommand.Size = new System.Drawing.Size(208, 20);
+            this.NewWidgetCommand.Size = new System.Drawing.Size(237, 20);
             this.NewWidgetCommand.TabIndex = 4;
             // 
             // NewWidgetNameLabel
@@ -190,7 +192,7 @@
             // 
             this.NewWidgetName.Location = new System.Drawing.Point(147, 53);
             this.NewWidgetName.Name = "NewWidgetName";
-            this.NewWidgetName.Size = new System.Drawing.Size(208, 20);
+            this.NewWidgetName.Size = new System.Drawing.Size(237, 20);
             this.NewWidgetName.TabIndex = 2;
             // 
             // NewWidgetCommandtypeLabel
@@ -206,6 +208,8 @@
             // 
             this.NewWidgetInformationPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.NewWidgetInformationPanel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.NewWidgetInformationPanel.Controls.Add(this.textBox5);
+            this.NewWidgetInformationPanel.Controls.Add(this.label4);
             this.NewWidgetInformationPanel.Controls.Add(this.textBox4);
             this.NewWidgetInformationPanel.Controls.Add(this.label3);
             this.NewWidgetInformationPanel.Controls.Add(this.textBox3);
@@ -225,10 +229,10 @@
             this.textBox4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox4.ForeColor = System.Drawing.Color.White;
-            this.textBox4.Location = new System.Drawing.Point(34, 211);
+            this.textBox4.Location = new System.Drawing.Point(34, 190);
             this.textBox4.Multiline = true;
             this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(201, 69);
+            this.textBox4.Size = new System.Drawing.Size(201, 59);
             this.textBox4.TabIndex = 23;
             this.textBox4.Text = "Sommige commando\'s hebben meer tijd nodig tijdens het geven van een output, gebru" +
     "ik de optie \"Lange procestijd\". Bijvoorbeeld: SHOW RUNNING-CONFIG";
@@ -237,7 +241,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(31, 187);
+            this.label3.Location = new System.Drawing.Point(31, 166);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(125, 15);
             this.label3.TabIndex = 22;
@@ -248,7 +252,7 @@
             this.textBox3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox3.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox3.ForeColor = System.Drawing.Color.White;
-            this.textBox3.Location = new System.Drawing.Point(34, 387);
+            this.textBox3.Location = new System.Drawing.Point(34, 418);
             this.textBox3.Multiline = true;
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(211, 56);
@@ -262,7 +266,7 @@
             this.textBox2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.ForeColor = System.Drawing.Color.White;
-            this.textBox2.Location = new System.Drawing.Point(34, 326);
+            this.textBox2.Location = new System.Drawing.Point(34, 357);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(201, 55);
@@ -274,7 +278,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(31, 302);
+            this.label1.Location = new System.Drawing.Point(31, 333);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 15);
             this.label1.TabIndex = 19;
@@ -322,7 +326,7 @@
             this.selectionPanel.ForeColor = System.Drawing.Color.White;
             this.selectionPanel.Location = new System.Drawing.Point(30, 247);
             this.selectionPanel.Name = "selectionPanel";
-            this.selectionPanel.Size = new System.Drawing.Size(386, 252);
+            this.selectionPanel.Size = new System.Drawing.Size(404, 252);
             this.selectionPanel.TabIndex = 16;
             // 
             // SelectionWizard
@@ -342,7 +346,7 @@
             this.outputBox.Multiline = true;
             this.outputBox.Name = "outputBox";
             this.outputBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.outputBox.Size = new System.Drawing.Size(334, 117);
+            this.outputBox.Size = new System.Drawing.Size(363, 117);
             this.outputBox.TabIndex = 11;
             this.outputBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.outputBox_KeyDown);
             // 
@@ -359,6 +363,29 @@
             // widgetCreatorErrorProvider
             // 
             this.widgetCreatorErrorProvider.ContainerControl = this;
+            // 
+            // textBox5
+            // 
+            this.textBox5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBox5.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox5.ForeColor = System.Drawing.Color.White;
+            this.textBox5.Location = new System.Drawing.Point(34, 277);
+            this.textBox5.Multiline = true;
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(201, 42);
+            this.textBox5.TabIndex = 25;
+            this.textBox5.Text = "Meerdere commado\'s kunnen worden ingevoerd, gebruik een puntcomma om commando\'s t" +
+    "e scheiden";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(31, 258);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 15);
+            this.label4.TabIndex = 24;
+            this.label4.Text = "COMMANDO";
             // 
             // WidgetCreator
             // 
@@ -410,5 +437,7 @@
         private System.Windows.Forms.Label processTimeLablel;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.Label label4;
     }
 }

@@ -167,8 +167,8 @@ namespace Cisco_Tool
             List<widgetResult> listToRun = (List<widgetResult>)e.Argument;
             for (int i = 0; i < listToRun.Count; i++)
             {
-                List<string> command = new List<string>() { listToRun[i].widgetCommand };
-                listToRun[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, listToRun[i].uselongTime); // find output
+                List<string> commands = listToRun[i].widgetCommand.Split(';').ToList();
+                listToRun[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, listToRun[i].uselongTime); // find output
             }
             listOfWidgetItems = listToRun;
             log.Info("all items from the widget page has been loaded");
@@ -779,7 +779,7 @@ namespace Cisco_Tool
         public void getWidgetResult_doWork(object sender, DoWorkEventArgs e)
         {
             widget thisWidget = (widget)e.Argument ;
-            List<string> commands = new List<string>() {thisWidget.widgetCommand };
+            List<string> commands = thisWidget.widgetCommand.Split(';').ToList();
             thisWidget.widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, thisWidget.widgetUseLongProcessTime);
             e.Result = e.Argument;
         }
@@ -863,8 +863,6 @@ namespace Cisco_Tool
         private void getWidgetsAsync(bool addPlusButton)
         {
             MainTableLayoutPanel.Enabled = false;
-
-
             BackgroundWorker getWidgetsBackgroundWorker = new BackgroundWorker(); // only one backgroundworker is being used - router cannot handle more than 1 request at a time
             getWidgetsBackgroundWorker.DoWork += getWidgetsAsync_work;
             getWidgetsBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(getWidgetsAsync_runCompleted);
@@ -876,8 +874,8 @@ namespace Cisco_Tool
             List<widget> widgets = JSON.readJSON(); 
             for (int i = 0; i < widgets.Count; i++)
             {
-                List<string> command = new List<string>() { widgets[i].widgetCommand };
-                widgets[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, command, ManualUsername.Text, ManualPassword.Text, widgets[i].widgetUseLongProcessTime); // find output
+                List<string> commands = widgets[i].widgetCommand.Split(';').ToList();
+                widgets[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, widgets[i].widgetUseLongProcessTime); // find output
             }
             readyWidgets = widgets;
             log.Info("all items from the widget page has been loaded");

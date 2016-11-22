@@ -19,7 +19,6 @@ namespace Cisco_Tool.Widgets
             public int WidgetEnterCountInString { get; set; }
             public string widgetOutput { get; set; }
         }
-
         public class widgetResult
         {
             public string widgetTag { get; set; }
