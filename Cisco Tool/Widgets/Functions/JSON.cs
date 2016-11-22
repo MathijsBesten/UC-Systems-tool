@@ -89,7 +89,7 @@ namespace Cisco_Tool.Widgets.Functions
             }
             catch (Exception ex)
             {
-                log.Error("Widget cannot be removed because of a error");
+                log.Error("Widget cannot be removed because of a error, ");
                 log.Error("Errormessage: " + ex.Message);
             }
 
