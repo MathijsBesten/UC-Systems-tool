@@ -6,7 +6,6 @@ using System.Text;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
-using System.Linq;
 
 namespace Cisco_Tool.Functions.Telnet
 {
@@ -31,11 +30,10 @@ namespace Cisco_Tool.Functions.Telnet
                     {
                         sleepMSAfterSend = 1000;
                     }
-                    byte[] lastBytesArray = new byte[(commands.Count * 8192)]; // buffer size increases 
                     byte[] responseInBytes = new byte[(commands.Count * 8192)];
                     string messageStart = username + "\r\n" + password;// command with excape characters
 
-                    var client = new TcpClient();
+                    TcpClient client = new TcpClient();
                     client.ReceiveTimeout = 1000;
                     client.Client.ReceiveTimeout = 1000; // socket
                     client.SendTimeout = 1;
@@ -57,7 +55,6 @@ namespace Cisco_Tool.Functions.Telnet
                             }
 
                             byte[] messageInBytes = Encoding.ASCII.GetBytes(message);
-                            NetworkStream stream = client.GetStream();
                             using (var writer = new BinaryWriter(client.GetStream(), Encoding.ASCII, true))
                             {
                                 writer.Write(messageInBytes);
@@ -79,9 +76,8 @@ namespace Cisco_Tool.Functions.Telnet
                                 }
                                 else
                                 {
-                                    bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
+                                    bytes = reader.Read(responseInBytes, 0, responseInBytes.Length);
                                     if (bytes > 500) { sleepMSAfterSend = 250; }
-                                    lastBytesArray = responseInBytes;
                                     lastBytes = bytes;
                                     Thread.Sleep(sleepMSAfterSend);
                                 }

@@ -50,9 +50,8 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 
             MySqlCommand command = connection.CreateCommand();
             command.CommandText = query;
-            List<Values.router> routers = new List<router> { }; 
-            MySqlDataReader reader;
-            reader = command.ExecuteReader(); // starts the reader
+            List<router> routers = new List<router>(); 
+            MySqlDataReader reader = command.ExecuteReader(); // starts the reader
             while (reader.Read())
             {
                 router Router = new router();
@@ -121,9 +120,8 @@ namespace CiscoDatabaseProgram.Functions.MySQL
 
             SqlCommand command = connection.CreateCommand(); 
             command.CommandText = query;
-            List<Values.router> routers = new List<router> { };
-            SqlDataReader reader; 
-            reader = command.ExecuteReader(); // starts the reader
+            List<router> routers = new List<router>();
+            SqlDataReader reader = command.ExecuteReader(); // starts the reader
             while (reader.Read())
             {
                 router Router = new router(); 
@@ -153,7 +151,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     Console.WriteLine("Locatie probleem: " + ex.Source);
                     log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
                     log.Error("Error Location: " + ex.Source);
-                    Logging.Exit.defaultExit();
+                    Exit.defaultExit();
                 }
 
             }
@@ -261,7 +259,6 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             SqlCommand command = connection.CreateCommand();
             foreach (var item in routerList)
             {
-                int mainID = item.routerId;
                 string query = "UPDATE dbo.router " +
                     "SET router_name = '{0}', router_friendlyname = '{1}', router_ipaddress = '{2}', router_serialnumber = '{3}', router_active = '{4}' , router_mainID = '{5}'" +
                     "WHERE router_mainID = '{6}'";
@@ -329,7 +326,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             #endregion
             if (newIDs.Count != 0)
             {
-                log.Info("Count new items: " + newIDs.Count());
+                log.Info("Count new items: " + newIDs.Count);
                 List<router> newRouters = new List<router>();
                 foreach (int ID in newIDs) 
                 {
@@ -338,7 +335,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     data[0].routerId = 0;
                     newRouters.Add(data[0]); //index is always 0
                 }
-                var pushNewRoutersToOwnServer = insertNewIntoOwnServer(newRouters); 
+                insertNewIntoOwnServer(newRouters); 
                 result = newIDs.Count + " nieuwe routers toegevoegd aan eigen database!";
                 log.Info("Correcly added New items to Cisco Tool Database");
             }

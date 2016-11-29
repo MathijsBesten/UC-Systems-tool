@@ -1,11 +1,14 @@
-﻿namespace Cisco_Tool.Views
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Cisco_Tool.Views
 {
     partial class ConfirmationScreen
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -170,14 +173,14 @@
         }
 
         #endregion
-        private System.Windows.Forms.RichTextBox summaryOutputBox;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label summaryTitle;
-        private System.Windows.Forms.Panel cancelPanel;
-        private System.Windows.Forms.PictureBox cancelPicturebox;
-        private System.Windows.Forms.Label cancelLabel;
-        private System.Windows.Forms.PictureBox confirmPicturebox;
-        private System.Windows.Forms.Label confirmLabel;
-        private System.Windows.Forms.Panel continuePanel;
+        private RichTextBox summaryOutputBox;
+        private Panel panel1;
+        private Label summaryTitle;
+        private Panel cancelPanel;
+        private PictureBox cancelPicturebox;
+        private Label cancelLabel;
+        private PictureBox confirmPicturebox;
+        private Label confirmLabel;
+        private Panel continuePanel;
     }
 }

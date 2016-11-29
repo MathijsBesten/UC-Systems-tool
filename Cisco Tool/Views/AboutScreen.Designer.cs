@@ -1,11 +1,14 @@
-﻿namespace Cisco_Tool.Views
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Cisco_Tool.Views
 {
     partial class AboutScreen
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -179,15 +182,15 @@
 
         #endregion
 
-        private System.Windows.Forms.Label applicationName;
-        private System.Windows.Forms.PictureBox UCLogo;
-        private System.Windows.Forms.RichTextBox aboutInfo;
-        private System.Windows.Forms.LinkLabel linkLabelAuthor;
-        private System.Windows.Forms.Label authorLabel;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.LinkLabel UCSystemsLink;
-        private System.Windows.Forms.Label versionNumberLabel;
-        private System.Windows.Forms.Label versionNumber;
-        private System.Windows.Forms.Button OKButton;
+        private Label applicationName;
+        private PictureBox UCLogo;
+        private RichTextBox aboutInfo;
+        private LinkLabel linkLabelAuthor;
+        private Label authorLabel;
+        private Label label2;
+        private LinkLabel UCSystemsLink;
+        private Label versionNumberLabel;
+        private Label versionNumber;
+        private Button OKButton;
     }
 }

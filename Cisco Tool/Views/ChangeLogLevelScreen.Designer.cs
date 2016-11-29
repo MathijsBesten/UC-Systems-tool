@@ -1,11 +1,14 @@
-﻿namespace Cisco_Tool.Views
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Cisco_Tool.Views
 {
     partial class ChangeLogLevelScreen
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -152,12 +155,12 @@
         }
 
         #endregion
-        private System.Windows.Forms.Label titleLabel;
-        private System.Windows.Forms.RadioButton debugLevel;
-        private System.Windows.Forms.RadioButton infoLevel;
-        private System.Windows.Forms.RadioButton errorLevel;
-        private System.Windows.Forms.Panel OkPanel;
-        private System.Windows.Forms.Label OKLabel;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private Label titleLabel;
+        private RadioButton debugLevel;
+        private RadioButton infoLevel;
+        private RadioButton errorLevel;
+        private Panel OkPanel;
+        private Label OKLabel;
+        private PictureBox pictureBox1;
     }
 }

@@ -40,7 +40,7 @@ namespace Cisco_Tool.Functions.SQL
 
             SqlCommand command = connection.CreateCommand();
             command.CommandText = query; // this is not from user input and is staticly set in the private class
-            List<router> routers = new List<router> { };
+            List<router> routers = new List<router>();
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {

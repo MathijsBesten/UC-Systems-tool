@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Net;
-using System.Net.Sockets;
-using System.Text.RegularExpressions;
-using System.Threading;
-
 using CiscoDatabaseProgram.Values;
 using CiscoDatabaseProgram.Functions.Network.Stream;
-using CiscoDatabaseProgram.Functions.SerialNumbers;
-using System.Configuration;
 
 namespace CiscoDatabaseProgram.Functions.SerialNumbers
 {
@@ -25,7 +14,6 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             //initialze all values
             string command = "sh diag | inc Serial";                    // command to get serialnumber
             string message = username + "\r\n"+ password + "\r\n"+ command + "\r\n"; 
-            byte[] responseInBytes = new byte[4096];                    // cisco responses are big - 4096 bytes big
             string response = ""; 
             string chassisSerialNumber = "";
 
@@ -33,7 +21,6 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
             bool convertIP = Network.validation.validateIPv4(router.routerAddress); 
             if (convertIP == true && router.routerActivate == "1")
             {
-                string endpoint = router.routerAddress; //destination
                 try 
                 {
                     response = Networkstreams.TalkToCiscoRouterAndWaitForResponse(router.routerAddress, message); 
@@ -62,7 +49,6 @@ namespace CiscoDatabaseProgram.Functions.SerialNumbers
                     }
                 }
                 catch (Exception ex)
-
                 {
                     if (response.Contains("Login invalid"))
                     {

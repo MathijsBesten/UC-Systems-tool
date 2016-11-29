@@ -7,7 +7,7 @@ namespace Cisco_Tool.Widgets.Templates
     // This control can also be added from the toolbox 
 
 
-    public class InfoTemplate : Panel 
+    public sealed class InfoTemplate : Panel 
     {
         public Panel templatePanel = new Panel();
         public Panel topBar = new Panel();
@@ -68,7 +68,7 @@ namespace Cisco_Tool.Widgets.Templates
 
             this.BackColor = Color.Gray;
             this.Size = new Size(250, 230);
-            this.Margin = new System.Windows.Forms.Padding(0);
+            this.Margin = new Padding(0);
             this.Visible = true;
 
             //assign controls to panels

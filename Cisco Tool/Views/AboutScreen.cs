@@ -2,13 +2,14 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows.Forms;
+using log4net;
 
 namespace Cisco_Tool.Views
 {
     public partial class AboutScreen : Form
     {
-        private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public AboutScreen()
         {
             InitializeComponent();
@@ -23,7 +24,7 @@ namespace Cisco_Tool.Views
 
         private void OKButton_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
         }
 
         private void linkLabelAuthor_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

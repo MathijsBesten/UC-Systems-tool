@@ -1,12 +1,5 @@
-﻿using CiscoDatabaseProgram.Values;
-using MySql.Data.MySqlClient;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using MySql.Data.MySqlClient;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CiscoDatabaseProgram.Functions.MySQL
 {
@@ -14,7 +7,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
     {
         public static MySqlConnection MainDB()
         {
-            MySqlConnection connection = Functions.MySQL.General.MySQLConnnection(
+            MySqlConnection connection = General.MySQLConnnection(
                 Settings.Default.MainServerIP,
                 Settings.Default.MainServerDatabase,
                 Settings.Default.MainServerUsername,
@@ -23,7 +16,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
         }
         public static SqlConnection OwnDB()
         {
-            SqlConnection connection = Functions.MySQL.General.MicrosoftSQLConnection(
+            SqlConnection connection = General.MicrosoftSQLConnection(
                 Settings.Default.CiscoToolServerIP,
                 Settings.Default.CiscoToolServerDatabase,
                 Settings.Default.CiscoToolServerUsername,

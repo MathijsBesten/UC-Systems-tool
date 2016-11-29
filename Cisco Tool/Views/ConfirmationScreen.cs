@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Windows.Forms;
+using log4net;
 
 namespace Cisco_Tool.Views
 {
     public partial class ConfirmationScreen : Form
     {
 
-        private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public static int totalCommandsToRun;
         public static double totalRunTime;
@@ -65,12 +67,12 @@ namespace Cisco_Tool.Views
         }
         public void confirm()
         {
-            this.DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.OK;
             log.Info("User confirmed to run commands");
         }
         public void cancel()
         {
-            this.DialogResult = DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             log.Info("User closed the confirm window - commands wil not run");
         }
 

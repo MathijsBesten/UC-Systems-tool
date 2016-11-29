@@ -1,11 +1,14 @@
-﻿namespace Cisco_Tool.Views
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Cisco_Tool.Views
 {
     partial class FirstRunScreen
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -308,25 +311,25 @@
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabs;
-        private System.Windows.Forms.TabPage sqlPage;
-        private System.Windows.Forms.TabPage welcomePage;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TabPage summaryPage;
-        private System.Windows.Forms.Button BackButton;
-        private System.Windows.Forms.Button NextButton;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label PasswordLabel;
-        private System.Windows.Forms.TextBox SQLPassword;
-        private System.Windows.Forms.TextBox SQLIPAddress;
-        private System.Windows.Forms.Label UsernameLabel;
-        private System.Windows.Forms.TextBox SQLUsername;
-        private System.Windows.Forms.Label IPaddressLabel;
-        private System.Windows.Forms.Label DatabaseLabel;
-        private System.Windows.Forms.TextBox SQLDatabase;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox summaryTextBox;
-        private System.Windows.Forms.ErrorProvider mainErrorProvider;
+        private TabControl tabs;
+        private TabPage sqlPage;
+        private TabPage welcomePage;
+        private TextBox textBox1;
+        private Label label2;
+        private TabPage summaryPage;
+        private Button BackButton;
+        private Button NextButton;
+        private Label label3;
+        private Label PasswordLabel;
+        private TextBox SQLPassword;
+        private TextBox SQLIPAddress;
+        private Label UsernameLabel;
+        private TextBox SQLUsername;
+        private Label IPaddressLabel;
+        private Label DatabaseLabel;
+        private TextBox SQLDatabase;
+        private Label label1;
+        private TextBox summaryTextBox;
+        private ErrorProvider mainErrorProvider;
     }
 }

@@ -28,7 +28,7 @@
     <ProductName>Cisco Tool</ProductName>
     <PublisherName>Mathijs den Besten - UC Systems</PublisherName>
     <SuiteName>Mathijs den Besten - UC Systems</SuiteName>
-    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationRevision>5</ApplicationRevision>
     <ApplicationVersion>0.0.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -181,6 +181,7 @@
     </Compile>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <SubType>Designer</SubType>
@@ -189,24 +190,31 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\AboutScreen.resx">
       <DependentUpon>AboutScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\ChangeLogLevelScreen.resx">
       <DependentUpon>ChangeLogLevelScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\FirstRunScreen.resx">
       <DependentUpon>FirstRunScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\SplashScreen.resx">
       <DependentUpon>SplashScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\confirmationScreen.resx">
       <DependentUpon>ConfirmationScreen.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Widgets\Views\selctionWizard.resx">
       <DependentUpon>selctionWizard.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Widgets\Views\WidgetCreator.resx">
       <DependentUpon>WidgetCreator.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Cisco Tool_TemporaryKey.pfx" />
     <None Include="packages.config" />

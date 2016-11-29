@@ -1,19 +1,19 @@
-﻿using log4net;
+﻿using System;
+using System.Drawing;
+using System.Reflection;
+using System.Windows.Forms;
+using log4net;
 using log4net.Core;
 using log4net.Repository.Hierarchy;
-using System;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Cisco_Tool.Views
 {
     public partial class ChangeLogLevelScreen : Form
     {
-        private static log4net.ILog log =
-         log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private static readonly Logger logger = log.Logger as Logger;
+        private static readonly ILog log =
+         LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private bool dragging = false;
+        private bool dragging;
         private Point startPoint = new Point(0, 0);
         public TextBox disclaimerTextbox = new TextBox();
         public Panel closedisclaimerPanel = new Panel();
@@ -32,7 +32,7 @@ namespace Cisco_Tool.Views
             disclaimerTextbox.ForeColor = Color.Black;
             disclaimerTextbox.BorderStyle = BorderStyle.None;
             disclaimerTextbox.Location = new Point(0, 56);
-            this.Controls.Add(disclaimerTextbox);
+            Controls.Add(disclaimerTextbox);
             disclaimerTextbox.BringToFront();
 
 
@@ -53,7 +53,7 @@ namespace Cisco_Tool.Views
             closedisclaimerText.Click += ClosedisclaimerText_Click;
             
 
-            this.Controls.Add(closedisclaimerPanel);
+            Controls.Add(closedisclaimerPanel);
             closedisclaimerPanel.Controls.Add(closedisclaimerText);
             closedisclaimerPanel.BringToFront();
 
@@ -90,22 +90,22 @@ namespace Cisco_Tool.Views
 
         private void titleLabel_MouseMove(object sender, MouseEventArgs e)
         {
-            if (dragging == true)
+            if (dragging)
             {
                 Point p = PointToScreen(e.Location);
-                Location = new Point(p.X - this.startPoint.X, p.Y - this.startPoint.Y);
+                Location = new Point(p.X - startPoint.X, p.Y - startPoint.Y);
             }
         }
         private void returnOK()
         {
-            if (debugLevel.Checked == true)
-                ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Level = Level.Debug;
-            else if (infoLevel.Checked == true)
-                ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Level = Level.Info;
-            else if (errorLevel.Checked == true)
-                ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).Root.Level = Level.Error;
-            ((log4net.Repository.Hierarchy.Hierarchy)LogManager.GetRepository()).RaiseConfigurationChanged(EventArgs.Empty);
-            this.DialogResult = DialogResult.OK;
+            if (debugLevel.Checked)
+                ((Hierarchy)LogManager.GetRepository()).Root.Level = Level.Debug;
+            else if (infoLevel.Checked)
+                ((Hierarchy)LogManager.GetRepository()).Root.Level = Level.Info;
+            else if (errorLevel.Checked)
+                ((Hierarchy)LogManager.GetRepository()).Root.Level = Level.Error;
+            ((Hierarchy)LogManager.GetRepository()).RaiseConfigurationChanged(EventArgs.Empty);
+            DialogResult = DialogResult.OK;
         }
         private void closeDisclaimer()
         {
@@ -133,11 +133,6 @@ namespace Cisco_Tool.Views
         }
 
         private void ClosedisclaimerPanel_Click(object sender, EventArgs e)
-        {
-            closeDisclaimer();
-        }
-
-        private void Closedisclaimer_Click(object sender, EventArgs e)
         {
             closeDisclaimer();
         }

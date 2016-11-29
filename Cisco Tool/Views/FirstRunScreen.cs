@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
+using Cisco_Tool.Properties;
+using log4net;
 
 namespace Cisco_Tool.Views
 {
     public partial class FirstRunScreen : Form
     {
-        private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public FirstRunScreen()
         {
             InitializeComponent();
@@ -27,40 +30,11 @@ namespace Cisco_Tool.Views
                     break;
 
                 case 1:
-                    if (SQLIPAddress.Text == "")
-                    {
-                        mainErrorProvider.SetError(SQLIPAddress, "gebruikersnaam vereist");
-                    }
-                    else
-                    {
-                        mainErrorProvider.SetError(SQLIPAddress, "");
-                    }
-                    if (SQLDatabase.Text == "")
-                    {
-                        mainErrorProvider.SetError(SQLDatabase, "Database vereist");
-                    }
-                    else
-                    {
-                        mainErrorProvider.SetError(SQLDatabase, "");
-                    }
-                    if (SQLUsername.Text == "")
-                    {
+                    mainErrorProvider.SetError(SQLIPAddress, SQLIPAddress.Text == "" ? "gebruikersnaam vereist" : "");
+                    mainErrorProvider.SetError(SQLDatabase, SQLDatabase.Text == "" ? "Database vereist" : "");
+                    mainErrorProvider.SetError(SQLUsername, SQLUsername.Text == "" ? "Gebruikersnaam vereist" : "");
+                    mainErrorProvider.SetError(SQLPassword, SQLPassword.Text == "" ? "Wachtwoord vereist" : "");
 
-                        mainErrorProvider.SetError(SQLUsername, "Gebruikersnaam vereist");
-                    }
-                    else
-                    {
-                        mainErrorProvider.SetError(SQLUsername, "");
-                    }
-                    if (SQLPassword.Text == "")
-                    {
-
-                        mainErrorProvider.SetError(SQLPassword, "Wachtwoord vereist");
-                    }
-                    else
-                    {
-                        mainErrorProvider.SetError(SQLPassword, "");
-                    }
                     if (SQLIPAddress.Text != "" && SQLDatabase.Text != "" && SQLUsername.Text != "" && SQLPassword.Text != "")
                     {
                         NextButton.Text = "Voltooien";
@@ -94,14 +68,14 @@ namespace Cisco_Tool.Views
                     break;
 
                 case 2:
-                    Properties.Settings.Default.CiscoToolServerIP = SQLIPAddress.Text;
-                    Properties.Settings.Default.CiscoToolServerDatabase = SQLDatabase.Text;
-                    Properties.Settings.Default.CiscoToolServerUsername = SQLUsername.Text;
-                    Properties.Settings.Default.CiscoToolServerPassword = SQLPassword.Text;
+                    Settings.Default.CiscoToolServerIP = SQLIPAddress.Text;
+                    Settings.Default.CiscoToolServerDatabase = SQLDatabase.Text;
+                    Settings.Default.CiscoToolServerUsername = SQLUsername.Text;
+                    Settings.Default.CiscoToolServerPassword = SQLPassword.Text;
 
-                    Properties.Settings.Default.Save();
+                    Settings.Default.Save();
                     log.Info("Database details are saved to local settings file");
-                    this.DialogResult = DialogResult.OK;
+                    DialogResult = DialogResult.OK;
                     break;
 
                 default:
@@ -118,7 +92,7 @@ namespace Cisco_Tool.Views
             {
                 case 0:
                     log.Info("User closed the first run screen ");
-                    this.DialogResult = DialogResult.Cancel;
+                    DialogResult = DialogResult.Cancel;
                     break;
                 case 1:
                     BackButton.Text = "Annuleren";
@@ -155,8 +129,6 @@ namespace Cisco_Tool.Views
                 case 2:
                     BackButton.Text = "Vorige";
                     NextButton.Text = "Voltooien";
-                    break;
-                default:
                     break;
             }
         }

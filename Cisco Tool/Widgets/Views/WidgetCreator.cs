@@ -21,7 +21,7 @@ namespace Cisco_Tool.Widgets.Views
         private static readonly log4net.ILog log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        widget newWidget = new widget();
+        readonly widget newWidget = new widget();
         bool selectionHasRun = false;
 
         private void outputBox_KeyDown(object sender, KeyEventArgs e)
@@ -30,8 +30,6 @@ namespace Cisco_Tool.Widgets.Views
             {
                 string completeResponse = outputBox.Text; 
                 string selectedString = outputBox.SelectedText;
-                int startIndex = completeResponse.IndexOf(selectedString);
-                int endIndex = startIndex + selectedString.Length;
                 string[] substring = Regex.Split(completeResponse, selectedString);
                 var enterCountInfront = Regex.Matches(substring[0], "\\r\\n").Count; // will be saved in xml file
                 var enterCountInSelectedString = Regex.Matches(selectedString, "\\r\\n").Count; // will be saved in xml file
@@ -46,30 +44,9 @@ namespace Cisco_Tool.Widgets.Views
 
         private void NewWidgetAddButton_Click(object sender, EventArgs e)
         {
-            if (NewWidgetName.Text == "")
-            {
-                widgetCreatorErrorProvider.SetError(NewWidgetName, "Naam is verplicht");
-            }
-            else
-            {
-                widgetCreatorErrorProvider.SetError(NewWidgetName, "");
-            }
-            if (NewWidgetCommand.Text == "")
-            {
-                widgetCreatorErrorProvider.SetError(NewWidgetCommand, "commando is verplicht");
-            }
-            else
-            {
-                widgetCreatorErrorProvider.SetError(NewWidgetCommand, "");
-            }
-            if (NewWidgetCommandtype.Text == "")
-            {
-                widgetCreatorErrorProvider.SetError(NewWidgetCommandtype, "commando type is verplicht");
-            }
-            else
-            {
-                widgetCreatorErrorProvider.SetError(NewWidgetCommandtype, "");
-            }
+            widgetCreatorErrorProvider.SetError(NewWidgetName, NewWidgetName.Text == "" ? "Naam is verplicht" : "");
+            widgetCreatorErrorProvider.SetError(NewWidgetCommand, NewWidgetCommand.Text == "" ? "commando is verplicht" : "");
+            widgetCreatorErrorProvider.SetError(NewWidgetCommandtype, NewWidgetCommandtype.Text == "" ? "commando type is verplicht" : "");
             if (selectionHasRun == false && newWidgetUseSelectionCheckbox.Checked == true)
             {
                 widgetCreatorErrorProvider.SetError(outputBox, "maak een selectie");
@@ -85,7 +62,7 @@ namespace Cisco_Tool.Widgets.Views
                 newWidget.widgetUseSelection = newWidgetUseSelectionCheckbox.Checked;
                 newWidget.widgetType = NewWidgetCommandtype.Text;
                 newWidget.widgetUseLongProcessTime = NewWidgetUsesLongProcessTime.Checked;
-                List<widget> widgets = new List<Classes.widget>();
+                List<widget> widgets = new List<widget>();
                 widgets.Add(newWidget);
                 JSON.writeJSON(widgets);
                 log.Info("widget is added from widget creator");

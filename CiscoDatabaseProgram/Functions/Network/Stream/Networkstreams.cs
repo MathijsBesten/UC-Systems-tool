@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Timers;
 
 namespace CiscoDatabaseProgram.Functions.Network.Stream
 {
@@ -17,8 +10,6 @@ namespace CiscoDatabaseProgram.Functions.Network.Stream
     {
         public static string TalkToCiscoRouterAndWaitForResponse(string IPAddress,string message)
         {
-            int bytes = 0;
-            string response = "";
             byte[] lastBytesArray = new byte[4096];
             byte[] responseInBytes = new byte[4096];
             bool itIsTheEnd = false;
@@ -29,7 +20,6 @@ namespace CiscoDatabaseProgram.Functions.Network.Stream
                 client.ReceiveTimeout = 3;
                 client.SendTimeout = 3;
                 byte[] messageInBytes = Encoding.ASCII.GetBytes(message);
-                NetworkStream stream = client.GetStream();
                 Console.WriteLine();
                 using (var writer = new BinaryWriter(client.GetStream(),Encoding.ASCII,true))
                 {
@@ -40,7 +30,7 @@ namespace CiscoDatabaseProgram.Functions.Network.Stream
                 {
                     while (itIsTheEnd == false)
                     {
-                        bytes = reader.Read(responseInBytes, 0, responseInBytes.Count());
+                        reader.Read(responseInBytes, 0, responseInBytes.Length);
                         if (lastBytesArray == responseInBytes)
                         {
                             itIsTheEnd = true;
@@ -49,7 +39,7 @@ namespace CiscoDatabaseProgram.Functions.Network.Stream
                         Thread.Sleep(15);
                     }
                 }
-                response = Encoding.ASCII.GetString(responseInBytes);
+                string response = Encoding.ASCII.GetString(responseInBytes);
                 response = response.Replace("\0", "");
                 client.Close();
                 return response;

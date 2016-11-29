@@ -26,35 +26,15 @@ namespace Cisco_Tool.Widgets.Views
             if (LoginIPAddress.Text != "")
             {
                 ipIsValid = validation.validateIPv4(LoginIPAddress.Text);
-                if (!ipIsValid)
-                {
-                    loginScreenErrorHandler.SetError(LoginIPAddress,"Ip adres is niet een correct IPv4 adres");
-                }
-                else // ip is valid and should connect
-                {
-                    loginScreenErrorHandler.SetError(LoginIPAddress, "");
-                }
+                loginScreenErrorHandler.SetError(LoginIPAddress,
+                    !ipIsValid ? "Ip adres is niet een correct IPv4 adres" : "");
             }
             else
             {
                 loginScreenErrorHandler.SetError(LoginIPAddress, "Geef IPv4 ip adres op van een cisco router");
             }
-            if (LoginUsername.Text != "")
-            {
-                loginScreenErrorHandler.SetError(LoginUsername, "");
-            }
-            else
-            {
-                loginScreenErrorHandler.SetError(LoginUsername, "Geef gebruikersnaam op");
-            }
-            if (LoginPassword.Text != "")
-            {
-                loginScreenErrorHandler.SetError(LoginPassword, "");
-            }
-            else
-            {
-                loginScreenErrorHandler.SetError(LoginPassword, "Geef wachtwoord op");
-            }
+            loginScreenErrorHandler.SetError(LoginUsername, LoginUsername.Text != "" ? "" : "Geef gebruikersnaam op");
+            loginScreenErrorHandler.SetError(LoginPassword, LoginPassword.Text != "" ? "" : "Geef wachtwoord op");
             if ((loginIPLabel.Text != "" && ipIsValid == true) && LoginUsername.Text != "" && LoginPassword.Text != "")
             {
                 ipadres =  LoginIPAddress.Text;

@@ -1,21 +1,19 @@
-﻿using CiscoDatabaseProgram.Functions.MySQL;
-using CiscoDatabaseProgram.Values;
-using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Reflection;
+using CiscoDatabaseProgram.Functions.MySQL;
+using CiscoDatabaseProgram.Values;
+using log4net;
+using MySql.Data.MySqlClient;
+using General = CiscoDatabaseProgram.Functions.SerialNumbers.General;
 
 namespace CiscoDatabaseProgram.Functions.Main
 {
     class MainCode
     {
-        private static readonly log4net.ILog log =
-        log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+        LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public static void updateDatabase() // first run
         {
             log.Info("");
@@ -27,7 +25,7 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine();
 
             MySqlConnection connectionToMainDB = Connections.MainDB();
-            List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
+            List<router> mainDatabaseData = Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
             SqlConnection connectionToOwnDB = Connections.OwnDB();
             List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.getAllFromOwnDatabaseQuery);
             Data.compareDatabasesAndUpdateIfNeeded(mainDatabaseData, OwnDatabaseData);
@@ -44,7 +42,7 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine();
 
             MySqlConnection connectionToMainDB = Connections.MainDB(); // connection to main database
-            List<router> mainDatabaseData = Functions.MySQL.Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
+            List<router> mainDatabaseData = Data.getDataFromMySQL(connectionToMainDB, PrivateValues.NIETAANZITTENserverQuery); // returns null if failed to connect
             SqlConnection connectionToOwnDB = Connections.OwnDB(); // connection to Cisco Tool database
             List<router> OwnDatabaseData = Data.getDataFromMicrosoftSQL(connectionToOwnDB, PrivateValues.getAllFromOwnDatabaseQuery); // returns list of items from OwnServer
             Data.compareDatabasesAndUpdateIfNeeded(mainDatabaseData, OwnDatabaseData); // this will check for changes, if database are not the same it will try to fix itself
@@ -61,7 +59,7 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine();
             string username = Settings.Default.username; 
             string password = Settings.Default.password;
-            SerialNumbers.General.getSerialnumbersForRouters(username, password);
+            General.getSerialnumbersForRouters(username, password);
         }
 
         public static void updateSerials(Object source, EventArgs e) // timed event
@@ -75,7 +73,7 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine();
             string username = Settings.Default.username;
             string password = Settings.Default.password;
-            SerialNumbers.General.getSerialnumbersForRouters(username, password);
+            General.getSerialnumbersForRouters(username, password);
         }
     }
 }

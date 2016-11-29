@@ -5,7 +5,7 @@ namespace Cisco_Tool.Widgets.Templates
 {
     // This widget will be used in the MainTableLayoutPanel
     // This control can also be added from the toolbox 
-    public class ExecuteTemplate : Panel
+    public sealed class ExecuteTemplate : Panel
     {
         //public variables
 
@@ -75,7 +75,7 @@ namespace Cisco_Tool.Widgets.Templates
             this.BackColor = Color.Gray;
             this.ForeColor = Color.White;
             this.Size = new Size(250, 230);
-            this.Margin = new System.Windows.Forms.Padding(0);
+            this.Margin = new Padding(0);
             this.Visible = true;
 
             //assign controls to panels

@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
+using log4net;
 
 namespace Cisco_Tool.Views
 {
     public partial class SplashScreen : Form
     {
-        private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public SplashScreen()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace Cisco_Tool.Views
         {
             mainTimer.Stop();
             mainform.Show();
-            this.Hide();
+            Hide();
         }
     }
 }

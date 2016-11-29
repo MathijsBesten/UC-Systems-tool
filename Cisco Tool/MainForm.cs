@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Cisco_Tool.Functions.SQL;
-using Cisco_Tool.Values;
 using static Cisco_Tool.Values.PrivateValues;
 using System.Data.SqlClient;
 using Cisco_Tool.Functions.Network;
@@ -24,7 +23,7 @@ namespace Cisco_Tool
     public partial class MainForm : Form
     {
         private static readonly log4net.ILog log =
-            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region properties
         private static List<router> allRouters;
@@ -32,17 +31,16 @@ namespace Cisco_Tool
         public List<string> allCommands = new List<string>();
         public List<string> selectedIPAddresses = new List<string>();
         public static List<Control> readyPanels = new List<Control>();
-        static List<widgetResult> allOutputs = new List<widgetResult>();
         public static List<widget> readyWidgets = new List<widget>();
         public int widgetTag = 0;
         public bool loginDetailsChanged = false;
         List<widgetResult> listOfWidgetItems = new List<widgetResult>();
         public int indexOfRunWidget = 0;
 
-        private string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
-        private string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
-        private string SQLUsername = Properties.Settings.Default.CiscoToolServerUsername;
-        private string SQLPassword = Properties.Settings.Default.CiscoToolServerPassword;
+        private readonly string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
+        private readonly string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
+        private readonly string SQLUsername = Properties.Settings.Default.CiscoToolServerUsername;
+        private readonly string SQLPassword = Properties.Settings.Default.CiscoToolServerPassword;
         #endregion
 
         public MainForm()
@@ -68,7 +66,7 @@ namespace Cisco_Tool
             try
             {
                 SqlConnection connection = Connections.OwnDB();
-                allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
+                allRouters = Data.getDataFromMicrosoftSQL(connection, OwnServerServerQuery);
                 if (allRouters != null)
                 {
                     foreach (var router in allRouters)
@@ -258,8 +256,6 @@ namespace Cisco_Tool
         {
             if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
             {
-                Stopwatch sw = new Stopwatch();
-                sw.Start();
                 string nameOfRouter = MainDataGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
                 string IPAddress = MainDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
                 if (allSelectedRouters.Items.Contains(nameOfRouter))
@@ -278,8 +274,6 @@ namespace Cisco_Tool
                 {
                     selectedIPAddresses.Add(IPAddress);
                 }
-                sw.Stop();
-                Console.WriteLine(sw.ElapsedTicks);
             }
         }
         private void MainDataGridView_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
@@ -288,7 +282,6 @@ namespace Cisco_Tool
             {
                 MainDataGridView.EndEdit();
             }
-
         }
 
 
@@ -316,18 +309,9 @@ namespace Cisco_Tool
         #region homescreen
         private void ManualConnect_Click(object sender, EventArgs e)
         {
-            if (ManualIPAddress.Text != "")
-                mainErrorProvider.SetError(ManualIPAddress, "");
-            else
-                mainErrorProvider.SetError(ManualIPAddress, "ip adres verplicht");
-            if (ManualUsername.Text != "")
-                mainErrorProvider.SetError(ManualUsername, "");
-            else
-                mainErrorProvider.SetError(ManualUsername, "Gebruikersnaam verplicht");
-            if (ManualPassword.Text != "")
-                mainErrorProvider.SetError(ManualPassword, "");
-            else
-                mainErrorProvider.SetError(ManualPassword, "Wachtwoord verplicht");
+            mainErrorProvider.SetError(ManualIPAddress, ManualIPAddress.Text != "" ? "" : "ip adres verplicht");
+            mainErrorProvider.SetError(ManualUsername, ManualUsername.Text != "" ? "" : "Gebruikersnaam verplicht");
+            mainErrorProvider.SetError(ManualPassword, ManualPassword.Text != "" ? "" : "Wachtwoord verplicht");
 
 
             if (ManualIPAddress.Text != "" && ManualUsername.Text != "" && ManualPassword.Text != "")
@@ -358,32 +342,11 @@ namespace Cisco_Tool
         }
         private void RunCommands_Click(object sender, EventArgs e)
         {
-            if (Username.Text == "")
-            {
-                mainErrorProvider.SetError(Username, "gebruikersnaam vereist");
-            }
-            else
-            {
-                mainErrorProvider.SetError(Username, "");
-            }
-            if (Password.Text == "")
-            {
-                mainErrorProvider.SetError(Password, "wachtwoord vereist");
-            }
-            else
-            {
-                mainErrorProvider.SetError(Password, "");
-            }
+            mainErrorProvider.SetError(Username, Username.Text == "" ? "gebruikersnaam vereist" : "");
+            mainErrorProvider.SetError(Password, Password.Text == "" ? "wachtwoord vereist" : "");
             if (Command1.Text == "")
             {
-                if (selectedScriptPath != "") // user selected a script
-                {
-                    mainErrorProvider.SetError(Command1, "");
-                }
-                else
-                {
-                    mainErrorProvider.SetError(Command1, "commando of script vereist");
-                }
+                mainErrorProvider.SetError(Command1, selectedScriptPath != "" ? "" : "commando of script vereist");
             }
             else
             {
@@ -408,7 +371,7 @@ namespace Cisco_Tool
                     if (Command3.Text != "") { commands.Add(Command3.Text); }
                     if (Command4.Text != "") { commands.Add(Command4.Text); }
 
-                    var confirmDialog = new Views.ConfirmationScreen(allSelectedRouters.Items.Cast<string>().ToList(), commands);
+                    var confirmDialog = new ConfirmationScreen(allSelectedRouters.Items.Cast<string>().ToList(), commands);
                     confirmDialog.ShowDialog();
                     if (confirmDialog.DialogResult == DialogResult.OK)
                     {
@@ -462,20 +425,19 @@ namespace Cisco_Tool
 
         private void removeToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
         {
-            List<DataGridViewRow> data = new List<DataGridViewRow>();
             int index = allSelectedRouters.SelectedIndex;
+            string selectedRouter = allSelectedRouters.Items[index].ToString();
             if (index != -1)
             {
                 foreach (DataGridViewRow row in MainDataGridView.Rows)
                 {
-                    if (row.Cells[1].Value.ToString() == allSelectedRouters.Items[index].ToString())
+                    if (row.Cells[1].Value.ToString() == selectedRouter)
                     {
-                        int rowIndex = Int32.Parse(row.Index.ToString());
                         (row.Cells[0] as DataGridViewCheckBoxCell).Value = false;
+                        break;
                     }
                 }
                 MainDataGridView.Refresh();
-                allSelectedRouters.Items.RemoveAt(index); // functions as jquery
                 MainContextMenuStrip.Close();
             }
         }
@@ -514,7 +476,7 @@ namespace Cisco_Tool
             }
         }
 
-        private void checkEnterKeyPressed(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void checkEnterKeyPressed(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
             {
@@ -604,7 +566,7 @@ namespace Cisco_Tool
             try
             {
                 SqlConnection connection = Connections.OwnDB();
-                allRouters = Data.getDataFromMicrosoftSQL(connection, PrivateValues.OwnServerServerQuery);
+                allRouters = Data.getDataFromMicrosoftSQL(connection, OwnServerServerQuery);
                 if (allRouters != null)
                 {
                     foreach (var router in allRouters)
@@ -635,7 +597,7 @@ namespace Cisco_Tool
         private void aboutCiscoToolToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var aboutScreen = new AboutScreen();
-            var result = aboutScreen.ShowDialog();
+            aboutScreen.ShowDialog();
         }
 
         private void maxOutputWindow_Click(object sender, EventArgs e)
@@ -649,7 +611,7 @@ namespace Cisco_Tool
                     List<string> listOfRouters = new List<string>();
                     foreach (var item in strings)
                     {
-                        listOfRouters.Add(item.ToString());
+                        listOfRouters.Add(item);
                     }
                     int maxwidth = Animations.Resizing.getLongestStringInPixels(listOfRouters);
                     while (OutputBox.Width < maxwidth)
@@ -688,53 +650,7 @@ namespace Cisco_Tool
             log.Info("Telnet.exe has been started by the user");
         }
 
-        private void getInformationForWidgetPage(string ip, string username, string password)
-        {
-            var widgets = JSON.readJSON(); // 7ms for reading a empty file
-
-            //getting widget infromation and setting up template details
-            Size templateSize = new Size(250, 230);
-            Color templateBackColor = Color.Gray; //backcolor
-            Color templateForeColor = Color.White; // font color
-            Padding templateMargin = new System.Windows.Forms.Padding(0); // margin
-            int count = 0;
-            log.Info("every widget is being made and will be put into maintable");
-            foreach (var widget in widgets)
-            {
-                if (widget.widgetType == "Informatie")
-                {
-                    var newPanel = new InfoTemplate();
-                    newPanel.Name = "Panel" + count.ToString();
-                    newPanel.Tag = count.ToString();
-                    newPanel.titleWidgetLabel.Text = widget.widgetName;
-                    newPanel.commandName.Text = widget.widgetCommand;
-                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-                    readyPanels.Add(newPanel);
-                }
-
-                else //execute widget
-                {
-                    var newPanel = new ExecuteTemplate();
-                    newPanel.Name = "Panel" + count.ToString();
-                    newPanel.Tag = count.ToString();
-                    newPanel.titleWidgetLabel.Text = widget.widgetName;
-                    newPanel.commandName.Text = widget.widgetCommand;
-                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                    newPanel.runButton.Click += new EventHandler(runCommand);
-                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-                    newPanel.runButton.Text = "Uitvoeren";
-                    readyPanels.Add(newPanel);
-                }
-                BackgroundWorker backgroundWorkerMakeWidget = new BackgroundWorker();
-                backgroundWorkerMakeWidget.DoWork += getWidgetPageInfo_Work;
-                backgroundWorkerMakeWidget.RunWorkerCompleted += new RunWorkerCompletedEventHandler(getWidgetPageInfo_runCompleted);
-                widgetTag = count;
-                backgroundWorkerMakeWidget.RunWorkerAsync(widget);
-                count++;
-            }
-        }      
+            
 
         private void maximizeWidget(object sender, EventArgs e)
         {
@@ -760,7 +676,6 @@ namespace Cisco_Tool
             var widgets = JSON.readJSON(); // 7ms for reading a empty file
             var widget = widgets[indexOfRunWidget];
             string command = widgetSender.commandName.Text;
-            var outputbox = MainTableLayoutPanel.Controls[indexOfRunWidget].Controls[1].Controls[1];
 
 
             if (command != "")
@@ -858,8 +773,7 @@ namespace Cisco_Tool
             bigOutputPanel.Visible = false;
         }
 
-
-
+        // ReSharper disable once UnusedParameter.Local
         private void getWidgetsAsync(bool addPlusButton)
         {
             MainTableLayoutPanel.Enabled = false;
@@ -905,9 +819,6 @@ namespace Cisco_Tool
                     {
                         newPanel.outputbox.Text = item.widgetOutput;
                     }
-
-
-
                     MainTableLayoutPanel.Controls.Add(newPanel);
                 }
 
@@ -970,8 +881,7 @@ namespace Cisco_Tool
             //start function
             string username = Username.Text;
             string password = Password.Text;
-            int indexOfCommand = 0;
-            string localIP = router;//= "172.28.81.180"; // change to 'router' in release version
+            string localIP = router;
 
 
             // start of telnet function
@@ -980,9 +890,7 @@ namespace Cisco_Tool
             totalOutput.Add(localIP);
             totalOutput.Add(Environment.NewLine);
             totalOutput.Add(Environment.NewLine);
-            string output;
-            output = new TelnetConnection().telnetClientTCP(localIP, commands, username, password, true);
-            indexOfCommand++;
+            string output = new TelnetConnection().telnetClientTCP(localIP, commands, username, password, true);
             totalOutput.Add(output); // add output to totalOutput
             totalOutput.Add(Environment.NewLine);
             totalOutput.Add("--------------");
@@ -1012,11 +920,9 @@ namespace Cisco_Tool
 
         private void logLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var logchangerDialog = new Views.ChangeLogLevelScreen();
+            var logchangerDialog = new ChangeLogLevelScreen();
             logchangerDialog.Location = new Point (this.DesktopLocation.X + 105, this.DesktopLocation.Y + 60); 
-            DialogResult result = logchangerDialog.ShowDialog();
+            logchangerDialog.ShowDialog();
         }
-
-
     }
 }

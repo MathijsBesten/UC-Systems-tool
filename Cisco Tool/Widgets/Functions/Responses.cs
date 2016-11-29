@@ -44,7 +44,6 @@ namespace Cisco_Tool.Widgets.Functions
                             break;
                         }
                     }
-                    int startIndexOfResponse = fullstringWithoutWord.Length;
                     goalVariable = fullStringWithWord.Remove(0, fullstringWithoutWord.Length);
                 }
                 //OPTIONAL - removes all enters
