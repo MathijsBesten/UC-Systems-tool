@@ -147,10 +147,12 @@ namespace Cisco_Tool
                         int count = 0;
                         foreach (Widget widget in widgets)
                         {
-                            WidgetResult item = new WidgetResult();
-                            item.WidgetCommand = widget.WidgetCommand;
-                            item.UselongTime = widget.WidgetUseLongProcessTime;
-                            item.WidgetTag = count.ToString();
+                            WidgetResult item = new WidgetResult
+                            {
+                                WidgetCommand = widget.WidgetCommand,
+                                UselongTime = widget.WidgetUseLongProcessTime,
+                                WidgetTag = count.ToString()
+                            };
                             listToRun.Add(item);
                             count++;
                         }
@@ -948,7 +950,7 @@ namespace Cisco_Tool
 
         private void bugMeldenToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Process.Start("https://gitreports.com/issue/MathijsBesten/UC-Systems-tool"); // report bug
+            Process.Start("https://gitreports.com/issue/MathijsBesten/UC-Systems-tool"); // report
         }
 
         private void logLevelToolStripMenuItem_Click(object sender, EventArgs e)
