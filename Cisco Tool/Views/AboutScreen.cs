@@ -8,7 +8,7 @@ namespace Cisco_Tool.Views
 {
     public partial class AboutScreen : Form
     {
-        private static readonly ILog log =
+        private static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public AboutScreen()
         {
@@ -18,8 +18,8 @@ namespace Cisco_Tool.Views
                                            .Version
                                            .ToString();
             versionNumber.Text = version;
-            log.Info("Launched About Screen");
-            log.Info(version);
+            Log.Info("Launched About Screen");
+            Log.Info(version);
         }
 
         private void OKButton_Click(object sender, EventArgs e)

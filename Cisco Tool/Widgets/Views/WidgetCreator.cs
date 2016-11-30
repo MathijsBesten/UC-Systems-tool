@@ -15,14 +15,14 @@ namespace Cisco_Tool.Widgets.Views
         {
             InitializeComponent();
             selectionPanel.Hide();
-            log.Info("Launched widgetcreator Screen");
+            Log.Info("Launched widgetcreator Screen");
         }
 
-        private static readonly log4net.ILog log =
+        private static readonly log4net.ILog Log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        readonly widget newWidget = new widget();
-        bool selectionHasRun = false;
+        readonly Widget _newWidget = new Widget();
+        bool _selectionHasRun = false;
 
         private void outputBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -34,11 +34,11 @@ namespace Cisco_Tool.Widgets.Views
                 var enterCountInfront = Regex.Matches(substring[0], "\\r\\n").Count; // will be saved in xml file
                 var enterCountInSelectedString = Regex.Matches(selectedString, "\\r\\n").Count; // will be saved in xml file
 
-                newWidget.widgetEnterCountBeforeString = enterCountInfront;
-                newWidget.WidgetEnterCountInString = enterCountInSelectedString;
-                selectionHasRun = true;
+                _newWidget.WidgetEnterCountBeforeString = enterCountInfront;
+                _newWidget.WidgetEnterCountInString = enterCountInSelectedString;
+                _selectionHasRun = true;
                 MessageBox.Show("Je hebt "  + selectedString +" gekozen");
-                log.Info("User Chose substring");
+                Log.Info("User Chose substring");
             }
         }
 
@@ -47,7 +47,7 @@ namespace Cisco_Tool.Widgets.Views
             widgetCreatorErrorProvider.SetError(NewWidgetName, NewWidgetName.Text == "" ? "Naam is verplicht" : "");
             widgetCreatorErrorProvider.SetError(NewWidgetCommand, NewWidgetCommand.Text == "" ? "commando is verplicht" : "");
             widgetCreatorErrorProvider.SetError(NewWidgetCommandtype, NewWidgetCommandtype.Text == "" ? "commando type is verplicht" : "");
-            if (selectionHasRun == false && newWidgetUseSelectionCheckbox.Checked == true)
+            if (_selectionHasRun == false && newWidgetUseSelectionCheckbox.Checked == true)
             {
                 widgetCreatorErrorProvider.SetError(outputBox, "maak een selectie");
             }
@@ -55,17 +55,17 @@ namespace Cisco_Tool.Widgets.Views
             {
                 widgetCreatorErrorProvider.SetError(outputBox, "");
             }
-            if (NewWidgetName.Text != "" && NewWidgetCommand.Text != "" && NewWidgetCommandtype.Text != "" && ((selectionHasRun == true && newWidgetUseSelectionCheckbox.Checked == true) || (selectionHasRun == false && newWidgetUseSelectionCheckbox.Checked == false )))
+            if (NewWidgetName.Text != "" && NewWidgetCommand.Text != "" && NewWidgetCommandtype.Text != "" && ((_selectionHasRun == true && newWidgetUseSelectionCheckbox.Checked == true) || (_selectionHasRun == false && newWidgetUseSelectionCheckbox.Checked == false )))
             {
-                newWidget.widgetName = NewWidgetName.Text;
-                newWidget.widgetCommand = NewWidgetCommand.Text;
-                newWidget.widgetUseSelection = newWidgetUseSelectionCheckbox.Checked;
-                newWidget.widgetType = NewWidgetCommandtype.Text;
-                newWidget.widgetUseLongProcessTime = NewWidgetUsesLongProcessTime.Checked;
-                List<widget> widgets = new List<widget>();
-                widgets.Add(newWidget);
-                JSON.writeJSON(widgets);
-                log.Info("widget is added from widget creator");
+                _newWidget.WidgetName = NewWidgetName.Text;
+                _newWidget.WidgetCommand = NewWidgetCommand.Text;
+                _newWidget.WidgetUseSelection = newWidgetUseSelectionCheckbox.Checked;
+                _newWidget.WidgetType = NewWidgetCommandtype.Text;
+                _newWidget.WidgetUseLongProcessTime = NewWidgetUsesLongProcessTime.Checked;
+                List<Widget> widgets = new List<Widget>();
+                widgets.Add(_newWidget);
+                Json.WriteJson(widgets);
+                Log.Info("widget is added from widget creator");
                 DialogResult = DialogResult.OK;
             }
             else
@@ -88,18 +88,18 @@ namespace Cisco_Tool.Widgets.Views
 
         private void SelectionWizard_Click(object sender, EventArgs e)
         {
-            var wizardScreen = new selctionWizard();
+            var wizardScreen = new SelctionWizard();
             var result = wizardScreen.ShowDialog();
             if (result == DialogResult.OK)
             {
                 List<string> command = new List<string>() { this.NewWidgetCommand.Text };
-                string completeResponse = new TelnetConnection().telnetClientTCP(wizardScreen.ipadres, command, wizardScreen.username, wizardScreen.password,NewWidgetUsesLongProcessTime.Checked);
+                string completeResponse = new TelnetConnection().TelnetClientTcp(wizardScreen.Ipadres, command, wizardScreen.Username, wizardScreen.Password,NewWidgetUsesLongProcessTime.Checked);
                 outputBox.Text = completeResponse;
             }
             else
             {
                 MessageBox.Show("Geen resultaat gevonden, probeer handmatig een selectie te maken of kies voor de complete output");
-                log.Info("user cancelled the selection wizard - if this happens multiple times, Please report to development team");
+                Log.Info("user cancelled the selection wizard - if this happens multiple times, Please report to development team");
             }
         }
 

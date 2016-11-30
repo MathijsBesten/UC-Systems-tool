@@ -8,88 +8,88 @@ using static Cisco_Tool.Widgets.Classes;
 
 namespace Cisco_Tool.Widgets.Functions
 {
-    class JSON
+    class Json
     {
-        private static readonly ILog log =
+        private static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static string path = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)) + "\\Ciscotool";
-        public static string fileName = "\\widgets.json";
+        public static string Path = (Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)) + "\\Ciscotool";
+        public static string FileName = "\\widgets.json";
 
 
-        public static void writeJSON(List<widget> widgetList)
+        public static void WriteJson(List<Widget> widgetList)
         {
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(Path))
             {
-                Directory.CreateDirectory(path);
-                if (!File.Exists(path + fileName))
+                Directory.CreateDirectory(Path);
+                if (!File.Exists(Path + FileName))
                 {
-                    FileStream file = File.Create(path + fileName);
+                    FileStream file = File.Create(Path + FileName);
                     file.Close();
-                    log.Info("Cisco directory and widget file has been made");
+                    Log.Info("Cisco directory and widget file has been made");
                 }
-                log.Info("widget file has been made");
+                Log.Info("widget file has been made");
             }
             else
             {
-                if (!File.Exists(path + fileName))
+                if (!File.Exists(Path + FileName))
                 {
-                    FileStream file =  File.Create(path + fileName);
+                    FileStream file =  File.Create(Path + FileName);
                     file.Close();
-                    log.Info("widget file has been made");
+                    Log.Info("widget file has been made");
                 }
             }
 
-            List<widget> currentJSON = readJSON();
-            if (currentJSON != null)
+            List<Widget> currentJson = ReadJson();
+            if (currentJson != null)
             {
-                foreach (var item in currentJSON)
+                foreach (var item in currentJson)
                 {
                     widgetList.Add(item);
                 }
             }
             string json = JsonConvert.SerializeObject(widgetList.ToArray(),Formatting.Indented);
-            File.WriteAllText(path + fileName, json);
-            log.Info("Widgets are written to local file");
+            File.WriteAllText(Path + FileName, json);
+            Log.Info("Widgets are written to local file");
         }
-        public static List<widget> readJSON()
+        public static List<Widget> ReadJson()
         {
-            if (!Directory.Exists(path))
+            if (!Directory.Exists(Path))
             {
-                Directory.CreateDirectory(path);
-                log.Info("Cisco directory has been made");
+                Directory.CreateDirectory(Path);
+                Log.Info("Cisco directory has been made");
             }
-            if (!File.Exists(path + fileName))
+            if (!File.Exists(Path + FileName))
             {
-                var file = File.Create(path + fileName);
+                var file = File.Create(Path + FileName);
                 file.Close();
-                log.Info("widget file has been made");
+                Log.Info("widget file has been made");
             }
-            string json = File.ReadAllText(path + fileName);
+            string json = File.ReadAllText(Path + FileName);
             if (json != "")
             {
-                var widgetsArray = JsonConvert.DeserializeObject<List<widget>>(json);
-                log.Info("Widgets are loaded from local file");
+                var widgetsArray = JsonConvert.DeserializeObject<List<Widget>>(json);
+                Log.Info("Widgets are loaded from local file");
                 return widgetsArray;
             }
-            log.Error("widget file was empty while trying to read");
+            Log.Error("widget file was empty while trying to read");
             return null;
         }
 
-        public static void removeWidgetFromWidgetList(int index)
+        public static void RemoveWidgetFromWidgetList(int index)
         {
             try
             {
-                var widgets = readJSON(); //get current widgets
+                var widgets = ReadJson(); //get current widgets
                 widgets.RemoveAt(index);
                 string json = JsonConvert.SerializeObject(widgets.ToArray(), Formatting.Indented);
-                File.WriteAllText(path + fileName, json);
-                log.Info("Widget ' " + widgets[index] + " ' is removed from local widget file");
+                File.WriteAllText(Path + FileName, json);
+                Log.Info("Widget ' " + widgets[index] + " ' is removed from local widget file");
             }
             catch (Exception ex)
             {
-                log.Error("Widget cannot be removed because of a error, ");
-                log.Error("Errormessage: " + ex.Message);
+                Log.Error("Widget cannot be removed because of a error, ");
+                Log.Error("Errormessage: " + ex.Message);
             }
 
         }

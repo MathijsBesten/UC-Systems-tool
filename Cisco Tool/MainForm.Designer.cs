@@ -414,7 +414,7 @@
             this.SearchBox.Name = "SearchBox";
             this.SearchBox.Size = new System.Drawing.Size(216, 20);
             this.SearchBox.TabIndex = 7;
-            this.SearchBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkEnterKeyPressed);
+            this.SearchBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CheckEnterKeyPressed);
             // 
             // SearchLabel
             // 

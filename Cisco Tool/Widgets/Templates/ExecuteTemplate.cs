@@ -9,68 +9,68 @@ namespace Cisco_Tool.Widgets.Templates
     {
         //public variables
 
-        public Panel templatePanel = new Panel();
-        public Panel topBar = new Panel();
-        public Label titleWidgetLabel = new Label();
-        public PictureBox maxWidgetPicturebox = new PictureBox();
-        public PictureBox closeWidgetPicturebox = new PictureBox();
-        public Panel informationPanel = new Panel();
-        public Label commandName = new Label();
-        public TextBox outputbox = new TextBox();
-        public Button runButton = new Button();
+        public Panel TemplatePanel = new Panel();
+        public Panel TopBar = new Panel();
+        public Label TitleWidgetLabel = new Label();
+        public PictureBox MaxWidgetPicturebox = new PictureBox();
+        public PictureBox CloseWidgetPicturebox = new PictureBox();
+        public Panel InformationPanel = new Panel();
+        public Label CommandName = new Label();
+        public TextBox Outputbox = new TextBox();
+        public Button RunButton = new Button();
 
         // new sort of control
         public ExecuteTemplate()
         {
-            topBar.Height = 32;
-            topBar.Width = 250;
-            topBar.BackColor = Color.FromArgb(255, 72, 201, 176);
-            topBar.Location = new Point(0, 0);
+            TopBar.Height = 32;
+            TopBar.Width = 250;
+            TopBar.BackColor = Color.FromArgb(255, 72, 201, 176);
+            TopBar.Location = new Point(0, 0);
 
-            titleWidgetLabel.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Italic);
-            titleWidgetLabel.Location = new Point(3, 8);
-            titleWidgetLabel.Size = new Size(180, 25);
+            TitleWidgetLabel.Font = new Font("Microsoft Sans Serif", 10, FontStyle.Italic);
+            TitleWidgetLabel.Location = new Point(3, 8);
+            TitleWidgetLabel.Size = new Size(180, 25);
 
-            informationPanel.Size = new Size(250, 208);
-            informationPanel.BackColor = Color.FromArgb(255, 163, 228, 215);
-            informationPanel.BorderStyle = BorderStyle.None;
-            informationPanel.Location = new Point(0, 32);
+            InformationPanel.Size = new Size(250, 208);
+            InformationPanel.BackColor = Color.FromArgb(255, 163, 228, 215);
+            InformationPanel.BorderStyle = BorderStyle.None;
+            InformationPanel.Location = new Point(0, 32);
 
-            maxWidgetPicturebox.Image = Properties.Resources.windows;
-            maxWidgetPicturebox.BorderStyle = BorderStyle.None;
-            maxWidgetPicturebox.Height = 20;
-            maxWidgetPicturebox.Width = 20;
-            maxWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
-            maxWidgetPicturebox.Location = new Point(197, 6);
+            MaxWidgetPicturebox.Image = Properties.Resources.windows;
+            MaxWidgetPicturebox.BorderStyle = BorderStyle.None;
+            MaxWidgetPicturebox.Height = 20;
+            MaxWidgetPicturebox.Width = 20;
+            MaxWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
+            MaxWidgetPicturebox.Location = new Point(197, 6);
 
-            closeWidgetPicturebox.Image = Properties.Resources.multiply_1;
-            closeWidgetPicturebox.BorderStyle = BorderStyle.None;
-            closeWidgetPicturebox.Height = 20;
-            closeWidgetPicturebox.Width = 20;
-            closeWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
-            closeWidgetPicturebox.Location = new Point(225, 6);
+            CloseWidgetPicturebox.Image = Properties.Resources.multiply_1;
+            CloseWidgetPicturebox.BorderStyle = BorderStyle.None;
+            CloseWidgetPicturebox.Height = 20;
+            CloseWidgetPicturebox.Width = 20;
+            CloseWidgetPicturebox.SizeMode = PictureBoxSizeMode.Zoom;
+            CloseWidgetPicturebox.Location = new Point(225, 6);
 
-            commandName.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
-            commandName.ForeColor = Color.White;
-            commandName.BackColor = Color.Transparent;
-            commandName.Location = new Point(3, 8);
-            commandName.Size = new Size(240, 25);
+            CommandName.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Regular);
+            CommandName.ForeColor = Color.White;
+            CommandName.BackColor = Color.Transparent;
+            CommandName.Location = new Point(3, 8);
+            CommandName.Size = new Size(240, 25);
 
-            runButton.BackColor = Color.DimGray;
-            runButton.Size = new Size(139, 42);
-            runButton.Location = new Point(44, 140);
-            runButton.ForeColor = Color.White;
+            RunButton.BackColor = Color.DimGray;
+            RunButton.Size = new Size(139, 42);
+            RunButton.Location = new Point(44, 140);
+            RunButton.ForeColor = Color.White;
 
-            outputbox.BackColor = Color.Gray;
-            outputbox.ForeColor = Color.White;
-            outputbox.Size = new Size(218, 100);
-            outputbox.Location = new Point(11, 35);
-            outputbox.Multiline = true;
-            outputbox.ScrollBars = ScrollBars.Vertical;
-            outputbox.BorderStyle = BorderStyle.None;
-            outputbox.ReadOnly = true;
-            outputbox.Cursor = Cursors.Arrow;
-            outputbox.Visible = false;
+            Outputbox.BackColor = Color.Gray;
+            Outputbox.ForeColor = Color.White;
+            Outputbox.Size = new Size(218, 100);
+            Outputbox.Location = new Point(11, 35);
+            Outputbox.Multiline = true;
+            Outputbox.ScrollBars = ScrollBars.Vertical;
+            Outputbox.BorderStyle = BorderStyle.None;
+            Outputbox.ReadOnly = true;
+            Outputbox.Cursor = Cursors.Arrow;
+            Outputbox.Visible = false;
 
             this.BackColor = Color.Gray;
             this.ForeColor = Color.White;
@@ -79,16 +79,16 @@ namespace Cisco_Tool.Widgets.Templates
             this.Visible = true;
 
             //assign controls to panels
-            topBar.Controls.Add(titleWidgetLabel);
-            topBar.Controls.Add(maxWidgetPicturebox);
-            topBar.Controls.Add(closeWidgetPicturebox);
+            TopBar.Controls.Add(TitleWidgetLabel);
+            TopBar.Controls.Add(MaxWidgetPicturebox);
+            TopBar.Controls.Add(CloseWidgetPicturebox);
 
-            informationPanel.Controls.Add(commandName);
-            informationPanel.Controls.Add(outputbox);
-            informationPanel.Controls.Add(runButton);
+            InformationPanel.Controls.Add(CommandName);
+            InformationPanel.Controls.Add(Outputbox);
+            InformationPanel.Controls.Add(RunButton);
 
-            this.Controls.Add(topBar);
-            this.Controls.Add(informationPanel);
+            this.Controls.Add(TopBar);
+            this.Controls.Add(InformationPanel);
         }
     }
 }

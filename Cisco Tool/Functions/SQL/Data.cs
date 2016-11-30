@@ -7,15 +7,15 @@ namespace Cisco_Tool.Functions.SQL
 {
     class Data
     {
-        private static readonly log4net.ILog log =
+        private static readonly log4net.ILog Log =
          log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static List<router> getDataFromMicrosoftSQL(SqlConnection connection, string query) 
+        public static List<Router> GetDataFromMicrosoftSql(SqlConnection connection, string query) 
         {
             try
             {
                 connection.Open();
-                log.Info("Connected to Cisco Tool Database");
+                Log.Info("Connected to Cisco Tool Database");
             }
 
             catch (SqlException ex)
@@ -23,16 +23,16 @@ namespace Cisco_Tool.Functions.SQL
                 switch (ex.Number)
                 {
                     case 0: // unable to connect to server
-                        log.Error("Could not connect to Cisco Tool Database - Unable to connect");
+                        Log.Error("Could not connect to Cisco Tool Database - Unable to connect");
                         break;
                     case 1045: // username or password is wrong
-                        log.Error("Could not connect to Cisco Tool Database - Wrong username or password");
+                        Log.Error("Could not connect to Cisco Tool Database - Wrong username or password");
                         break;
                     case 1326: // server was not found
-                        log.Error("could not find sql server on given ip");
+                        Log.Error("could not find sql server on given ip");
                         break;
                     default: // this will step into action if its not one of the above
-                        log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
+                        Log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
                         break;
                 }
                 return null;
@@ -40,11 +40,11 @@ namespace Cisco_Tool.Functions.SQL
 
             SqlCommand command = connection.CreateCommand();
             command.CommandText = query; // this is not from user input and is staticly set in the private class
-            List<router> routers = new List<router>();
+            List<Router> routers = new List<Router>();
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                router Router = new router();
+                Router router = new Router();
                 try
                 {
                     //checks if there is a null value in the cell ** IsDBNull will be set to true if the cell is null **
@@ -57,23 +57,23 @@ namespace Cisco_Tool.Functions.SQL
                     bool five = reader.IsDBNull(5);
 
                     //values from database are assign to Router router
-                    Router.routerId = reader.GetInt32(0);                                   // ID
-                    if (one == false) { Router.routerName = reader.GetString(1); }          // Name
-                    if (two == false) { Router.routerAlias = reader.GetString(2); }         // alias
-                    if (three == false) { Router.routerAddress = reader.GetString(3); }     // ip address
-                    if (four == false) { Router.routerActivate = reader.GetString(4); }     // active
-                    if (five == false) { Router.routerSerialnumber = reader.GetString(5); } // Serialnumber 
-                    Router.routerMainDB = reader.GetInt32(6);                               // mainDatabase ID
-                    routers.Add(Router);
+                    router.RouterId = reader.GetInt32(0);                                   // ID
+                    if (one == false) { router.RouterName = reader.GetString(1); }          // Name
+                    if (two == false) { router.RouterAlias = reader.GetString(2); }         // alias
+                    if (three == false) { router.RouterAddress = reader.GetString(3); }     // ip address
+                    if (four == false) { router.RouterActivate = reader.GetString(4); }     // active
+                    if (five == false) { router.RouterSerialnumber = reader.GetString(5); } // Serialnumber 
+                    router.RouterMainDb = reader.GetInt32(6);                               // mainDatabase ID
+                    routers.Add(router);
                 }
                 catch (Exception ex)
                 {
-                    log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
-                    log.Error("Error Location: " + ex.Source);
+                    Log.Error("Error while reading one value from Cisco Tool Database - Error Message : " + ex.Message);
+                    Log.Error("Error Location: " + ex.Source);
                 }
             }
             connection.Close();
-            log.Info("Connection to Cisco Tool Database correctly closed");
+            Log.Info("Connection to Cisco Tool Database correctly closed");
             return routers;
         }
     } 

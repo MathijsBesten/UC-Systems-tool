@@ -22,25 +22,25 @@ namespace Cisco_Tool
 {
     public partial class MainForm : Form
     {
-        private static readonly log4net.ILog log =
+        private static readonly log4net.ILog Log =
             log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #region properties
-        private static List<router> allRouters;
-        private string selectedScriptPath = "";
-        public List<string> allCommands = new List<string>();
-        public List<string> selectedIPAddresses = new List<string>();
-        public static List<Control> readyPanels = new List<Control>();
-        public static List<widget> readyWidgets = new List<widget>();
-        public int widgetTag = 0;
-        public bool loginDetailsChanged = false;
-        List<widgetResult> listOfWidgetItems = new List<widgetResult>();
-        public int indexOfRunWidget = 0;
+        private static List<Router> _allRouters;
+        private string _selectedScriptPath = "";
+        public List<string> AllCommands = new List<string>();
+        public List<string> SelectedIpAddresses = new List<string>();
+        public static List<Control> ReadyPanels = new List<Control>();
+        public static List<Widget> ReadyWidgets = new List<Widget>();
+        public int WidgetTag = 0;
+        public bool LoginDetailsChanged = false;
+        List<WidgetResult> _listOfWidgetItems = new List<WidgetResult>();
+        public int IndexOfRunWidget = 0;
 
-        private readonly string SQLIP = Properties.Settings.Default.CiscoToolServerIP;
-        private readonly string SQLDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
-        private readonly string SQLUsername = Properties.Settings.Default.CiscoToolServerUsername;
-        private readonly string SQLPassword = Properties.Settings.Default.CiscoToolServerPassword;
+        private readonly string _sqlip = Properties.Settings.Default.CiscoToolServerIP;
+        private readonly string _sqlDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
+        private readonly string _sqlUsername = Properties.Settings.Default.CiscoToolServerUsername;
+        private readonly string _sqlPassword = Properties.Settings.Default.CiscoToolServerPassword;
         #endregion
 
         public MainForm()
@@ -54,97 +54,103 @@ namespace Cisco_Tool
                                .GetName()
                                .Version
                                .ToString();
-            log.Info("Current version: " + version);
+            Log.Info("Current version: " + version);
 
-            if (SQLIP == "" && SQLDatabase == "" && SQLUsername == "" && SQLPassword == "")
+            if (_sqlip == "" && _sqlDatabase == "" && _sqlUsername == "" && _sqlPassword == "")
             {
-                log.Info("No database details available - asking user to enter database details");
+                Log.Info("No database details available - asking user to enter database details");
                 var firstRunDialog = new FirstRunScreen();
                 firstRunDialog.ShowDialog();
             }
             mainMenu.TabPages.Remove(RouterTab);
             try
             {
-                SqlConnection connection = Connections.OwnDB();
-                allRouters = Data.getDataFromMicrosoftSQL(connection, OwnServerServerQuery);
-                if (allRouters != null)
+                SqlConnection connection = Connections.OwnDb();
+                _allRouters = Data.GetDataFromMicrosoftSql(connection, OwnServerServerQuery);
+                if (_allRouters != null)
                 {
-                    foreach (var router in allRouters)
+                    foreach (var router in _allRouters)
                     {
-                        MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                        MainDataGridView.Rows.Add(false, router.RouterAlias, router.RouterAddress, "", router.RouterMainDb); //  false is for checkbox is not checked
                     }
-                    log.Info("Loaded all routers to the application");
+                    Log.Info("Loaded all routers to the application");
                     CommandoGB.Enabled = true;
                 }
                 else
                 {
-                    log.Info("Database details are wrong");
-                    log.Info("Please try entering the correct details using the sql wizard from the menubar");
+                    Log.Info("Database details are wrong");
+                    Log.Info("Please try entering the correct details using the sql wizard from the menubar");
                     MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
                     CommandoGB.Enabled = false;
                 }
             }
             catch (Exception ex)
             {
-                log.Error("Database details are wrong - could not load routers from routerlist");
-                log.Error("error message - " + ex.Message);
-                log.Error("Please try entering the correct details using the sql wizard from the menubar");
+                Log.Error("Database details are wrong - could not load routers from routerlist");
+                Log.Error("error message - " + ex.Message);
+                Log.Error("Please try entering the correct details using the sql wizard from the menubar");
                 MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
                 CommandoGB.Enabled = false;
             }
         }
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            log.Info("Closing application");
+            Log.Info("Closing application");
             Application.Exit();
         }
         private void MainTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (mainMenu.SelectedIndex == 1) // if user switched to router tab
             {
-                List<widget> widgets = JSON.readJSON(); 
-                if (loginDetailsChanged == true)
+                List<Widget> widgets = Json.ReadJson(); 
+                if (LoginDetailsChanged == true)
                 {
                     MainTableLayoutPanel.Controls.Clear();
-                    log.Info("Loading all router information...");
+                    Log.Info("Loading all router information...");
                     routerIPText.Text = ManualIPAddress.Text;
 
-                    List<widgetResult> listToRun = new List<widgetResult>(); // list contains all widgets and other elements
+                    List<WidgetResult> listToRun = new List<WidgetResult>(); // list contains all widgets and other elements
 
-                    widgetResult PID = new widgetResult();
-                    PID.widgetCommand = "show inventory";
-                    PID.uselongTime = false ;
-                    PID.widgetTag = "PID";
-                    listToRun.Add(PID);
+                    WidgetResult pid = new WidgetResult
+                    {
+                        WidgetCommand = "show inventory",
+                        UselongTime = false,
+                        WidgetTag = "PID"
+                    };
+                    listToRun.Add(pid);
 
-                    widgetResult showRun = new widgetResult();
-                    showRun.widgetCommand = "show run";
-                    showRun.uselongTime = true; // needs to be async
-                    showRun.widgetTag = "showRun";
+                    WidgetResult showRun = new WidgetResult
+                    {
+                        WidgetCommand = "show run",
+                        UselongTime = true,
+                        WidgetTag = "showRun"
+                    };
                     listToRun.Add(showRun);
-                    log.Info("Loading all widgets / if available");
+                    Log.Info("Loading all widgets / if available");
                     if (widgets == null || widgets.Count == 0) 
                     {
-                        log.Info("No widgets were found - adding plus sign");
-                        PictureBox addButton = new PictureBox();
-                        addButton.Size = new Size(100, 100);
-                        addButton.BackColor = Color.Transparent;
-                        addButton.Image = Properties.Resources.add_1;
-                        addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                        addButton.Anchor = AnchorStyles.None;
-                        addButton.Click += new EventHandler(addButtonClick);
+                        Log.Info("No widgets were found - adding plus sign");
+                        PictureBox addButton = new PictureBox
+                        {
+                            Size = new Size(100, 100),
+                            BackColor = Color.Transparent,
+                            Image = Properties.Resources.add_1,
+                            SizeMode = PictureBoxSizeMode.Zoom,
+                            Anchor = AnchorStyles.None
+                        };
+                        addButton.Click += new EventHandler(AddButtonClick);
                         MainTableLayoutPanel.Controls.Add(addButton);
                     }
                     else if (MainTableLayoutPanel.Controls.Count != widgets.Count + 1)
                     {
                         MainTableLayoutPanel.Enabled = true;
                         int count = 0;
-                        foreach (widget widget in widgets)
+                        foreach (Widget widget in widgets)
                         {
-                            widgetResult item = new widgetResult();
-                            item.widgetCommand = widget.widgetCommand;
-                            item.uselongTime = widget.widgetUseLongProcessTime;
-                            item.widgetTag = count.ToString();
+                            WidgetResult item = new WidgetResult();
+                            item.WidgetCommand = widget.WidgetCommand;
+                            item.UselongTime = widget.WidgetUseLongProcessTime;
+                            item.WidgetTag = count.ToString();
                             listToRun.Add(item);
                             count++;
                         }
@@ -153,7 +159,7 @@ namespace Cisco_Tool
                     widgetPageBackgroundWorker.DoWork += getWidgetPageInfo_Work;
                     widgetPageBackgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(getWidgetPageInfo_runCompleted);
                     widgetPageBackgroundWorker.RunWorkerAsync(listToRun);
-                    loginDetailsChanged = false; // this will prevent reloading if user switches tabs
+                    LoginDetailsChanged = false; // this will prevent reloading if user switches tabs
                 }
             }
         }
@@ -162,59 +168,61 @@ namespace Cisco_Tool
 
         private void getWidgetPageInfo_Work(object sender, DoWorkEventArgs e)
         {
-            List<widgetResult> listToRun = (List<widgetResult>)e.Argument;
-            for (int i = 0; i < listToRun.Count; i++)
+            List<WidgetResult> listToRun = (List<WidgetResult>)e.Argument;
+            foreach (WidgetResult t in listToRun)
             {
-                List<string> commands = listToRun[i].widgetCommand.Split(';').ToList();
-                listToRun[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, listToRun[i].uselongTime); // find output
+                List<string> commands = t.WidgetCommand.Split(';').ToList();
+                t.WidgetOutput = new TelnetConnection().TelnetClientTcp(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, t.UselongTime); // find output
             }
-            listOfWidgetItems = listToRun;
-            log.Info("all items from the widget page has been loaded");
+            _listOfWidgetItems = listToRun;
+            Log.Info("all items from the widget page has been loaded");
         }
         private void getWidgetPageInfo_runCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            List<widget> widgets = JSON.readJSON();
+            List<Widget> widgets = Json.ReadJson();
             int indexWidget = 0;
-            if (listOfWidgetItems[0].widgetOutput == null && listOfWidgetItems[1].widgetOutput == null)// check if command received timeout
+            if (_listOfWidgetItems[0].WidgetOutput == null && _listOfWidgetItems[1].WidgetOutput == null)// check if command received timeout
             {
                 MessageBox.Show("Er vond een timeout plaats - controleer de gegevens en probeer het opnieuw");
-                log.Info("A timeout has occured while trying to get widgets - check router details");
+                Log.Info("A timeout has occured while trying to get widgets - check router details");
             }
             else
             {
-                foreach (var item in listOfWidgetItems)
+                foreach (var item in _listOfWidgetItems)
                 {
-                    if (item.widgetTag == "PID")
+                    if (item.WidgetTag == "PID")
                     {
-                        string totalOutput = item.widgetOutput;
-                        string PID = TelnetConnection.findPID(totalOutput);
-                        routerType.Text = PID;
+                        string totalOutput = item.WidgetOutput;
+                        string pid = TelnetConnection.FindPid(totalOutput);
+                        routerType.Text = pid;
                     }
-                    else if (item.widgetTag == "showRun")
+                    else if (item.WidgetTag == "showRun")
                     {
-                        runningConfigOutputField.Text = item.widgetOutput;
+                        runningConfigOutputField.Text = item.WidgetOutput;
                     }
                     else
                     {
-                        int index = Int32.Parse(item.widgetTag);
-                        if (widgets[index].widgetType == "Informatie")
+                        int index = Int32.Parse(item.WidgetTag);
+                        if (widgets[index].WidgetType == "Informatie")
                         {
-                            var newPanel = new InfoTemplate();
-                            newPanel.Name = "Panel" + indexWidget.ToString();
-                            newPanel.Tag = indexWidget.ToString();
-                            newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
-                            newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
-                            newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                            newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-                            if (widgets[indexWidget].widgetUseSelection == true)
+                            var newPanel = new InfoTemplate
                             {
-                                string finalString = Responses.getStringFromResponse(item.widgetOutput, widgets[indexWidget].widgetEnterCountBeforeString, widgets[indexWidget].WidgetEnterCountInString);
-                                newPanel.outputbox.Text = finalString;
+                                Name = "Panel" + indexWidget.ToString(),
+                                Tag = indexWidget.ToString(),
+                                TitleWidgetLabel = {Text = widgets[indexWidget].WidgetName},
+                                CommandName = {Text = widgets[indexWidget].WidgetCommand}
+                            };
+                            newPanel.CloseWidgetPicturebox.Click += new EventHandler(RemoveWidget);
+                            newPanel.MaxWidgetPicturebox.Click += new EventHandler(MaximizeWidget);
+
+                            if (widgets[indexWidget].WidgetUseSelection == true)
+                            {
+                                string finalString = Responses.GetStringFromResponse(item.WidgetOutput, widgets[indexWidget].WidgetEnterCountBeforeString, widgets[indexWidget].WidgetEnterCountInString);
+                                newPanel.Outputbox.Text = finalString;
                             }
                             else
                             {
-                                newPanel.outputbox.Text = item.widgetOutput;
+                                newPanel.Outputbox.Text = item.WidgetOutput;
                             }
 
 
@@ -223,27 +231,31 @@ namespace Cisco_Tool
 
                         else //execute widget
                         {
-                            var newPanel = new ExecuteTemplate();
-                            newPanel.Name = "Panel" + indexWidget.ToString();
-                            newPanel.Tag = indexWidget.ToString();
-                            newPanel.titleWidgetLabel.Text = widgets[indexWidget].widgetName;
-                            newPanel.commandName.Text = widgets[indexWidget].widgetCommand;
-                            newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                            newPanel.runButton.Click += new EventHandler(runCommand);
-                            newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-                            newPanel.runButton.Text = "Uitvoeren";
+                            var newPanel = new ExecuteTemplate
+                            {
+                                Name = "Panel" + indexWidget.ToString(),
+                                Tag = indexWidget.ToString(),
+                                TitleWidgetLabel = {Text = widgets[indexWidget].WidgetName},
+                                CommandName = {Text = widgets[indexWidget].WidgetCommand}
+                            };
+                            newPanel.CloseWidgetPicturebox.Click += new EventHandler(RemoveWidget);
+                            newPanel.RunButton.Click += new EventHandler(RunCommand);
+                            newPanel.MaxWidgetPicturebox.Click += new EventHandler(MaximizeWidget);
+                            newPanel.RunButton.Text = "Uitvoeren";
                             MainTableLayoutPanel.Controls.Add(newPanel);
                         }
                         indexWidget++;
                     }
                 }
-                PictureBox addButton = new PictureBox();
-                addButton.Size = new Size(100, 100);
-                addButton.BackColor = Color.Transparent;
-                addButton.Image = Properties.Resources.add_1;
-                addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                addButton.Anchor = AnchorStyles.None;
-                addButton.Click += new EventHandler(addButtonClick);
+                PictureBox addButton = new PictureBox
+                {
+                    Size = new Size(100, 100),
+                    BackColor = Color.Transparent,
+                    Image = Properties.Resources.add_1,
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Anchor = AnchorStyles.None
+                };
+                addButton.Click += new EventHandler(AddButtonClick);
                 MainTableLayoutPanel.Controls.Add(addButton);
                 MainTableLayoutPanel.Enabled = true;
             }
@@ -257,7 +269,7 @@ namespace Cisco_Tool
             if (MainDataGridView.CurrentCell is DataGridViewCheckBoxCell)
             {
                 string nameOfRouter = MainDataGridView.Rows[e.RowIndex].Cells[1].Value.ToString();
-                string IPAddress = MainDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
+                string ipAddress = MainDataGridView.Rows[e.RowIndex].Cells[2].Value.ToString();
                 if (allSelectedRouters.Items.Contains(nameOfRouter))
                 {
                     allSelectedRouters.Items.Remove(nameOfRouter);
@@ -266,13 +278,13 @@ namespace Cisco_Tool
                 {
                     allSelectedRouters.Items.Add(nameOfRouter);
                 }
-                if (selectedIPAddresses.Contains(IPAddress))
+                if (SelectedIpAddresses.Contains(ipAddress))
                 {
-                    selectedIPAddresses.Remove(IPAddress);
+                    SelectedIpAddresses.Remove(ipAddress);
                 }
                 else
                 {
-                    selectedIPAddresses.Add(IPAddress);
+                    SelectedIpAddresses.Add(ipAddress);
                 }
             }
         }
@@ -290,17 +302,17 @@ namespace Cisco_Tool
             SearchGroupBox.Refresh();
         }
 
-        void addButtonClick(object sender, EventArgs e)
+        void AddButtonClick(object sender, EventArgs e)
         {
             var widgetCreator = new WidgetCreator();
             var result = widgetCreator.ShowDialog();
             if (result == DialogResult.OK)
             {
-                log.Info("user made a new widget");
-                log.Info("clearing and refilling MainTableLayoutPanel");
+                Log.Info("user made a new widget");
+                Log.Info("clearing and refilling MainTableLayoutPanel");
                 MainTableLayoutPanel.Controls.Clear();
-                readyPanels.Clear();
-                getWidgetsAsync(true);
+                ReadyPanels.Clear();
+                GetWidgetsAsync(true);
 
             }
         }
@@ -316,8 +328,8 @@ namespace Cisco_Tool
 
             if (ManualIPAddress.Text != "" && ManualUsername.Text != "" && ManualPassword.Text != "")
             {
-                bool IPisValid = validation.validateIPv4(ManualIPAddress.Text);
-                if (!IPisValid)
+                bool pisValid = Validation.ValidateIPv4(ManualIPAddress.Text);
+                if (!pisValid)
                 {
                     mainErrorProvider.SetError(ManualIPAddress, "Geen geldig ip adres");
                 }
@@ -327,16 +339,16 @@ namespace Cisco_Tool
                     {
                         mainMenu.TabPages.Add(RouterTab);
                         RouterTab.Text = ManualIPAddress.Text;
-                        log.Info("Router tab added to mainmenu");
+                        Log.Info("Router tab added to mainmenu");
                     }
                     else
                     {
                         mainMenu.TabPages.Remove(RouterTab);
                         mainMenu.TabPages.Add(RouterTab);
                         RouterTab.Text = ManualIPAddress.Text;
-                        log.Info("Router tab refresh in the mainmenu");
+                        Log.Info("Router tab refresh in the mainmenu");
                     }
-                    loginDetailsChanged = true;
+                    LoginDetailsChanged = true;
                 }
             }
         }
@@ -346,23 +358,23 @@ namespace Cisco_Tool
             mainErrorProvider.SetError(Password, Password.Text == "" ? "wachtwoord vereist" : "");
             if (Command1.Text == "")
             {
-                mainErrorProvider.SetError(Command1, selectedScriptPath != "" ? "" : "commando of script vereist");
+                mainErrorProvider.SetError(Command1, _selectedScriptPath != "" ? "" : "commando of script vereist");
             }
             else
             {
                 mainErrorProvider.SetError(Command1, "");
             }
-            if (Username.Text != "" && Password.Text != "" && (Command1.Text != "" || allCommands.Count != 0))
+            if (Username.Text != "" && Password.Text != "" && (Command1.Text != "" || AllCommands.Count != 0))
             {
-                if (selectedIPAddresses.Count == 0)
+                if (SelectedIpAddresses.Count == 0)
                 {
                     MessageBox.Show("geen routers geselecteerd, vink de router(s) aan die je wilt aansturen");
                 }
                 else
                 {
-                    log.Info("start the executing commands function");
+                    Log.Info("start the executing commands function");
                     List<string> commands = new List<string>();
-                    foreach (var item in allCommands)
+                    foreach (var item in AllCommands)
                     {
                         commands.Add(item);
                     }
@@ -375,7 +387,7 @@ namespace Cisco_Tool
                     confirmDialog.ShowDialog();
                     if (confirmDialog.DialogResult == DialogResult.OK)
                     {
-                        sendCommandsInBulkAsync(selectedIPAddresses,commands);
+                        SendCommandsInBulkAsync(SelectedIpAddresses,commands);
                     }
                 }
             }
@@ -392,7 +404,7 @@ namespace Cisco_Tool
                 {
                     listOfRouters.Add(item.ToString());
                 }
-                int maxwidth = Animations.Resizing.getLongestStringInPixels(listOfRouters);
+                int maxwidth = Animations.Resizing.GetLongestStringInPixels(listOfRouters);
                 while (allSelectedRouters.Width < maxwidth)
                 {
                     allSelectedRouters.Width++;
@@ -449,10 +461,10 @@ namespace Cisco_Tool
         {
             if (MainDataGridView.RowCount != 0)
             {
-                filterRoutersInList();
+                FilterRoutersInList();
             }
         }
-        private void filterRoutersInList()
+        private void FilterRoutersInList()
         {
             int count = 0;
             for (int i = 0; i < MainDataGridView.RowCount; i++)
@@ -463,9 +475,9 @@ namespace Cisco_Tool
             if (SearchBox.Text != "")
             {
 
-                foreach (var router in allRouters)
+                foreach (var router in _allRouters)
                 {
-                    string routerAliasLowered = router.routerAlias.ToLower();
+                    string routerAliasLowered = router.RouterAlias.ToLower();
                     string searchBoxTextLowerer = SearchBox.Text.ToLower();
                     if (!routerAliasLowered.Contains(searchBoxTextLowerer))
                     {
@@ -476,13 +488,13 @@ namespace Cisco_Tool
             }
         }
 
-        private void checkEnterKeyPressed(object sender, KeyPressEventArgs e)
+        private void CheckEnterKeyPressed(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
             {
                 if (MainDataGridView.RowCount != 0)
                 {
-                    filterRoutersInList();
+                    FilterRoutersInList();
                     e.Handled = true;
                 }
 
@@ -495,9 +507,9 @@ namespace Cisco_Tool
         {
             if (ScriptButton.Text == "Verwijder script")
             {
-                log.Info("Script has been released from application");
-                allCommands.Clear(); //remove all commands from script
-                selectedScriptPath = ""; // removes path for futher if statements
+                Log.Info("Script has been released from application");
+                AllCommands.Clear(); //remove all commands from script
+                _selectedScriptPath = ""; // removes path for futher if statements
                 ScriptButton.Text = "Kies script";
                 ScriptButton.TextAlign = ContentAlignment.MiddleCenter;
                 ScriptButton.BackColor = Color.Gainsboro;
@@ -510,11 +522,11 @@ namespace Cisco_Tool
                 dialog.Filter = ("Text Files|*.txt");
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
-                    log.Info("Script has been loaded - location :" + selectedScriptPath);
+                    Log.Info("Script has been loaded - location :" + _selectedScriptPath);
                     string path = dialog.FileName;
-                    allCommands = Functions.Scripting.Read.readScript(path);
-                    selectedScriptPath = path; // styling for the text
-                    ScriptButton.Text = selectedScriptPath;
+                    AllCommands = Functions.Scripting.Read.ReadScript(path);
+                    _selectedScriptPath = path; // styling for the text
+                    ScriptButton.Text = _selectedScriptPath;
                     ScriptButton.TextAlign = ContentAlignment.BottomLeft;
                     ScriptButton.BackColor = Color.FromArgb(64, 64, 64);
                     ScriptButton.ForeColor = Color.White;
@@ -535,9 +547,9 @@ namespace Cisco_Tool
         }
         private void ScriptButton_MouseLeave(object sender, EventArgs e)
         {
-            if (selectedScriptPath != "")
+            if (_selectedScriptPath != "")
             {
-                ScriptButton.Text = selectedScriptPath;
+                ScriptButton.Text = _selectedScriptPath;
                 ScriptButton.TextAlign = ContentAlignment.BottomLeft;
                 ScriptButton.BackColor = Color.FromArgb(64, 64, 64);
                 ScriptButton.ForeColor = Color.White;
@@ -553,7 +565,7 @@ namespace Cisco_Tool
                 DialogResult confirm = MessageBox.Show("Als u op OK drukt zal alle output worden verwijderd," + Environment.NewLine + "DIT IS ONOMKEERBAAR!", "Waarschuwing", MessageBoxButtons.OKCancel);
                 if (confirm == DialogResult.OK)
                 {
-                    log.Info("Output box has been cleared by the user");
+                    Log.Info("Output box has been cleared by the user");
                     OutputBox.Text = "";
                 }
             }
@@ -565,30 +577,30 @@ namespace Cisco_Tool
             wizard.ShowDialog();
             try
             {
-                SqlConnection connection = Connections.OwnDB();
-                allRouters = Data.getDataFromMicrosoftSQL(connection, OwnServerServerQuery);
-                if (allRouters != null)
+                SqlConnection connection = Connections.OwnDb();
+                _allRouters = Data.GetDataFromMicrosoftSql(connection, OwnServerServerQuery);
+                if (_allRouters != null)
                 {
-                    foreach (var router in allRouters)
+                    foreach (var router in _allRouters)
                     {
-                        MainDataGridView.Rows.Add(false, router.routerAlias, router.routerAddress, "", router.routerMainDB); //  false is for checkbox is not checked
+                        MainDataGridView.Rows.Add(false, router.RouterAlias, router.RouterAddress, "", router.RouterMainDb); //  false is for checkbox is not checked
                     }
-                    log.Info("Loaded all routers to the application");
+                    Log.Info("Loaded all routers to the application");
                     CommandoGB.Enabled = true;
                 }
                 else
                 {
-                    log.Info("Database details are wrong");
-                    log.Info("Please try entering the correct details using the sql wizard from the menubar");
+                    Log.Info("Database details are wrong");
+                    Log.Info("Please try entering the correct details using the sql wizard from the menubar");
                     MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
                     CommandoGB.Enabled = false;
                 }
             }
             catch (Exception ex)
             {
-                log.Error("Database details are wrong - could not load routers from routerlist");
-                log.Error("error message - " + ex.Message);
-                log.Error("Please try entering the correct details using the sql wizard from the menubar");
+                Log.Error("Database details are wrong - could not load routers from routerlist");
+                Log.Error("error message - " + ex.Message);
+                Log.Error("Please try entering the correct details using the sql wizard from the menubar");
                 MessageBox.Show("Er is geen sql database gevonden - herstart de applicatie of controleer de sql gegevens");
                 CommandoGB.Enabled = false;
             }
@@ -613,7 +625,7 @@ namespace Cisco_Tool
                     {
                         listOfRouters.Add(item);
                     }
-                    int maxwidth = Animations.Resizing.getLongestStringInPixels(listOfRouters);
+                    int maxwidth = Animations.Resizing.GetLongestStringInPixels(listOfRouters);
                     while (OutputBox.Width < maxwidth)
                     {
                         OutputBox.Width++;
@@ -642,17 +654,22 @@ namespace Cisco_Tool
 
         private void CMDTelnetPanel_Click(object sender, EventArgs e)
         {
-            Process process = new Process();
-            process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";
-            process.StartInfo.Arguments = ManualIPAddress.Text;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            Process process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = @"C:\windows\sysnative\telnet.exe",
+                    Arguments = ManualIPAddress.Text,
+                    WindowStyle = ProcessWindowStyle.Normal
+                }
+            };
             process.Start();
-            log.Info("Telnet.exe has been started by the user");
+            Log.Info("Telnet.exe has been started by the user");
         }
 
             
 
-        private void maximizeWidget(object sender, EventArgs e)
+        private void MaximizeWidget(object sender, EventArgs e)
         {
             PictureBox realSender = ((PictureBox)sender);
             Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
@@ -667,22 +684,24 @@ namespace Cisco_Tool
             }
         }
 
-        private void runCommand(object sender, EventArgs e)
+        private void RunCommand(object sender, EventArgs e)
         {
-            log.Info("Running command from execute widget");
+            Log.Info("Running command from execute widget");
             Button realsender = ((Button)sender);
             ExecuteTemplate widgetSender = (ExecuteTemplate)realsender.Parent.Parent;
-            indexOfRunWidget = Int32.Parse(widgetSender.Tag.ToString());
-            var widgets = JSON.readJSON(); // 7ms for reading a empty file
-            var widget = widgets[indexOfRunWidget];
-            string command = widgetSender.commandName.Text;
+            IndexOfRunWidget = Int32.Parse(widgetSender.Tag.ToString());
+            var widgets = Json.ReadJson(); // 7ms for reading a empty file
+            var widget = widgets[IndexOfRunWidget];
+            string command = widgetSender.CommandName.Text;
 
 
             if (command != "")
             {
-                widget thisWidget = new widget();
-                thisWidget.widgetUseLongProcessTime = widget.widgetUseLongProcessTime;
-                thisWidget.widgetCommand = command;
+                Widget thisWidget = new Widget
+                {
+                    WidgetUseLongProcessTime = widget.WidgetUseLongProcessTime,
+                    WidgetCommand = command
+                };
                 BackgroundWorker bw = new BackgroundWorker();
                 bw.DoWork += getWidgetResult_doWork;
                 bw.RunWorkerCompleted += new RunWorkerCompletedEventHandler(getWidgetResult_workFinished);
@@ -693,15 +712,15 @@ namespace Cisco_Tool
         }
         public void getWidgetResult_doWork(object sender, DoWorkEventArgs e)
         {
-            widget thisWidget = (widget)e.Argument ;
-            List<string> commands = thisWidget.widgetCommand.Split(';').ToList();
-            thisWidget.widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, thisWidget.widgetUseLongProcessTime);
+            Widget thisWidget = (Widget)e.Argument ;
+            List<string> commands = thisWidget.WidgetCommand.Split(';').ToList();
+            thisWidget.WidgetOutput = new TelnetConnection().TelnetClientTcp(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, thisWidget.WidgetUseLongProcessTime);
             e.Result = e.Argument;
         }
         public void getWidgetResult_workFinished(object sender, RunWorkerCompletedEventArgs e)
         {
-            var outputbox = MainTableLayoutPanel.Controls[indexOfRunWidget].Controls[1].Controls[1];
-            string output = ((widget)e.Result).widgetOutput;
+            var outputbox = MainTableLayoutPanel.Controls[IndexOfRunWidget].Controls[1].Controls[1];
+            string output = ((Widget)e.Result).WidgetOutput;
             outputbox.Visible = true;
             outputbox.Text = "";
             if (output != null)
@@ -714,53 +733,63 @@ namespace Cisco_Tool
                 {
                     outputbox.Font = new Font("Microsoft Sans Serif", 15);
                     outputbox.Text = @"Commando '" + output + @"' is niet geldig ";
-                    log.Info(@"Commando '" + output + @"'  is not a valid command");
+                    Log.Info(@"Commando '" + output + @"'  is not a valid command");
                 }
             }
             else
             {
-                log.Info("cannot connect to router - username and/or password is wrong");
+                Log.Info("cannot connect to router - username and/or password is wrong");
                 outputbox.Text = "Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord";
                 MessageBox.Show("Kan niet verbinden met router - controleer de gebruikersnaam en wachtwoord");
             }
         }
 
 
-        void removeWidget(object sender, EventArgs e)
+        void RemoveWidget(object sender, EventArgs e)
         {
-            log.Info("removing widget from maintable");
+            Log.Info("removing widget from maintable");
             PictureBox realSender = ((PictureBox)sender);
             Control targetWidget = realSender.Parent.Parent; // first parent = top bar - second parent = widget
             DialogResult confirmRemove = MessageBox.Show("Wil je widget '" + realSender.Parent.Controls[0].Text + "' verwijderen?", "Widget verwijderen", MessageBoxButtons.YesNo);
             if (confirmRemove == DialogResult.Yes)
             {
-                JSON.removeWidgetFromWidgetList(Int32.Parse(targetWidget.Tag.ToString()));
+                Json.RemoveWidgetFromWidgetList(Int32.Parse(targetWidget.Tag.ToString()));
                 MainTableLayoutPanel.Controls.Clear();
                 //readyPanels.Clear();
-                getWidgetsAsync(true);
+                GetWidgetsAsync(true);
 
-                log.Info("Widget is removed and the GUI is refreshed");
+                Log.Info("Widget is removed and the GUI is refreshed");
             }
         }
 
         private void CMDTelnetLabel_Click(object sender, EventArgs e)
         {
-            Process process = new Process();
-            process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";
-            process.StartInfo.Arguments = ManualIPAddress.Text;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            Process process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = @"C:\windows\sysnative\telnet.exe",
+                    Arguments = ManualIPAddress.Text,
+                    WindowStyle = ProcessWindowStyle.Normal
+                }
+            };
             process.Start();
-            log.Info("Telnet.exe has been started by the user");
+            Log.Info("Telnet.exe has been started by the user");
         }
 
         private void manualTelnetPicture_Click(object sender, EventArgs e)
         {
-            Process process = new Process();
-            process.StartInfo.FileName = @"C:\windows\sysnative\telnet.exe";
-            process.StartInfo.Arguments = ManualIPAddress.Text;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Normal;
+            Process process = new Process
+            {
+                StartInfo =
+                {
+                    FileName = @"C:\windows\sysnative\telnet.exe",
+                    Arguments = ManualIPAddress.Text,
+                    WindowStyle = ProcessWindowStyle.Normal
+                }
+            };
             process.Start();
-            log.Info("Telnet.exe has been started by the user");
+            Log.Info("Telnet.exe has been started by the user");
         }
 
         private void bigOutputBoxClose_Click(object sender, EventArgs e)
@@ -774,7 +803,7 @@ namespace Cisco_Tool
         }
 
         // ReSharper disable once UnusedParameter.Local
-        private void getWidgetsAsync(bool addPlusButton)
+        private void GetWidgetsAsync(bool addPlusButton)
         {
             MainTableLayoutPanel.Enabled = false;
             BackgroundWorker getWidgetsBackgroundWorker = new BackgroundWorker(); // only one backgroundworker is being used - router cannot handle more than 1 request at a time
@@ -785,73 +814,79 @@ namespace Cisco_Tool
         private void getWidgetsAsync_work(object sender, DoWorkEventArgs e)
         {
             e.Result = e.Argument;
-            List<widget> widgets = JSON.readJSON(); 
-            for (int i = 0; i < widgets.Count; i++)
+            List<Widget> widgets = Json.ReadJson(); 
+            foreach (Widget t in widgets)
             {
-                List<string> commands = widgets[i].widgetCommand.Split(';').ToList();
-                widgets[i].widgetOutput = new TelnetConnection().telnetClientTCP(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, widgets[i].widgetUseLongProcessTime); // find output
+                List<string> commands = t.WidgetCommand.Split(';').ToList();
+                t.WidgetOutput = new TelnetConnection().TelnetClientTcp(ManualIPAddress.Text, commands, ManualUsername.Text, ManualPassword.Text, t.WidgetUseLongProcessTime); // find output
             }
-            readyWidgets = widgets;
-            log.Info("all items from the widget page has been loaded");
+            ReadyWidgets = widgets;
+            Log.Info("all items from the widget page has been loaded");
         }
         private void getWidgetsAsync_runCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             int indexWidget = 0;
-            foreach (var item in readyWidgets)
+            foreach (var item in ReadyWidgets)
             {
               
-                if (item.widgetType == "Informatie")
+                if (item.WidgetType == "Informatie")
                 {
-                    var newPanel = new InfoTemplate();
-                    newPanel.Name = "Panel" + indexWidget.ToString();
-                    newPanel.Tag = indexWidget.ToString();
-                    newPanel.titleWidgetLabel.Text = item.widgetName;
-                    newPanel.commandName.Text = item.widgetCommand;
-                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-
-                    if (item.widgetUseSelection == true)
+                    var newPanel = new InfoTemplate
                     {
-                        string finalString = Responses.getStringFromResponse(item.widgetOutput, item.widgetEnterCountBeforeString, item.WidgetEnterCountInString);
-                        newPanel.outputbox.Text = finalString;
+                        Name = "Panel" + indexWidget,
+                        Tag = indexWidget.ToString(),
+                        TitleWidgetLabel = {Text = item.WidgetName},
+                        CommandName = {Text = item.WidgetCommand}
+                    };
+                    newPanel.CloseWidgetPicturebox.Click += new EventHandler(RemoveWidget);
+                    newPanel.MaxWidgetPicturebox.Click += new EventHandler(MaximizeWidget);
+
+                    if (item.WidgetUseSelection == true)
+                    {
+                        string finalString = Responses.GetStringFromResponse(item.WidgetOutput, item.WidgetEnterCountBeforeString, item.WidgetEnterCountInString);
+                        newPanel.Outputbox.Text = finalString;
                     }
                     else
                     {
-                        newPanel.outputbox.Text = item.widgetOutput;
+                        newPanel.Outputbox.Text = item.WidgetOutput;
                     }
                     MainTableLayoutPanel.Controls.Add(newPanel);
                 }
 
                 else //execute widget
                 {
-                    var newPanel = new ExecuteTemplate();
-                    newPanel.Name = "Panel" + indexWidget.ToString();
-                    newPanel.Tag = indexWidget.ToString();
-                    newPanel.titleWidgetLabel.Text = item.widgetName;
-                    newPanel.commandName.Text = item.widgetCommand;
-                    newPanel.closeWidgetPicturebox.Click += new EventHandler(removeWidget);
-                    newPanel.runButton.Click += new EventHandler(runCommand);
-                    newPanel.maxWidgetPicturebox.Click += new EventHandler(maximizeWidget);
-                    newPanel.runButton.Text = "Uitvoeren";
+                    var newPanel = new ExecuteTemplate
+                    {
+                        Name = "Panel" + indexWidget,
+                        Tag = indexWidget.ToString(),
+                        TitleWidgetLabel = {Text = item.WidgetName},
+                        CommandName = {Text = item.WidgetCommand}
+                    };
+                    newPanel.CloseWidgetPicturebox.Click += new EventHandler(RemoveWidget);
+                    newPanel.RunButton.Click += new EventHandler(RunCommand);
+                    newPanel.MaxWidgetPicturebox.Click += new EventHandler(MaximizeWidget);
+                    newPanel.RunButton.Text = "Uitvoeren";
                     MainTableLayoutPanel.Controls.Add(newPanel);
                 }
                 indexWidget++;
             }
             if ((bool)e.Result == true)
             {
-                PictureBox addButton = new PictureBox();
-                addButton.Size = new Size(100, 100);
-                addButton.BackColor = Color.Transparent;
-                addButton.Image = Properties.Resources.add_1;
-                addButton.SizeMode = PictureBoxSizeMode.Zoom;
-                addButton.Anchor = AnchorStyles.None;
-                addButton.Click += new EventHandler(addButtonClick);
+                PictureBox addButton = new PictureBox
+                {
+                    Size = new Size(100, 100),
+                    BackColor = Color.Transparent,
+                    Image = Properties.Resources.add_1,
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    Anchor = AnchorStyles.None
+                };
+                addButton.Click += new EventHandler(AddButtonClick);
                 MainTableLayoutPanel.Controls.Add(addButton);
                 MainTableLayoutPanel.Enabled = true;
 
             }
         }
-        public void sendCommandsInBulkAsync(List<string> routers,List<string> commands)
+        public void SendCommandsInBulkAsync(List<string> routers,List<string> commands)
         {
             // foreach router a backgroundworker will be started
             // every backgroundworker will run all the commands
@@ -860,9 +895,7 @@ namespace Cisco_Tool
 
             foreach (var router in routers)
             {
-                List<object> allArguments = new List<object>();
-                allArguments.Add(router);
-                allArguments.Add(commands);
+                List<object> allArguments = new List<object> {router, commands};
 
                 BackgroundWorker sendCommandBackgroundWorker = new BackgroundWorker(); // only one backgroundworker is being used - router cannot handle more than 1 request at a time
                 sendCommandBackgroundWorker.DoWork += sendCommandAsync_doWork;
@@ -881,26 +914,26 @@ namespace Cisco_Tool
             //start function
             string username = Username.Text;
             string password = Password.Text;
-            string localIP = router;
+            string localIp = router;
 
 
             // start of telnet function
-            Console.WriteLine(localIP);
+            Console.WriteLine(localIp);
             totalOutput.Add(Environment.NewLine);
-            totalOutput.Add(localIP);
+            totalOutput.Add(localIp);
             totalOutput.Add(Environment.NewLine);
             totalOutput.Add(Environment.NewLine);
-            string output = new TelnetConnection().telnetClientTCP(localIP, commands, username, password, true);
+            string output = new TelnetConnection().TelnetClientTcp(localIp, commands, username, password, true);
             totalOutput.Add(output); // add output to totalOutput
             totalOutput.Add(Environment.NewLine);
             totalOutput.Add("--------------");
             totalOutput.Add(Environment.NewLine);                                
                         
             // uncommand the following code to get output box in logfile
-            log.Debug("Output...");
+            Log.Debug("Output...");
             foreach (string line in totalOutput)
             {
-                log.Debug(line);
+                Log.Debug(line);
             }
             e.Result = totalOutput;
         }
@@ -920,8 +953,11 @@ namespace Cisco_Tool
 
         private void logLevelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var logchangerDialog = new ChangeLogLevelScreen();
-            logchangerDialog.Location = new Point (this.DesktopLocation.X + 105, this.DesktopLocation.Y + 60); 
+            var logchangerDialog = new ChangeLogLevelScreen
+            {
+                Location = new Point(this.DesktopLocation.X + 105, this.DesktopLocation.Y + 60)
+            };
+
             logchangerDialog.ShowDialog();
         }
     }

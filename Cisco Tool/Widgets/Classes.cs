@@ -2,32 +2,32 @@
 {
     public class Classes
     {
-        public class widget
+        public class Widget
         {
-            public string widgetName { get; set; }
-            public string widgetType { get; set; }
-            public string widgetCommand { get; set; }
-            public bool widgetUseSelection { get; set; }
-            public bool widgetUseLongProcessTime { get; set; }
-            public int widgetEnterCountBeforeString { get; set; }
+            public string WidgetName { get; set; }
+            public string WidgetType { get; set; }
+            public string WidgetCommand { get; set; }
+            public bool WidgetUseSelection { get; set; }
+            public bool WidgetUseLongProcessTime { get; set; }
+            public int WidgetEnterCountBeforeString { get; set; }
             public int WidgetEnterCountInString { get; set; }
-            public string widgetOutput { get; set; }
+            public string WidgetOutput { get; set; }
         }
-        public class widgetResult
+        public class WidgetResult
         {
-            public string widgetTag { get; set; }
-            public string widgetCommand { get; set; }
-            public string widgetOutput { get; set; }
-            public bool uselongTime { get; set; }
+            public string WidgetTag { get; set; }
+            public string WidgetCommand { get; set; }
+            public string WidgetOutput { get; set; }
+            public bool UselongTime { get; set; }
         }
-        public class telnetDetails
+        public class TelnetDetails
         {
-            public string IPAddress { get; set; }
-            public string command { get; set; }
-            public string username { get; set; }
-            public string password { get; set; }
-            public string output { get; set; }
-            public bool useLongProcessTime { get; set; }
+            public string IpAddress { get; set; }
+            public string Command { get; set; }
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public string Output { get; set; }
+            public bool UseLongProcessTime { get; set; }
         }
     }
 }

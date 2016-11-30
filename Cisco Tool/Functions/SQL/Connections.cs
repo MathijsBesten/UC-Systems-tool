@@ -4,16 +4,16 @@ namespace Cisco_Tool.Functions.SQL
 {
     class Connections
     {
-        public static SqlConnection OwnDB()
+        public static SqlConnection OwnDb()
         {
-            SqlConnection connection = MicrosoftSQLConnection(
+            SqlConnection connection = MicrosoftSqlConnection(
                 Properties.Settings.Default.CiscoToolServerIP,
                 Properties.Settings.Default.CiscoToolServerDatabase,
                 Properties.Settings.Default.CiscoToolServerUsername,
                 Properties.Settings.Default.CiscoToolServerPassword);
             return connection;
         }
-        public static SqlConnection MicrosoftSQLConnection(string server, string database, string username, string password)
+        public static SqlConnection MicrosoftSqlConnection(string server, string database, string username, string password)
         {
             string connectionString = "SERVER=" + server + ";" +
                 "UID=" + username + ";" +

@@ -1,6 +1,6 @@
 ﻿namespace Cisco_Tool.Widgets.Views
 {
-    partial class selctionWizard
+    partial class SelctionWizard
     {
         /// <summary>
         /// Required designer variable.
@@ -142,7 +142,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 311);
             this.Controls.Add(this.LoginPanel);
-            this.Name = "selctionWizard";
+            this.Name = "SelctionWizard";
             this.Text = "Loginscreen";
             this.LoginPanel.ResumeLayout(false);
             this.LoginPanel.PerformLayout();

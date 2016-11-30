@@ -9,19 +9,19 @@ namespace Cisco_Tool.Views
     public partial class ConfirmationScreen : Form
     {
 
-        private static readonly ILog log =
+        private static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static int totalCommandsToRun;
-        public static double totalRunTime;
-        public ConfirmationScreen(List<string> IPAddressList, List<string> commandList)
+        public static int TotalCommandsToRun;
+        public static double TotalRunTime;
+        public ConfirmationScreen(List<string> ipAddressList, List<string> commandList)
         {
-            log.Info("Launched confirm screen");
+            Log.Info("Launched confirm screen");
             InitializeComponent();
             
 
-            totalCommandsToRun = IPAddressList.Count* commandList.Count;
-            totalRunTime = totalCommandsToRun * 0.7;
+            TotalCommandsToRun = ipAddressList.Count* commandList.Count;
+            TotalRunTime = TotalCommandsToRun * 0.7;
 
             summaryOutputBox.Text += @"Commando's";
             summaryOutputBox.Text += Environment.NewLine;
@@ -37,73 +37,73 @@ namespace Cisco_Tool.Views
             summaryOutputBox.Text += Environment.NewLine;
             summaryOutputBox.Text += "---------";
             summaryOutputBox.Text += Environment.NewLine;
-            foreach (string ip in IPAddressList)
+            foreach (string ip in ipAddressList)
             {
                 summaryOutputBox.Text += ip;
                 summaryOutputBox.Text += Environment.NewLine;
             }
             summaryOutputBox.Text += Environment.NewLine;
-            summaryOutputBox.Text += @"Totaal uit te voeren commando's : " + totalCommandsToRun;
+            summaryOutputBox.Text += @"Totaal uit te voeren commando's : " + TotalCommandsToRun;
             summaryOutputBox.Text += Environment.NewLine;
             summaryOutputBox.Text += Environment.NewLine;
             summaryOutputBox.Text += "Totaal geschatte tijd: ";
-            if (totalRunTime > 60)
+            if (TotalRunTime > 60)
             {
-                totalRunTime = totalRunTime / 60;
-                summaryOutputBox.Text += totalRunTime + " minuten";
+                TotalRunTime = TotalRunTime / 60;
+                summaryOutputBox.Text += TotalRunTime + " minuten";
             }
             else
             {
-                summaryOutputBox.Text += totalRunTime + " seconden";
+                summaryOutputBox.Text += TotalRunTime + " seconden";
             }
 
-            log.Info("Screenshot of confirm screen");
-            log.Info("----------");
+            Log.Info("Screenshot of confirm screen");
+            Log.Info("----------");
             foreach (var line in summaryOutputBox.Lines)
             {
-                log.Info(line);
+                Log.Info(line);
             }
-            log.Info("----------");
+            Log.Info("----------");
         }
-        public void confirm()
+        public void Confirm()
         {
             DialogResult = DialogResult.OK;
-            log.Info("User confirmed to run commands");
+            Log.Info("User confirmed to run commands");
         }
-        public void cancel()
+        public void Cancel()
         {
             DialogResult = DialogResult.Cancel;
-            log.Info("User closed the confirm window - commands wil not run");
+            Log.Info("User closed the confirm window - commands wil not run");
         }
 
         private void continuePanel_Click(object sender, EventArgs e)
         {
-            confirm();
+            Confirm();
         }
 
         private void cancelPanel_Click(object sender, EventArgs e)
         {
-            cancel();
+            Cancel();
         }
 
         private void confirmLabel_Click(object sender, EventArgs e)
         {
-            confirm();
+            Confirm();
         }
 
         private void confirmPicturebox_Click(object sender, EventArgs e)
         {
-            confirm();
+            Confirm();
         }
 
         private void cancelLabel_Click(object sender, EventArgs e)
         {
-            cancel();
+            Cancel();
         }
 
         private void cancelPicturebox_Click(object sender, EventArgs e)
         {
-            cancel();
+            Cancel();
         }
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Cisco_Tool.Functions.Network
 {
-    class validation
+    class Validation
     {
-        public static bool validateIPv4(string ipString)
+        public static bool ValidateIPv4(string ipString)
         {
             if (string.IsNullOrWhiteSpace(ipString))
             {

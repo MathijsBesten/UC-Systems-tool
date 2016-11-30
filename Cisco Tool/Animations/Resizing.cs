@@ -7,7 +7,7 @@ namespace Cisco_Tool.Animations
 {
     class Resizing
     {
-        public static int getLongestStringInPixels(List<string> allStrings)
+        public static int GetLongestStringInPixels(List<string> allStrings)
         {
             double width;
             String longestString = allStrings.OrderByDescending(s => s.Length).First();
@@ -20,7 +20,7 @@ namespace Cisco_Tool.Animations
             int stringInPixels = Convert.ToInt32(width);
             return stringInPixels;
         }
-        public static int getListHeight(List<string> list)
+        public static int GetListHeight(List<string> list)
         {
             float totalHeight;
             String longestString = list.OrderByDescending(s => s.Length).First();
