@@ -33,10 +33,13 @@ namespace Cisco_Tool.Functions.Telnet
                     byte[] responseInBytes = new byte[(commands.Count * 8192)];
                     string messageStart = username + "\r\n" + password;// command with excape characters
 
-                    TcpClient client = new TcpClient();
-                    client.ReceiveTimeout = 1000;
-                    client.Client.ReceiveTimeout = 1000; // socket
-                    client.SendTimeout = 1;
+                    TcpClient client = new TcpClient
+                    {
+                        ReceiveTimeout = 1000,
+                        Client = {ReceiveTimeout = 1000},
+                        SendTimeout = 1
+                    };
+                    // socket
                     client.Client.SendTimeout = 1; // socket
 
                     client.ConnectAsync(ipAddressString, 23).Wait(TimeSpan.FromSeconds(1));              // connect

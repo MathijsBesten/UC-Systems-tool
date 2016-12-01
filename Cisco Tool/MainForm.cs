@@ -440,6 +440,7 @@ namespace Cisco_Tool
         private void removeToolStripMenuItem_MouseDown(object sender, MouseEventArgs e)
         {
             int index = allSelectedRouters.SelectedIndex;
+            int countSelectedRouters = allSelectedRouters.Items.Count;
             string selectedRouter = allSelectedRouters.Items[index].ToString();
             if (index != -1)
             {
@@ -450,6 +451,10 @@ namespace Cisco_Tool
                         (row.Cells[0] as DataGridViewCheckBoxCell).Value = false;
                         break;
                     }
+                }
+                if (countSelectedRouters == allSelectedRouters.Items.Count)
+                {
+                    allSelectedRouters.Items.RemoveAt(index);
                 }
                 MainDataGridView.Refresh();
                 MainContextMenuStrip.Close();
