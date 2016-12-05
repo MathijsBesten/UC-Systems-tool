@@ -36,6 +36,7 @@ namespace Cisco_Tool
         public bool LoginDetailsChanged = false;
         List<WidgetResult> _listOfWidgetItems = new List<WidgetResult>();
         public int IndexOfRunWidget = 0;
+        public CheckBox selectAllCheckbox;
 
         private readonly string _sqlip = Properties.Settings.Default.CiscoToolServerIP;
         private readonly string _sqlDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
@@ -75,6 +76,18 @@ namespace Cisco_Tool
                     }
                     Log.Info("Loaded all routers to the application");
                     CommandoGB.Enabled = true;
+
+
+                    //select all box in header column
+                    Rectangle rectangle = this.MainDataGridView.GetCellDisplayRectangle(0,-1, true);
+                    selectAllCheckbox = new CheckBox()
+                    {
+                        Size = new Size(18, 18),
+                        Location = new Point(rectangle.Location.X + 9, rectangle.Location.Y + 3),                        
+                    };
+                    selectAllCheckbox.CheckedChanged += new EventHandler(selectAllCheckbox_checkedChanged);
+                    this.MainDataGridView.Controls.Add(selectAllCheckbox);
+                    //End of select all code
                 }
                 else
                 {
@@ -93,6 +106,33 @@ namespace Cisco_Tool
                 CommandoGB.Enabled = false;
             }
         }
+
+        private void selectAllCheckbox_checkedChanged(object sender, EventArgs e)
+        {
+            if (selectAllCheckbox.Checked == true) // if user added checkmark
+            {
+                for (int i = 0; i < MainDataGridView.RowCount; i++)
+                {
+                    if (MainDataGridView[0, i].Visible == true)
+                    {
+                        MainDataGridView[0, i].Value = true;
+                    }
+                }
+            }
+            else if (selectAllCheckbox.Checked == false) // if user removed checkmark
+            {
+                for (int i = 0; i < MainDataGridView.RowCount; i++)
+                {
+                    if (MainDataGridView[0, i].Visible == true) // if user
+                    {
+                        MainDataGridView[0, i].Value = false;
+                    }
+                }
+            }
+            MainDataGridView.RefreshEdit();
+           
+        }
+
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             Log.Info("Closing application");
@@ -297,6 +337,23 @@ namespace Cisco_Tool
                 MainDataGridView.EndEdit();
             }
         }
+        public void checkIfAllRowsAreSelected()
+        {
+            int totalfilteredItems =  MainDataGridView.DisplayedRowCount(true);
+            int totalSelectedItemsInSelection = 0;
+            foreach (var item in MainDataGridView.Rows)
+            {
+                DataGridViewRow row = item as DataGridViewRow;
+                if (row.Visible == true && Convert.ToBoolean(row.Cells[0].Value))
+                {
+                    totalSelectedItemsInSelection++;
+                }
+            }
+            if (totalfilteredItems == totalSelectedItemsInSelection)
+            {
+                setSelectAllToTrue_WithoutEvent();
+            }
+        }
 
 
         private void MainDataGridView_ColumnWidthChanged(object sender, DataGridViewColumnEventArgs e)
@@ -481,7 +538,7 @@ namespace Cisco_Tool
             }
             if (SearchBox.Text != "")
             {
-
+                bool setSelectAllCheckboxToTrue = false;
                 foreach (var router in _allRouters)
                 {
                     string routerAliasLowered = router.RouterAlias.ToLower();
@@ -490,9 +547,34 @@ namespace Cisco_Tool
                     {
                         MainDataGridView.Rows[count].Visible = false;
                     }
+                    if (routerAliasLowered.Contains(searchBoxTextLowerer) && Convert.ToBoolean(MainDataGridView.Rows[count].Cells[0].Value))
+                    {
+                        setSelectAllCheckboxToTrue = true;
+                    }
                     count++;
                 }
+                if (setSelectAllCheckboxToTrue == true)
+                {
+                    setSelectAllToTrue_WithoutEvent();
+                }
+                else
+                {
+                    setSelectAllToFalse_WithoutEvent();
+                }
             }
+
+        }
+        public void setSelectAllToTrue_WithoutEvent()
+        {
+            selectAllCheckbox.CheckedChanged -= selectAllCheckbox_checkedChanged;
+            selectAllCheckbox.Checked = true;
+            selectAllCheckbox.CheckedChanged += selectAllCheckbox_checkedChanged;
+        }
+        public void setSelectAllToFalse_WithoutEvent()
+        {
+            selectAllCheckbox.CheckedChanged -= selectAllCheckbox_checkedChanged;
+            selectAllCheckbox.Checked = false;
+            selectAllCheckbox.CheckedChanged += selectAllCheckbox_checkedChanged;
         }
 
         private void CheckEnterKeyPressed(object sender, KeyPressEventArgs e)
