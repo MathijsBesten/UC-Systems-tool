@@ -38,6 +38,7 @@ namespace Cisco_Tool
         public int IndexOfRunWidget = 0;
         public CheckBox selectAllCheckbox;
 
+
         private readonly string _sqlip = Properties.Settings.Default.CiscoToolServerIP;
         private readonly string _sqlDatabase = Properties.Settings.Default.CiscoToolServerDatabase;
         private readonly string _sqlUsername = Properties.Settings.Default.CiscoToolServerUsername;

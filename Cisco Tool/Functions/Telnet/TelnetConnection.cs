@@ -13,6 +13,8 @@ namespace Cisco_Tool.Functions.Telnet
     {
         private static readonly log4net.ILog Log =
             log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public List<string> succesfullConnected = new List<string>();
+        public List<string> couldNotConnect = new List<string>();
         public string TelnetClientTcp(string ipAddressString,List<string> commands, string username,string password, bool useLongProcessTime) 
         {
 
@@ -90,10 +92,12 @@ namespace Cisco_Tool.Functions.Telnet
                         response = response.Replace("\0", "");
                         client.Close();                                                            // close connection
                         Log.Info("Connection to router correcly closed - IP address: " + ipAddressString);
+                        succesfullConnected.Add(ipAddressString);
                     }
                     else
                     {
                         Log.Info("Router was not connected and could not get send command - IP address: " + ipAddressString);
+                        couldNotConnect.Add(ipAddressString);
                         return null;
                     }
 
