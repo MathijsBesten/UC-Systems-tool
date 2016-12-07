@@ -29,6 +29,7 @@ namespace Cisco_Tool
         private static List<Router> _allRouters;
         private string _selectedScriptPath = "";
         public List<string> AllCommands = new List<string>();
+        public static int loopCount = 1;
         public List<string> SelectedIpAddresses = new List<string>();
         public static List<Control> ReadyPanels = new List<Control>();
         public static List<Widget> ReadyWidgets = new List<Widget>();
@@ -704,29 +705,23 @@ namespace Cisco_Tool
 
         private void maxOutputWindow_Click(object sender, EventArgs e)
         {
-            if (OutputBox.Width == 171) // make bigger
+            int minWidth = 171;
+            int maxwidth = 850;
+            if (OutputBox.Width == minWidth) // make bigger
             {
                 if (OutputBox.Text.Length >= 10)
                 {
-                    string originalOutput = OutputBox.Text;
-                    string[] strings = Regex.Split(originalOutput, "\r\n");
-                    List<string> listOfRouters = new List<string>();
-                    foreach (var item in strings)
-                    {
-                        listOfRouters.Add(item);
-                    }
-                    int maxwidth = Animations.Resizing.GetLongestStringInPixels(listOfRouters);
                     while (OutputBox.Width < maxwidth)
                     {
-                        OutputBox.Width++;
+                        OutputBox.Width = maxwidth;
                     }
                 }
             }
             else // make smaller
             {
-                while (OutputBox.Width != 171)
+                while (OutputBox.Width != minWidth)
                 {
-                    OutputBox.Width--;
+                    OutputBox.Width = minWidth;
                 }
             }
         }
@@ -1034,6 +1029,29 @@ namespace Cisco_Tool
             {
                 OutputBox.Text += str;
             }
+            if ( loopCount== allSelectedRouters.Items.Count)
+            {
+                OutputBox.Text += "Aantal routers verbonden: " + TelnetConnection.succesfullConnected.Count;
+                OutputBox.Text += Environment.NewLine;
+                foreach (var item in TelnetConnection.succesfullConnected)
+                {
+                    OutputBox.Text += item;
+                    OutputBox.Text += Environment.NewLine;
+                }
+                OutputBox.Text += Environment.NewLine;
+                OutputBox.Text += "Aantal fout bij verbinden: " + TelnetConnection.couldNotConnect.Count;
+                OutputBox.Text += Environment.NewLine;
+                foreach (var item in TelnetConnection.couldNotConnect)
+                {
+                    OutputBox.Text += item;
+                    OutputBox.Text += Environment.NewLine;
+                }
+                OutputBox.SelectionStart = OutputBox.Text.Length;
+                OutputBox.ScrollToCaret();
+                OutputBox.Refresh();
+                loopCount = 0;
+            }
+            loopCount++;
         }
 
         private void bugMeldenToolStripMenuItem1_Click(object sender, EventArgs e)
