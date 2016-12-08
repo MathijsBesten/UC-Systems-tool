@@ -1031,25 +1031,33 @@ namespace Cisco_Tool
             }
             if ( loopCount== allSelectedRouters.Items.Count)
             {
+                OutputBox.Text += Environment.NewLine;
                 OutputBox.Text += "Aantal routers verbonden: " + TelnetConnection.succesfullConnected.Count;
                 OutputBox.Text += Environment.NewLine;
                 foreach (var item in TelnetConnection.succesfullConnected)
                 {
-                    OutputBox.Text += item;
+                    int index = _allRouters.FindIndex(x => x.RouterAddress == item);
+                    string nameOfRouter = _allRouters[index].RouterName;
+                    MainDataGridView.Rows[index].Cells[0].Value = false;
+                    OutputBox.Text += item + "\t - " + nameOfRouter;
                     OutputBox.Text += Environment.NewLine;
                 }
                 OutputBox.Text += Environment.NewLine;
-                OutputBox.Text += "Aantal fout bij verbinden: " + TelnetConnection.couldNotConnect.Count;
+                OutputBox.Text += "Aantal routers fout bij verbinden: " + TelnetConnection.couldNotConnect.Count;
                 OutputBox.Text += Environment.NewLine;
                 foreach (var item in TelnetConnection.couldNotConnect)
                 {
-                    OutputBox.Text += item;
+                    int index = _allRouters.FindIndex(x => x.RouterAddress == item);
+                    string nameOfRouter = _allRouters[index].RouterName;
+                    OutputBox.Text += item + "\t - " + nameOfRouter;
                     OutputBox.Text += Environment.NewLine;
                 }
                 OutputBox.SelectionStart = OutputBox.Text.Length;
                 OutputBox.ScrollToCaret();
                 OutputBox.Refresh();
                 loopCount = 0;
+                TelnetConnection.couldNotConnect.Clear();
+                TelnetConnection.succesfullConnected.Clear();
             }
             loopCount++;
         }

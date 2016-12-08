@@ -6,6 +6,7 @@ using System.Text;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
+using System.Linq;
 
 namespace Cisco_Tool.Functions.Telnet
 {
@@ -92,11 +93,12 @@ namespace Cisco_Tool.Functions.Telnet
                         response = response.Replace("\0", "");
                         client.Close();                                                            // close connection
                         Log.Info("Connection to router correcly closed - IP address: " + ipAddressString);
+                        if (response.Contains("??\u0001??\u0003??\u0018??\u001f")) { response = response.Remove(0, 14); } //removes header if needed
                         succesfullConnected.Add(ipAddressString);
                     }
                     else
                     {
-                        Log.Info("Router was not connected and could not get send command - IP address: " + ipAddressString);
+                        Log.Error("Router was not connected and could not get send command - IP address: " + ipAddressString );
                         couldNotConnect.Add(ipAddressString);
                         return null;
                     }

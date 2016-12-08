@@ -217,7 +217,9 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Cisco Tool_TemporaryKey.pfx" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
