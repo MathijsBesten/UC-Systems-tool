@@ -30,7 +30,7 @@ namespace CiscoDatabaseProgram
                 Console.WriteLine();
                 Console.ReadLine();
             }
-            else
+            else // userdetails are entered in config file
             {
                 Functions.Main.Main.MainFunction();
             }

@@ -224,6 +224,68 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             connection.Close();
             return true;
         }
+        public static bool clearOwnDatabase()
+        {
+            SqlConnection connection = Connections.OwnDB();
+            try
+            {
+                connection.Open();
+            }
+            catch (MySqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 0: // unable to connect to server
+                        Console.WriteLine("kan niet verbinden met database");
+                        log.Error("Could not connect to Cisco Tool Database - Unable to connect");
+                        break;
+                    case 1045: // username or password is wrong
+                        Console.WriteLine("Gebruikersnaam en/of wachtwoord zijn fout, probeer het opnieuw");
+                        log.Error("Could not connect to Cisco Tool Database - Wrong username or password");
+                        break;
+                    case 1326: // server was not found
+                        Console.WriteLine("geen sql server gevonden op dit ip");
+                        log.Error("could not find sql server on given ip");
+                        break;
+                    default: // this will step into action if its not one of the above
+                        Console.WriteLine("kan niet verbinden met database");
+                        Console.WriteLine("Geen foutafhandeling, deze code graag doorgeven aan de ontwikkelaar: " + ex.Number);
+                        log.Error("Could not connect to Cisco Tool Database - Error code: " + ex.Number);
+                        break;
+                }
+                Exit.exitBySQL(ex.Message);
+            }
+
+            SqlCommand command = connection.CreateCommand();
+            command.CommandText = PrivateValues.clearOwnDatabaseQuery;
+            try
+            {
+                int rowsEffected = command.ExecuteNonQuery(); // run the command
+                if (rowsEffected == 0)
+                {
+                    log.Error("No rows where affected - there was proberbly a problem");
+                }
+                else
+                {
+                    log.Info("Database cleared - total effected rows:  " + rowsEffected);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                switch (ex.Message)
+                {
+                    default:
+                        Console.WriteLine("Er was een probleem bij het legen van de database");
+                        Console.WriteLine("Error melding: " + ex.Message);
+                        log.Error("ERROR - error while clearing the Cisco Tool Database");
+                        log.Error("error message: " + ex.Message);
+                        break;
+                }             
+            }
+            connection.Close();
+            return true;
+        }
         public static bool updateRoutersOwnServer(List<router> routerList)
         {   
             SqlConnection connection = Connections.OwnDB();
@@ -441,7 +503,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             {
                 Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");
-                log.Error("Databases are not equal, update function will be executed");
+                log.Info("Databases are not equal, update function will be executed");
                 log.Info("Starting update Function...");
                 getNewByCompare(mainDBList, ownDBList); 
                 ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.getAllFromOwnDatabaseQuery);
@@ -449,13 +511,19 @@ namespace CiscoDatabaseProgram.Functions.MySQL
             }
             else //ownDB had more than mainDB
             {
-                Console.WriteLine("GEEN DATA VERWIJDEREN UIT OFFICELE DATABASE");
-                Console.WriteLine(" !!! NIET DE OFFICLE DATABASE !!! Database heeft teveel items, verwijder de data uit table ' dbo.router' !!! NIET DE OFFICLE DATABASE !!! de applicatie zal de database weer opnieuw opbouwen bij de volgende start");
-                Console.WriteLine("NIET DE DATA UIT DE OFFICELE DATABASE VERWIJDEREN");
-                Console.WriteLine("Graag dit probleeem doorgeven aan de ontwikkelaar: " + "compare_and_send_newlist | TOO MANY ITEMS ");
-                log.Error(@"OwnDatabase is too big - Please remove all data from table 'dbo.router' NOT THE OFFICIAL DATABASE!! ");
-                log.Error("!!! NOT THE OFFICIAL DATABASE !!!");
+                Console.WriteLine();
+                Console.WriteLine("Database heeft teveel items - database wordt opnieuw aangemaakt...");
+                log.Info(@"Database has more items than leading database - database will be rebuild");
+                clearDatabaseAndRefill(mainDBList,ownDBList);
             }
+        }
+
+        public static void clearDatabaseAndRefill(List<router> mainDBList, List<router> ownDBList)
+        {
+            clearOwnDatabase();
+            getNewByCompare(mainDBList, ownDBList);
+            ownDBList = getDataFromMicrosoftSQL(Connections.OwnDB(), PrivateValues.getAllFromOwnDatabaseQuery);
+            compareDatabasesAndUpdateIfNeeded(mainDBList, ownDBList);
         }
     } 
 }
