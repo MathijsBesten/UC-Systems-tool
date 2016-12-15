@@ -18,10 +18,10 @@ namespace CiscoDatabaseProgram.Functions.Main
             Console.WriteLine();
 
 
-            MainCode.updateDatabase();
-            //MainCode.updateSerials();
-            Timers.DatabaseUpdateTimer(); 
-            //Timers.SerialCodeTimer();
+            //MainCode.updateDatabase();
+            Timers.DatabaseUpdateTimer();
+            //MainCode.updateSerials(); // enable this line to get all serial codes
+            //Timers.SerialCodeTimer(); // enable this line to get all serial codes
 
 
             Console.ReadKey();

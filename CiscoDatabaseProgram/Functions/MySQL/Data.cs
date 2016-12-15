@@ -499,7 +499,7 @@ namespace CiscoDatabaseProgram.Functions.MySQL
                     }
                 }
             }
-            else if (mainDBList.Count > ownDBList.Count) //mainDB had more than ownDB
+            else if (mainDBList.Count > ownDBList.Count) //mainDB has more than ownDB
             {
                 Console.WriteLine();
                 Console.WriteLine("Databases zijn niet gelijk in aantal, Update functie wordt nu uitgevoerd...");

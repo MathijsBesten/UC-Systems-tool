@@ -17,7 +17,6 @@ namespace CiscoDatabaseProgram.Functions.Network
             }
             byte splitResult;
             return splittedValues.All(r => byte.TryParse(r, out splitResult));
-
         }
     }
 }
